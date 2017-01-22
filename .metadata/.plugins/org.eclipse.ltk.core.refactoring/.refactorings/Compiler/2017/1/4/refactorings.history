@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;key_words&apos; in &apos;MyScanner&apos; to &apos;keywords&apos;&#x0D;&#x0A;- Original project: &apos;Compiler&apos;&#x0D;&#x0A;- Original element: &apos;MyScanner.key_words&apos;&#x0D;&#x0A;- Renamed element: &apos;MyScanner.keywords&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;key_words&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;{MyScanner.java[MyScanner^key_words" name="keywords" references="true" setter="false" stamp="1485117490502" textual="false" version="1.0"/>
+</session>
