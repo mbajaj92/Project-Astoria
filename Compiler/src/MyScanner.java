@@ -1,6 +1,8 @@
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class MyScanner {
@@ -9,7 +11,7 @@ public class MyScanner {
 	int val; // Value of the last no encountered
 	int id; // ID of the last Identifier encountered, check ID_TABLE
 	private ArrayList<String> idTable;
-	private ArrayList<String> keywords;
+	private List<String> keywords;
 	private String token = "";
 	private char residualChar = '\0';
 
@@ -17,22 +19,8 @@ public class MyScanner {
 		sc = new Scanner(new FileReader(FileName));
 		sc.useDelimiter("");
 		idTable = new ArrayList<String>();
-		keywords = new ArrayList<String>();
-		keywords.add("then");
-		keywords.add("do");
-		keywords.add("od");
-		keywords.add("fi");
-		keywords.add("else");
-		keywords.add("let");
-		keywords.add("call");
-		keywords.add("if");
-		keywords.add("while");
-		keywords.add("return");
-		keywords.add("var");
-		keywords.add("array");
-		keywords.add("function");
-		keywords.add("procedure");
-		keywords.add("main");
+		keywords = Arrays.asList("then", "do", "od", "fi", "else", "let", "call", "if", "while", "return", "var",
+				"array", "function", "procedure", "main");
 	}
 
 	private void number() throws Exception {
@@ -42,25 +30,19 @@ public class MyScanner {
 				token += ch;
 				number();
 			} else if (Character.isLetter(ch)) {
-				error("INVALID TOKEN FOR NUMBER, letter encountered");
+				Utils.error("INVALID TOKEN FOR NUMBER, letter encountered");
 			} else {
 				residualChar = ch;
 			}
 		}
 	}
 
-	private void identifier() {
-		if (sc.hasNext()) {
-			rest();
-		}
-	}
-
-	private void rest() {
+	private void restOfIdentifier() {
 		if (sc.hasNext()) {
 			char ch = sc.next().charAt(0);
 			if (Character.isLetterOrDigit(ch)) {
 				token += ch;
-				rest();
+				restOfIdentifier();
 			} else {
 				residualChar = ch;
 			}
@@ -72,13 +54,13 @@ public class MyScanner {
 		case '=':
 			ch = sc.next().charAt(0);
 			if (ch != '=')
-				error("Invalid token \"=" + ch + "\"");
+				Utils.error("Invalid token \"=" + ch + "\"");
 			sym = ScannerUtils.eqlToken;
 			break;
 		case '!':
 			ch = sc.next().charAt(0);
 			if (ch != '=')
-				error("Invalid token \"!" + ch + "\"");
+				Utils.error("Invalid token \"!" + ch + "\"");
 			sym = ScannerUtils.eqlToken;
 			break;
 		case '<':
@@ -141,7 +123,7 @@ public class MyScanner {
 			sym = ScannerUtils.beginToken;
 			break;
 		default:
-			error("WRONG INPUT, invalid token ch = \""+ch+"\"");
+			Utils.error("WRONG INPUT, invalid token ch = \""+ch+"\"");
 		}
 	}
 
@@ -193,7 +175,7 @@ public class MyScanner {
 			sym = ScannerUtils.mainToken;
 			break;
 		default:
-			error("WRONG KEYWORD " + token + "\n, COMPILER CONSTRUCTION ERROR ");
+			Utils.error("WRONG KEYWORD " + token + "\n, COMPILER CONSTRUCTION ERROR");
 		}
 	}
 
@@ -216,13 +198,18 @@ public class MyScanner {
 
 				token += ch;
 				if (Character.isDigit(ch)) {
+					/* We know that it is a number */
 					number();
 					sym = ScannerUtils.number;
 					val = Integer.parseInt(token);
 					break;
 				} else if (Character.isLetter(ch)) {
-					identifier();
+					/* We know that the token is either an identifier or a
+					 * keyword */
+					restOfIdentifier();
 					token = token.toLowerCase();
+					/* Token accepted, now we categorize it as either token or
+					 * id */
 					if (keywords.contains(token)) {
 						handleKeyword(token);
 					} else {
@@ -241,13 +228,9 @@ public class MyScanner {
 		}
 	}
 
-	public static void error(String errorMsg) throws Exception {
-		throw new Exception(errorMsg);
-	}
-
 	private String id2String(int id) throws Exception {
 		if (id >= idTable.size() || id < 0)
-			error("ID NOT FOUND");
+			Utils.error("ID NOT FOUND");
 		return idTable.get(id);
 	}
 
