@@ -1,5 +1,9 @@
-if(a==5){
-	b<-7
-} else {
-	b <- 8-6;
+main
+var a,b;
+array[10] c;
+function d(e,f);
+var p,q;
+array[45] madhur; {
+let a<-5
 }
+.

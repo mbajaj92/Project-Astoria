@@ -217,7 +217,7 @@ pip-log.txt
 .mr.developer.cfg
 
 #directories
+.recommenders/**/*
 .metadata/
-.recommenders/
-*bin/
-*.class
+Compiler\bin/
+/**/*.class

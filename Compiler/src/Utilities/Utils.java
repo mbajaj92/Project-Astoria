@@ -329,7 +329,7 @@ public class Utils {
 		}
 		R.kind = RESULT_KIND.REG;
 	}
-	
+
 	public static void error(String errorMsg) throws Exception {
 		throw new Exception(errorMsg);
 	}
