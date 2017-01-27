@@ -219,3 +219,5 @@ pip-log.txt
 #directories
 .metadata/
 .recommenders/
+*bin/
+*.class

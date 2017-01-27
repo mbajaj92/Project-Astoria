@@ -1,24 +1,17 @@
+package Utilities;
 import java.util.ArrayList;
 
 public class Utils {
+
+	public static enum RESULT_KIND {
+		CONST, VAR, REG, CONDITION
+	};
 
 	final public static boolean BINARY = false;
 	public static int programCounter = 0;
 	public static int stackPointer = 0;
 	private static ArrayList<Integer> buffer = new ArrayList<Integer>();
-
-	static class Result {
-		static enum KIND {
-			CONST, VAR, REG, CONDITION
-		};
-
-		KIND kind;
-		int value;
-		int address;
-		int regno;
-		String cond;
-		int fixuplocation;
-	}
+	private static ArrayList<String> tempResult = new ArrayList<String>();
 
 	public static void conditionalJump(Result X) throws Exception {
 		put(negateCondition(X.cond), X.regno, 0, 0);
@@ -51,10 +44,6 @@ public class Utils {
 		return "";
 	}
 
-	// public static void main(String args[]) throws Exception {
-
-	// }
-
 	private static String format(String input, int length) {
 		for (int i = input.length() + 1; i <= length; i++)
 			input = "0" + input;
@@ -74,7 +63,8 @@ public class Utils {
 		} else {
 			System.out.println(operation + " " + c);
 		}
-		buffer.add(programCounter++, Integer.parseInt(op + cbits));
+		buffer.add(programCounter, Integer.parseInt(op + cbits));
+		tempResult.add(programCounter++, operation+" c = "+c);
 	}
 
 	private static void putF2(int code, int a, int b, int c, String operation) throws Exception {
@@ -103,7 +93,8 @@ public class Utils {
 		else
 			System.out.println(operation + " " + a + " " + b + " " + c);
 
-		buffer.add(programCounter++, Integer.parseInt(op + abits + bbits + cbits));
+		//buffer.add(programCounter, Integer.parseInt(op + abits + bbits + cbits));
+		tempResult.add(programCounter++, operation+" a = "+a+" b = "+b+" c = "+c);
 	}
 
 	private static void putF1(int code, int a, int b, int c, String operation) throws Exception {
@@ -117,6 +108,10 @@ public class Utils {
 			error("Length of cbits is greater than 16 !! ");
 
 		implementF1F2(code, a, b, c, operation);
+	}
+
+	public static void emit(String command) {
+		System.out.println(command);
 	}
 
 	public static void put(String op, int a, int b, int c) throws Exception {
@@ -306,6 +301,33 @@ public class Utils {
 		default:
 			error("Invalid Operand code ");
 		}
+	}
+
+	private static boolean registers[] = new boolean[10];
+
+	private static int allocateRegister() {
+		for (int i = 0; i < registers.length; i++) {
+			if (!registers[i]) {
+				registers[i] = true;
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static void deallocateRegister(int regNo) {
+		registers[regNo] = false;
+	}
+
+	public static void load(Result R) throws Exception{
+		if(R.kind == RESULT_KIND.CONST) {
+			R.regno = allocateRegister();
+			put("ADDI",R.regno,0,R.value);
+		} else if (R.kind == RESULT_KIND.VAR) {
+			R.regno = allocateRegister();
+			put("LDW",R.regno,30,R.address);
+		}
+		R.kind = RESULT_KIND.REG;
 	}
 	
 	public static void error(String errorMsg) throws Exception {

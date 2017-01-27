@@ -1,5 +1,14 @@
+package Utilities;
 
 public class ScannerUtils {
+	private static MyScanner myScanner = null;
+
+	public static MyScanner getScanner(String path) throws Exception {
+		if (myScanner == null)
+			myScanner = new MyScanner(path);
+		return myScanner;
+	}
+
 	final public static int errorToken = 0;
 	final public static int timesToken = 1; // *
 	final public static int divToken = 2; ///

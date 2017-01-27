@@ -1,3 +1,4 @@
+package Utilities;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,15 +8,15 @@ import java.util.Scanner;
 
 public class MyScanner {
 	private Scanner sc;
-	int sym; // The current token on the input, STILL NOT PROCESSED
-	int val; // Value of the last no encountered
-	int id; // ID of the last Identifier encountered, check ID_TABLE
+	public int currentToken; // The current token on the input, STILL NOT PROCESSED
+	public int val; // Value of the last no encountered
+	public int id; // ID of the last Identifier encountered, check ID_TABLE
 	private ArrayList<String> idTable;
 	private List<String> keywords;
 	private String token = "";
 	private char residualChar = '\0';
 
-	MyScanner(String FileName) throws IOException {
+	protected MyScanner(String FileName) throws IOException {
 		sc = new Scanner(new FileReader(FileName));
 		sc.useDelimiter("");
 		idTable = new ArrayList<String>();
@@ -55,72 +56,72 @@ public class MyScanner {
 			ch = sc.next().charAt(0);
 			if (ch != '=')
 				Utils.error("Invalid token \"=" + ch + "\"");
-			sym = ScannerUtils.eqlToken;
+			currentToken = ScannerUtils.eqlToken;
 			break;
 		case '!':
 			ch = sc.next().charAt(0);
 			if (ch != '=')
 				Utils.error("Invalid token \"!" + ch + "\"");
-			sym = ScannerUtils.eqlToken;
+			currentToken = ScannerUtils.eqlToken;
 			break;
 		case '<':
 			ch = sc.next().charAt(0);
 			if (ch == '=')
-				sym = ScannerUtils.leqToken;
+				currentToken = ScannerUtils.leqToken;
 			else if (ch == '-')
-				sym = ScannerUtils.becomesToken;
+				currentToken = ScannerUtils.becomesToken;
 			else {
-				sym = ScannerUtils.lssToken;
+				currentToken = ScannerUtils.lssToken;
 				residualChar = ch;
 			}
 			break;
 		case '>':
 			ch = sc.next().charAt(0);
 			if (ch == '=')
-				sym = ScannerUtils.geqToken;
+				currentToken = ScannerUtils.geqToken;
 			else {
-				sym = ScannerUtils.gtrToken;
+				currentToken = ScannerUtils.gtrToken;
 				residualChar = ch;
 			}
 			break;
 		case '+':
-			sym = ScannerUtils.plusToken;
+			currentToken = ScannerUtils.plusToken;
 			break;
 		case '*':
-			sym = ScannerUtils.timesToken;
+			currentToken = ScannerUtils.timesToken;
 			break;
 		case '/':
-			sym = ScannerUtils.divToken;
+			currentToken = ScannerUtils.divToken;
 			break;
 		case '-':
-			sym = ScannerUtils.minusToken;
+			currentToken = ScannerUtils.minusToken;
 			break;
 		case '.':
-			sym = ScannerUtils.periodToken;
+			currentToken = ScannerUtils.periodToken;
 			break;
 		case ',':
-			sym = ScannerUtils.commaToken;
+			currentToken = ScannerUtils.commaToken;
 			break;
 		case '[':
-			sym = ScannerUtils.openbracketToken;
+			currentToken = ScannerUtils.openbracketToken;
 			break;
 		case ']':
-			sym = ScannerUtils.closebracketToken;
+			currentToken = ScannerUtils.closebracketToken;
 			break;
 		case ')':
-			sym = ScannerUtils.closeparanToken;
+			currentToken = ScannerUtils.closeparanToken;
 			break;
 		case '(':
-			sym = ScannerUtils.openparanToken;
+			currentToken = ScannerUtils.openparanToken;
 			break;
 		case ';':
-			sym = ScannerUtils.semiToken;
+			currentToken = ScannerUtils.semiToken;
 			break;
 		case '}':
-			sym = ScannerUtils.endToken;
+			currentToken = ScannerUtils.endToken;
 			break;
 		case '{':
-			sym = ScannerUtils.beginToken;
+			currentToken = ScannerUtils.beginToken;
 			break;
 		default:
 			Utils.error("WRONG INPUT, invalid token ch = \""+ch+"\"");
@@ -130,49 +131,49 @@ public class MyScanner {
 	private void handleKeyword(String token) throws Exception {
 		switch (token) {
 		case "else":
-			sym = ScannerUtils.elseToken;
+			currentToken = ScannerUtils.elseToken;
 			break;
 		case "then":
-			sym = ScannerUtils.thenToken;
+			currentToken = ScannerUtils.thenToken;
 			break;
 		case "do":
-			sym = ScannerUtils.doToken;
+			currentToken = ScannerUtils.doToken;
 			break;
 		case "od":
-			sym = ScannerUtils.odToken;
+			currentToken = ScannerUtils.odToken;
 			break;
 		case "fi":
-			sym = ScannerUtils.fiToken;
+			currentToken = ScannerUtils.fiToken;
 			break;
 		case "let":
-			sym = ScannerUtils.letToken;
+			currentToken = ScannerUtils.letToken;
 			break;
 		case "call":
-			sym = ScannerUtils.callToken;
+			currentToken = ScannerUtils.callToken;
 			break;
 		case "if":
-			sym = ScannerUtils.ifToken;
+			currentToken = ScannerUtils.ifToken;
 			break;
 		case "while":
-			sym = ScannerUtils.whileToken;
+			currentToken = ScannerUtils.whileToken;
 			break;
 		case "return":
-			sym = ScannerUtils.returnToken;
+			currentToken = ScannerUtils.returnToken;
 			break;
 		case "var":
-			sym = ScannerUtils.varToken;
+			currentToken = ScannerUtils.varToken;
 			break;
 		case "array":
-			sym = ScannerUtils.arrToken;
+			currentToken = ScannerUtils.arrToken;
 			break;
 		case "function":
-			sym = ScannerUtils.funcToken;
+			currentToken = ScannerUtils.funcToken;
 			break;
 		case "procedure":
-			sym = ScannerUtils.procToken;
+			currentToken = ScannerUtils.procToken;
 			break;
 		case "main":
-			sym = ScannerUtils.mainToken;
+			currentToken = ScannerUtils.mainToken;
 			break;
 		default:
 			Utils.error("WRONG KEYWORD " + token + "\n, COMPILER CONSTRUCTION ERROR");
@@ -200,7 +201,7 @@ public class MyScanner {
 				if (Character.isDigit(ch)) {
 					/* We know that it is a number */
 					number();
-					sym = ScannerUtils.number;
+					currentToken = ScannerUtils.number;
 					val = Integer.parseInt(token);
 					break;
 				} else if (Character.isLetter(ch)) {
@@ -213,7 +214,7 @@ public class MyScanner {
 					if (keywords.contains(token)) {
 						handleKeyword(token);
 					} else {
-						sym = ScannerUtils.ident;
+						currentToken = ScannerUtils.ident;
 						id = string2Id(token);
 					}
 					break;
@@ -224,17 +225,17 @@ public class MyScanner {
 			}
 		} else {
 			/* EOF */
-			sym = ScannerUtils.eofToken;
+			currentToken = ScannerUtils.eofToken;
 		}
 	}
 
-	private String id2String(int id) throws Exception {
+	public String id2String(int id) throws Exception {
 		if (id >= idTable.size() || id < 0)
 			Utils.error("ID NOT FOUND");
 		return idTable.get(id);
 	}
 
-	private int string2Id(String name) {
+	public int string2Id(String name) {
 		if (!idTable.contains(name))
 			idTable.add(name);
 
