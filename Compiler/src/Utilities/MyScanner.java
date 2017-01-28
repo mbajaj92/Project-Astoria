@@ -13,7 +13,7 @@ public class MyScanner {
 	public int id; // ID of the last Identifier encountered, check ID_TABLE
 	private ArrayList<String> idTable;
 	private List<String> keywords;
-	private String token = "";
+	public String token = "";
 	private char residualChar = '\0';
 
 	protected MyScanner(String FileName) throws IOException {

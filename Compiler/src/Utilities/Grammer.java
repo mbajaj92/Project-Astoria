@@ -14,7 +14,7 @@ public class Grammer {
 			sc.next();
 			break;
 		default:
-			Utils.error("Expected Relaional Operator Token, got " + sc.currentToken);
+			Utils.error("Expected Relaional Operator Token, got " + sc.token);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class Grammer {
 			sc.next();
 			expression();
 			if (sc.currentToken != ScannerUtils.closeparanToken)
-				Utils.error("Expected ) token, got " + sc.currentToken);
+				Utils.error("Expected ) token, got " + sc.token);
 			sc.next();
 			break;
 		case ScannerUtils.callToken:
@@ -69,14 +69,14 @@ public class Grammer {
 			sc.next();
 			expression();
 			if (sc.currentToken != ScannerUtils.closebracketToken)
-				Utils.error("Expected token ], got " + sc.currentToken);
+				Utils.error("Expected token ], got " + sc.token);
 			sc.next();
 		}
 	}
 
 	private static void returnStatement() throws Exception {
 		if (sc.currentToken != ScannerUtils.returnToken)
-			Utils.error("Expected return token, got " + sc.currentToken);
+			Utils.error("Expected return token, got " + sc.token);
 		sc.next();
 
 		expression();
@@ -84,81 +84,91 @@ public class Grammer {
 
 	private static void whileStatement() throws Exception {
 		if (sc.currentToken != ScannerUtils.whileToken)
-			Utils.error("Expected while token, got " + sc.currentToken);
+			Utils.error("Expected while token, got " + sc.token);
 		sc.next();
 
 		relation();
 		if (sc.currentToken == ScannerUtils.doToken) {
+			sc.next();
 			statSequence();
 			if (sc.currentToken != ScannerUtils.odToken)
-				Utils.error("Expected od token, got " + sc.currentToken);
+				Utils.error("Expected od token, got " + sc.token);
 			sc.next();
 		} else
-			Utils.error("Expected do token, got " + sc.currentToken);
+			Utils.error("Expected do token, got " + sc.token);
 	}
 
 	private static void ifStatement() throws Exception {
 		if (sc.currentToken != ScannerUtils.ifToken)
-			Utils.error("Expected If token, got " + sc.currentToken);
+			Utils.error("Expected If token, got " + sc.token);
 		sc.next();
 
 		relation();
 		if (sc.currentToken == ScannerUtils.thenToken) {
+			sc.next();
 			statSequence();
 			if (sc.currentToken == ScannerUtils.elseToken) {
+				sc.next();
 				statSequence();
-				while (sc.currentToken == ScannerUtils.elseToken)
+				while (sc.currentToken == ScannerUtils.elseToken) {
+					sc.next();
 					statSequence();
+				}
 				if (sc.currentToken == ScannerUtils.fiToken) {
 					sc.next();
 				} else
-					Utils.error("Expected fi token, got " + sc.currentToken);
+					Utils.error("Expected fi token, got " + sc.token);
 			} else
-				Utils.error("Expected else token, got " + sc.currentToken);
+				Utils.error("Expected else token, got " + sc.token);
 		} else
-			Utils.error("Expected then token, got " + sc.currentToken);
+			Utils.error("Expected then token, got " + sc.token);
 	}
 
 	private static void funcCall() throws Exception {
 		if (sc.currentToken != ScannerUtils.callToken)
-			Utils.error("Expected call token, got " + sc.currentToken);
+			Utils.error("Expected call token, got " + sc.token);
 		sc.next();
 
 		ident();
 		if (sc.currentToken == ScannerUtils.openparanToken) {
+			sc.next();
 			expression();
 			while (sc.currentToken == ScannerUtils.commaToken) {
+				sc.next();
 				expression();
 			}
 			if (sc.currentToken == ScannerUtils.closeparanToken) {
 				sc.next();
 			} else
-				Utils.error("Expected ), got " + sc.currentToken);
+				Utils.error("Expected ), got " + sc.token);
 
 			while (sc.currentToken == ScannerUtils.openparanToken) {
+				sc.next();
 				expression();
 				while (sc.currentToken == ScannerUtils.commaToken) {
+					sc.next();
 					expression();
 				}
 				if (sc.currentToken == ScannerUtils.closeparanToken) {
 					sc.next();
 				} else
-					Utils.error("Expected ), got " + sc.currentToken);
+					Utils.error("Expected ), got " + sc.token);
 			}
 		} else
-			Utils.error("Expected (, got " + sc.currentToken);
+			Utils.error("Expected (, got " + sc.token);
 	}
 
 	private static void assignment() throws Exception {
 		if (sc.currentToken != ScannerUtils.letToken)
-			Utils.error("Expected let token, got " + sc.currentToken);
+			Utils.error("Expected let token, got " + sc.token);
 		sc.next();
 
 		designator();
 		if (sc.currentToken == ScannerUtils.becomesToken) {
+			sc.next();
 			expression();
 		} else
-			Utils.error("Expected <-, got " + sc.currentToken);
+			Utils.error("Expected <-, got " + sc.token);
 	}
 
 	private static boolean statement() throws Exception {
@@ -199,11 +209,15 @@ public class Grammer {
 		while (varDecl())
 			;
 		if (sc.currentToken == ScannerUtils.beginToken) {
+			sc.next();
 			if (!statSequence())
 				Utils.error("There needs to be atleast 1 valid statement !!");
 
 			while (statSequence())
 				;
+			if (sc.currentToken != ScannerUtils.endToken)
+				Utils.error("Expected } token, but got " + sc.token);
+			sc.next();
 		}
 	}
 
@@ -211,9 +225,13 @@ public class Grammer {
 		if (sc.currentToken != ScannerUtils.openparanToken)
 			return false;
 		sc.next();
+
 		ident();
-		while (sc.currentToken == ScannerUtils.commaToken)
+		while (sc.currentToken == ScannerUtils.commaToken) {
+			sc.next();
 			ident();
+		}
+
 		if (sc.currentToken != ScannerUtils.closeparanToken)
 			Utils.error("Expected ), but found " + sc.currentToken);
 		sc.next();
@@ -242,13 +260,13 @@ public class Grammer {
 
 	private static void ident() throws Exception {
 		if (sc.currentToken != ScannerUtils.ident)
-			Utils.error("Expected Identifier, got " + sc.currentToken);
+			Utils.error("Expected Identifier, got " + sc.token);
 		sc.next();
 	}
 
 	private static void number() throws Exception {
 		if (sc.currentToken != ScannerUtils.number)
-			Utils.error("Expected number, got " + sc.currentToken);
+			Utils.error("Expected number, got " + sc.token);
 		sc.next();
 	}
 
@@ -266,16 +284,16 @@ public class Grammer {
 				if (sc.currentToken == ScannerUtils.closebracketToken) {
 					sc.next();
 				} else
-					Utils.error("Expected ], but got " + sc.currentToken);
+					Utils.error("Expected ], but got " + sc.token);
 				while (sc.currentToken == ScannerUtils.openbracketToken) {
 					number();
 					if (sc.currentToken == ScannerUtils.closebracketToken) {
 						sc.next();
 					} else
-						Utils.error("Expected ], but got " + sc.currentToken);
+						Utils.error("Expected ], but got " + sc.token);
 				}
 			} else
-				Utils.error("Expected [, but got " + sc.currentToken);
+				Utils.error("Expected [, but got " + sc.token);
 		}
 		return true;
 	}
@@ -290,7 +308,7 @@ public class Grammer {
 			ident();
 		}
 		if (!(sc.currentToken == ScannerUtils.semiToken))
-			Utils.error("Expected ; but token found = " + sc.currentToken);
+			Utils.error("Expected ; token, but got " + sc.token);
 		sc.next();
 		return true;
 	}
@@ -309,12 +327,12 @@ public class Grammer {
 				statSequence();
 				if (sc.currentToken == ScannerUtils.endToken) {
 					sc.next();
-					if(sc.currentToken != ScannerUtils.periodToken)
-						Utils.error("Expected period token, got "+sc.currentToken);
+					if (sc.currentToken != ScannerUtils.periodToken)
+						Utils.error("Expected period token, got " + sc.token);
 				} else
-					Utils.error("Expected } got " + sc.currentToken);
+					Utils.error("Expected } got " + sc.token);
 			}
 		} else
-			Utils.error("Expected main token, got " + sc.currentToken);
+			Utils.error("Expected main token, got " + sc.token);
 	}
 }

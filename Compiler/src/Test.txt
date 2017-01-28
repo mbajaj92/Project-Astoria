@@ -4,6 +4,11 @@ array[10] c;
 function d(e,f);
 var p,q;
 array[45] madhur; {
-let a<-5
+let a<-5/3
+};
+{
+if a<b then let a<-7-9 else let b <-7+6 fi;
+while c>=d do let z<-call d(x) od;
+return 5
 }
 .
