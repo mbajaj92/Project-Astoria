@@ -15,10 +15,13 @@ public class MyScanner {
 	private List<String> keywords;
 	public String token = "";
 	private char residualChar = '\0';
+    public int linecount;
+    private boolean ignoreTillEndLine = false;
 
 	protected MyScanner(String FileName) throws IOException {
 		sc = new Scanner(new FileReader(FileName));
 		sc.useDelimiter("");
+		linecount = 1;
 		idTable = new ArrayList<String>();
 		keywords = Arrays.asList("then", "do", "od", "fi", "else", "let", "call", "if", "while", "return", "var",
 				"array", "function", "procedure", "main");
@@ -90,8 +93,20 @@ public class MyScanner {
 		case '*':
 			currentToken = ScannerUtils.timesToken;
 			break;
+		case '#':
+			ignoreTillEndLine = true;
+			next();
+			break;
 		case '/':
-			currentToken = ScannerUtils.divToken;
+			ch = sc.next().charAt(0);
+			if(ch == '/') {
+				/*Comment has started*/
+				ignoreTillEndLine = true;
+				next();
+			} else {
+				residualChar = ch;
+				currentToken = ScannerUtils.divToken;
+			}
 			break;
 		case '-':
 			currentToken = ScannerUtils.minusToken;
@@ -194,8 +209,14 @@ public class MyScanner {
 				} else
 					ch = sc.next().charAt(0);
 
-				while (ch == ' ' || ch == '\t' || ch == '\n' || (int)ch == 13)
+				while ( ignoreTillEndLine || ch == ' ' || ch == '\t' || ch == '\n' || (int)ch == 13) {
+					if(ch == '\n') {
+						linecount++;
+						ignoreTillEndLine = false;
+					}
+
 					ch = sc.next().charAt(0);
+				}
 
 				token += ch;
 				if (Character.isDigit(ch)) {
@@ -244,13 +265,16 @@ public class MyScanner {
 	
 	@Override
 	protected void finalize() throws Throwable {
-		shutDown();
+		if(!shutDown)
+			shutDown();
 		super.finalize();
 	}
 
+	boolean shutDown = false;
 	protected void shutDown() {
 		sc.close();
-		keywords.clear();
-		idTable.clear();
+		keywords = null;
+		idTable = null;
+		shutDown = true;
 	}
 }

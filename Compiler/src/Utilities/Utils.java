@@ -306,7 +306,7 @@ public class Utils {
 	private static boolean registers[] = new boolean[10];
 
 	private static int allocateRegister() {
-		for (int i = 0; i < registers.length; i++) {
+		for (int i = 1; i < registers.length; i++) {
 			if (!registers[i]) {
 				registers[i] = true;
 				return i;
@@ -321,8 +321,12 @@ public class Utils {
 
 	public static void load(Result R) throws Exception{
 		if(R.kind == RESULT_KIND.CONST) {
-			R.regno = allocateRegister();
-			put("ADDI",R.regno,0,R.value);
+			if(R.value == 0) {
+				R.regno = 0;
+			} else {
+				R.regno = allocateRegister();
+				put("ADDI", R.regno, 0, R.value);
+			}
 		} else if (R.kind == RESULT_KIND.VAR) {
 			R.regno = allocateRegister();
 			put("LDW",R.regno,30,R.address);
