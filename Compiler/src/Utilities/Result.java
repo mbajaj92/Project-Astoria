@@ -1,5 +1,6 @@
 package Utilities;
 
+import Utilities.Utils.CODE;
 import Utilities.Utils.RESULT_KIND;
 
 public class Result {
@@ -8,6 +9,6 @@ public class Result {
 	public int value;
 	public int address;
 	public int regno;
-	public String cond;
+	public CODE cond;
 	public int fixuplocation;
 }

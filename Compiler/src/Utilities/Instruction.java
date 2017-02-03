@@ -1,10 +1,14 @@
 package Utilities;
 
+import Utilities.Utils.CODE;
+
 public class Instruction {
-	int a, b ,c;
+	int a, b, c;
 	CODE code;
-	Instruction previous;
-	enum CODE {
-		ADD, ADDI, SUB, SUBI 
-	};
+	Instruction previousInAnchor;
+
+	@Override
+	public String toString() {
+		return code.toString() + " " + a + " " + b + " " + c;
+	}
 }

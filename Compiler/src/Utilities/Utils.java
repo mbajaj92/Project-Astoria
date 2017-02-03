@@ -6,6 +6,10 @@ public class Utils {
 	public static enum RESULT_KIND {
 		CONST, VAR, REG, CONDITION
 	};
+	
+	public static enum CODE {
+		ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL 
+	};
 
 	final public static boolean BINARY = false;
 	public static int programCounter = 0;
@@ -24,24 +28,24 @@ public class Utils {
 		buffer.add(index, currentVal);
 	}
 
-	public static String negateCondition(String cond) throws Exception {
+	public static CODE negateCondition(CODE cond) throws Exception {
 		switch (cond) {
-		case "BEQ":
-			return "BNE";
-		case "BNE":
-			return "BEQ";
-		case "BLT":
-			return "BGE";
-		case "BGE":
-			return "BLT";
-		case "BLE":
-			return "BGT";
-		case "BGT":
-			return "BLE";
+		case BEQ:
+			return CODE.BNE;
+		case BNE:
+			return CODE.BEQ;
+		case BLT:
+			return CODE.BGE;
+		case BGE:
+			return CODE.BLT;
+		case BLE:
+			return CODE.BGT;
+		case BGT:
+			return CODE.BLE;
 		default:
 			error("Invalid Conditional Operator !");
 		}
-		return "";
+		return null;
 	}
 
 	private static String format(String input, int length) {
@@ -114,189 +118,189 @@ public class Utils {
 		System.out.println(command);
 	}
 
-	public static void put(String op, int a, int b, int c) throws Exception {
+	public static void put(CODE op, int a, int b, int c) throws Exception {
 		if (a < 0 || b < 0 || c < 0)
 			error("Invalid Operand, can't have negative operands ");
 		switch (op) {
-		case "CHK":
+		case CHK:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF2(14, a, b, c, op);
+			putF2(14, a, b, c, op.toString());
 			break;
-		case "ASH":
-			putF2(13, a, b, c, op);
+		case ASH:
+			putF2(13, a, b, c, op.toString());
 			break;
-		case "LSH":
-			putF2(12, a, b, c, op);
+		case LSH:
+			putF2(12, a, b, c, op.toString());
 			break;
-		case "XOR":
-			putF2(11, a, b, c, op);
+		case XOR:
+			putF2(11, a, b, c, op.toString());
 			break;
-		case "BIC":
-			putF2(10, a, b, c, op);
+		case BIC:
+			putF2(10, a, b, c, op.toString());
 			break;
-		case "AND":
-			putF2(9, a, b, c, op);
+		case AND:
+			putF2(9, a, b, c, op.toString());
 			break;
-		case "OR":
-			putF2(8, a, b, c, op);
+		case OR:
+			putF2(8, a, b, c, op.toString());
 			break;
-		case "CMP":
-			putF2(5, a, b, c, op);
+		case CMP:
+			putF2(5, a, b, c, op.toString());
 			break;
-		case "MOD":
-			putF2(4, a, b, c, op);
+		case MOD:
+			putF2(4, a, b, c, op.toString());
 			break;
-		case "DIV":
-			putF2(3, a, b, c, op);
+		case DIV:
+			putF2(3, a, b, c, op.toString());
 			break;
-		case "MUL":
-			putF2(2, a, b, c, op);
+		case MUL:
+			putF2(2, a, b, c, op.toString());
 			break;
-		case "SUB":
-			putF2(1, a, b, c, op);
+		case SUB:
+			putF2(1, a, b, c, op.toString());
 			break;
-		case "ADD":
-			putF2(0, a, b, c, op);
+		case ADD:
+			putF2(0, a, b, c, op.toString());
 			break;
-		case "CHKI":
+		case CHKI:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(30, a, b, c, op);
+			putF1(30, a, b, c, op.toString());
 			break;
-		case "ASHI":
-			putF1(29, a, b, c, op);
+		case ASHI:
+			putF1(29, a, b, c, op.toString());
 			break;
-		case "LSHI":
-			putF1(28, a, b, c, op);
+		case LSHI:
+			putF1(28, a, b, c, op.toString());
 			break;
-		case "XORI":
-			putF1(27, a, b, c, op);
+		case XORI:
+			putF1(27, a, b, c, op.toString());
 			break;
-		case "BICI":
-			putF1(26, a, b, c, op);
+		case BICI:
+			putF1(26, a, b, c, op.toString());
 			break;
-		case "ANDI":
-			putF1(25, a, b, c, op);
+		case ANDI:
+			putF1(25, a, b, c, op.toString());
 			break;
-		case "ORI":
-			putF1(24, a, b, c, op);
+		case ORI:
+			putF1(24, a, b, c, op.toString());
 			break;
-		case "CMPI":
-			putF1(21, a, b, c, op);
+		case CMPI:
+			putF1(21, a, b, c, op.toString());
 			break;
-		case "MODI":
-			putF1(20, a, b, c, op);
+		case MODI:
+			putF1(20, a, b, c, op.toString());
 			break;
-		case "DIVI":
-			putF1(19, a, b, c, op);
+		case DIVI:
+			putF1(19, a, b, c, op.toString());
 			break;
-		case "MULI":
-			putF1(18, a, b, c, op);
+		case MULI:
+			putF1(18, a, b, c, op.toString());
 			break;
-		case "SUBI":
-			putF1(17, a, b, c, op);
+		case SUBI:
+			putF1(17, a, b, c, op.toString());
 			break;
-		case "ADDI":
-			putF1(16, a, b, c, op);
+		case ADDI:
+			putF1(16, a, b, c, op.toString());
 			break;
-		case "LDW":
-			putF1(32, a, b, c, op);
+		case LDW:
+			putF1(32, a, b, c, op.toString());
 			break;
-		case "LDX":
-			putF1(33, a, b, c, op);
+		case LDX:
+			putF1(33, a, b, c, op.toString());
 			break;
-		case "POP":
-			putF1(34, a, b, c, op);
+		case POP:
+			putF1(34, a, b, c, op.toString());
 			break;
-		case "STW":
-			putF1(36, a, b, c, op);
+		case STW:
+			putF1(36, a, b, c, op.toString());
 			break;
-		case "STX":
-			putF2(37, a, b, c, op);
+		case STX:
+			putF2(37, a, b, c, op.toString());
 			break;
-		case "PSH":
-			putF1(38, a, b, c, op);
+		case PSH:
+			putF1(38, a, b, c, op.toString());
 			break;
-		case "BEQ":
+		case BEQ:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(40, a, 0, c, op);
+			putF1(40, a, 0, c, op.toString());
 			break;
-		case "BNE":
+		case BNE:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(41, a, 0, c, op);
+			putF1(41, a, 0, c, op.toString());
 			break;
-		case "BLT":
+		case BLT:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(42, a, 0, c, op);
+			putF1(42, a, 0, c, op.toString());
 			break;
-		case "BGE":
+		case BGE:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(43, a, 0, c, op);
+			putF1(43, a, 0, c, op.toString());
 			break;
-		case "BLE":
+		case BLE:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(44, a, 0, c, op);
+			putF1(44, a, 0, c, op.toString());
 			break;
-		case "BGT":
+		case BGT:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(45, a, 0, c, op);
+			putF1(45, a, 0, c, op.toString());
 			break;
-		case "BSR":
+		case BSR:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
-			putF1(46, 0, 0, c, op);
+			putF1(46, 0, 0, c, op.toString());
 			break;
-		case "JSR":
+		case JSR:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
-			putF3(48, c, op);
+			putF3(48, c, op.toString());
 			break;
-		case "RET":
+		case RET:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
-			putF2(49, 0, 0, c, op);
+			putF2(49, 0, 0, c, op.toString());
 			break;
-		case "RDD":
+		case RDD:
 			if (c != 0 || b != 0)
 				error("Invalid Operand, can't give c and b  ");
 
-			putF2(50, a, 0, 0, op);
+			putF2(50, a, 0, 0, op.toString());
 			break;
-		case "WRD":
+		case WRD:
 			if (c != 0 || a != 0)
 				error("Invalid Operand, can't give a and c  ");
 
-			putF2(51, 0, b, 0, op);
+			putF2(51, 0, b, 0, op.toString());
 			break;
-		case "WRH":
+		case WRH:
 			if (c != 0 || a != 0)
 				error("Invalid Operand, can't give a and c  ");
 
-			putF2(51, 0, b, 0, op);
+			putF2(51, 0, b, 0, op.toString());
 			break;
-		case "WRL":
+		case WRL:
 			if (b != 0 || a != 0 || c != 0)
 				error("Invalid Operand, can't give operands");
 
-			putF1(53, 0, 0, 0, op);
+			putF1(53, 0, 0, 0, op.toString());
 			break;
 		default:
 			error("Invalid Operand code ");
@@ -335,26 +339,26 @@ public class Utils {
 			load(X);
 			if (X.regno == 0) {
 				X.regno = allocateRegister();
-				put("ADD", X.regno, 0, 0);
+				put(CODE.ADD, X.regno, 0, 0);
 			}
 
 			if(Y.kind == RESULT_KIND.CONST) {
-				String command = "";
+				CODE command = null;
 				switch(opCode) {
 				case ScannerUtils.becomesToken:
-					command = "STX";
+					command = CODE.STX;
 					break;
 				case ScannerUtils.plusToken:
-					command = "ADDI";
+					command = CODE.ADDI;
 					break;
 				case ScannerUtils.minusToken:
-					command = "SUBI";
+					command = CODE.SUBI;
 					break;
 				case ScannerUtils.timesToken:
-					command = "MULI";
+					command = CODE.MULI;
 					break;
 				case ScannerUtils.divToken:
-					command = "DIVI";
+					command = CODE.DIVI;
 					break;
 				case ScannerUtils.leqToken:
 				case ScannerUtils.neqToken:
@@ -362,28 +366,28 @@ public class Utils {
 				case ScannerUtils.geqToken:
 				case ScannerUtils.gtrToken:
 				case ScannerUtils.lssToken:
-					command = "CMPI";
+					command = CODE.CMPI;
 					break;
 				}
 				put(command,X.regno,X.regno,Y.value);
 			} else {
 				load(Y);
-				String command = "";
+				CODE command = null;
 				switch(opCode) {
 				case ScannerUtils.becomesToken:
-					command = "STX";
+					command = CODE.STX;
 					break;
 				case ScannerUtils.plusToken:
-					command = "ADD";
+					command = CODE.ADD;
 					break;
 				case ScannerUtils.minusToken:
-					command = "SUB";
+					command = CODE.SUB;
 					break;
 				case ScannerUtils.timesToken:
-					command = "MUL";
+					command = CODE.MUL;
 					break;
 				case ScannerUtils.divToken:
-					command = "DIV";
+					command = CODE.DIV;
 					break;
 				case ScannerUtils.leqToken:
 				case ScannerUtils.neqToken:
@@ -391,7 +395,7 @@ public class Utils {
 				case ScannerUtils.geqToken:
 				case ScannerUtils.gtrToken:
 				case ScannerUtils.lssToken:
-					command = "CMP";
+					command = CODE.CMP;
 					break;
 				}
 				put(command,X.regno,X.regno,Y.regno);
@@ -410,11 +414,11 @@ public class Utils {
 				R.regno = 0;
 			} else {
 				R.regno = allocateRegister();
-				put("ADDI", R.regno, 0, R.value);
+				put(CODE.ADDI, R.regno, 0, R.value);
 			}
 		} else if (R.kind == RESULT_KIND.VAR) {
 			R.regno = allocateRegister();
-			put("LDW",R.regno,30,R.address);
+			put(CODE.LDW,R.regno,30,R.address);
 		}
 		R.kind = RESULT_KIND.REG;
 	}
@@ -422,5 +426,4 @@ public class Utils {
 	public static void error(String errorMsg) throws Exception {
 		throw new Exception(errorMsg);
 	}
-
 }
