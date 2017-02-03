@@ -315,6 +315,91 @@ public class Utils {
 		return -1;
 	}
 
+	public static void compute(int opCode, Result X, Result Y) throws Exception {
+		if (X.kind == RESULT_KIND.CONST && Y.kind == RESULT_KIND.CONST) {
+			switch (opCode) {
+			case ScannerUtils.plusToken:
+				X.value += Y.value;
+				break;
+			case ScannerUtils.minusToken:
+				X.value -= Y.value;
+				break;
+			case ScannerUtils.timesToken:
+				X.value *= Y.value;
+				break;
+			case ScannerUtils.divToken:
+				X.value /= Y.value;
+				break;
+			}
+		} else {
+			load(X);
+			if (X.regno == 0) {
+				X.regno = allocateRegister();
+				put("ADD", X.regno, 0, 0);
+			}
+
+			if(Y.kind == RESULT_KIND.CONST) {
+				String command = "";
+				switch(opCode) {
+				case ScannerUtils.becomesToken:
+					command = "STX";
+					break;
+				case ScannerUtils.plusToken:
+					command = "ADDI";
+					break;
+				case ScannerUtils.minusToken:
+					command = "SUBI";
+					break;
+				case ScannerUtils.timesToken:
+					command = "MULI";
+					break;
+				case ScannerUtils.divToken:
+					command = "DIVI";
+					break;
+				case ScannerUtils.leqToken:
+				case ScannerUtils.neqToken:
+				case ScannerUtils.eqlToken:
+				case ScannerUtils.geqToken:
+				case ScannerUtils.gtrToken:
+				case ScannerUtils.lssToken:
+					command = "CMPI";
+					break;
+				}
+				put(command,X.regno,X.regno,Y.value);
+			} else {
+				load(Y);
+				String command = "";
+				switch(opCode) {
+				case ScannerUtils.becomesToken:
+					command = "STX";
+					break;
+				case ScannerUtils.plusToken:
+					command = "ADD";
+					break;
+				case ScannerUtils.minusToken:
+					command = "SUB";
+					break;
+				case ScannerUtils.timesToken:
+					command = "MUL";
+					break;
+				case ScannerUtils.divToken:
+					command = "DIV";
+					break;
+				case ScannerUtils.leqToken:
+				case ScannerUtils.neqToken:
+				case ScannerUtils.eqlToken:
+				case ScannerUtils.geqToken:
+				case ScannerUtils.gtrToken:
+				case ScannerUtils.lssToken:
+					command = "CMP";
+					break;
+				}
+				put(command,X.regno,X.regno,Y.regno);
+				deallocateRegister(Y.regno);
+			}
+		}
+	}
+
 	public static void deallocateRegister(int regNo) {
 		registers[regNo] = false;
 	}

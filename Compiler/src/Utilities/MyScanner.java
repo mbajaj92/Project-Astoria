@@ -59,30 +59,35 @@ public class MyScanner {
 			ch = sc.next().charAt(0);
 			if (ch != '=')
 				Utils.error("Invalid token \"=" + ch + "\"");
+			token = "==";
 			currentToken = ScannerUtils.eqlToken;
 			break;
 		case '!':
 			ch = sc.next().charAt(0);
 			if (ch != '=')
 				Utils.error("Invalid token \"!" + ch + "\"");
+			token = "!=";
 			currentToken = ScannerUtils.eqlToken;
 			break;
 		case '<':
 			ch = sc.next().charAt(0);
-			if (ch == '=')
+			if (ch == '=') {
+				token = "<=";
 				currentToken = ScannerUtils.leqToken;
-			else if (ch == '-')
+			} else if (ch == '-') {
+				token = "<-";
 				currentToken = ScannerUtils.becomesToken;
-			else {
+			} else {
 				currentToken = ScannerUtils.lssToken;
 				residualChar = ch;
 			}
 			break;
 		case '>':
 			ch = sc.next().charAt(0);
-			if (ch == '=')
+			if (ch == '=') {
+				token = ">=";
 				currentToken = ScannerUtils.geqToken;
-			else {
+			} else {
 				currentToken = ScannerUtils.gtrToken;
 				residualChar = ch;
 			}

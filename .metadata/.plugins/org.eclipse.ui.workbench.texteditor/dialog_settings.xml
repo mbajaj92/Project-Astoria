@@ -6,36 +6,37 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="150" key="selection"/>
+		<item value="STX" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="150"/>
-			<item value="{"/>
-			<item value="61"/>
-			<item value="40"/>
-			<item value="11"/>
-			<item value="}"/>
-			<item value="id2S"/>
-			<item value="i"/>
+			<item value="STX"/>
+			<item value="St"/>
+			<item value="becomesToke"/>
+			<item value="times"/>
+			<item value="MUL"/>
+			<item value="BEQ"/>
+			<item value="CMPI"/>
+			<item value="ADD"/>
 		</list>
 		<list key="replacehistory">
+			<item value="&quot; + sc.token+&quot; at line &quot;+sc.linecount"/>
+			<item value="got &quot; + sc.token);"/>
+			<item value="got &quot;+sc.token"/>
+			<item value="private static"/>
 			<item value="error"/>
 			<item value="Utils.error"/>
 			<item value=""/>
 			<item value="return "/>
-			<item value="sc.next"/>
-			<item value="sc.hasNext"/>
-			<item value=",c,op);"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="385" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="523" key="DIALOG_HEIGHT"/>
-		<item value="779" key="DIALOG_X_ORIGIN"/>
-		<item value="173" key="DIALOG_Y_ORIGIN"/>
+		<item value="700" key="DIALOG_X_ORIGIN"/>
+		<item value="243" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
