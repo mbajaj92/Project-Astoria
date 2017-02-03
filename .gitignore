@@ -221,3 +221,8 @@ pip-log.txt
 .metadata/
 Compiler\bin/
 /**/*.class
+*.log
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+*.xmi
+*.ini
+.recommenders/index/http___download_eclipse_org_recommenders_models_neon_/segments.gen

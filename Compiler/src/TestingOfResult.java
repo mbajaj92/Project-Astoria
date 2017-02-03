@@ -2,6 +2,7 @@ import Utilities.MyScanner;
 import Utilities.Result;
 import Utilities.ScannerUtils;
 import Utilities.Utils;
+import Utilities.Utils.CODE;
 import Utilities.Utils.RESULT_KIND;
 
 public class TestingOfResult {
@@ -38,11 +39,11 @@ public class TestingOfResult {
 				X.value *= Y.value;
 			} else if (Y.kind == RESULT_KIND.CONST) {
 				Utils.load(X);
-				Utils.put("MULI", X.regno, X.regno, Y.value);
+				Utils.put(CODE.MULI, X.regno, X.regno, Y.value);
 			} else {
 				Utils.load(X);
 				Utils.load(Y);
-				Utils.put("MUL",X.regno,X.regno,Y.regno);
+				Utils.put(CODE.MUL,X.regno,X.regno,Y.regno);
 				Utils.deallocateRegister(Y.regno);
 			}
 		}
@@ -58,11 +59,11 @@ public class TestingOfResult {
 				X.value += Y.value;
 			} else if (Y.kind == RESULT_KIND.CONST) {
 				Utils.load(X);
-				Utils.put("ADDI", X.regno, X.regno, Y.value);
+				Utils.put(CODE.ADDI, X.regno, X.regno, Y.value);
 			} else {
 				Utils.load(X);
 				Utils.load(Y);
-				Utils.put("ADD",X.regno,X.regno,Y.regno);
+				Utils.put(CODE.ADD,X.regno,X.regno,Y.regno);
 				Utils.deallocateRegister(Y.regno);
 			}
 		}
