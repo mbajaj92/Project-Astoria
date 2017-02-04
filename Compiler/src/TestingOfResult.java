@@ -39,12 +39,12 @@ public class TestingOfResult {
 				X.value *= Y.value;
 			} else if (Y.kind == RESULT_KIND.CONST) {
 				Utils.load(X);
-				Utils.put(CODE.MULI, X.regno, X.regno, Y.value);
+				Utils.put(CODE.MULI, X.instructionIndex, X.instructionIndex, Y.value);
 			} else {
 				Utils.load(X);
 				Utils.load(Y);
-				Utils.put(CODE.MUL,X.regno,X.regno,Y.regno);
-				Utils.deallocateRegister(Y.regno);
+				Utils.put(CODE.MUL,X.instructionIndex,X.instructionIndex,Y.instructionIndex);
+				Utils.deallocateRegister(Y.instructionIndex);
 			}
 		}
 		return X;
@@ -59,12 +59,12 @@ public class TestingOfResult {
 				X.value += Y.value;
 			} else if (Y.kind == RESULT_KIND.CONST) {
 				Utils.load(X);
-				Utils.put(CODE.ADDI, X.regno, X.regno, Y.value);
+				Utils.put(CODE.ADDI, X.instructionIndex, X.instructionIndex, Y.value);
 			} else {
 				Utils.load(X);
 				Utils.load(Y);
-				Utils.put(CODE.ADD,X.regno,X.regno,Y.regno);
-				Utils.deallocateRegister(Y.regno);
+				Utils.put(CODE.ADD,X.instructionIndex,X.instructionIndex,Y.instructionIndex);
+				Utils.deallocateRegister(Y.instructionIndex);
 			}
 		}
 		return X;

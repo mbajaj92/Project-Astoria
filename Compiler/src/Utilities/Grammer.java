@@ -1,5 +1,6 @@
 package Utilities;
 
+import Utilities.Utils.CODE;
 import Utilities.Utils.RESULT_KIND;
 
 public class Grammer {
@@ -101,16 +102,19 @@ public class Grammer {
 			Utils.error("Expected while token, got " + sc.token + " at line " + sc.linecount);
 		sc.next();
 
+		int whileJumpIndex = Utils.getCurrentInstructionIndex() + 1;
 		relation();
+		int fixupIndex = Utils.getCurrentInstructionIndex();
 		// basic block ends
 		// new basic block starts
 		if (sc.currentToken == ScannerUtils.doToken) {
 			sc.next();
 			statSequence();
-			// basic block ends
-			// new basic block starts
+			Instruction.getInstruction(CODE.BSR, whileJumpIndex - (Utils.getCurrentInstructionIndex() + 1), -1);
+
 			if (sc.currentToken != ScannerUtils.odToken)
 				Utils.error("Expected od token, got " + sc.token + " at line " + sc.linecount);
+			Utils.fixup(fixupIndex);
 			sc.next();
 		} else
 			Utils.error("Expected do token, got " + sc.token + " at line " + sc.linecount);
@@ -122,19 +126,20 @@ public class Grammer {
 		sc.next();
 
 		relation();
-		// new basic block
+		int fixupIndex = Utils.getCurrentInstructionIndex();
 		if (sc.currentToken == ScannerUtils.thenToken) {
 			sc.next();
 			statSequence();
-			// basic block ends
-			// new basic block
 			if (sc.currentToken == ScannerUtils.elseToken) {
+				Utils.fixup(fixupIndex);
+				fixupIndex = -1;
 				sc.next();
 				statSequence();
 			}
-			// basic block ends
-			// new basic block
 			if (sc.currentToken == ScannerUtils.fiToken) {
+				if (fixupIndex != -1)
+					Utils.fixup(fixupIndex);
+
 				sc.next();
 			} else
 				Utils.error("Expected fi token, got " + sc.token + " at line " + sc.linecount);
@@ -169,10 +174,10 @@ public class Grammer {
 		sc.next();
 		Result X = designator();
 		if (sc.currentToken == ScannerUtils.becomesToken) {
-			int code = ScannerUtils.becomesToken;
 			sc.next();
 			Result Y = expression();
-			Utils.compute(code, X, Y);
+			Utils.handleBecomes(X,Y);
+			//Utils.compute(code, X, Y);
 		} else
 			Utils.error("Expected <-, got " + sc.token + " at line " + sc.linecount);
 	}

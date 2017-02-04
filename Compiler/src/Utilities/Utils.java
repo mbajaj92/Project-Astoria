@@ -4,11 +4,11 @@ import java.util.ArrayList;
 public class Utils {
 
 	public static enum RESULT_KIND {
-		CONST, VAR, REG, CONDITION
+		CONST, VAR, INS, CONDITION
 	};
 	
 	public static enum CODE {
-		ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL 
+		ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, MOV 
 	};
 
 	final public static boolean BINARY = false;
@@ -16,13 +16,24 @@ public class Utils {
 	public static int stackPointer = 0;
 	private static ArrayList<Integer> buffer = new ArrayList<Integer>();
 	private static ArrayList<String> tempResult = new ArrayList<String>();
+	public static ArrayList<Instruction> inslist = new ArrayList<Instruction>();
 
 	public static void conditionalJump(Result X) throws Exception {
-		put(negateCondition(X.cond), X.regno, 0, 0);
+		put(negateCondition(X.cond), X.instructionIndex, 0, 0);
 		X.fixuplocation = programCounter - 1;
 	}
 
+	public static int getCurrentInstructionIndex() {
+		return inslist.size() - 1;
+	}
+
 	public static void fixup(int index) {
+		Instruction i = inslist.get(index);
+		i.aIns = getCurrentInstructionIndex()+1-index;
+		System.out.println(i);
+	}
+
+	public static void fixupOld(int index) {
 		int currentVal = buffer.remove(index);
 		currentVal = currentVal & 0xffff0000 + (programCounter - index);
 		buffer.add(index, currentVal);
@@ -319,7 +330,21 @@ public class Utils {
 		return -1;
 	}
 
+	public static void handleBecomes(Result X, Result Y) throws Exception {
+		if(Y.kind == RESULT_KIND.CONST) {
+			Instruction i = Instruction.getInstruction(CODE.ADDI, getCurrentInstructionIndex()+1, "#"+Y.value);
+			X.instructionIndex = i.index;
+		} else {
+			load(Y);
+			Instruction i = Instruction.getInstruction(CODE.MOV,Y.instructionIndex, -1);
+			X.instructionIndex = i.index;
+		}
+	}
+
 	public static void compute(int opCode, Result X, Result Y) throws Exception {
+		if(opCode == ScannerUtils.becomesToken)
+			error("DO NOT CALL COMPUTE FOR BECOMES");
+
 		if (X.kind == RESULT_KIND.CONST && Y.kind == RESULT_KIND.CONST) {
 			switch (opCode) {
 			case ScannerUtils.plusToken:
@@ -337,11 +362,12 @@ public class Utils {
 			}
 		} else {
 			load(X);
-			if (X.regno == 0) {
-				X.regno = allocateRegister();
-				put(CODE.ADD, X.regno, 0, 0);
+/*			if (X.instructionIndex == 0) {
+				X.instructionIndex = allocateRegister();
+				//Instruction i = new Instruction()
+				//put(CODE.ADD, X.regno, 0, 0);
 			}
-
+*/
 			if(Y.kind == RESULT_KIND.CONST) {
 				CODE command = null;
 				switch(opCode) {
@@ -369,14 +395,16 @@ public class Utils {
 					command = CODE.CMPI;
 					break;
 				}
-				put(command,X.regno,X.regno,Y.value);
+				Instruction i = Instruction.getInstruction(command, X.instructionIndex, "#"+Y.value);
+				X.instructionIndex = i.index;
+				if(command == CODE.CMPI)
+					handleCompare(opCode);
+
+				//put(command,X.regno,X.regno,Y.value);
 			} else {
 				load(Y);
 				CODE command = null;
 				switch(opCode) {
-				case ScannerUtils.becomesToken:
-					command = CODE.STX;
-					break;
 				case ScannerUtils.plusToken:
 					command = CODE.ADD;
 					break;
@@ -398,9 +426,37 @@ public class Utils {
 					command = CODE.CMP;
 					break;
 				}
-				put(command,X.regno,X.regno,Y.regno);
-				deallocateRegister(Y.regno);
+				Instruction i = Instruction.getInstruction(command, X.instructionIndex, Y.instructionIndex);
+				X.instructionIndex = i.index;
+				if(command == CODE.CMP)
+					handleCompare(opCode);
+
+				/*put(command,X.regno,X.regno,Y.regno);
+				deallocateRegister(Y.regno);*/
 			}
+		}
+	}
+
+	public static void handleCompare(int code) {
+		switch(code) {
+		case ScannerUtils.leqToken:
+			Instruction.getInstruction(CODE.BGT, -1, -1);
+			break;
+		case ScannerUtils.neqToken:
+			Instruction.getInstruction(CODE.BEQ, -1, -1);
+			break;
+		case ScannerUtils.eqlToken:
+			Instruction.getInstruction(CODE.BNE, -1, -1);
+			break;
+		case ScannerUtils.geqToken:
+			Instruction.getInstruction(CODE.BLT, -1, -1);
+			break;
+		case ScannerUtils.gtrToken:
+			Instruction.getInstruction(CODE.BLE, -1, -1);
+			break;
+		case ScannerUtils.lssToken:
+			Instruction.getInstruction(CODE.BGE, -1, -1);
+			break;
 		}
 	}
 
@@ -409,18 +465,17 @@ public class Utils {
 	}
 
 	public static void load(Result R) throws Exception{
-		if(R.kind == RESULT_KIND.CONST) {
-			if(R.value == 0) {
-				R.regno = 0;
-			} else {
-				R.regno = allocateRegister();
-				put(CODE.ADDI, R.regno, 0, R.value);
-			}
+		Instruction i = null;
+		if (R.kind == RESULT_KIND.CONST) {
+			//put(CODE.ADDI, R.instructionIndex, 0, R.value);
+			i = Instruction.getInstruction(CODE.ADDI, "#0", "#"+R.value);
+			R.instructionIndex = i.index;
 		} else if (R.kind == RESULT_KIND.VAR) {
-			R.regno = allocateRegister();
-			put(CODE.LDW,R.regno,30,R.address);
+			i = Instruction.getInstruction(CODE.LDW, "#30", "#"+R.address);
+			R.instructionIndex = i.index;
+			//put(CODE.LDW,R.instructionIndex,30,R.address);
 		}
-		R.kind = RESULT_KIND.REG;
+		R.kind = RESULT_KIND.INS;
 	}
 
 	public static void error(String errorMsg) throws Exception {
