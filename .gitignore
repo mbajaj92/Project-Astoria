@@ -5,6 +5,9 @@
 *.pydevproject
 .project
 .metadata
+.metadata/
+.metadata/plugins/
+*.log
 bin/
 tmp/
 *.tmp
