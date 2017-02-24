@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;myBB&apos; in &apos;Utilities.Instruction&apos; to &apos;myBasicBlock&apos;&#x0D;&#x0A;- Original project: &apos;Compiler&apos;&#x0D;&#x0A;- Original element: &apos;Utilities.Instruction.myBB&apos;&#x0D;&#x0A;- Renamed element: &apos;Utilities.Instruction.myBasicBlock&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;myBB&apos;" flags="589830" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;Utilities{Instruction.java[Instruction^myBB" name="myBasicBlock" references="true" setter="false" stamp="1486253675378" textual="false" version="1.0"/>
+</session>

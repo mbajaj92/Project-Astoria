@@ -1,0 +1,217 @@
+package Utilities;
+
+import java.util.ArrayList;
+
+import Utilities.Utils.CODE;
+
+public class Instruction {
+	public static ArrayList<Instruction> instructionList;
+	public Instruction aInstruction, bInstruction;
+	public String aConstant, bConstant;
+	public int index = -1;
+	private CODE code;
+	private Instruction previousInAnchor;
+	private BasicBlock myBasicBlock;
+	private Instruction referenceInstruction = null;
+	private String phiFor = null;
+	public String warning = null;
+
+	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto) {
+		code = c;
+		aInstruction = a2;
+		bInstruction = b2;
+		aConstant = a1;
+		bConstant = b1;
+
+		nullCheck();
+		index = instructionList.size();
+		instructionList.add(this);
+		if (!addAuto)
+			return;
+
+		myBasicBlock = BasicBlock.getCurrentBasicBlock();
+		if (Utils.COPY_PROP)
+			lastAccessTest();
+
+		if (!hasReferenceInstruction() && Utils.COM_SUBEX_ELIM)
+			anchorTest();
+
+		if (!hasReferenceInstruction())
+			myBasicBlock.addInstruction(this, true);
+	}
+
+	public static Instruction getInstruction(CODE c) {
+		Instruction i = new Instruction(c, null, null, null, null, true);
+		if (i.referenceInstruction != null)
+			return i.referenceInstruction;
+		return i;
+	}
+
+	public static Instruction getInstruction(CODE c, String a1, String b1, boolean addAuto) {
+		Instruction i = new Instruction(c, a1, b1, null, null, addAuto);
+		if (i.referenceInstruction != null)
+			return i.referenceInstruction;
+		return i;
+	}
+
+	public static Instruction getInstruction(CODE c, String a1, String b1) {
+		return getInstruction(c, a1, b1, true);
+	}
+
+	public static Instruction getInstruction(CODE c, String a1, Instruction b2) {
+		Instruction i = new Instruction(c, a1, null, null, b2, true);
+		if (i.referenceInstruction != null)
+			return i.referenceInstruction;
+		return i;
+	}
+
+	public static Instruction getInstruction(CODE c, Instruction a2, String b1) {
+		Instruction i = new Instruction(c, null, b1, a2, null, true);
+		if (i.referenceInstruction != null)
+			return i.referenceInstruction;
+		return i;
+	}
+
+	public static Instruction getInstruction(CODE c, Instruction a1, Instruction b1, boolean autoAdd) {
+		Instruction i = new Instruction(c, null, null, a1, b1, autoAdd);
+		if (i.referenceInstruction != null)
+			return i.referenceInstruction;
+		return i;
+	}
+
+	public static Instruction getInstruction(CODE c, Instruction a1, Instruction b1) {
+		return getInstruction(c, a1,b1, true);
+	}
+
+	public static void nullCheck() {
+		if (instructionList == null)
+			instructionList = new ArrayList<Instruction>();
+	}
+
+	public String toStringImpl() {
+		if (referenceInstruction != null)
+			return referenceInstruction.toStringImpl();
+		return "" + index;
+	}
+
+	public static String toStringConstant(String constant) {
+		if (constant == null)
+			return "null";
+		if (constant.charAt(0) != '&')
+			return constant;
+
+		try {
+			return "&" + Utils.address2Identifier(Integer.parseInt(constant.substring(1)));
+		} catch (Exception E) {
+			Utils.SOPln(E);
+			return null;
+		}
+	}
+
+	public String testToString() {
+
+		return index + ": " + code.toString() + " ("
+				+ (aInstruction != null ? "" + aInstruction.toStringImpl() : "null") + ") ("
+				+ (bInstruction != null ? "" + bInstruction.toStringImpl() : "null") + ") "
+				+ toStringConstant(aConstant) + " " + toStringConstant(bConstant)
+				+ (phiFor != null ? "  PHI FOR " + toStringConstant(phiFor) : "")
+				+ (warning == null ? "" : " --- >WARNING = " + warning) + (referenceInstruction != null
+						? " ---> REPLACED WITH (" + referenceInstruction.toStringImpl() + ")" : "");
+	}
+
+	@Override
+	public String toString() {
+		if (hasReferenceInstruction())
+			return referenceInstruction.toString();
+
+		return index + ": " + code.toString() + " ("
+				+ (aInstruction != null ? "" + aInstruction.toStringImpl() : "null") + ") ("
+				+ (bInstruction != null ? "" + bInstruction.toStringImpl() : "null") + ") "
+				+ toStringConstant(aConstant) + " " + toStringConstant(bConstant)
+				+ (phiFor != null ? "  PHI FOR " + toStringConstant(phiFor) : "")
+				+ (warning == null ? "" : "  WARNING = " + warning);
+	}
+
+	public boolean hasReferenceInstruction() {
+		return (referenceInstruction != null);
+	}
+
+	public Instruction getReferenceInstruction() {
+		return referenceInstruction;
+	}
+
+	public static Instruction getCurrentInstruction() {
+		return instructionList.get(instructionList.size() - 1);
+	}
+
+	public void set2ndPhi(Instruction b) {
+		bInstruction = b;
+	}
+
+	public void fixup(Instruction a) {
+		aInstruction = a;
+	}
+
+	public CODE getCode() {
+		return code;
+	}
+
+	public void setPreviousInAnchor(Instruction prev) {
+		previousInAnchor = prev;
+	}
+
+	private boolean isBEqual(Instruction i) {
+		if (bInstruction != null && i.bInstruction != null)
+			return bInstruction.isDuplicate(i.bInstruction);
+
+		if (bConstant != null && i.bConstant != null)
+			return bConstant.equals(i.bConstant);
+
+		return false;
+	}
+
+	private boolean isAEqual(Instruction i) {
+		if (aInstruction != null && i.aInstruction != null)
+			return aInstruction.isDuplicate(i.aInstruction);
+
+		if (aConstant != null && i.aConstant != null)
+			return aConstant.equals(i.aConstant);
+
+		return false;
+	}
+
+	public boolean isDuplicate(Instruction i) {
+		return (code == i.code) && isAEqual(i) && isBEqual(i);
+	}
+	
+	private void lastAccessTest() {
+		//Utils.SOPln("checking for last Access for "+aConstant+" "+bConstant+" "+code);
+		if(code != CODE.move && code != CODE.load)
+			return;
+
+		if(code == CODE.move) {
+			referenceInstruction = bInstruction;
+			myBasicBlock.updateLastAccessFor(aConstant, bInstruction);
+		} else if(code == CODE.load) {
+			referenceInstruction = myBasicBlock.getLastAccessFor(bConstant);
+			if(!hasReferenceInstruction())
+				myBasicBlock.updateLastAccessFor(bConstant, this);
+			//Utils.SOPln("my index is "+index+" checking for load instruciton for "+bConstant+" the ref we got is "+referenceInstruction);
+		}
+	}
+
+	private void anchorTest() {
+		Instruction anchorTest = myBasicBlock.getAnchorInstructionForCode(code);
+		while (anchorTest != null) {
+			//Utils.SOPln(this + " v/s " + anchorTest);
+
+			if (!isDuplicate(anchorTest)) {
+				anchorTest = anchorTest.previousInAnchor;
+			} else {
+				//Utils.SOPln("We have a match !!!!");
+				referenceInstruction = anchorTest;
+				break;
+			}
+		}
+	}
+}

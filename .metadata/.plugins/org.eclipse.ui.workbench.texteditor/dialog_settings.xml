@@ -6,30 +6,30 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="STX" key="selection"/>
+		<item value="joinBlock =" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="STX"/>
-			<item value="St"/>
-			<item value="becomesToke"/>
-			<item value="times"/>
-			<item value="MUL"/>
-			<item value="BEQ"/>
-			<item value="CMPI"/>
-			<item value="ADD"/>
+			<item value="joinBlock ="/>
+			<item value="valuesForArray"/>
+			<item value="valuesForArrays ="/>
+			<item value="arrayInfoTable"/>
+			<item value="arrayInfoTable ="/>
+			<item value="idTable"/>
+			<item value="System.out.println"/>
+			<item value="`"/>
 		</list>
 		<list key="replacehistory">
+			<item value="Utils.SOPln"/>
+			<item value=""/>
+			<item value="yeHaiSaareInstructions"/>
 			<item value="&quot; + sc.token+&quot; at line &quot;+sc.linecount"/>
 			<item value="got &quot; + sc.token);"/>
 			<item value="got &quot;+sc.token"/>
 			<item value="private static"/>
 			<item value="error"/>
-			<item value="Utils.error"/>
-			<item value=""/>
-			<item value="return "/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

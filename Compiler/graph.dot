@@ -1,0 +1,66 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)
+0: load (null) (null) #30 &b
+1: ADDI (0) (null) null #7
+5: ADD (1) (0) null null
+7: ADDI (null) (null) #0 #7
+9: ADDI (null) (null) #0 #0
+11: load (null) (null) #30 &m
+17: ADD (5) (5) null null
+18: load (null) (null) #30 &f
+19: ADD (17) (18) null null
+21: ADD (19) (9) null null
+23: ADD (21) (11) null null
+"];
+0[shape=box];
+0 -> 1
+1[label="
+TAG: IF_HEADER(1)
+26: CMPI (5) (null) null #10
+27: BGE (49) (null) null null
+"];
+1[shape=box];
+1 -> 2
+1 -> 6
+2[label="
+TAG: THEN_BLOCK(2)
+50: BSR (29) (null) null null
+"];
+2[shape=box];
+2 -> 3
+3[label="
+TAG: IF_HEADER(3)
+29: CMPI (0) (null) null #10
+30: BGE (35) (null) null null
+"];
+3[shape=box];
+3 -> 4
+3 -> 5
+4[label="
+TAG: THEN_BLOCK(4)
+33: ADD (9) (0) null null
+"];
+4[shape=box];
+4 -> 5
+5[label="
+TAG: FOLLOW_BLOCK(5)
+35: phi (33) (7) null null  PHI FOR &d
+36: BSR (40) (null) null null
+"];
+5[shape=box];
+5 -> 7
+6[label="
+TAG: ELSE_BLOCK(6)
+49: BSR (40) (null) null null
+"];
+6[shape=box];
+6 -> 7
+7[label="
+TAG: FOLLOW_BLOCK(7)
+40: phi (35) (7) null null  PHI FOR &d
+43: ADD (1) (18) null null
+47: MUL (23) (23) null null
+"];
+7[shape=box];
+}

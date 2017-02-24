@@ -1,0 +1,23 @@
+main
+var a,b,c,m,x,y;
+{
+	let c<-9;
+	let m<-c+10;
+	let a<-7+b;
+	if a<10 then
+		let b<-b-1;
+		let c<-b+7;
+		let x<-b-c;
+	else
+		let a<-a-1;
+		let x<-a+c;
+	fi;
+
+	let a <- c+5;
+	let y <- m-b;
+	
+	#while e<45 do
+	#	 let e <- e+1;
+	#od;
+	#let e<- e+1;
+}.

@@ -1,0 +1,13 @@
+Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> Do arrays and procedures -> RA -> Lowering to machine code.
+
+What about uninitialized variables?
+We an either emit an error(More elegant), or assume that it is zero(but this works as well)
+when we are trying to load, but the value is not present in ALAT; we will come to know that the value is un-initialized.
+
+Globals v/s locals ?
+We are allowed to reference Global variables in the procedures, so how to maintain
+
+only in the very last step when we are translating to machine code, we link procedures and the main 
+
+before calling the procedure, save the variables at a particular location, the procedure read it & update there; and then main reads it from there.
+first get the procedure running, then try adding it later.

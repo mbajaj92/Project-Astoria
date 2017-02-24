@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.RandomAccessFile;
+
+import Utilities.BasicBlock;
 import Utilities.Grammer;
 import Utilities.Instruction;
 import Utilities.MyScanner;
@@ -12,16 +16,42 @@ public class Testing {
 			sc = ScannerUtils.getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Test Cases\\test"+i+".txt");
 			sc.next();
 			Grammer.computation(sc);
-			System.out.println("Parsing Complete for test" + i + ".txt");
+			Utils.SOPln("Parsing Complete for tes t" + i + ".txt");
 			ScannerUtils.shutDown();
 		}*/
 		sc = ScannerUtils.getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Utilities\\Test Cases\\Test.txt");
 		sc.next();
 		Grammer.computation(sc);
-		System.out.println("Parsing Complete for Test" +/* i +*/ ".txt\n\n\n");
-		for(Instruction i:Utils.inslist)
-			System.out.println(i);
+		Utils.printArrayTable();
+		Utils.SOPln("Parsing Complete for Test" + /* i + */ ".txt\n\n\n");
+		File f = new File("graph.dot");
+		f.delete();
+		f = new File("graph.png");
+		f.delete();
+		RandomAccessFile randomAccessFile = new RandomAccessFile("graph.dot", "rw");
+		randomAccessFile.writeBytes("digraph {\n");
+		for (BasicBlock i : BasicBlock.basicBlockList) {
+			if(i.shouldIgnore())
+				continue;
 
+			i.fixUp();
+			Utils.SOPln(i);
+			String write = i.index+"[label=\""+i+"\n\"];\n"+i.index+"[shape=box];\n";
+			if(i.oneON)
+				write += i.index+" -> "+i.oneChild.index+"\n";
+			if(i.twoON)
+				write += i.index+" -> "+i.twoChild.index+"\n";
+			randomAccessFile.writeBytes(write);
+		}
+		randomAccessFile.writeBytes("}");
+		randomAccessFile.close();
+		
+		Utils.SOPln("------");
+
+		if (Instruction.instructionList != null)
+			for (Instruction i : Instruction.instructionList)
+				Utils.SOPln(i.testToString());
+		Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
 		ScannerUtils.shutDown();
 	}
 }

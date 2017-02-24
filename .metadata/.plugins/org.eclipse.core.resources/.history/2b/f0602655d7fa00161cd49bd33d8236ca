@@ -1,0 +1,22 @@
+main
+{
+	let a<-7+b;
+	let c<-8*f;
+	let x<-0
+	if c<10 then
+		let a<-7+b;
+		if b<20 then
+			b<-b-1;
+		else
+			b<-b+1;
+		fi;
+	else
+		let f<-f+1;
+		if x<20 then
+			x<-x-1;
+		else
+			x<-x+1;
+		fi;
+	fi;
+	let g<- a+f;
+}.

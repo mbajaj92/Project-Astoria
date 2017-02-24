@@ -7,24 +7,31 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MyScanner {
+
+	public static enum CLASS {
+		VAR, ARR, PRO, FUNC, NONE
+	};
+
+	public CLASS mCurrentClass;
+
 	private Scanner sc;
 	public int currentToken; // The current token on the input, STILL NOT PROCESSED
 	public int val; // Value of the last no encountered
 	public int id; // ID of the last Identifier encountered, check ID_TABLE
-	private ArrayList<String> idTable;
 	private List<String> keywords;
 	public String token = "";
 	private char residualChar = '\0';
     public int linecount;
     private boolean ignoreTillEndLine = false;
-
+    private ArrayList<Integer> valuesForArrays = null;
+    
 	protected MyScanner(String FileName) throws IOException {
 		sc = new Scanner(new FileReader(FileName));
 		sc.useDelimiter("");
 		linecount = 1;
-		idTable = new ArrayList<String>();
 		keywords = Arrays.asList("then", "do", "od", "fi", "else", "let", "call", "if", "while", "return", "var",
 				"array", "function", "procedure", "main");
+		mCurrentClass = CLASS.NONE;
 	}
 
 	private void number() throws Exception {
@@ -215,6 +222,12 @@ public class MyScanner {
 					ch = sc.next().charAt(0);
 
 				while ( ignoreTillEndLine || ch == ' ' || ch == '\t' || ch == '\n' || (int)ch == 13) {
+					if(!sc.hasNext()) {
+						/* EOF */
+						currentToken = ScannerUtils.eofToken;
+						return;
+					}
+					
 					if(ch == '\n') {
 						linecount++;
 						ignoreTillEndLine = false;
@@ -241,7 +254,7 @@ public class MyScanner {
 						handleKeyword(token);
 					} else {
 						currentToken = ScannerUtils.ident;
-						id = string2Id(token);
+						id = Utils.identifier2Address(token, valuesForArrays, mCurrentClass);
 					}
 					break;
 				} else {
@@ -255,19 +268,11 @@ public class MyScanner {
 		}
 	}
 
-	public String id2String(int id) throws Exception {
-		if (id >= idTable.size() || id < 0)
-			Utils.error("ID NOT FOUND");
-		return idTable.get(id);
+	public void setValues(ArrayList<Integer> values) {
+		Utils.SOPln("We have edited values "+values);
+		valuesForArrays = values;
 	}
 
-	public int string2Id(String name) {
-		if (!idTable.contains(name))
-			idTable.add(name);
-
-		return idTable.indexOf(name);
-	}
-	
 	@Override
 	protected void finalize() throws Throwable {
 		if(!shutDown)
@@ -279,7 +284,6 @@ public class MyScanner {
 	protected void shutDown() {
 		sc.close();
 		keywords = null;
-		idTable = null;
 		shutDown = true;
 	}
 }

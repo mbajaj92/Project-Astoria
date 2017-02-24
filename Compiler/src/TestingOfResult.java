@@ -1,4 +1,4 @@
-import Utilities.MyScanner;
+/*import Utilities.MyScanner;
 import Utilities.Result;
 import Utilities.ScannerUtils;
 import Utilities.Utils;
@@ -20,11 +20,11 @@ public class TestingOfResult {
 				Utils.error("Expected } got " + sc.currentToken);
 		} else if (sc.currentToken == ScannerUtils.number) {
 			X.kind = RESULT_KIND.CONST;
-			X.value = sc.val;
+			X.valueIfConstant = sc.val;
 			sc.next();
 		} else if (sc.currentToken == ScannerUtils.ident) {
 			X.kind = RESULT_KIND.VAR;
-			X.address = COUNTER++;
+			X.addressIfVariable = COUNTER++;
 			sc.next();
 		}
 		return X;
@@ -36,15 +36,15 @@ public class TestingOfResult {
 			sc.next(); // consumed
 			Result Y = F();
 			if(X.kind == RESULT_KIND.CONST && Y.kind == RESULT_KIND.CONST) {
-				X.value *= Y.value;
+				X.valueIfConstant *= Y.valueIfConstant;
 			} else if (Y.kind == RESULT_KIND.CONST) {
 				Utils.load(X);
-				Utils.put(CODE.MULI, X.instructionIndex, X.instructionIndex, Y.value);
+				Utils.put(CODE.MULI, X.instruction, X.instruction, Y.valueIfConstant);
 			} else {
 				Utils.load(X);
 				Utils.load(Y);
-				Utils.put(CODE.MUL,X.instructionIndex,X.instructionIndex,Y.instructionIndex);
-				Utils.deallocateRegister(Y.instructionIndex);
+				Utils.put(CODE.MUL,X.instruction,X.instruction,Y.instruction);
+				Utils.deallocateRegister(Y.instruction);
 			}
 		}
 		return X;
@@ -56,15 +56,15 @@ public class TestingOfResult {
 			sc.next(); // consumed
 			Result Y = T();
 			if(X.kind == RESULT_KIND.CONST && Y.kind == RESULT_KIND.CONST) {
-				X.value += Y.value;
+				X.valueIfConstant += Y.valueIfConstant;
 			} else if (Y.kind == RESULT_KIND.CONST) {
 				Utils.load(X);
-				Utils.put(CODE.ADDI, X.instructionIndex, X.instructionIndex, Y.value);
+				Utils.put(CODE.ADDI, X.instruction, X.instruction, Y.valueIfConstant);
 			} else {
 				Utils.load(X);
 				Utils.load(Y);
-				Utils.put(CODE.ADD,X.instructionIndex,X.instructionIndex,Y.instructionIndex);
-				Utils.deallocateRegister(Y.instructionIndex);
+				Utils.put(CODE.ADD,X.instruction,X.instruction,Y.instruction);
+				Utils.deallocateRegister(Y.instruction);
 			}
 		}
 		return X;
@@ -85,9 +85,9 @@ public class TestingOfResult {
 	}
 
 	public static void main(String args[]) throws Exception {
-		sc = ScannerUtils.getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Test.txt");
+		sc = ScannerUtils.getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Utilities\\Test Cases\\Test.txt");
 		sc.next(); // get next token
 		S();
 		System.out.println("THIS ENDS HERE");
 	}
-}
+}*/

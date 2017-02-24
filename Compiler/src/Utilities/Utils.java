@@ -1,14 +1,64 @@
 package Utilities;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import Utilities.MyScanner.CLASS;
 
 public class Utils {
+	public static final boolean COM_SUBEX_ELIM = true;
+	public static final boolean COPY_PROP = true;
+
+	private static ArrayList<String> idTable = null;
+	private static HashMap<Integer,ArrayList<Integer>> arrayInfoTable = null;
+
+	public static void nullCheck() {
+		if (idTable == null)
+			idTable = new ArrayList<String>();
+
+		if (arrayInfoTable == null)
+			arrayInfoTable = new HashMap<Integer, ArrayList<Integer>>();
+	}
+
+	public static String address2Identifier(int id) throws Exception {
+		nullCheck();
+
+		if (id >= idTable.size() || id < 0)
+			Utils.error("ID "+id+" NOT FOUND");
+
+		return idTable.get(id);
+	}
+
+	public static int identifier2Address(String name, Object extra, CLASS mClass) {
+		nullCheck();
+
+		if (!idTable.contains(name)) {
+			idTable.add(name);
+			Utils.SOPln(name + " = &" + (idTable.size()-1));
+
+			if (mClass == CLASS.ARR) {
+				Utils.SOPln(name+" ARR = &" + extra);
+				arrayInfoTable.put((idTable.size() - 1), (ArrayList<Integer>) extra);
+			}
+
+		}
+		return idTable.indexOf(name);
+	}
+
+	public static void SOPln(Object toPrint) {
+		SOP(toPrint.toString() + "\n");
+	}
+
+	public static void SOP(Object toPrint) {
+		System.out.print(toPrint.toString());
+	}
 
 	public static enum RESULT_KIND {
-		CONST, VAR, INS, CONDITION
+		CONST, VAR, INSTRUCTION, CONDITION
 	};
-	
+
 	public static enum CODE {
-		ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, MOV 
+		ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi
 	};
 
 	final public static boolean BINARY = false;
@@ -16,21 +66,13 @@ public class Utils {
 	public static int stackPointer = 0;
 	private static ArrayList<Integer> buffer = new ArrayList<Integer>();
 	private static ArrayList<String> tempResult = new ArrayList<String>();
-	public static ArrayList<Instruction> inslist = new ArrayList<Instruction>();
 
-	public static void conditionalJump(Result X) throws Exception {
-		put(negateCondition(X.cond), X.instructionIndex, 0, 0);
-		X.fixuplocation = programCounter - 1;
-	}
-
-	public static int getCurrentInstructionIndex() {
-		return inslist.size() - 1;
-	}
-
+	/*TODO: need to fixup; later*/
 	public static void fixup(int index) {
-		Instruction i = inslist.get(index);
-		i.aIns = getCurrentInstructionIndex()+1-index;
-		System.out.println(i);
+		SOPln("We are fixing up for index " + index);
+		/*Instruction i = Instruction.instructionList.get(index);
+		i.fixup(Instruction.getCurrentInstructionIndex() + 1 - index);
+		SOPln(i);*/
 	}
 
 	public static void fixupOld(int index) {
@@ -74,12 +116,12 @@ public class Utils {
 
 		cbits = format(cbits, 26);
 		if (BINARY) {
-			System.out.println(op + "-" + cbits);
+			SOPln(op + "-" + cbits);
 		} else {
-			System.out.println(operation + " " + c);
+			SOPln(operation + " " + c);
 		}
 		buffer.add(programCounter, Integer.parseInt(op + cbits));
-		tempResult.add(programCounter++, operation+" c = "+c);
+		tempResult.add(programCounter++, operation + " c = " + c);
 	}
 
 	private static void putF2(int code, int a, int b, int c, String operation) throws Exception {
@@ -104,12 +146,13 @@ public class Utils {
 		String cbits = Integer.toBinaryString(c);
 		cbits = format(cbits, 16);
 		if (BINARY)
-			System.out.println(op + "-" + abits + "-" + bbits + "-" + cbits);
+			SOPln(op + "-" + abits + "-" + bbits + "-" + cbits);
 		else
-			System.out.println(operation + " " + a + " " + b + " " + c);
+			SOPln(operation + " " + a + " " + b + " " + c);
 
-		//buffer.add(programCounter, Integer.parseInt(op + abits + bbits + cbits));
-		tempResult.add(programCounter++, operation+" a = "+a+" b = "+b+" c = "+c);
+		// buffer.add(programCounter, Integer.parseInt(op + abits + bbits +
+		// cbits));
+		tempResult.add(programCounter++, operation + " a = " + a + " b = " + b + " c = " + c);
 	}
 
 	private static void putF1(int code, int a, int b, int c, String operation) throws Exception {
@@ -126,7 +169,7 @@ public class Utils {
 	}
 
 	public static void emit(String command) {
-		System.out.println(command);
+		SOPln(command);
 	}
 
 	public static void put(CODE op, int a, int b, int c) throws Exception {
@@ -330,132 +373,125 @@ public class Utils {
 		return -1;
 	}
 
-	public static void handleBecomes(Result X, Result Y) throws Exception {
-		if(Y.kind == RESULT_KIND.CONST) {
-			Instruction i = Instruction.getInstruction(CODE.ADDI, getCurrentInstructionIndex()+1, "#"+Y.value);
-			X.instructionIndex = i.index;
-		} else {
-			load(Y);
-			Instruction i = Instruction.getInstruction(CODE.MOV,Y.instructionIndex, -1);
-			X.instructionIndex = i.index;
-		}
-	}
-
 	public static void compute(int opCode, Result X, Result Y) throws Exception {
-		if(opCode == ScannerUtils.becomesToken)
+		if (opCode == ScannerUtils.becomesToken)
 			error("DO NOT CALL COMPUTE FOR BECOMES");
 
 		if (X.kind == RESULT_KIND.CONST && Y.kind == RESULT_KIND.CONST) {
 			switch (opCode) {
 			case ScannerUtils.plusToken:
-				X.value += Y.value;
+				X.valueIfConstant += Y.valueIfConstant;
 				break;
 			case ScannerUtils.minusToken:
-				X.value -= Y.value;
+				X.valueIfConstant -= Y.valueIfConstant;
 				break;
 			case ScannerUtils.timesToken:
-				X.value *= Y.value;
+				X.valueIfConstant *= Y.valueIfConstant;
 				break;
 			case ScannerUtils.divToken:
-				X.value /= Y.value;
+				X.valueIfConstant /= Y.valueIfConstant;
 				break;
 			}
 		} else {
-			load(X);
-/*			if (X.instructionIndex == 0) {
-				X.instructionIndex = allocateRegister();
-				//Instruction i = new Instruction()
-				//put(CODE.ADD, X.regno, 0, 0);
-			}
-*/
-			if(Y.kind == RESULT_KIND.CONST) {
-				CODE command = null;
-				switch(opCode) {
-				case ScannerUtils.becomesToken:
-					command = CODE.STX;
-					break;
-				case ScannerUtils.plusToken:
-					command = CODE.ADDI;
-					break;
-				case ScannerUtils.minusToken:
-					command = CODE.SUBI;
-					break;
-				case ScannerUtils.timesToken:
-					command = CODE.MULI;
-					break;
-				case ScannerUtils.divToken:
-					command = CODE.DIVI;
-					break;
-				case ScannerUtils.leqToken:
-				case ScannerUtils.neqToken:
-				case ScannerUtils.eqlToken:
-				case ScannerUtils.geqToken:
-				case ScannerUtils.gtrToken:
-				case ScannerUtils.lssToken:
-					command = CODE.CMPI;
-					break;
-				}
-				Instruction i = Instruction.getInstruction(command, X.instructionIndex, "#"+Y.value);
-				X.instructionIndex = i.index;
-				if(command == CODE.CMPI)
-					handleCompare(opCode);
-
-				//put(command,X.regno,X.regno,Y.value);
-			} else {
+			if ((opCode == ScannerUtils.plusToken || opCode == ScannerUtils.timesToken) && X.kind == RESULT_KIND.CONST
+					&& Y.kind != RESULT_KIND.CONST) {
 				load(Y);
-				CODE command = null;
-				switch(opCode) {
-				case ScannerUtils.plusToken:
-					command = CODE.ADD;
-					break;
-				case ScannerUtils.minusToken:
-					command = CODE.SUB;
-					break;
-				case ScannerUtils.timesToken:
-					command = CODE.MUL;
-					break;
-				case ScannerUtils.divToken:
-					command = CODE.DIV;
-					break;
-				case ScannerUtils.leqToken:
-				case ScannerUtils.neqToken:
-				case ScannerUtils.eqlToken:
-				case ScannerUtils.geqToken:
-				case ScannerUtils.gtrToken:
-				case ScannerUtils.lssToken:
-					command = CODE.CMP;
-					break;
-				}
-				Instruction i = Instruction.getInstruction(command, X.instructionIndex, Y.instructionIndex);
-				X.instructionIndex = i.index;
-				if(command == CODE.CMP)
-					handleCompare(opCode);
+				X.instruction = Instruction.getInstruction(opCode == ScannerUtils.plusToken ? CODE.ADDI : CODE.MULI,
+						Y.instruction, "#" + X.valueIfConstant);
+				X.kind = RESULT_KIND.INSTRUCTION;
+			} else {
 
-				/*put(command,X.regno,X.regno,Y.regno);
-				deallocateRegister(Y.regno);*/
+				load(X);
+				if (Y.kind == RESULT_KIND.CONST) {
+					CODE command = null;
+					switch (opCode) {
+					case ScannerUtils.becomesToken:
+						command = CODE.STX;
+						break;
+					case ScannerUtils.plusToken:
+						command = CODE.ADDI;
+						break;
+					case ScannerUtils.minusToken:
+						command = CODE.SUBI;
+						break;
+					case ScannerUtils.timesToken:
+						command = CODE.MULI;
+						break;
+					case ScannerUtils.divToken:
+						command = CODE.DIVI;
+						break;
+					case ScannerUtils.leqToken:
+					case ScannerUtils.neqToken:
+					case ScannerUtils.eqlToken:
+					case ScannerUtils.geqToken:
+					case ScannerUtils.gtrToken:
+					case ScannerUtils.lssToken:
+						command = CODE.CMPI;
+						break;
+					}
+					X.instruction = Instruction.getInstruction(command, X.instruction, "#" + Y.valueIfConstant);
+					if (command == CODE.CMPI)
+						handleCompare(opCode);
+
+					// put(command,X.regno,X.regno,Y.value);
+				} else {
+					load(Y);
+					CODE command = null;
+					switch (opCode) {
+					case ScannerUtils.plusToken:
+						command = CODE.ADD;
+						break;
+					case ScannerUtils.minusToken:
+						command = CODE.SUB;
+						break;
+					case ScannerUtils.timesToken:
+						command = CODE.MUL;
+						break;
+					case ScannerUtils.divToken:
+						command = CODE.DIV;
+						break;
+					case ScannerUtils.leqToken:
+					case ScannerUtils.neqToken:
+					case ScannerUtils.eqlToken:
+					case ScannerUtils.geqToken:
+					case ScannerUtils.gtrToken:
+					case ScannerUtils.lssToken:
+						command = CODE.CMP;
+						break;
+					}
+
+					X.instruction = Instruction.getInstruction(command, X.instruction, Y.instruction);
+					if (command == CODE.CMP)
+						handleCompare(opCode);
+
+					/*
+					 * put(command,X.regno,X.regno,Y.regno);
+					 * deallocateRegister(Y.regno);
+					 */
+				}
 			}
 		}
 	}
 
 	public static void handleCompare(int code) {
-		switch(code) {
+		switch (code) {
 		case ScannerUtils.leqToken:
-			Instruction.getInstruction(CODE.BGT, -1, -1);
+			Instruction.getInstruction(CODE.BGT);
 			break;
 		case ScannerUtils.neqToken:
-			Instruction.getInstruction(CODE.BEQ, -1, -1);
+			Instruction.getInstruction(CODE.BEQ);
 			break;
 		case ScannerUtils.eqlToken:
-			Instruction.getInstruction(CODE.BNE, -1, -1);
+			Instruction.getInstruction(CODE.BNE);
 			break;
 		case ScannerUtils.geqToken:
-			Instruction.getInstruction(CODE.BLT, -1, -1);
+			Instruction.getInstruction(CODE.BLT);
 			break;
 		case ScannerUtils.gtrToken:
-			Instruction.getInstruction(CODE.BLE, -1, -1);
+			Instruction.getInstruction(CODE.BLE);
 			break;
 		case ScannerUtils.lssToken:
-			Instruction.getInstruction(CODE.BGE, -1, -1);
+			Instruction.getInstruction(CODE.BGE);
 			break;
 		}
 	}
@@ -464,21 +500,40 @@ public class Utils {
 		registers[regNo] = false;
 	}
 
-	public static void load(Result R) throws Exception{
-		Instruction i = null;
+	public static void load(Result R) {
 		if (R.kind == RESULT_KIND.CONST) {
-			//put(CODE.ADDI, R.instructionIndex, 0, R.value);
-			i = Instruction.getInstruction(CODE.ADDI, "#0", "#"+R.value);
-			R.instructionIndex = i.index;
-		} else if (R.kind == RESULT_KIND.VAR) {
-			i = Instruction.getInstruction(CODE.LDW, "#30", "#"+R.address);
-			R.instructionIndex = i.index;
-			//put(CODE.LDW,R.instructionIndex,30,R.address);
+			R.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + R.valueIfConstant);
+		} else if (R.kind == RESULT_KIND.VAR && !R.isArray) {
+			R.instruction  = Instruction.getInstruction(CODE.load, "#30", "&" + R.addressIfVariable);
+		} else if (R.kind == RESULT_KIND.VAR && R.isArray) {/*
+			load(R.arrayExp);
+			Instruction one = Instruction.getInstruction(CODE.MULI, R.arrayExp.instruction, "#4");
+			Instruction two = Instruction.getInstruction(CODE.ADDA, "#32", "#" + R.addressIfVariable);
+			R.instruction = Instruction.getInstruction(CODE.load/store, one, two);*/
 		}
-		R.kind = RESULT_KIND.INS;
+		R.kind = RESULT_KIND.INSTRUCTION;
+	}
+
+	public static void becomes(Result X, Result Y) {
+		load(Y);
+		if (!X.isArray) {
+			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction);
+		} else {
+			Utils.SOPln("Array Encountered, need to do something");
+		}
 	}
 
 	public static void error(String errorMsg) throws Exception {
 		throw new Exception(errorMsg);
+	}
+	
+	public static void printArrayTable() {
+		for(Integer key:arrayInfoTable.keySet()) {
+			ArrayList<Integer> list = arrayInfoTable.get(key);
+			Utils.SOP(key+": ");
+			for(Integer value:list)
+				Utils.SOP(" "+value);
+			Utils.SOPln("");
+		}
 	}
 }

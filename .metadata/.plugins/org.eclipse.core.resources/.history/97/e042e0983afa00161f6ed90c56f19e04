@@ -1,0 +1,229 @@
+package Utilities;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import Utilities.Utils.CODE;
+
+public class BasicBlock {
+	public String TAG;
+	public static ArrayList<BasicBlock> basicBlockList;
+	public int index = -1;
+	public boolean oneON = false, twoON = false;
+	public BasicBlock oneChild, twoChild;
+	private ArrayList<Instruction> mInstructionSet = null;
+	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE,CODE.BEQ,CODE.BGT,CODE.BLE,CODE.BLT,CODE.BNE, CODE.BSR);
+	private static List<CODE> notToBeAnchored = Arrays.asList(CODE.phi, CODE.BEQ, CODE.BGE, CODE.BLE, CODE.BGT,
+			CODE.BLT, CODE.BNE);
+	private HashMap<CODE,Instruction> anchor = null;
+	private HashMap<String,Instruction> lastAccessTable = null;
+	
+	BasicBlock(String tag, boolean isNewCurrent) {
+		TAG = tag;
+		nullCheck();
+		mInstructionSet = new ArrayList<Instruction>();
+		anchor = new HashMap<CODE,Instruction>();
+		lastAccessTable = new HashMap<String,Instruction>();
+
+		if (isNewCurrent) {
+			basicBlockList.add(this);
+			index = basicBlockList.size()-1;
+		}
+	}
+
+	public Instruction getAnchorInstructionForCode(CODE code) {
+		if (anchor.containsKey(code))
+			return anchor.get(code);
+		return null;
+	}
+
+	public void addInstruction(Instruction i, boolean updateAnchor) {
+		CODE code = i.getCode();
+		if (updateAnchor  && !notToBeAnchored.contains(code)) {
+			//TODO: take care of LDW and STX
+
+			if (anchor.containsKey(code))
+				// Utils.SOPln("Adding Previous for Instruction "+i+" where prev
+				// is "+anchor.get(code));
+				i.setPreviousInAnchor(anchor.get(code));
+			
+			anchor.put(code, i);
+		}
+		mInstructionSet.add(i);
+	}
+
+	public void setAsCurrent() {
+		basicBlockList.add(this);
+		index = basicBlockList.size()-1;
+	}
+
+	public static BasicBlock getCurrentBasicBlock() {
+		return basicBlockList.get(basicBlockList.size() - 1);
+	}
+
+	public void copyParentLastAccess(BasicBlock child) {
+		child.lastAccessTable.putAll(lastAccessTable);
+	}
+
+	public void updateDataStructures(BasicBlock parent) {
+		anchor.putAll(parent.anchor);
+		if (mInstructionSet.isEmpty()) {
+			lastAccessTable.putAll(parent.lastAccessTable);
+			return;
+		}
+
+		for (Instruction i : mInstructionSet)
+			lastAccessTable.put(i.phiFor, i);
+
+		for (String key : parent.lastAccessTable.keySet()) {
+			if (lastAccessTable.containsKey(key))
+				continue;
+			lastAccessTable.put(key, parent.lastAccessTable.get(key));
+		}
+	}
+
+	public void setChild(BasicBlock child, boolean sameChildInDominotorAndCFG) throws Exception {
+		if (!oneON) {
+			oneChild = child;
+			oneON = true;
+		} else if (!twoON) {
+			twoChild = child;
+			twoON = true;
+		} else
+			Utils.error("Adding 3rd Child is not allowed");
+
+		if(sameChildInDominotorAndCFG) {
+			updateDataStructures(child);
+			copyParentLastAccess(child);
+		}
+	}
+
+	public void addPhi(String value, Instruction ins, boolean left) {
+		nullCheck();
+		Instruction phiInstruction = null;
+		Instruction leftIns = null, rightIns = null;
+		for (Instruction i : mInstructionSet) {
+			if (i.getCode() == CODE.phi && i.phiFor != null ? i.phiFor.equals(value) : false) {
+				phiInstruction = i;
+				break;
+			}
+		}
+
+		if (left) {
+			if (phiInstruction != null)
+				phiInstruction.aInstruction = ins;
+			else
+				leftIns = ins;
+		} else {
+			if (phiInstruction != null)
+				phiInstruction.bInstruction = ins;
+			else
+				rightIns = ins;
+		}
+
+		if (phiInstruction == null) {
+			phiInstruction = Instruction.getInstruction(CODE.phi, leftIns, rightIns, false);
+			phiInstruction.phiFor = value;
+			mInstructionSet.add(0,phiInstruction);
+		}
+	}
+
+	private void nullCheck() {
+		if (basicBlockList == null)
+			basicBlockList = new ArrayList<BasicBlock>();
+	}
+
+	public void whileFix(BasicBlock stopBock, ArrayList<Instruction> phInstructions, ArrayList<Instruction> phiParams) {
+	
+	}
+	
+	public void fixPhis(BasicBlock leftBlock, BasicBlock rightBlock, boolean isWhile) {
+		ArrayList<Instruction> phiInstructions = null, phiParams = null;
+		if (isWhile) {
+			phiInstructions = new ArrayList<Instruction>();
+			phiParams = new ArrayList<Instruction>();
+		}
+
+		for (Instruction i : mInstructionSet) {
+			if ((i.getCode() != CODE.phi) || (i.bInstruction != null && i.aInstruction != null))
+				continue;
+
+			if (isWhile)
+				phiInstructions.add(i);
+
+			if (i.aInstruction == null) {
+				if (!leftBlock.lastAccessTable.containsKey(i.phiFor)) {
+					i.warning = Instruction.toStringConstant(i.phiFor) + " doesn't exist in left chain";
+				} else
+					i.aInstruction = leftBlock.lastAccessTable.get(i.phiFor);
+			} else {
+				if (!rightBlock.lastAccessTable.containsKey(i.phiFor)) {
+					i.warning = Instruction.toStringConstant(i.phiFor) + " doesn't exist in right chain";
+				} else
+					i.bInstruction = rightBlock.lastAccessTable.get(i.phiFor);
+			}
+
+			if (isWhile) {
+				phiParams.add(i.aInstruction);
+				phiParams.add(i.bInstruction);
+			}
+			whileFix(this, phiInstructions, phiParams);
+			phiInstructions = null;
+			phiParams = null
+		}
+	}
+
+	public void fixUp() {
+		//Utils.SOPln("\nFIXING UP BLOCK "+this+"\n-------\n");
+		if (mInstructionSet.isEmpty())
+			return;
+
+		Instruction lastInstruction = getLastInstruction();
+		if (!toBeFixed.contains(lastInstruction.getCode()))
+			return;
+
+		if (lastInstruction.getCode() == CODE.BSR) {
+			lastInstruction.fixup(oneChild.getFirstInstruction());
+		} else
+			lastInstruction.fixup(twoChild.getFirstInstruction());
+
+	}
+
+	public Instruction getLastInstruction() {
+		return mInstructionSet.get(mInstructionSet.size() - 1);
+	}
+
+	public void updateLastAccessFor(String key, Instruction value) {
+		lastAccessTable.put(key, value);
+	}
+
+	public Instruction getLastAccessFor(String value) {
+		if (!lastAccessTable.containsKey(value))
+			return null;
+		return lastAccessTable.get(value);
+	}
+
+	public Instruction getFirstInstruction() {
+		int counter = 0;
+		while (mInstructionSet.get(counter).hasReferenceInstruction() && counter < mInstructionSet.size())
+			counter++;
+		if (counter < mInstructionSet.size())
+			return mInstructionSet.get(counter);
+
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		String returnString = "";
+		if (!mInstructionSet.isEmpty()) {
+			returnString = "\nTAG: "+TAG;
+			for(Instruction i:mInstructionSet)
+				returnString+="\n"+i;
+			return returnString;
+		}
+		return "\nTAG: "+TAG+"  THIS IS LAST BB, we have no Instructions because we are a sucks !!";
+	}
+}

@@ -1,0 +1,17 @@
+main
+
+{
+	let c<-9;
+	let g<-9;
+	let m<-c+10;
+	let a<-7+b;
+	let c<-8*a;
+	let b<-c;
+	if a<10 then
+		let a<-7+b;
+	else
+		let f<-f+1;
+	fi;
+
+	let g<- e+f;
+}.

@@ -1,5 +1,6 @@
 import Utilities.MyScanner;
 import Utilities.ScannerUtils;
+import Utilities.Utils;
 
 public class BasicScannerTesting {
 	/**
@@ -13,15 +14,15 @@ public class BasicScannerTesting {
 			sc.next();
 			int token = sc.currentToken;
 			if(token == ScannerUtils.eofToken) {
-				System.out.println("EOF");
+				Utils.SOPln("EOF");
 				break;
 			}
 			else if (token == ScannerUtils.number) {
-				System.out.println("input was "+sc.val);
+				Utils.SOPln("input was "+sc.val);
 			} else if (token == ScannerUtils.ident) {
-				System.out.println("input was "+sc.id);
+				Utils.SOPln("input was "+sc.id);
 			} else {
-				System.out.println("input was something   "+sc.currentToken);
+				Utils.SOPln("input was something   "+sc.currentToken);
 			}
 		}
 	}

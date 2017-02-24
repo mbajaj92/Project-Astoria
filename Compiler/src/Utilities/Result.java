@@ -1,14 +1,17 @@
 package Utilities;
 
+import java.util.ArrayList;
+
 import Utilities.Utils.CODE;
 import Utilities.Utils.RESULT_KIND;
 
 public class Result {
 
 	public RESULT_KIND kind;
-	public int value;
-	public int address;
-	public int instructionIndex;
+	public boolean isArray;
+	public ArrayList<Result> arrayExp;
+	public int valueIfConstant;
+	public int addressIfVariable;
+	public Instruction instruction;
 	public CODE cond;
-	public int fixuplocation;
 }

@@ -1,0 +1,414 @@
+package Utilities;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+import Utilities.MyScanner.CLASS;
+import Utilities.Utils.CODE;
+import Utilities.Utils.RESULT_KIND;
+
+public class Grammer {
+	private static Stack<BasicBlock> joinStack = new Stack<BasicBlock>();
+
+	private static BasicBlock joinBlock = null;
+	private static BasicBlock leftBlock = null;
+	private static BasicBlock rightBlock = null;
+
+	private static MyScanner sc;
+	private static ArrayList<Integer> valuesForArray = null;
+	private static int relOp() throws Exception {
+		int code = -1;
+		switch (sc.currentToken) {
+		case ScannerUtils.leqToken:
+		case ScannerUtils.neqToken:
+		case ScannerUtils.eqlToken:
+		case ScannerUtils.geqToken:
+		case ScannerUtils.gtrToken:
+		case ScannerUtils.lssToken:
+			code = sc.currentToken;
+			sc.next();
+			break;
+		default:
+			Utils.error("Expected Relational Operator Token, got " + sc.token + " at line " + sc.linecount);
+		}
+		return code;
+	}
+
+	private static Result relation() throws Exception {
+		Result X = expression();
+		int code = relOp();
+		Result Y = expression();
+		Utils.compute(code, X, Y);
+		return X;
+	}
+
+	private static Result expression() throws Exception {
+		Result X = term();
+		while (sc.currentToken == ScannerUtils.plusToken || sc.currentToken == ScannerUtils.minusToken) {
+			int code = sc.currentToken;
+			sc.next();
+			Result Y = term();
+			Utils.compute(code, X, Y);
+		}
+		return X;
+	}
+
+	private static Result term() throws Exception {
+		Result X = factor();
+		while (sc.currentToken == ScannerUtils.timesToken || sc.currentToken == ScannerUtils.divToken) {
+			int code = sc.currentToken;
+			sc.next();
+			Result Y = factor();
+			Utils.compute(code, X, Y);
+		}
+		return X;
+	}
+
+	private static Result factor() throws Exception {
+		Result X = new Result();
+		switch (sc.currentToken) {
+		case ScannerUtils.ident:
+			X = designator();
+			break;
+		case ScannerUtils.number:
+			X = number();
+			break;
+		case ScannerUtils.openparanToken:
+			sc.next();
+			X = expression();
+			if (sc.currentToken != ScannerUtils.closeparanToken)
+				Utils.error("Expected ) token, got " + sc.token + " at line " + sc.linecount);
+			sc.next();
+			break;
+		case ScannerUtils.callToken:
+			funcCall();
+			break;
+		}
+		return X;
+	}
+
+	private static Result designator() throws Exception {
+		Result X = ident();
+		while (sc.currentToken == ScannerUtils.openbracketToken) {
+			sc.next();
+			if(!X.isArray) {
+				X.arrayExp = new ArrayList<Result>();
+				X.isArray = true;
+			}
+			X.arrayExp.add(expression());
+			if (sc.currentToken != ScannerUtils.closebracketToken)
+				Utils.error("Expected token ], got " + sc.token + " at line " + sc.linecount);
+			sc.next();
+		}
+		return X;
+	}
+
+	private static void returnStatement() throws Exception {
+		if (sc.currentToken != ScannerUtils.returnToken)
+			Utils.error("Expected return token, got " + sc.token + " at line " + sc.linecount);
+		sc.next();
+
+		expression();
+	}
+
+	private static void whileStatement() throws Exception {
+		if (sc.currentToken != ScannerUtils.whileToken)
+			Utils.error("Expected while token, got " + sc.token + " at line " + sc.linecount);
+		sc.next();
+
+		BasicBlock previousBlock = BasicBlock.getCurrentBasicBlock();
+		BasicBlock loopHeader = new BasicBlock("LOOP_HEADER",true);
+		previousBlock.setChild(loopHeader, true);
+		relation();
+		
+		if (sc.currentToken == ScannerUtils.doToken) {
+			sc.next();
+			BasicBlock doBlock = new BasicBlock("DO_BLOCK",true);
+			loopHeader.setChild(doBlock, true);
+			statSequence();
+
+			Instruction.getInstruction(CODE.BSR);
+			doBlock.setChild(loopHeader, false);
+
+			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW",true);
+			loopHeader.setChild(followBlock, true);
+
+			if (sc.currentToken != ScannerUtils.odToken)
+				Utils.error("Expected od token, got " + sc.token + " at line " + sc.linecount);
+			//Utils.fixup(fixupIndex);
+			sc.next();
+		} else
+			Utils.error("Expected do token, got " + sc.token + " at line " + sc.linecount);
+	}
+
+	private static void ifStatement() throws Exception {
+		if (sc.currentToken != ScannerUtils.ifToken)
+			Utils.error("Expected If token, got " + sc.token + " at line " + sc.linecount);
+		sc.next();
+
+		relation();
+
+		BasicBlock prevBlock = BasicBlock.getCurrentBasicBlock();
+		BasicBlock ifHeader = new BasicBlock("IF_HEADER",true);
+		prevBlock.setChild(ifHeader, true);
+		BasicBlock thenBlock = new BasicBlock("THEN_BLOCK",true);
+		leftBlock = thenBlock;
+		joinStack.push(joinBlock);
+		joinBlock = new BasicBlock("FOLLOW_BLOCK",false);
+		ifHeader.setChild(thenBlock, true);
+
+		if (sc.currentToken == ScannerUtils.thenToken) {
+			sc.next();
+			statSequence();
+			leftBlock = null;
+			BasicBlock elseBlock = null;
+			rightBlock = ifHeader;
+
+			if (sc.currentToken == ScannerUtils.elseToken) {
+				Instruction.getInstruction(CODE.BSR);
+				sc.next();
+				elseBlock = new BasicBlock("ELSE_BLOCK",true);
+				rightBlock = elseBlock;
+				ifHeader.setChild(elseBlock, true);
+				statSequence();
+			}
+
+			joinBlock.setAsCurrent();
+			BasicBlock followBlock = joinBlock;
+			joinBlock = joinStack.pop();
+			thenBlock.setChild(followBlock, false);
+			if (elseBlock != null) {
+				elseBlock.setChild(followBlock, false);
+			} else {
+				ifHeader.setChild(followBlock, false);
+			}
+			followBlock.fixPhis(thenBlock, rightBlock);
+			followBlock.updateDataStructures(ifHeader);
+
+			if (sc.currentToken == ScannerUtils.fiToken) {
+				/*if (!isElseThere)
+					Utils.fixup(fixupIndex);*/
+
+				sc.next();
+			} else
+				Utils.error("Expected fi token, got " + sc.token + " at line " + sc.linecount);
+		} else
+			Utils.error("Expected then token, got " + sc.token + " at line " + sc.linecount);
+	}
+
+	private static void funcCall() throws Exception {
+		if (sc.currentToken != ScannerUtils.callToken)
+			Utils.error("Expected call token, got " + sc.token + " at line " + sc.linecount);
+		sc.next();
+
+		ident();
+		if (sc.currentToken == ScannerUtils.openparanToken) {
+			sc.next();
+			expression();
+			while (sc.currentToken == ScannerUtils.commaToken) {
+				sc.next();
+				expression();
+			}
+
+			if (sc.currentToken == ScannerUtils.closeparanToken) {
+				sc.next();
+			} else
+				Utils.error("Expected ), got " + sc.token + " at line " + sc.linecount);
+		}
+	}
+
+	private static void assignment() throws Exception {
+		if (sc.currentToken != ScannerUtils.letToken)
+			Utils.error("Expected let token, got " + sc.token + " at line " + sc.linecount);
+		sc.next();
+		Result X = designator();
+		if (sc.currentToken == ScannerUtils.becomesToken) {
+			sc.next();
+			Result Y = expression();
+			Utils.becomes(X,Y,joinBlock,leftBlock,rightBlock);
+		} else
+			Utils.error("Expected <-, got " + sc.token + " at line " + sc.linecount);
+	}
+
+	private static void statement() throws Exception {
+		switch (sc.currentToken) {
+		case ScannerUtils.letToken:
+			assignment();
+			break;
+		case ScannerUtils.callToken:
+			funcCall();
+			break;
+		case ScannerUtils.ifToken:
+			ifStatement();
+			break;
+		case ScannerUtils.whileToken:
+			whileStatement();
+			break;
+		case ScannerUtils.returnToken:
+			returnStatement();
+			break;
+		}
+	}
+
+	private static void statSequence() throws Exception {
+		statement();
+
+		while (sc.currentToken == ScannerUtils.semiToken) {
+			sc.next();
+			statement();
+		}
+	}
+
+	private static void funcBody() throws Exception {
+		while (varDecl())
+			;
+		if (sc.currentToken == ScannerUtils.beginToken) {
+			sc.next();
+			statSequence();
+
+			if (sc.currentToken != ScannerUtils.endToken)
+				Utils.error("Expected } token, but got " + sc.token + " at line " + sc.linecount);
+			sc.next();
+		} else
+			Utils.error("Expected { token, but got " + sc.token + " at line " + sc.linecount);
+	}
+
+	private static void formalParam() throws Exception {
+		if (sc.currentToken == ScannerUtils.openparanToken) {
+			sc.next();
+
+			if (sc.currentToken == ScannerUtils.ident) {
+				sc.next();
+				while (sc.currentToken == ScannerUtils.commaToken) {
+					sc.next();
+					ident();
+				}
+			}
+
+			if (sc.currentToken != ScannerUtils.closeparanToken)
+				Utils.error("Expected ), but found " + sc.token + " at line " + sc.linecount);
+			sc.next();
+		}
+	}
+
+	private static boolean funcDecl() throws Exception {
+		if (sc.currentToken == ScannerUtils.funcToken || sc.currentToken == ScannerUtils.procToken) {
+			sc.next();
+
+			ident();
+			formalParam();
+
+			if (sc.currentToken == ScannerUtils.semiToken) {
+				sc.next();
+				funcBody();
+				if (!(sc.currentToken == ScannerUtils.semiToken))
+					Utils.error("Expected ; but found " + sc.token);
+				sc.next();
+			} else
+				Utils.error("Expected ; but found " + sc.token);
+			return true;
+		}
+		return false;
+	}
+
+	private static Result ident() throws Exception {
+		if (sc.currentToken != ScannerUtils.ident)
+			Utils.error("Expected Identifier, got " + sc.token + " at line " + sc.linecount);
+		Result X = new Result();
+		X.kind = RESULT_KIND.VAR;
+		X.addressIfVariable = sc.id;
+		sc.next();
+		return X;
+	}
+
+	private static Result number() throws Exception {
+		if (sc.currentToken != ScannerUtils.number)
+			Utils.error("Expected number, got " + sc.token + " at line " + sc.linecount);
+		Result X = new Result();
+		X.kind = RESULT_KIND.CONST;
+		X.valueIfConstant = sc.val;
+		sc.next();
+		return X;
+	}
+
+	private static boolean typeDecl() throws Exception {
+		if (sc.currentToken != ScannerUtils.varToken && sc.currentToken != ScannerUtils.arrToken)
+			return false;
+		if (sc.currentToken == ScannerUtils.varToken) {
+			sc.mCurrentClass = CLASS.VAR;
+			valuesForArray = null;
+			sc.next();
+		} else if (sc.currentToken == ScannerUtils.arrToken) {
+			sc.mCurrentClass = CLASS.ARR;
+			sc.next();
+			if (sc.currentToken == ScannerUtils.openbracketToken) {
+				sc.next();
+				if(valuesForArray == null)
+					valuesForArray = new ArrayList<Integer>();
+				else
+					valuesForArray.clear();
+
+				valuesForArray.add(number().valueIfConstant);
+				if (sc.currentToken == ScannerUtils.closebracketToken) {
+					sc.setValues(valuesForArray);
+					sc.next();
+				} else
+					Utils.error("Expected ], but got " + sc.token + " at line " + sc.linecount);
+
+				while (sc.currentToken == ScannerUtils.openbracketToken) {
+					sc.next();
+					valuesForArray.add(number().valueIfConstant);
+					if (sc.currentToken == ScannerUtils.closebracketToken) {
+						sc.setValues(valuesForArray);
+						sc.next();
+					} else
+						Utils.error("Expected ], but got " + sc.token + " at line " + sc.linecount);
+				}
+			} else
+				Utils.error("Expected [, but got " + sc.token + " at line " + sc.linecount);
+		}
+		return true;
+	}
+
+	private static boolean varDecl() throws Exception {
+		if (!typeDecl())
+			return false;
+
+		ident();
+		while (sc.currentToken == ScannerUtils.commaToken) {
+			sc.next();
+			ident();
+		}
+		sc.setValues(null);
+		if (!(sc.currentToken == ScannerUtils.semiToken))
+			Utils.error("Expected ; token, but got " + sc.token + " at line " + sc.linecount);
+		sc.next();
+		sc.mCurrentClass = CLASS.NONE;
+		return true;
+	}
+
+	public static void computation(MyScanner myScan) throws Exception {
+		sc = myScan;
+
+		if (sc.currentToken == ScannerUtils.mainToken) {
+			new BasicBlock("INIT_BLOCK",true);
+
+			sc.next();
+			while (varDecl())
+				;
+			while (funcDecl())
+				;
+			if (sc.currentToken == ScannerUtils.beginToken) {
+				sc.next();
+				statSequence();
+				if (sc.currentToken == ScannerUtils.endToken) {
+					sc.next();
+					if (sc.currentToken != ScannerUtils.periodToken)
+						Utils.error("Expected period token, got " + sc.token + " at line " + sc.linecount);
+				} else
+					Utils.error("Expected } got " + sc.token + " at line " + sc.linecount);
+			}
+		} else
+			Utils.error("Expected main token, got " + sc.token + " at line " + sc.linecount);
+	}
+}

@@ -1,0 +1,18 @@
+main
+{
+	let a<-7+b;
+	let c<-a+b;
+	let x<-0;
+	let m<-m;
+	let madhur<-a+b+c+f+x+m;
+
+	if c<10 then
+		if b<10
+			let d<-x+b;
+		fi;
+	else
+		let a<-7+b;
+	fi;
+	let g<- a+f;
+	let bajaj <- madhur*madhur;
+}.

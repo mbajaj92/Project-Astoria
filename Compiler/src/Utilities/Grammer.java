@@ -1,11 +1,14 @@
 package Utilities;
 
+import java.util.ArrayList;
+
+import Utilities.MyScanner.CLASS;
 import Utilities.Utils.CODE;
 import Utilities.Utils.RESULT_KIND;
 
 public class Grammer {
 	private static MyScanner sc;
-
+	private static ArrayList<Integer> valuesForArray = null;
 	private static int relOp() throws Exception {
 		int code = -1;
 		switch (sc.currentToken) {
@@ -19,7 +22,7 @@ public class Grammer {
 			sc.next();
 			break;
 		default:
-			Utils.error("Expected Relaional Operator Token, got " + sc.token + " at line " + sc.linecount);
+			Utils.error("Expected Relational Operator Token, got " + sc.token + " at line " + sc.linecount);
 		}
 		return code;
 	}
@@ -81,7 +84,11 @@ public class Grammer {
 		Result X = ident();
 		while (sc.currentToken == ScannerUtils.openbracketToken) {
 			sc.next();
-			expression();
+			if(!X.isArray) {
+				X.arrayExp = new ArrayList<Result>();
+				X.isArray = true;
+			}
+			X.arrayExp.add(expression());
 			if (sc.currentToken != ScannerUtils.closebracketToken)
 				Utils.error("Expected token ], got " + sc.token + " at line " + sc.linecount);
 			sc.next();
@@ -102,19 +109,25 @@ public class Grammer {
 			Utils.error("Expected while token, got " + sc.token + " at line " + sc.linecount);
 		sc.next();
 
-		int whileJumpIndex = Utils.getCurrentInstructionIndex() + 1;
+		BasicBlock previousBlock = BasicBlock.getCurrentBasicBlock();
+		BasicBlock loopHeader = new BasicBlock("LOOP_HEADER");
+		previousBlock.setChild(loopHeader, true);
 		relation();
-		int fixupIndex = Utils.getCurrentInstructionIndex();
-		// basic block ends
-		// new basic block starts
+		
 		if (sc.currentToken == ScannerUtils.doToken) {
 			sc.next();
+			BasicBlock doBlock = new BasicBlock("DO_BLOCK");
+			loopHeader.setChild(doBlock, true);
 			statSequence();
-			Instruction.getInstruction(CODE.BSR, whileJumpIndex - (Utils.getCurrentInstructionIndex() + 1), -1);
+			doBlock = BasicBlock.getCurrentBasicBlock();
+			Instruction.getInstruction(CODE.BSR);
+			doBlock.setChild(loopHeader, false);
+			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW");
+			loopHeader.setChild(followBlock, true);
 
 			if (sc.currentToken != ScannerUtils.odToken)
 				Utils.error("Expected od token, got " + sc.token + " at line " + sc.linecount);
-			Utils.fixup(fixupIndex);
+			//Utils.fixup(fixupIndex);
 			sc.next();
 		} else
 			Utils.error("Expected do token, got " + sc.token + " at line " + sc.linecount);
@@ -125,23 +138,34 @@ public class Grammer {
 			Utils.error("Expected If token, got " + sc.token + " at line " + sc.linecount);
 		sc.next();
 
+		BasicBlock prevBlock = BasicBlock.getCurrentBasicBlock();
+		BasicBlock ifHeader = new BasicBlock("IF_HEADER");
+		prevBlock.setChild(ifHeader, true);
 		relation();
-		int fixupIndex = Utils.getCurrentInstructionIndex();
+
+		BasicBlock thenBlock = new BasicBlock("THEN_BLOCK");
+		ifHeader.setChild(thenBlock, true);
+
 		if (sc.currentToken == ScannerUtils.thenToken) {
 			sc.next();
 			statSequence();
-			if (sc.currentToken == ScannerUtils.elseToken) {
-				Utils.fixup(fixupIndex);
-				fixupIndex = -1;
-				sc.next();
-				statSequence();
-			}
-			if (sc.currentToken == ScannerUtils.fiToken) {
-				if (fixupIndex != -1)
-					Utils.fixup(fixupIndex);
+			thenBlock = BasicBlock.getCurrentBasicBlock();
+			BasicBlock elseBlock = null;
 
+			if (sc.currentToken == ScannerUtils.elseToken) {
+				Instruction.getInstruction(CODE.BSR);
 				sc.next();
-			} else
+				elseBlock = new BasicBlock("ELSE_BLOCK");
+				ifHeader.setChild(elseBlock, true);
+				statSequence();
+				elseBlock = BasicBlock.getCurrentBasicBlock();
+			}
+
+			handleFollowBlockForIf(prevBlock, ifHeader, thenBlock, elseBlock);
+
+			if (sc.currentToken == ScannerUtils.fiToken)
+				sc.next();
+			else
 				Utils.error("Expected fi token, got " + sc.token + " at line " + sc.linecount);
 		} else
 			Utils.error("Expected then token, got " + sc.token + " at line " + sc.linecount);
@@ -176,8 +200,7 @@ public class Grammer {
 		if (sc.currentToken == ScannerUtils.becomesToken) {
 			sc.next();
 			Result Y = expression();
-			Utils.handleBecomes(X,Y);
-			//Utils.compute(code, X, Y);
+			Utils.becomes(X,Y);
 		} else
 			Utils.error("Expected <-, got " + sc.token + " at line " + sc.linecount);
 	}
@@ -268,7 +291,7 @@ public class Grammer {
 			Utils.error("Expected Identifier, got " + sc.token + " at line " + sc.linecount);
 		Result X = new Result();
 		X.kind = RESULT_KIND.VAR;
-		X.address = sc.id;
+		X.addressIfVariable = sc.id;
 		sc.next();
 		return X;
 	}
@@ -278,7 +301,7 @@ public class Grammer {
 			Utils.error("Expected number, got " + sc.token + " at line " + sc.linecount);
 		Result X = new Result();
 		X.kind = RESULT_KIND.CONST;
-		X.value = sc.val;
+		X.valueIfConstant = sc.val;
 		sc.next();
 		return X;
 	}
@@ -286,23 +309,32 @@ public class Grammer {
 	private static boolean typeDecl() throws Exception {
 		if (sc.currentToken != ScannerUtils.varToken && sc.currentToken != ScannerUtils.arrToken)
 			return false;
-
 		if (sc.currentToken == ScannerUtils.varToken) {
+			sc.mCurrentClass = CLASS.VAR;
+			valuesForArray = null;
 			sc.next();
 		} else if (sc.currentToken == ScannerUtils.arrToken) {
+			sc.mCurrentClass = CLASS.ARR;
 			sc.next();
 			if (sc.currentToken == ScannerUtils.openbracketToken) {
 				sc.next();
-				number();
+				if(valuesForArray == null)
+					valuesForArray = new ArrayList<Integer>();
+				else
+					valuesForArray.clear();
+
+				valuesForArray.add(number().valueIfConstant);
 				if (sc.currentToken == ScannerUtils.closebracketToken) {
+					sc.setValues(valuesForArray);
 					sc.next();
 				} else
 					Utils.error("Expected ], but got " + sc.token + " at line " + sc.linecount);
 
 				while (sc.currentToken == ScannerUtils.openbracketToken) {
 					sc.next();
-					number();
+					valuesForArray.add(number().valueIfConstant);
 					if (sc.currentToken == ScannerUtils.closebracketToken) {
+						sc.setValues(valuesForArray);
 						sc.next();
 					} else
 						Utils.error("Expected ], but got " + sc.token + " at line " + sc.linecount);
@@ -322,9 +354,11 @@ public class Grammer {
 			sc.next();
 			ident();
 		}
+		sc.setValues(null);
 		if (!(sc.currentToken == ScannerUtils.semiToken))
 			Utils.error("Expected ; token, but got " + sc.token + " at line " + sc.linecount);
 		sc.next();
+		sc.mCurrentClass = CLASS.NONE;
 		return true;
 	}
 
@@ -332,6 +366,8 @@ public class Grammer {
 		sc = myScan;
 
 		if (sc.currentToken == ScannerUtils.mainToken) {
+			new BasicBlock("INIT_BLOCK");
+
 			sc.next();
 			while (varDecl())
 				;
@@ -349,5 +385,40 @@ public class Grammer {
 			}
 		} else
 			Utils.error("Expected main token, got " + sc.token + " at line " + sc.linecount);
+	}
+
+	public static void handleFollowBlockForIf(BasicBlock prev, BasicBlock ifHeader, BasicBlock thenBlock,
+			BasicBlock elseBlock) throws Exception {
+		boolean isFollow = true;
+		BasicBlock leftBlock = null, rightBlock, followBlock = new BasicBlock("FOLLOW_BLOCK");
+
+		if (elseBlock == null) {
+			rightBlock = ifHeader;
+			ifHeader.setChild(followBlock, false);
+		} else if (elseBlock.hasInstructions()) {
+			rightBlock = elseBlock;
+			elseBlock.setChild(followBlock, false);
+		} else {
+			rightBlock = ifHeader;
+			ifHeader.replace2ndChild(followBlock);
+		}
+
+		if (!thenBlock.hasInstructions()) {
+			if (rightBlock != ifHeader) {
+				leftBlock = ifHeader;
+				ifHeader.replace1stChild(followBlock);
+				isFollow = true;
+			} else {
+				thenBlock.ignore();
+				prev.replaceChild(ifHeader, followBlock);
+				isFollow = false;
+			}
+		} else {
+			leftBlock = thenBlock;
+			thenBlock.setChild(followBlock, false);
+		}
+
+		if (isFollow)
+			followBlock.updateAnchorAndPhi(ifHeader, leftBlock.getLastAccessTable(), rightBlock.getLastAccessTable());
 	}
 }
