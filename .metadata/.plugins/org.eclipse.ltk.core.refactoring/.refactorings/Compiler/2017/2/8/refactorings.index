@@ -34,3 +34,5 @@
 1487973845377	Rename method 'simplyCopyLastAccess'
 1487976847437	Rename local variable 'parent'
 1487976853539	Rename local variable 'parent'
+1487983850462	Rename method 'getInstruction'
+1487984956732	Rename local variable 'R'

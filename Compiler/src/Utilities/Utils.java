@@ -10,7 +10,7 @@ public class Utils {
 	public static final boolean COPY_PROP = true;
 
 	private static ArrayList<String> idTable = null;
-	private static HashMap<Integer,ArrayList<Integer>> arrayInfoTable = null;
+	private static HashMap<Integer, ArrayList<Integer>> arrayInfoTable = null;
 
 	public static void nullCheck() {
 		if (idTable == null)
@@ -24,7 +24,7 @@ public class Utils {
 		nullCheck();
 
 		if (id >= idTable.size() || id < 0)
-			Utils.error("ID "+id+" NOT FOUND");
+			Utils.error("ID " + id + " NOT FOUND");
 
 		return idTable.get(id);
 	}
@@ -34,10 +34,10 @@ public class Utils {
 
 		if (!idTable.contains(name)) {
 			idTable.add(name);
-			Utils.SOPln(name + " = &" + (idTable.size()-1));
+			Utils.SOPln(name + " = &" + (idTable.size() - 1));
 
 			if (mClass == CLASS.ARR) {
-				Utils.SOPln(name+" ARR = &" + extra);
+				Utils.SOPln(name + " ARR = &" + extra);
 				arrayInfoTable.put((idTable.size() - 1), (ArrayList<Integer>) extra);
 			}
 
@@ -67,12 +67,14 @@ public class Utils {
 	private static ArrayList<Integer> buffer = new ArrayList<Integer>();
 	private static ArrayList<String> tempResult = new ArrayList<String>();
 
-	/*TODO: need to fixup; later*/
+	/* TODO: need to fixup; later */
 	public static void fixup(int index) {
 		SOPln("We are fixing up for index " + index);
-		/*Instruction i = Instruction.instructionList.get(index);
-		i.fixup(Instruction.getCurrentInstructionIndex() + 1 - index);
-		SOPln(i);*/
+		/*
+		 * Instruction i = Instruction.instructionList.get(index);
+		 * i.fixup(Instruction.getCurrentInstructionIndex() + 1 - index);
+		 * SOPln(i);
+		 */
 	}
 
 	public static void fixupOld(int index) {
@@ -396,9 +398,14 @@ public class Utils {
 			if ((opCode == ScannerUtils.plusToken || opCode == ScannerUtils.timesToken) && X.kind == RESULT_KIND.CONST
 					&& Y.kind != RESULT_KIND.CONST) {
 				load(Y);
-				X.instruction = Instruction.getInstruction(opCode == ScannerUtils.plusToken ? CODE.ADDI : CODE.MULI,
-						Y.instruction, "#" + X.valueIfConstant);
+				if ((X.valueIfConstant == 0 && opCode == ScannerUtils.plusToken)
+						|| (X.valueIfConstant == 1 && opCode == ScannerUtils.timesToken))
+					X.instruction = Y.instruction;
+				else
+					X.instruction = Instruction.getInstruction(opCode == ScannerUtils.plusToken ? CODE.ADDI : CODE.MULI,
+							Y.instruction, "#" + X.valueIfConstant);
 				X.kind = RESULT_KIND.INSTRUCTION;
+
 			} else {
 
 				load(X);
@@ -500,39 +507,72 @@ public class Utils {
 		registers[regNo] = false;
 	}
 
-	public static void load(Result R) {
-		if (R.kind == RESULT_KIND.CONST) {
-			R.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + R.valueIfConstant);
-		} else if (R.kind == RESULT_KIND.VAR && !R.isArray) {
-			R.instruction  = Instruction.getInstruction(CODE.load, "#30", "&" + R.addressIfVariable);
-		} else if (R.kind == RESULT_KIND.VAR && R.isArray) {/*
-			load(R.arrayExp);
-			Instruction one = Instruction.getInstruction(CODE.MULI, R.arrayExp.instruction, "#4");
-			Instruction two = Instruction.getInstruction(CODE.ADDA, "#32", "#" + R.addressIfVariable);
-			R.instruction = Instruction.getInstruction(CODE.load/store, one, two);*/
+	public static void load(Result X) throws Exception {
+		if (X.kind == RESULT_KIND.CONST) {
+			X.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + X.valueIfConstant);
+		} else if (X.kind == RESULT_KIND.VAR && !X.isArray) {
+			X.instruction = Instruction.getInstruction(CODE.load, "#30", "&" + X.addressIfVariable);
+		} else if (X.kind == RESULT_KIND.VAR && X.isArray) {
+			Instruction temp = getOffsetForArray(X);
+			Instruction one = Instruction.getInstruction(CODE.MULI, temp, "#4");
+			Instruction two = Instruction.getInstruction(CODE.ADD, "#30", "&" + X.addressIfVariable);
+			Instruction three = Instruction.getInstruction(CODE.adda, one, two);
+			X.instruction = Instruction.getInstructionForArray(CODE.load, three, null);
 		}
-		R.kind = RESULT_KIND.INSTRUCTION;
+		X.kind = RESULT_KIND.INSTRUCTION;
 	}
 
-	public static void becomes(Result X, Result Y) {
+	public static void becomes(Result X, Result Y) throws Exception {
+
 		load(Y);
 		if (!X.isArray) {
 			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction);
 		} else {
-			Utils.SOPln("Array Encountered, need to do something");
+
+			Instruction temp = getOffsetForArray(X);
+			Instruction one = Instruction.getInstruction(CODE.MULI, temp, "#4");
+			Instruction two = Instruction.getInstruction(CODE.ADD, "#30", "&" + X.addressIfVariable);
+			Instruction three = Instruction.getInstruction(CODE.adda, one, two);
+			Instruction.getInstructionForArray(CODE.store, Y.instruction, three);
 		}
+	}
+
+	public static Instruction getOffsetForArray(Result X) throws Exception {
+		ArrayList<Integer> indices = arrayInfoTable.get(X.addressIfVariable);
+		if (X.arrayExp.size() != indices.size())
+			Utils.error("Array index mismatch");
+
+		Result temp = new Result();
+		temp.valueIfConstant = 0;
+		temp.kind = RESULT_KIND.CONST;
+
+		for (int i = 0; i < X.arrayExp.size(); i++) {
+			Result r = X.arrayExp.get(i);
+			load(r);
+			int prod = 1;
+			for (int j = i + 1; j < indices.size(); j++)
+				prod *= indices.get(j);
+			if (prod != 1) {
+				Result s = new Result();
+				s.valueIfConstant = prod;
+				s.kind = RESULT_KIND.CONST;
+				compute(ScannerUtils.timesToken, r, s);
+			}
+			compute(ScannerUtils.plusToken, temp, r);
+		}
+		return temp.instruction;
 	}
 
 	public static void error(String errorMsg) throws Exception {
 		throw new Exception(errorMsg);
 	}
-	
+
 	public static void printArrayTable() {
-		for(Integer key:arrayInfoTable.keySet()) {
+		for (Integer key : arrayInfoTable.keySet()) {
 			ArrayList<Integer> list = arrayInfoTable.get(key);
-			Utils.SOP(key+": ");
-			for(Integer value:list)
-				Utils.SOP(" "+value);
+			Utils.SOP(key + ": ");
+			for (Integer value : list)
+				Utils.SOP(" " + value);
 			Utils.SOPln("");
 		}
 	}

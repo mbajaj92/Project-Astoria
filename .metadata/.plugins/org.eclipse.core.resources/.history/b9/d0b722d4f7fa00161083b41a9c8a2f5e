@@ -1,0 +1,10 @@
+main
+array [3][5][10] a;
+array [33][59][30] a;
+{
+	
+	let x <- a[2][3][4];
+	let b[4][2][11]<-x;
+	
+	let bajaj <- madhur*madhur;
+}.

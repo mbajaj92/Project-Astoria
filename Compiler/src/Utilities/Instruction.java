@@ -17,6 +17,11 @@ public class Instruction {
 	public String warning = null;
 
 	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto) {
+		this(c, a1, b1, a2, b2, addAuto, false);
+	}
+
+	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto,
+			boolean isArray) {
 		code = c;
 		aInstruction = a2;
 		bInstruction = b2;
@@ -27,14 +32,17 @@ public class Instruction {
 		index = instructionList.size();
 		instructionList.add(this);
 
-		if(!addAuto)
+		if(code == CODE.adda)
+			isArray = true;
+
+		if (!addAuto)
 			return;
 
 		myBasicBlock = BasicBlock.getCurrentBasicBlock();
-		if (Utils.COPY_PROP)
+		if (Utils.COPY_PROP && !isArray)
 			lastAccessTest();
 
-		if (!hasReferenceInstruction() && Utils.COM_SUBEX_ELIM)
+		if (!hasReferenceInstruction() && Utils.COM_SUBEX_ELIM && !isArray)
 			anchorTest();
 
 		if (!hasReferenceInstruction())
@@ -76,7 +84,7 @@ public class Instruction {
 			return i.referenceInstruction;
 		return i;
 	}
-
+	
 	public static Instruction getInstruction(CODE c, Instruction a1, Instruction b1, boolean autoAdd) {
 		Instruction i = new Instruction(c, null, null, a1, b1, autoAdd);
 		if (i.referenceInstruction != null)
@@ -84,6 +92,10 @@ public class Instruction {
 		return i;
 	}
 
+	public static Instruction getInstructionForArray(CODE c, Instruction a1, Instruction b1) {
+		return new Instruction(c,null, null, a1, b1, true, true);
+	}
+	
 	public static Instruction getInstruction(CODE c, Instruction a1, Instruction b1) {
 		return getInstruction(c, a1,b1, true);
 	}

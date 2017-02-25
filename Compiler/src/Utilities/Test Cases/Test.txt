@@ -1,19 +1,7 @@
 main
+array [3][5][10] a;
+array [33][59][30] b;
 {
-	let a<-7+b;
-	let c<-a+b;
-	let d<-7+0;
-	let x<-0;
-	let m<-m;
-	let madhur<-a+b+c+f+x+m;
-
-	if c<10 then
-		if b<10 then
-			let d<-x+b;
-		fi;
-	else
-		let a<-7+b;
-	fi;
-	let g<- a+f;
-	let bajaj <- madhur*madhur;
+	
+	let a[2][4][3]<-b[31][22][29];
 }.

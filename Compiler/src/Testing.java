@@ -19,7 +19,7 @@ public class Testing {
 			Utils.SOPln("Parsing Complete for tes t" + i + ".txt");
 			ScannerUtils.shutDown();
 		}*/
-		sc = ScannerUtils.getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Utilities\\Test Cases\\Test.txt");
+		sc = ScannerUtils.getScanner("C:\\Users\\Soham Coolkarni\\Desktop\\UCI\\Winter Quarter\\CompSci 241 Advanced Compiler Construction\\Project-Astoria\\Compiler\\src\\Utilities\\Test Cases\\Test.txt");
 		sc.next();
 		Grammer.computation(sc);
 		Utils.printArrayTable();
@@ -51,7 +51,7 @@ public class Testing {
 		if (Instruction.instructionList != null)
 			for (Instruction i : Instruction.instructionList)
 				Utils.SOPln(i.testToString());
-		Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
+		//Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
 		ScannerUtils.shutDown();
 	}
 }

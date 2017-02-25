@@ -318,10 +318,7 @@ public class Grammer {
 			sc.next();
 			if (sc.currentToken == ScannerUtils.openbracketToken) {
 				sc.next();
-				if(valuesForArray == null)
-					valuesForArray = new ArrayList<Integer>();
-				else
-					valuesForArray.clear();
+				valuesForArray = new ArrayList<Integer>();
 
 				valuesForArray.add(number().valueIfConstant);
 				if (sc.currentToken == ScannerUtils.closebracketToken) {
