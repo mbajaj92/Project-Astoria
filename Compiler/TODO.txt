@@ -1,0 +1,48 @@
+#introduce phi(for while, when you introduce phi, 
+update all the instructions in loopheader and loop body with phi) LOOP LEFT
+#implement move removal DONE
+#implement removal of redundant Basic Blocks
+#implement procedures, functions CFG generation.
+#how to fix Aliasing issues 
+
+Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> Do arrays and procedures -> RA -> Lowering to machine code.
+
+What about uninitialized variables?
+We an either emit an error(More elegant), or assume that it is zero(but this works as well)
+when we are trying to load, but the value is not present in ALAT; we will come to know that the value is un-initialized.
+
+Globals v/s locals ?
+We are allowed to reference Global variables in the procedures, so how to maintain
+
+only in the very last step when we are translating to machine code, we link procedures and the main 
+
+before calling the procedure, save the variables at a particular location, the procedure read it & update there; and then main reads it from there.
+first get the procedure running, then try adding it later.
+
+NOT IN ANCHOR - adda
+
+Lets say we have a 2-D Array. 
+a[4][2]; this means 4 rows, 2 cols
+the load store chain will actually be used for arrays
+use adda for arrays(this is for offset of memory addresses only)
+USE THIS LATER, during machine translation, LDX takes 2 registers Ra, rb, rc 
+
+
+procedures -> pass them on the stack
+
+no check required for undeclared variables.
+
+
+How to use frame pointers and stack pointers for procedures.
+I add the parameters and move the SP ahead
+then we do the call, then save the RA
+save the old FP and then update the FP/SP
+reserve space for my locals (IMP)
+
+PARAMS
+RA
+old FP
+-----------------0
+locals
+
+

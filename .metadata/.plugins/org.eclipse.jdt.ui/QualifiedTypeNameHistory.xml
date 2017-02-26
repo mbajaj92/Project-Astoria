@@ -12,17 +12,17 @@
 <fullyQualifiedTypeName name="Utilities.Result"/>
 <fullyQualifiedTypeName name="Utilities.ScannerUtils"/>
 <fullyQualifiedTypeName name="java.util.stream.StreamSupport"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.lang.Comparable"/>
-<fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="Utilities.Utils.CODE"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="Utilities.Grammer.CLASS"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="Utilities.Instruction"/>
 <fullyQualifiedTypeName name="Utilities.Utils.RESULT_KIND"/>
 <fullyQualifiedTypeName name="java.util.Stack"/>
-<fullyQualifiedTypeName name="Utilities.Utils"/>
 <fullyQualifiedTypeName name="java.io.RandomAccessFile"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="Utilities.Instruction"/>
+<fullyQualifiedTypeName name="Utilities.Utils"/>
 <fullyQualifiedTypeName name="Utilities.BasicBlock"/>
 </qualifiedTypeNameHistroy>

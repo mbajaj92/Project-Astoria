@@ -1,16 +1,20 @@
 package Utilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import Utilities.MyScanner.CLASS;
 
 public class Utils {
 	public static final boolean COM_SUBEX_ELIM = true;
 	public static final boolean COPY_PROP = true;
-
+	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE, CODE.BLT,
+			CODE.BGE, CODE.BLE, CODE.BGT, CODE.store);
 	private static ArrayList<String> idTable = null;
 	private static HashMap<Integer, ArrayList<Integer>> arrayInfoTable = null;
+	private static HashMap<Integer, Integer> funcInfoTable = null;
 
 	public static void nullCheck() {
 		if (idTable == null)
@@ -18,6 +22,9 @@ public class Utils {
 
 		if (arrayInfoTable == null)
 			arrayInfoTable = new HashMap<Integer, ArrayList<Integer>>();
+
+		if (funcInfoTable == null)
+			funcInfoTable = new HashMap<Integer, Integer>();
 	}
 
 	public static String address2Identifier(int id) throws Exception {
@@ -29,7 +36,15 @@ public class Utils {
 		return idTable.get(id);
 	}
 
-	public static int identifier2Address(String name, Object extra, CLASS mClass) {
+	public static void updateParamSize(int id, int paramSize) {
+		funcInfoTable.put(id, paramSize);
+	}
+
+	public static int identifier2Address(String name) {
+		return identifier2Address(name, null, CLASS.NONE);
+	}
+
+	public static int identifier2Address(String name, ArrayList<Integer> arrayInfo, CLASS mClass) {
 		nullCheck();
 
 		if (!idTable.contains(name)) {
@@ -37,8 +52,9 @@ public class Utils {
 			Utils.SOPln(name + " = &" + (idTable.size() - 1));
 
 			if (mClass == CLASS.ARR) {
-				Utils.SOPln(name + " ARR = &" + extra);
-				arrayInfoTable.put((idTable.size() - 1), (ArrayList<Integer>) extra);
+				arrayInfoTable.put((idTable.size() - 1), arrayInfo);
+			} else if (mClass == CLASS.FUNC) {
+				funcInfoTable.put((idTable.size() - 1), 0);
 			}
 
 		}
@@ -513,10 +529,14 @@ public class Utils {
 		} else if (X.kind == RESULT_KIND.VAR && !X.isArray) {
 			X.instruction = Instruction.getInstruction(CODE.load, "#30", "&" + X.addressIfVariable);
 		} else if (X.kind == RESULT_KIND.VAR && X.isArray) {
-			Instruction temp = getOffsetForArray(X);
-			Instruction one = Instruction.getInstruction(CODE.MULI, temp, "#4");
-			Instruction two = Instruction.getInstruction(CODE.ADD, "#30", "&" + X.addressIfVariable);
-			Instruction three = Instruction.getInstruction(CODE.adda, one, two);
+			Result a = getOffsetForArray(X);
+			Result b = new Result();
+			b.kind = RESULT_KIND.CONST;
+			b.valueIfConstant = 4;
+			compute(ScannerUtils.plusToken,a,b);
+			load(a);
+			Instruction two = Instruction.getInstruction(CODE.ADDI, "#30", "&" + X.addressIfVariable);
+			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
 			X.instruction = Instruction.getInstructionForArray(CODE.load, three, null);
 		}
 		X.kind = RESULT_KIND.INSTRUCTION;
@@ -529,15 +549,19 @@ public class Utils {
 			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction);
 		} else {
 
-			Instruction temp = getOffsetForArray(X);
-			Instruction one = Instruction.getInstruction(CODE.MULI, temp, "#4");
-			Instruction two = Instruction.getInstruction(CODE.ADD, "#30", "&" + X.addressIfVariable);
-			Instruction three = Instruction.getInstruction(CODE.adda, one, two);
-			Instruction.getInstructionForArray(CODE.store, Y.instruction, three);
+			Result a = getOffsetForArray(X);
+			Result b = new Result();
+			b.kind = RESULT_KIND.CONST;
+			b.valueIfConstant = 4;
+			compute(ScannerUtils.plusToken,a,b);
+			load(a);
+			Instruction two = Instruction.getInstruction(CODE.ADDI, "#30", "&" + X.addressIfVariable);
+			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
+			Instruction.getInstructionForArray(CODE.store, Y.instruction, three).setStoreFor("&" + X.addressIfVariable);
 		}
 	}
 
-	public static Instruction getOffsetForArray(Result X) throws Exception {
+	public static Result getOffsetForArray(Result X) throws Exception {
 		ArrayList<Integer> indices = arrayInfoTable.get(X.addressIfVariable);
 		if (X.arrayExp.size() != indices.size())
 			Utils.error("Array index mismatch");
@@ -548,10 +572,14 @@ public class Utils {
 
 		for (int i = 0; i < X.arrayExp.size(); i++) {
 			Result r = X.arrayExp.get(i);
-			load(r);
+			if (r.kind == RESULT_KIND.CONST && r.valueIfConstant >= indices.get(i))
+				Utils.error("Array Index " + r.valueIfConstant + " out of range " + indices.get(i) + " at line "
+						+ MyScanner.getLineCount());
+
 			int prod = 1;
 			for (int j = i + 1; j < indices.size(); j++)
 				prod *= indices.get(j);
+
 			if (prod != 1) {
 				Result s = new Result();
 				s.valueIfConstant = prod;
@@ -560,7 +588,7 @@ public class Utils {
 			}
 			compute(ScannerUtils.plusToken, temp, r);
 		}
-		return temp.instruction;
+		return temp;
 	}
 
 	public static void error(String errorMsg) throws Exception {

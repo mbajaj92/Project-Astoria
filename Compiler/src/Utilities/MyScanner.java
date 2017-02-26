@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class MyScanner {
 
 	public static enum CLASS {
-		VAR, ARR, PRO, FUNC, NONE
+		VAR, ARR, /*PRO,*/ FUNC, NONE
 	};
 
 	public CLASS mCurrentClass;
@@ -21,10 +21,10 @@ public class MyScanner {
 	private List<String> keywords;
 	public String token = "";
 	private char residualChar = '\0';
-    public int linecount;
-    private boolean ignoreTillEndLine = false;
+    private static int linecount;
+    private boolean ignoreTillEndLine = false, ignoreTillCommentEndToken = false;
     private ArrayList<Integer> valuesForArrays = null;
-    
+
 	protected MyScanner(String FileName) throws IOException {
 		sc = new Scanner(new FileReader(FileName));
 		sc.useDelimiter("");
@@ -103,7 +103,7 @@ public class MyScanner {
 			currentToken = ScannerUtils.plusToken;
 			break;
 		case '*':
-			currentToken = ScannerUtils.timesToken;
+			currentToken = ScannerUtils.timesToken;	
 			break;
 		case '#':
 			ignoreTillEndLine = true;
@@ -114,6 +114,10 @@ public class MyScanner {
 			if(ch == '/') {
 				/*Comment has started*/
 				ignoreTillEndLine = true;
+				next();
+			} else if (ch == '*') {
+				/*Multiline has Started */
+				ignoreTillCommentEndToken = true;
 				next();
 			} else {
 				residualChar = ch;
@@ -221,19 +225,28 @@ public class MyScanner {
 				} else
 					ch = sc.next().charAt(0);
 
-				while ( ignoreTillEndLine || ch == ' ' || ch == '\t' || ch == '\n' || (int)ch == 13) {
-					if(!sc.hasNext()) {
+				while (ignoreTillCommentEndToken || ignoreTillEndLine || ch == ' ' || ch == '\t' || ch == '\n'
+						|| (int) ch == 13) {
+					if (!sc.hasNext()) {
 						/* EOF */
 						currentToken = ScannerUtils.eofToken;
 						return;
 					}
-					
-					if(ch == '\n') {
+
+					if (ch == '\n') {
 						linecount++;
 						ignoreTillEndLine = false;
+					} else if (ch == '*') {
+						ch = sc.next().charAt(0);
+						if (ch == '/') {
+							/* Multiline has ended */
+							ignoreTillCommentEndToken = false;
+							residualChar = '\0';
+						} else
+							residualChar = ch;
 					}
 
-					ch = sc.next().charAt(0);
+					ch = (residualChar == '\0' ? sc.next().charAt(0) : residualChar);
 				}
 
 				token += ch;
@@ -268,8 +281,11 @@ public class MyScanner {
 		}
 	}
 
+	public static int getLineCount() {
+		return linecount;
+	}
+
 	public void setValues(ArrayList<Integer> values) {
-		Utils.SOPln("We have edited values "+values);
 		valuesForArrays = values;
 	}
 

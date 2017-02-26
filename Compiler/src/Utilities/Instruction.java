@@ -5,48 +5,49 @@ import java.util.ArrayList;
 import Utilities.Utils.CODE;
 
 public class Instruction {
-	public static ArrayList<Instruction> instructionList;
-	public Instruction aInstruction, bInstruction;
-	public String aConstant, bConstant;
-	public int index = -1;
+	private static boolean allowNextAnchorTest = true;
+	private static ArrayList<Instruction> mInstructionList;
+	private Instruction aInstruction, bInstruction, previousInAnchor, referenceInstruction = null;
+	private String aConstant, bConstant, phiFor = null, storeFor = null;
+	private int index = -1;
 	private CODE code;
-	private Instruction previousInAnchor;
 	private BasicBlock myBasicBlock;
-	private Instruction referenceInstruction = null;
-	private String phiFor = null;
-	public String warning = null;
+	private boolean isArray = false;
 
 	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto) {
 		this(c, a1, b1, a2, b2, addAuto, false);
 	}
 
-	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto,
-			boolean isArray) {
+	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto, boolean isArr) {
 		code = c;
 		aInstruction = a2;
 		bInstruction = b2;
 		aConstant = a1;
 		bConstant = b1;
+		isArray = isArr;
+		if (code == CODE.adda)
+			isArray = true;
 
 		nullCheck();
-		index = instructionList.size();
-		instructionList.add(this);
-
-		if(code == CODE.adda)
-			isArray = true;
+		index = mInstructionList.size();
+		mInstructionList.add(this);
 
 		if (!addAuto)
 			return;
 
 		myBasicBlock = BasicBlock.getCurrentBasicBlock();
-		if (Utils.COPY_PROP && !isArray)
+		if (Utils.COPY_PROP)
 			lastAccessTest();
 
-		if (!hasReferenceInstruction() && Utils.COM_SUBEX_ELIM && !isArray)
+		if (allowNextAnchorTest && Utils.COM_SUBEX_ELIM && !hasReferenceInstruction())
 			anchorTest();
 
-		if (!hasReferenceInstruction())
-			myBasicBlock.addInstruction(this, true);
+		allowNextAnchorTest = true;
+		if (!hasReferenceInstruction()) {
+			if (code == CODE.adda)
+				allowNextAnchorTest = false;
+			myBasicBlock.addInstruction(this);
+		}
 	}
 
 	public static Instruction getInstruction(CODE c) {
@@ -84,7 +85,7 @@ public class Instruction {
 			return i.referenceInstruction;
 		return i;
 	}
-	
+
 	public static Instruction getInstruction(CODE c, Instruction a1, Instruction b1, boolean autoAdd) {
 		Instruction i = new Instruction(c, null, null, a1, b1, autoAdd);
 		if (i.referenceInstruction != null)
@@ -93,16 +94,16 @@ public class Instruction {
 	}
 
 	public static Instruction getInstructionForArray(CODE c, Instruction a1, Instruction b1) {
-		return new Instruction(c,null, null, a1, b1, true, true);
+		return new Instruction(c, null, null, a1, b1, true, true);
 	}
-	
+
 	public static Instruction getInstruction(CODE c, Instruction a1, Instruction b1) {
-		return getInstruction(c, a1,b1, true);
+		return getInstruction(c, a1, b1, true);
 	}
 
 	public static void nullCheck() {
-		if (instructionList == null)
-			instructionList = new ArrayList<Instruction>();
+		if (mInstructionList == null)
+			mInstructionList = new ArrayList<Instruction>();
 	}
 
 	public String toStringImpl() {
@@ -132,8 +133,8 @@ public class Instruction {
 				+ (bInstruction != null ? "" + bInstruction.toStringImpl() : "null") + ") "
 				+ toStringConstant(aConstant) + " " + toStringConstant(bConstant)
 				+ (phiFor != null ? "  PHI FOR " + toStringConstant(phiFor) : "")
-				+ (warning == null ? "" : " --- >WARNING = " + warning) + (referenceInstruction != null
-						? " ---> REPLACED WITH (" + referenceInstruction.toStringImpl() + ")" : "");
+				+ (storeFor == null ? "" : " STORE FOR= " + toStringConstant(storeFor))
+				+ (referenceInstruction != null ? " REPLACED WITH (" + referenceInstruction.toStringImpl() + ")" : "");
 	}
 
 	@Override
@@ -146,11 +147,35 @@ public class Instruction {
 				+ (bInstruction != null ? "" + bInstruction.toStringImpl() : "null") + ") "
 				+ toStringConstant(aConstant) + " " + toStringConstant(bConstant)
 				+ (phiFor != null ? "  PHI FOR " + toStringConstant(phiFor) : "")
-				+ (warning == null ? "" : "  WARNING = " + warning);
+				+ (storeFor == null ? "" : " STORE FOR = " + toStringConstant(storeFor));
 	}
 
 	public boolean hasReferenceInstruction() {
 		return (referenceInstruction != null);
+	}
+
+	public void setRightInstruction(Instruction i) {
+		bInstruction = i;
+	}
+
+	public void setLeftInstruction(Instruction i) {
+		aInstruction = i;
+	}
+
+	public Instruction getRightInstruction() {
+		return bInstruction;
+	}
+
+	public Instruction getLeftInstruction() {
+		return aInstruction;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public static ArrayList<Instruction> getInstructionList() {
+		return mInstructionList;
 	}
 
 	public Instruction getReferenceInstruction() {
@@ -158,11 +183,12 @@ public class Instruction {
 	}
 
 	public static Instruction getCurrentInstruction() {
-		return instructionList.get(instructionList.size() - 1);
+		return mInstructionList.get(mInstructionList.size() - 1);
 	}
 
-	public void set2ndPhi(Instruction b) {
-		bInstruction = b;
+	public Instruction setStoreFor(String sFor) {
+		storeFor = sFor;
+		return this;
 	}
 
 	public void fixup(Instruction a) {
@@ -207,24 +233,27 @@ public class Instruction {
 	}
 
 	public boolean isDuplicate(Instruction i) {
-		return (code == i.code) && isAEqual(i) && isBEqual(i);
+		return (code == i.code) && isAEqual(i) && (isArray && code == CODE.load ? true : isBEqual(i));
 	}
-	
+
 	private void lastAccessTest() {
-		if(code != CODE.move && code != CODE.load)
+		if (isArray || (code != CODE.move && code != CODE.load))
 			return;
 
-		if(code == CODE.move) {
+		if (code == CODE.move) {
 			referenceInstruction = bInstruction;
 			myBasicBlock.updateLastAccessFor(aConstant, bInstruction);
-		} else if(code == CODE.load) {
+		} else if (code == CODE.load) {
 			referenceInstruction = myBasicBlock.getLastAccessFor(bConstant);
-			if(!hasReferenceInstruction())
+			if (!hasReferenceInstruction())
 				myBasicBlock.updateLastAccessFor(bConstant, this);
 		}
 	}
 
 	private void anchorTest() {
+		if (/* !specialPermission && */Utils.doNotTestAnchor.contains(code))
+			return;
+
 		Instruction anchorTest = myBasicBlock.getAnchorInstructionForCode(code);
 		while (anchorTest != null) {
 			if (!isDuplicate(anchorTest)) {

@@ -6,20 +6,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="joinBlock =" key="selection"/>
+		<item value="isArray =" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="joinBlock ="/>
-			<item value="valuesForArray"/>
-			<item value="valuesForArrays ="/>
-			<item value="arrayInfoTable"/>
-			<item value="arrayInfoTable ="/>
-			<item value="idTable"/>
-			<item value="System.out.println"/>
-			<item value="`"/>
+			<item value="isArray ="/>
+			<item value="isArray"/>
+			<item value="lastAccessTable.put"/>
+			<item value="lastAccessTable.ad"/>
+			<item value="phiFor"/>
+			<item value="warning ="/>
+			<item value="valuesForArrays"/>
+			<item value="&#x09;&#x09;&#x09;&#x09;&#x09;ch = (residualChar == &apos;\0&apos; ? sc.next().charAt(0) : residualChar);"/>
 		</list>
 		<list key="replacehistory">
 			<item value="Utils.SOPln"/>

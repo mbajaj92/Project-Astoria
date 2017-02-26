@@ -1,0 +1,51 @@
+main
+var b,a,c,x,y;
+array [13][13][13][13]arr1;
+array [5][10] swing;
+procedure pro1(a,b,c,d); {
+let b<-d-01;
+let c<-b-90;
+if a<10 then
+		if b<10 then 
+			let a<-9;
+		else
+			let b<-89;
+		fi;
+	else
+		if c<10 then
+			let a<-45;
+		else
+			let c<-10;
+		fi;
+	fi;
+};
+
+procedure pro2(m,n,o,p); {
+let b<-89-67;
+let c<-67;
+while c<10 do
+		if b<25 then
+		while c<11 do
+			let c<-c-1;
+		od;
+		else
+		while c<11 do
+			let c<-c-1;
+		od;
+		fi;
+	od;
+	let c<-c-1;
+};
+{
+	let a<-c+d;
+	let b<-c-d;
+	let i<-c*d;
+	let j<-c/d;
+	while swing[i][j]<10 do
+		let i<-a+b;
+		while swing[i][j]<20 do
+			let j<-a-b;
+		od;
+	od;
+	let c<-a+23-b;
+}.

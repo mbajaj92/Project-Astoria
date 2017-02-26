@@ -19,7 +19,7 @@ public class Testing {
 			Utils.SOPln("Parsing Complete for tes t" + i + ".txt");
 			ScannerUtils.shutDown();
 		}*/
-		sc = ScannerUtils.getScanner("C:\\Users\\Soham Coolkarni\\Desktop\\UCI\\Winter Quarter\\CompSci 241 Advanced Compiler Construction\\Project-Astoria\\Compiler\\src\\Utilities\\Test Cases\\Test.txt");
+		sc = ScannerUtils.getScanner("Test.txt");
 		sc.next();
 		Grammer.computation(sc);
 		Utils.printArrayTable();
@@ -29,18 +29,27 @@ public class Testing {
 		f = new File("graph.png");
 		f.delete();
 		RandomAccessFile randomAccessFile = new RandomAccessFile("graph.dot", "rw");
-		randomAccessFile.writeBytes("digraph {\n");
-		for (BasicBlock i : BasicBlock.basicBlockList) {
-			if(i.shouldIgnore())
+		randomAccessFile.writeBytes("digraph {\n"); 
+		for (BasicBlock i : BasicBlock.getBasicBlockList()) {
+			if (i.shouldIgnore())
 				continue;
 
 			i.fixUp();
 			Utils.SOPln(i);
-			String write = i.index+"[label=\""+i+"\n\"];\n"+i.index+"[shape=box];\n";
-			if(i.oneON)
-				write += i.index+" -> "+i.oneChild.index+"\n";
-			if(i.twoON)
-				write += i.index+" -> "+i.twoChild.index+"\n";
+
+			String write = i.getIndex()+"[label=\""+i+"\n\"];\n"+i.getIndex()+"[shape=box];\n";
+			if(i.firstChildExists())
+				write += i.getIndex()+" -> "+i.getFirstChild().getIndex()+"[color=blue]\n";
+
+			if(i.secondChildExists())
+				write += i.getIndex()+" -> "+i.getSecondChild().getIndex()+"[color=red]\n";
+			
+			if (i.firstParentExists())
+				write += i.getIndex() + " -> " + i.getFirstParent().getIndex() + "[color=blue][style=dotted]\n";
+
+			if (i.secondParentExists())
+				write += i.getIndex() + " -> " + i.getSecondParent().getIndex()+ "[color=red][style=dotted]\n";
+
 			randomAccessFile.writeBytes(write);
 		}
 		randomAccessFile.writeBytes("}");
@@ -48,10 +57,10 @@ public class Testing {
 		
 		Utils.SOPln("------");
 
-		if (Instruction.instructionList != null)
-			for (Instruction i : Instruction.instructionList)
+		if (Instruction.getInstructionList() != null)
+			for (Instruction i : Instruction.getInstructionList())
 				Utils.SOPln(i.testToString());
-		//Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
+		Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
 		ScannerUtils.shutDown();
 	}
 }

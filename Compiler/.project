@@ -14,4 +14,16 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/TODO.txt</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/TODO.txt</locationURI>
+		</link>
+		<link>
+			<name>src/Test.txt</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/Test.txt</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
