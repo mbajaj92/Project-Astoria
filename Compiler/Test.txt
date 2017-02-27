@@ -42,7 +42,9 @@ while c<10 do
 	let i<-c*d;
 	let j<-c/d;
 	while swing[i][j]<10 do
-		let i<-a+b;
+		let i<-c+d; #This instruction gets replaced completely 
+					#because aliasing need to find solution
+		let c<-c-1;
 		while swing[i][j]<20 do
 			let j<-a-b;
 		od;

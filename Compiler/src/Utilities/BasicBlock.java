@@ -196,19 +196,19 @@ public class BasicBlock {
 
 	public void whileFixSingleIns(Instruction i, ArrayList<Instruction> phiInstructions,
 			ArrayList<Instruction> phiParams) {
-		if (phiParams.contains(i)) {
-			int index = phiParams.indexOf(i);
-			phiParams.remove(index - 1);
-			phiParams.remove(index - 1);
-			phiInstructions.remove(index / 2);
-			return;
-		}
 
 		if (i.getLeftInstruction() != null && phiParams.contains(i.getLeftInstruction()))
 			i.setLeftInstruction(phiInstructions.get(phiParams.indexOf(i.getLeftInstruction()) / 2));
 
 		if (i.getRightInstruction() != null && phiParams.contains(i.getRightInstruction()))
 			i.setRightInstruction(phiInstructions.get(phiParams.indexOf(i.getRightInstruction()) / 2));
+		
+		if (phiParams.contains(i)) {
+			int index = phiParams.indexOf(i);
+			phiParams.remove(index - 1);
+			phiParams.remove(index - 1);
+			phiInstructions.remove(index / 2);
+		}
 	}
 
 	public void whileFix(ArrayList<Instruction> phiInstructions, ArrayList<Instruction> phiParams) {

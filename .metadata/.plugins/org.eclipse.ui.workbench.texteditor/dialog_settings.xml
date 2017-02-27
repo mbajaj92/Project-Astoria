@@ -6,30 +6,30 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="isArray =" key="selection"/>
+		<item value="firstParentExists()" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="oneParentON"/>
+			<item value="oneChildON"/>
+			<item value="twoChild.index"/>
+			<item value="oneChild.index"/>
+			<item value="i.index"/>
+			<item value="sc.linecount"/>
+			<item value="case &apos;*"/>
 			<item value="isArray ="/>
-			<item value="isArray"/>
-			<item value="lastAccessTable.put"/>
-			<item value="lastAccessTable.ad"/>
-			<item value="phiFor"/>
-			<item value="warning ="/>
-			<item value="valuesForArrays"/>
-			<item value="&#x09;&#x09;&#x09;&#x09;&#x09;ch = (residualChar == &apos;\0&apos; ? sc.next().charAt(0) : residualChar);"/>
 		</list>
 		<list key="replacehistory">
+			<item value="firstParentExists()"/>
+			<item value="firstChildExists()"/>
+			<item value="twoChild.getIndex()"/>
+			<item value="oneChild.getIndex()"/>
+			<item value="i.getIndex()"/>
+			<item value="MyScanner.getLineCount()"/>
 			<item value="Utils.SOPln"/>
 			<item value=""/>
-			<item value="yeHaiSaareInstructions"/>
-			<item value="&quot; + sc.token+&quot; at line &quot;+sc.linecount"/>
-			<item value="got &quot; + sc.token);"/>
-			<item value="got &quot;+sc.token"/>
-			<item value="private static"/>
-			<item value="error"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
