@@ -16,11 +16,11 @@ public class BasicBlock {
 	private boolean oneChildON = false, twoChildON = false, oneParentON = false, twoParentON = false;
 	private BasicBlock oneChild, twoChild, oneParent, twoParent;
 	private ArrayList<Instruction> mInstructionSet = null;
-	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE,CODE.BEQ,CODE.BGT,CODE.BLE,CODE.BLT,CODE.BNE, CODE.BSR);
+	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BSR);
 	private static List<CODE> notToBeAnchored = Arrays.asList(CODE.phi, CODE.BEQ, CODE.BGE, CODE.BLE, CODE.BGT,
 			CODE.BLT, CODE.BNE);
-	private HashMap<CODE,Instruction> anchor = null;
-	private HashMap<String,Instruction> lastAccessTable = null;
+	private HashMap<CODE, Instruction> anchor = null;
+	private HashMap<String, Instruction> lastAccessTable = null;
 
 	BasicBlock(String tag) {
 		this(tag, null);
@@ -51,7 +51,7 @@ public class BasicBlock {
 			if (anchor.containsKey(code))
 				i.setPreviousInAnchor(anchor.get(code));
 
-			if(code == CODE.store)
+			if (code == CODE.store)
 				anchor.remove(CODE.adda);
 
 			anchor.put(code, i);
@@ -65,7 +65,7 @@ public class BasicBlock {
 
 	public void setAsCurrent() {
 		mBasicBlockList.add(this);
-		index = mBasicBlockList.size()-1;
+		index = mBasicBlockList.size() - 1;
 	}
 
 	public HashMap<String, Instruction> getLastAccessTable() {
@@ -85,7 +85,7 @@ public class BasicBlock {
 		for (String key : leftTable.keySet()) {
 			Instruction left = leftTable.get(key);
 			if (!isWhile && left == null)
-				Utils.error("Left Chain is null for "+Instruction.toStringConstant(key));
+				Utils.error("Left Chain is null for " + Instruction.toStringConstant(key));
 			Instruction right = rightTable.get(key);
 			if (right == null && !isWhile)
 				Utils.error("Right Chain is null for " + Instruction.toStringConstant(key));
@@ -96,7 +96,7 @@ public class BasicBlock {
 						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key);
 						mInstructionSet.add(0, i);
 						updateLastAccessFor(key, i);
-					} else 
+					} else
 						updateLastAccessFor(key, left);
 				} else
 					updateLastAccessFor(key, Instruction.getInstruction(CODE.phi, left, right).setPhiFor(key));
@@ -107,10 +107,10 @@ public class BasicBlock {
 		for (String key : rightTable.keySet()) {
 			Instruction left = leftTable.get(key);
 			if (left == null)
-				Utils.error("Left Chain is null for for "+Instruction.toStringConstant(key));
+				Utils.error("Left Chain is null for for " + Instruction.toStringConstant(key));
 			Instruction right = rightTable.get(key);
 			if (right == null)
-				Utils.error("Right Chain is null for for "+Instruction.toStringConstant(key));
+				Utils.error("Right Chain is null for for " + Instruction.toStringConstant(key));
 
 			if (left != right && !lastAccessTable.containsKey(key)) {
 				if (isWhile) {
@@ -118,7 +118,7 @@ public class BasicBlock {
 						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key);
 						mInstructionSet.add(0, i);
 						updateLastAccessFor(key, i);
-					} else 
+					} else
 						updateLastAccessFor(key, left);
 				} else
 					updateLastAccessFor(key, Instruction.getInstruction(CODE.phi, left, right).setPhiFor(key));
@@ -152,7 +152,7 @@ public class BasicBlock {
 	public void generetePhiAndUpdateTree(HashMap<String, Instruction> leftTable,
 			HashMap<String, Instruction> rightTable, HashMap<CODE, Instruction> parentA) throws Exception {
 		takeCareOfPhi(leftTable, rightTable, true);
-		fixPhis(new HashMap<CODE,Instruction>(parentA), new HashMap<String, Instruction>(leftTable));
+		fixPhis(new HashMap<CODE, Instruction>(parentA), new HashMap<String, Instruction>(leftTable));
 	}
 
 	public void updateAnchorLastAccessAndPhi(BasicBlock parent, HashMap<String, Instruction> leftParent,
@@ -179,7 +179,7 @@ public class BasicBlock {
 		} else
 			Utils.error("Adding 3rd Parent is not allowed");
 	}
-	
+
 	public void setChild(BasicBlock child, boolean sameChildInDominotorAndCFG) throws Exception {
 		if (!oneChildON) {
 			oneChild = child;
@@ -218,7 +218,7 @@ public class BasicBlock {
 			for (Instruction ins : phiInstructions) {
 				if (i.getRightConstant().equals(ins.getPhiFor())) {
 					replaceList.put(i, ins);
-					Utils.SOPln("Replacing "+i.getIndex()+"  with "+ins.getIndex()+" CASE 11");
+					Utils.SOPln("Replacing " + i.getIndex() + "  with " + ins.getIndex() + " CASE 11");
 					mInstructionSet.remove(i);
 					broken = true;
 					break;
@@ -311,7 +311,7 @@ public class BasicBlock {
 
 	public void fixPhis(HashMap<CODE, Instruction> parentAnchor, HashMap<String, Instruction> parentLastAccess) {
 		ArrayList<Instruction> phiInstructions = null, phiParams = null;
-		HashMap<Instruction,Instruction> replaceList = new HashMap<Instruction,Instruction>();
+		HashMap<Instruction, Instruction> replaceList = new HashMap<Instruction, Instruction>();
 
 		phiInstructions = new ArrayList<Instruction>();
 		phiParams = new ArrayList<Instruction>();
@@ -361,13 +361,12 @@ public class BasicBlock {
 
 	public boolean hasInstructions() {
 		return true;
-/*
-		if (mInstructionSet.isEmpty())
-			return false;
-
-		if (mInstructionSet.size() == 1)
-			return !(mInstructionSet.get(0).getCode() == CODE.BSR);
-		return true;*/
+		/*
+		 * if (mInstructionSet.isEmpty()) return false;
+		 * 
+		 * if (mInstructionSet.size() == 1) return
+		 * !(mInstructionSet.get(0).getCode() == CODE.BSR); return true;
+		 */
 	}
 
 	public boolean secondParentExists() {
@@ -453,7 +452,7 @@ public class BasicBlock {
 	public String toString() {
 		String returnString = "";
 		if (!mInstructionSet.isEmpty()) {
-			returnString = "\nTAG: " + TAG + "(" + index + ") "+" func = "+mFunctionName;
+			returnString = "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName;
 			for (Instruction i : mInstructionSet)
 				returnString += "\n" + i;
 			return returnString;

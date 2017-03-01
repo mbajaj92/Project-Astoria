@@ -12,13 +12,13 @@ public class Testing {
 	private static MyScanner sc;
 
 	public static void main(String args[]) throws Exception {
-		/*for (int i = 14; i <= 31; i++) {
-			sc = ScannerUtils.getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Test Cases\\test"+i+".txt");
-			sc.next();
-			Grammer.computation(sc);
-			Utils.SOPln("Parsing Complete for tes t" + i + ".txt");
-			ScannerUtils.shutDown();
-		}*/
+		/*
+		 * for (int i = 14; i <= 31; i++) { sc = ScannerUtils.
+		 * getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Test Cases\\test"
+		 * +i+".txt"); sc.next(); Grammer.computation(sc);
+		 * Utils.SOPln("Parsing Complete for tes t" + i + ".txt");
+		 * ScannerUtils.shutDown(); }
+		 */
 		sc = ScannerUtils.getScanner("Test.txt");
 		sc.next();
 		Grammer.computation(sc);
@@ -29,7 +29,7 @@ public class Testing {
 		f = new File("graph.png");
 		f.delete();
 		RandomAccessFile randomAccessFile = new RandomAccessFile("graph.dot", "rw");
-		randomAccessFile.writeBytes("digraph {\n"); 
+		randomAccessFile.writeBytes("digraph {\n");
 		for (BasicBlock i : BasicBlock.getBasicBlockList()) {
 			if (i.shouldIgnore())
 				continue;
@@ -37,24 +37,24 @@ public class Testing {
 			i.fixUp();
 			Utils.SOPln(i);
 
-			String write = i.getIndex()+"[label=\""+i+"\n\"];\n"+i.getIndex()+"[shape=box];\n";
-			if(i.firstChildExists())
-				write += i.getIndex()+" -> "+i.getFirstChild().getIndex()+"[color=blue]\n";
+			String write = i.getIndex() + "[label=\"" + i + "\n\"];\n" + i.getIndex() + "[shape=box];\n";
+			if (i.firstChildExists())
+				write += i.getIndex() + " -> " + i.getFirstChild().getIndex() + "[color=blue]\n";
 
-			if(i.secondChildExists())
-				write += i.getIndex()+" -> "+i.getSecondChild().getIndex()+"[color=red]\n";
-			
+			if (i.secondChildExists())
+				write += i.getIndex() + " -> " + i.getSecondChild().getIndex() + "[color=red]\n";
+
 			if (i.firstParentExists())
 				write += i.getIndex() + " -> " + i.getFirstParent().getIndex() + "[color=blue][style=dotted]\n";
 
 			if (i.secondParentExists())
-				write += i.getIndex() + " -> " + i.getSecondParent().getIndex()+ "[color=red][style=dotted]\n";
+				write += i.getIndex() + " -> " + i.getSecondParent().getIndex() + "[color=red][style=dotted]\n";
 
 			randomAccessFile.writeBytes(write);
 		}
 		randomAccessFile.writeBytes("}");
 		randomAccessFile.close();
-		
+
 		Utils.SOPln("------");
 
 		if (Instruction.getInstructionList() != null)

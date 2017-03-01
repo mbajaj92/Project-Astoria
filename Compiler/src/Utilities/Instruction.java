@@ -108,8 +108,10 @@ public class Instruction {
 	}
 
 	public String toStringImpl() {
-		/*if (referenceInstruction != null)
-			return referenceInstruction.toStringImpl();*/
+		/*
+		 * if (referenceInstruction != null) return
+		 * referenceInstruction.toStringImpl();
+		 */
 		return "" + index;
 	}
 
@@ -271,7 +273,6 @@ public class Instruction {
 	}
 
 	private void lastAccessTest() {
-
 
 		if (code == CODE.move) {
 			referenceInstruction = bInstruction;

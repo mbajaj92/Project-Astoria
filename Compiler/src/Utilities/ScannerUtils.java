@@ -58,7 +58,7 @@ public class ScannerUtils {
 	final public static int beginToken = 150; // {
 	final public static int mainToken = 200; // main
 	final public static int eofToken = 255; // EOF
-	
+
 	public static void shutDown() {
 		myScanner.shutDown();
 		myScanner = null;

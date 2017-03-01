@@ -14,7 +14,7 @@ public class Result {
 	public int addressIfVariable;
 	public Instruction instruction;
 	public CODE cond;
-	
+
 	public Result() {
 		kind = RESULT_KIND.NONE;
 		isArray = false;

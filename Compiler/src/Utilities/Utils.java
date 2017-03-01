@@ -11,8 +11,8 @@ public class Utils {
 	public static int WHILE_DEPTH = 0;
 	public static final boolean COM_SUBEX_ELIM = true;
 	public static final boolean COPY_PROP = true;
-	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE, CODE.BLT,
-			CODE.BGE, CODE.BLE, CODE.BGT, CODE.store);
+	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE,
+			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store);
 	private static ArrayList<String> idTable = null;
 	private static HashMap<Integer, ArrayList<Integer>> arrayInfoTable = null;
 	private static HashMap<Integer, Integer> funcInfoTable = null;
@@ -532,7 +532,7 @@ public class Utils {
 			Result b = new Result();
 			b.kind = RESULT_KIND.CONST;
 			b.valueIfConstant = 4;
-			compute(ScannerUtils.plusToken,a,b);
+			compute(ScannerUtils.plusToken, a, b);
 			load(a);
 			Instruction two = Instruction.getInstruction(CODE.ADDI, "#30", "&" + X.addressIfVariable);
 			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
@@ -553,7 +553,7 @@ public class Utils {
 			Result b = new Result();
 			b.kind = RESULT_KIND.CONST;
 			b.valueIfConstant = 4;
-			compute(ScannerUtils.plusToken,a,b);
+			compute(ScannerUtils.plusToken, a, b);
 			load(a);
 			Instruction two = Instruction.getInstruction(CODE.ADDI, "#30", "&" + X.addressIfVariable);
 			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);

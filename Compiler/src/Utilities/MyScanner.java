@@ -1,4 +1,5 @@
 package Utilities;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 public class MyScanner {
 
 	public static enum CLASS {
-		VAR, ARR, /*PRO,*/ FUNC, NONE
+		VAR, ARR, /* PRO, */ FUNC, NONE
 	};
 
 	public CLASS mCurrentClass;
@@ -21,9 +22,9 @@ public class MyScanner {
 	private List<String> keywords;
 	public String token = "";
 	private char residualChar = '\0';
-    private static int linecount;
-    private boolean ignoreTillEndLine = false, ignoreTillCommentEndToken = false;
-    private ArrayList<Integer> valuesForArrays = null;
+	private static int linecount;
+	private boolean ignoreTillEndLine = false, ignoreTillCommentEndToken = false;
+	private ArrayList<Integer> valuesForArrays = null;
 
 	protected MyScanner(String FileName) throws IOException {
 		sc = new Scanner(new FileReader(FileName));
@@ -103,7 +104,7 @@ public class MyScanner {
 			currentToken = ScannerUtils.plusToken;
 			break;
 		case '*':
-			currentToken = ScannerUtils.timesToken;	
+			currentToken = ScannerUtils.timesToken;
 			break;
 		case '#':
 			ignoreTillEndLine = true;
@@ -111,12 +112,12 @@ public class MyScanner {
 			break;
 		case '/':
 			ch = sc.next().charAt(0);
-			if(ch == '/') {
-				/*Comment has started*/
+			if (ch == '/') {
+				/* Comment has started */
 				ignoreTillEndLine = true;
 				next();
 			} else if (ch == '*') {
-				/*Multiline has Started */
+				/* Multiline has Started */
 				ignoreTillCommentEndToken = true;
 				next();
 			} else {
@@ -155,7 +156,7 @@ public class MyScanner {
 			currentToken = ScannerUtils.beginToken;
 			break;
 		default:
-			Utils.error("WRONG INPUT, invalid token ch = \""+ch+"\"");
+			Utils.error("WRONG INPUT, invalid token ch = \"" + ch + "\"");
 		}
 	}
 
@@ -257,12 +258,16 @@ public class MyScanner {
 					val = Integer.parseInt(token);
 					break;
 				} else if (Character.isLetter(ch)) {
-					/* We know that the token is either an identifier or a
-					 * keyword */
+					/*
+					 * We know that the token is either an identifier or a
+					 * keyword
+					 */
 					restOfIdentifier();
 					token = token.toLowerCase();
-					/* Token accepted, now we categorize it as either token or
-					 * id */
+					/*
+					 * Token accepted, now we categorize it as either token or
+					 * id
+					 */
 					if (keywords.contains(token)) {
 						handleKeyword(token);
 					} else {
@@ -291,12 +296,13 @@ public class MyScanner {
 
 	@Override
 	protected void finalize() throws Throwable {
-		if(!shutDown)
+		if (!shutDown)
 			shutDown();
 		super.finalize();
 	}
 
 	boolean shutDown = false;
+
 	protected void shutDown() {
 		sc.close();
 		keywords = null;
