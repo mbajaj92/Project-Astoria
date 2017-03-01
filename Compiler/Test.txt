@@ -2,7 +2,18 @@ main
 var b,a,c,x,y;
 array [13][13][13][13]arr1;
 array [5][10] swing;
-procedure pro1(a,b,c,d); {
+{
+	let d<-a-56;
+	let a<-b-c+z;
+	let d<-d-c+z;
+	let i<-98;
+	while d<45 do
+		let i<-d-c;
+	od;
+	let madhur <-a*a;
+	let soham <- d+x;
+}.
+/*procedure pro1(a,b,c,d); {
 let b<-d-01;
 let c<-b-90;
 if a<10 then
@@ -36,6 +47,7 @@ while c<10 do
 	od;
 	let c<-c-1;
 };
+
 {
 	let a<-c+d;
 	let b<-c-d;
@@ -50,4 +62,4 @@ while c<10 do
 		od;
 	od;
 	let c<-a+23-b;
-}.
+}.*/

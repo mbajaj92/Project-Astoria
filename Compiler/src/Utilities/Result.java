@@ -14,4 +14,14 @@ public class Result {
 	public int addressIfVariable;
 	public Instruction instruction;
 	public CODE cond;
+	
+	public Result() {
+		kind = RESULT_KIND.NONE;
+		isArray = false;
+		arrayExp = null;
+		valueIfConstant = -1;
+		addressIfVariable = -1;
+		instruction = null;
+		cond = CODE.NONE;
+	}
 }

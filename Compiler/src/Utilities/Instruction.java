@@ -1,6 +1,7 @@
 package Utilities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Utilities.Utils.CODE;
 
@@ -8,7 +9,7 @@ public class Instruction {
 	private static boolean allowNextAnchorTest = true;
 	private static ArrayList<Instruction> mInstructionList;
 	private Instruction aInstruction, bInstruction, previousInAnchor, referenceInstruction = null;
-	private String aConstant, bConstant, phiFor = null, storeFor = null;
+	private String aConstant, bConstant, phiFor = null, storeFor = null, aInsFor = null, bInsFor = null;
 	private int index = -1;
 	private CODE code;
 	private BasicBlock myBasicBlock;
@@ -46,7 +47,7 @@ public class Instruction {
 		if (!hasReferenceInstruction()) {
 			if (code == CODE.adda)
 				allowNextAnchorTest = false;
-			myBasicBlock.addInstruction(this);
+			myBasicBlock.addInstruction(this, true);
 		}
 	}
 
@@ -107,14 +108,15 @@ public class Instruction {
 	}
 
 	public String toStringImpl() {
-		if (referenceInstruction != null)
-			return referenceInstruction.toStringImpl();
+		/*if (referenceInstruction != null)
+			return referenceInstruction.toStringImpl();*/
 		return "" + index;
 	}
 
 	public static String toStringConstant(String constant) {
-		if (constant == null)
+		if (constant == null || constant.equals("&-1"))
 			return "null";
+
 		if (constant.charAt(0) != '&')
 			return constant;
 
@@ -146,6 +148,8 @@ public class Instruction {
 				+ (aInstruction != null ? "" + aInstruction.toStringImpl() : "null") + ") ("
 				+ (bInstruction != null ? "" + bInstruction.toStringImpl() : "null") + ") "
 				+ toStringConstant(aConstant) + " " + toStringConstant(bConstant)
+				+ (aInsFor != null ? " aFor = " + toStringConstant(aInsFor) : "")
+				+ (bInsFor != null ? " bFor = " + toStringConstant(bInsFor) : "")
 				+ (phiFor != null ? "  PHI FOR " + toStringConstant(phiFor) : "")
 				+ (storeFor == null ? "" : " STORE FOR = " + toStringConstant(storeFor));
 	}
@@ -170,6 +174,14 @@ public class Instruction {
 		return aInstruction;
 	}
 
+	public String getRightConstant() {
+		return bConstant;
+	}
+
+	public void setReferenceInstruction(Instruction ref) {
+		referenceInstruction = ref;
+	}
+
 	public int getIndex() {
 		return index;
 	}
@@ -184,6 +196,28 @@ public class Instruction {
 
 	public static Instruction getCurrentInstruction() {
 		return mInstructionList.get(mInstructionList.size() - 1);
+	}
+
+	public void clearReferenceInstruction() {
+		referenceInstruction = null;
+	}
+
+	public String getAInsFor() {
+		return aInsFor;
+	}
+
+	public String getBInsFor() {
+		return bInsFor;
+	}
+
+	public Instruction setAInsFor(String abc) {
+		aInsFor = abc;
+		return this;
+	}
+
+	public Instruction setBInsFor(String abc) {
+		bInsFor = abc;
+		return this;
 	}
 
 	public Instruction setStoreFor(String sFor) {
@@ -214,7 +248,7 @@ public class Instruction {
 
 	private boolean isBEqual(Instruction i) {
 		if (bInstruction != null && i.bInstruction != null)
-			return bInstruction.isDuplicate(i.bInstruction);
+			return (bInstruction == i.bInstruction || bInstruction.isDuplicate(i.bInstruction));
 
 		if (bConstant != null && i.bConstant != null)
 			return bConstant.equals(i.bConstant);
@@ -224,7 +258,7 @@ public class Instruction {
 
 	private boolean isAEqual(Instruction i) {
 		if (aInstruction != null && i.aInstruction != null)
-			return aInstruction.isDuplicate(i.aInstruction);
+			return (aInstruction == i.aInstruction || aInstruction.isDuplicate(i.aInstruction));
 
 		if (aConstant != null && i.aConstant != null)
 			return aConstant.equals(i.aConstant);
@@ -237,8 +271,7 @@ public class Instruction {
 	}
 
 	private void lastAccessTest() {
-		if (isArray || (code != CODE.move && code != CODE.load))
-			return;
+
 
 		if (code == CODE.move) {
 			referenceInstruction = bInstruction;
@@ -250,11 +283,14 @@ public class Instruction {
 		}
 	}
 
-	private void anchorTest() {
+	public void anchorTest(HashMap<CODE, Instruction> anchor) {
 		if (/* !specialPermission && */Utils.doNotTestAnchor.contains(code))
 			return;
 
-		Instruction anchorTest = myBasicBlock.getAnchorInstructionForCode(code);
+		if (anchor == null)
+			anchor = myBasicBlock.getAnchor();
+
+		Instruction anchorTest = anchor.get(code);
 		while (anchorTest != null) {
 			if (!isDuplicate(anchorTest)) {
 				anchorTest = anchorTest.previousInAnchor;
@@ -263,5 +299,9 @@ public class Instruction {
 				break;
 			}
 		}
+	}
+
+	private void anchorTest() {
+		anchorTest(null);
 	}
 }

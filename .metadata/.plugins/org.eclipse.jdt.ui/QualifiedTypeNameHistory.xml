@@ -23,7 +23,7 @@
 <fullyQualifiedTypeName name="Utilities.MyScanner"/>
 <fullyQualifiedTypeName name="Utilities.BasicBlock"/>
 <fullyQualifiedTypeName name="Utilities.ScannerUtils"/>
-<fullyQualifiedTypeName name="Utilities.Utils.RESULT_KIND"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="Utilities.Instruction"/>
+<fullyQualifiedTypeName name="Utilities.Utils.RESULT_KIND"/>
 </qualifiedTypeNameHistroy>

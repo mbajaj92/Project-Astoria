@@ -1,9 +1,9 @@
 #introduce phi(for while, when you introduce phi, 
 update all the instructions in loopheader and loop body with phi) LOOP LEFT
-#implement move removal DONE
-#implement removal of redundant Basic Blocks
-#implement procedures, functions CFG generation.
-#how to fix Aliasing issues 
+#implement move removal - DONE
+#implement removal of redundant Basic Blocks - fuck it
+#implement procedures, functions CFG generation. - DONE (Soham)
+#how to fix Aliasing issues - DONE
 
 Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> Do arrays and procedures -> RA -> Lowering to machine code.
 

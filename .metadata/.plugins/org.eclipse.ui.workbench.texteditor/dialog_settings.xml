@@ -6,12 +6,13 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="firstParentExists()" key="selection"/>
+		<item value="/*if (i.referenceInstruction != null)*/" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="if (i.referenceInstruction != null)"/>
 			<item value="oneParentON"/>
 			<item value="oneChildON"/>
 			<item value="twoChild.index"/>
@@ -19,9 +20,9 @@
 			<item value="i.index"/>
 			<item value="sc.linecount"/>
 			<item value="case &apos;*"/>
-			<item value="isArray ="/>
 		</list>
 		<list key="replacehistory">
+			<item value="/*if (i.referenceInstruction != null)*/"/>
 			<item value="firstParentExists()"/>
 			<item value="firstChildExists()"/>
 			<item value="twoChild.getIndex()"/>
@@ -29,7 +30,6 @@
 			<item value="i.getIndex()"/>
 			<item value="MyScanner.getLineCount()"/>
 			<item value="Utils.SOPln"/>
-			<item value=""/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

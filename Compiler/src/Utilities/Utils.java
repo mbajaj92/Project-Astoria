@@ -8,6 +8,7 @@ import java.util.List;
 import Utilities.MyScanner.CLASS;
 
 public class Utils {
+	public static int WHILE_DEPTH = 0;
 	public static final boolean COM_SUBEX_ELIM = true;
 	public static final boolean COPY_PROP = true;
 	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE, CODE.BLT,
@@ -70,11 +71,11 @@ public class Utils {
 	}
 
 	public static enum RESULT_KIND {
-		CONST, VAR, INSTRUCTION, CONDITION
+		NONE, CONST, VAR, INSTRUCTION, CONDITION
 	};
 
 	public static enum CODE {
-		ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi
+		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi
 	};
 
 	final public static boolean BINARY = false;
@@ -419,7 +420,8 @@ public class Utils {
 					X.instruction = Y.instruction;
 				else
 					X.instruction = Instruction.getInstruction(opCode == ScannerUtils.plusToken ? CODE.ADDI : CODE.MULI,
-							Y.instruction, "#" + X.valueIfConstant);
+							Y.instruction, "#" + X.valueIfConstant).setAInsFor("&" + Y.addressIfVariable);
+
 				X.kind = RESULT_KIND.INSTRUCTION;
 
 			} else {
@@ -452,11 +454,11 @@ public class Utils {
 						command = CODE.CMPI;
 						break;
 					}
-					X.instruction = Instruction.getInstruction(command, X.instruction, "#" + Y.valueIfConstant);
+					X.instruction = Instruction.getInstruction(command, X.instruction, "#" + Y.valueIfConstant)
+							.setAInsFor("&" + X.addressIfVariable);
 					if (command == CODE.CMPI)
 						handleCompare(opCode);
 
-					// put(command,X.regno,X.regno,Y.value);
 				} else {
 					load(Y);
 					CODE command = null;
@@ -483,14 +485,11 @@ public class Utils {
 						break;
 					}
 
-					X.instruction = Instruction.getInstruction(command, X.instruction, Y.instruction);
+					X.instruction = Instruction.getInstruction(command, X.instruction, Y.instruction)
+							.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
+					X.addressIfVariable = -1;
 					if (command == CODE.CMP)
 						handleCompare(opCode);
-
-					/*
-					 * put(command,X.regno,X.regno,Y.regno);
-					 * deallocateRegister(Y.regno);
-					 */
 				}
 			}
 		}
@@ -546,7 +545,8 @@ public class Utils {
 
 		load(Y);
 		if (!X.isArray) {
-			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction);
+			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction)
+					.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
 		} else {
 
 			Result a = getOffsetForArray(X);
@@ -559,6 +559,10 @@ public class Utils {
 			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
 			Instruction.getInstructionForArray(CODE.store, Y.instruction, three).setStoreFor("&" + X.addressIfVariable);
 		}
+	}
+
+	public static boolean isInLoop() {
+		return WHILE_DEPTH > 0;
 	}
 
 	public static Result getOffsetForArray(Result X) throws Exception {

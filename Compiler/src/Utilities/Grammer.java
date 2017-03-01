@@ -85,7 +85,7 @@ public class Grammer {
 		Result X = ident();
 		while (sc.currentToken == ScannerUtils.openbracketToken) {
 			sc.next();
-			if(!X.isArray) {
+			if (!X.isArray) {
 				X.arrayExp = new ArrayList<Result>();
 				X.isArray = true;
 			}
@@ -108,13 +108,14 @@ public class Grammer {
 	private static void whileStatement() throws Exception {
 		if (sc.currentToken != ScannerUtils.whileToken)
 			Utils.error("Expected while token, got " + sc.token + " at line " + MyScanner.getLineCount());
+		Utils.WHILE_DEPTH++;
 		sc.next();
 
 		BasicBlock previousBlock = BasicBlock.getCurrentBasicBlock();
 		BasicBlock loopHeader = new BasicBlock("LOOP_HEADER");
-		previousBlock.setChild(loopHeader, true);
+		previousBlock.setChild(loopHeader, false);
 		relation();
-		
+
 		if (sc.currentToken == ScannerUtils.doToken) {
 			sc.next();
 			BasicBlock doBlock = new BasicBlock("DO_BLOCK");
@@ -123,12 +124,13 @@ public class Grammer {
 			doBlock = BasicBlock.getCurrentBasicBlock();
 			Instruction.getInstruction(CODE.BSR);
 			doBlock.setChild(loopHeader, false);
-			loopHeader.generetePhiAndUpdateTree(previousBlock.getLastAccessTable(), doBlock.getLastAccessTable());
+			loopHeader.generetePhiAndUpdateTree(previousBlock.getLastAccessTable(), doBlock.getLastAccessTable(),
+					previousBlock.getAnchor());
 			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW");
 			loopHeader.setChild(followBlock, true);
 			if (sc.currentToken != ScannerUtils.odToken)
 				Utils.error("Expected od token, got " + sc.token + " at line " + MyScanner.getLineCount());
-			//Utils.fixup(fixupIndex);
+			Utils.WHILE_DEPTH--;
 			sc.next();
 		} else
 			Utils.error("Expected do token, got " + sc.token + " at line " + MyScanner.getLineCount());
@@ -201,7 +203,7 @@ public class Grammer {
 		if (sc.currentToken == ScannerUtils.becomesToken) {
 			sc.next();
 			Result Y = expression();
-			Utils.becomes(X,Y);
+			Utils.becomes(X, Y);
 		} else
 			Utils.error("Expected <-, got " + sc.token + " at line " + MyScanner.getLineCount());
 	}
@@ -377,7 +379,7 @@ public class Grammer {
 				;
 			while (funcDecl())
 				;
-			new BasicBlock("INIT_BLOCK","MAIN");
+			new BasicBlock("INIT_BLOCK", "MAIN");
 			if (sc.currentToken == ScannerUtils.beginToken) {
 				sc.next();
 				statSequence();
@@ -405,17 +407,14 @@ public class Grammer {
 			elseBlock.setChild(followBlock, false);
 		} else {
 			rightBlock = ifHeader;
-			//ifHeader.replace2ndChild(followBlock);
 		}
 
 		if (!thenBlock.hasInstructions()) {
 			if (rightBlock != ifHeader) {
 				leftBlock = ifHeader;
-				//ifHeader.replace1stChild(followBlock);
 				isFollow = true;
 			} else {
 				thenBlock.ignore();
-				//prev.replaceChild(ifHeader, followBlock);
 				isFollow = false;
 			}
 		} else {
@@ -424,6 +423,7 @@ public class Grammer {
 		}
 
 		if (isFollow)
-			followBlock.updateAnchorLastAccessAndPhi(ifHeader, leftBlock.getLastAccessTable(), rightBlock.getLastAccessTable());
+			followBlock.updateAnchorLastAccessAndPhi(ifHeader, leftBlock.getLastAccessTable(),
+					rightBlock.getLastAccessTable());
 	}
 }
