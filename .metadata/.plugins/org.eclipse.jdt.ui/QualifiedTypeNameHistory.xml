@@ -14,16 +14,16 @@
 <fullyQualifiedTypeName name="java.lang.Comparable"/>
 <fullyQualifiedTypeName name="Utilities.Utils.CODE"/>
 <fullyQualifiedTypeName name="Utilities.Grammer.CLASS"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.Stack"/>
 <fullyQualifiedTypeName name="java.io.RandomAccessFile"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="Utilities.Utils"/>
 <fullyQualifiedTypeName name="Utilities.MyScanner"/>
-<fullyQualifiedTypeName name="Utilities.BasicBlock"/>
 <fullyQualifiedTypeName name="Utilities.ScannerUtils"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="Utilities.Instruction"/>
 <fullyQualifiedTypeName name="Utilities.Utils.RESULT_KIND"/>
+<fullyQualifiedTypeName name="Utilities.BasicBlock"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="Utilities.Instruction"/>
 </qualifiedTypeNameHistroy>

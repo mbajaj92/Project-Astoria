@@ -219,7 +219,6 @@ public class BasicBlock {
 				if (i.getRightConstant().equals(ins.getPhiFor())) {
 					replaceList.put(i, ins);
 					Utils.SOPln("Replacing " + i.getIndex() + "  with " + ins.getIndex() + " CASE 11");
-					mInstructionSet.remove(i);
 					broken = true;
 					break;
 				}
@@ -298,9 +297,6 @@ public class BasicBlock {
 				}
 			}
 		}
-
-		if (phiInstructions.isEmpty())
-			return;
 
 		if (oneChildON)
 			oneChild.whileFix(phiInstructions, phiParams, replaceList, parentAnchor, parentLastAccess);

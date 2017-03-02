@@ -112,7 +112,7 @@ public class Grammer {
 		sc.next();
 
 		BasicBlock previousBlock = BasicBlock.getCurrentBasicBlock();
-		BasicBlock loopHeader = new BasicBlock("LOOP_HEADER");
+		BasicBlock loopHeader = new BasicBlock("LOOP_HEADER_"+Utils.WHILE_DEPTH);
 		previousBlock.setChild(loopHeader, false);
 		relation();
 
@@ -126,7 +126,7 @@ public class Grammer {
 			doBlock.setChild(loopHeader, false);
 			loopHeader.generetePhiAndUpdateTree(previousBlock.getLastAccessTable(), doBlock.getLastAccessTable(),
 					previousBlock.getAnchor());
-			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW");
+			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW_"+Utils.WHILE_DEPTH);
 			loopHeader.setChild(followBlock, true);
 			if (sc.currentToken != ScannerUtils.odToken)
 				Utils.error("Expected od token, got " + sc.token + " at line " + MyScanner.getLineCount());
