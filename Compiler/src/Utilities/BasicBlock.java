@@ -106,20 +106,22 @@ public class BasicBlock {
 
 		for (String key : rightTable.keySet()) {
 			Instruction left = leftTable.get(key);
-			if (left == null)
+			if (left == null && !isWhile)
 				Utils.error("Left Chain is null for for " + Instruction.toStringConstant(key));
 			Instruction right = rightTable.get(key);
-			if (right == null)
+			if (right == null && !isWhile)
 				Utils.error("Right Chain is null for for " + Instruction.toStringConstant(key));
 
-			if (left != right && !lastAccessTable.containsKey(key)) {
+			if ((isWhile && left == null)
+					|| ((((isWhile && right != null) || (!isWhile)) && (left != right && !right.isDuplicate(left))))
+							&& !lastAccessTable.containsKey(key)) {
 				if (isWhile) {
 					if (right.getCode() != CODE.load) {
 						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key);
 						mInstructionSet.add(0, i);
 						updateLastAccessFor(key, i);
 					} else
-						updateLastAccessFor(key, left);
+						updateLastAccessFor(key, right);
 				} else
 					updateLastAccessFor(key, Instruction.getInstruction(CODE.phi, left, right).setPhiFor(key));
 			} else if (!lastAccessTable.containsKey(key))
@@ -260,7 +262,7 @@ public class BasicBlock {
 				i.clearReferenceInstruction();
 		}
 
-		if (phiParams.contains(i)) {
+		if (i.getCode() != CODE.phi && phiParams.contains(i)) {
 			int index = phiParams.indexOf(i);
 			phiParams.remove(index - 1);
 			phiParams.remove(index - 1);
@@ -291,6 +293,9 @@ public class BasicBlock {
 			for (int k = phiInstructions.size() - 1; k >= 0; k--) {
 				Instruction phi = phiInstructions.get(k);
 				if (phi.getPhiFor().equals(Str)) {
+					if(i.getLeftInstruction() == null)
+						i.setLeftInstruction(phi);
+
 					phiInstructions.remove(phi);
 					phiParams.remove(2 * k);
 					phiParams.remove(2 * k);
@@ -349,9 +354,9 @@ public class BasicBlock {
 		if (!toBeFixed.contains(lastInstruction.getCode()))
 			return;
 
-		if (lastInstruction.getCode() == CODE.BSR) {
+		if (lastInstruction.getCode() == CODE.BSR)
 			lastInstruction.fixup(oneChild.getFirstInstruction());
-		} else
+		else
 			lastInstruction.fixup(twoChild.getFirstInstruction());
 	}
 
