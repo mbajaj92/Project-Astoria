@@ -1,147 +1,141 @@
 digraph {
 0[label="
-TAG: INIT_BLOCK(0)  func = MAIN
-0: ADDI (null) (null) #0 #45 aFor = &madhur bFor = null
-2: ADDI (null) (null) #0 #68 aFor = &soham bFor = null
-6: load (null) (null) #30 &a
-7: SUBI (6) (null) null #56 aFor = &d bFor = &a
-9: load (null) (null) #30 &b
-10: load (null) (null) #30 &c
-11: SUB (9) (10) null null aFor = &b bFor = &c
-12: load (null) (null) #30 &z
-13: ADD (11) (12) null null aFor = &a bFor = null
-17: SUB (7) (10) null null aFor = &d bFor = &c
-19: ADD (17) (12) null null aFor = &d bFor = null
-21: ADDI (null) (null) #0 #9 aFor = &x bFor = null
-23: ADDI (null) (null) #0 #98 aFor = &i bFor = null
-25: ADDI (null) (null) #0 #94 aFor = &j bFor = null
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC
+63: BSR (44) (null) null null
 "];
 0[shape=box];
-0 -> 1[color=blue]
+0 -> 15[color=blue]
 1[label="
-TAG: IF_HEADER(1)  func = MAIN
-28: CMPI (13) (null) null #45 aFor = &a
-29: BGE (94) (null) null null
+TAG: PROC_START(1)  func = &pro2
+0: load (null) (null) #30 &d
+1: SUBI (0) (null) null #1 aFor = &b
+3: load (null) (null) #30 &c
+4: ADDI (3) (null) null #78 aFor = &c
+5: ADDI (null) (null) #0 #5
+7: SUB (5) (0) null null bFor = &d
+8: ADDI (7) (null) null #8
+9: call (null) (null) &pro1 null aFor = &c has func params
 "];
 1[shape=box];
-1 -> 2[color=blue]
-1 -> 3[color=red]
-1 -> 0[color=blue][style=dotted]
 2[label="
-TAG: THEN_BLOCK(2)  func = MAIN
-30: ADDI (null) (null) #0 #90 aFor = &x bFor = null
-32: BSR (85) (null) null null
+TAG: PROC_START(2)  func = &pro1
+11: load (null) (null) #30 &d
+12: SUBI (11) (null) null #1 aFor = &b
+15: SUBI (12) (null) null #90 aFor = &c
 "];
 2[shape=box];
-2 -> 13[color=blue]
-2 -> 1[color=blue][style=dotted]
+2 -> 3[color=blue]
 3[label="
-TAG: ELSE_BLOCK(3)  func = MAIN
-94: BSR (80) (null) null null
+TAG: IF_HEADER(3)  func = &pro1
+17: load (null) (null) #30 &a
+18: CMPI (17) (null) null #10 aFor = &a
+19: BGE (64) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
-3 -> 1[color=blue][style=dotted]
+3 -> 9[color=black]
+3 -> 2[color=blue][style=dotted]
 4[label="
-TAG: LOOP_HEADER_1(4)  func = MAIN
-80: phi (10) (72) null null  PHI FOR &c
-79: phi (25) (75) null null  PHI FOR &j
-78: phi (23) (73) null null  PHI FOR &i
-77: phi (19) (74) null null  PHI FOR &d
-34: CMPI (77) (null) null #45 aFor = &d
-35: BGE (95) (null) null null
+TAG: THEN_BLOCK(4)  func = &pro1
+65: BSR (21) (null) null null
 "];
 4[shape=box];
 4 -> 5[color=blue]
-4 -> 12[color=red]
 4 -> 3[color=blue][style=dotted]
-4 -> 11[color=red][style=dotted]
 5[label="
-TAG: DO_BLOCK(5)  func = MAIN
-38: SUB (0) (80) null null aFor = null bFor = &c
-40: MUL (78) (38) null null aFor = &i bFor = null
+TAG: IF_HEADER(5)  func = &pro1
+21: CMPI (12) (null) null #10 aFor = &b
+22: BGE (26) (null) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]
+5 -> 7[color=black]
 5 -> 4[color=blue][style=dotted]
 6[label="
-TAG: LOOP_HEADER_2(6)  func = MAIN
-75: phi (79) (70) null null  PHI FOR &j
-74: phi (77) (69) null null  PHI FOR &d
-73: phi (40) (68) null null  PHI FOR &i
-72: phi (80) (49) null null  PHI FOR &c
-43: CMPI (73) (null) null #56 aFor = &i
-44: BGE (76) (null) null null
+TAG: THEN_BLOCK(6)  func = &pro1
+23: ADDI (null) (null) #0 #9 aFor = &a
+25: BSR (29) (null) null null
 "];
 6[shape=box];
-6 -> 7[color=blue]
-6 -> 11[color=red]
+6 -> 8[color=blue]
 6 -> 5[color=blue][style=dotted]
-6 -> 10[color=red][style=dotted]
 7[label="
-TAG: DO_BLOCK(7)  func = MAIN
-47: SUB (0) (74) null null aFor = null bFor = &d
-49: MUL (72) (47) null null aFor = &c bFor = null
+TAG: ELSE_BLOCK(7)  func = &pro1
+26: ADDI (null) (null) #0 #89 aFor = &b
 "];
 7[shape=box];
 7 -> 8[color=blue]
-7 -> 6[color=blue][style=dotted]
+7 -> 5[color=blue][style=dotted]
 8[label="
-TAG: LOOP_HEADER_3(8)  func = MAIN
-70: phi (75) (62) null null  PHI FOR &j
-69: phi (74) (58) null null  PHI FOR &d
-68: phi (73) (65) null null  PHI FOR &i
-52: CMPI (49) (null) null #90 aFor = &c
-53: BGE (71) (null) null null
+TAG: FOLLOW_BLOCK(8)  func = &pro1
+29: phi (12) (26) null null  PHI FOR &b
+28: phi (23) (17) null null  PHI FOR &a
+30: BSR (43) (null) null null
 "];
 8[shape=box];
-8 -> 9[color=blue]
-8 -> 10[color=red]
+8 -> 14[color=blue]
 8 -> 7[color=blue][style=dotted]
-8 -> 9[color=red][style=dotted]
+8 -> 6[color=black][style=dotted]
 9[label="
-TAG: DO_BLOCK(9)  func = MAIN
-56: SUB (0) (68) null null aFor = null bFor = &i
-58: MUL (69) (56) null null aFor = &d bFor = null
-62: SUB (68) (49) null null aFor = &j bFor = null
-65: SUBI (62) (null) null #1 aFor = &i bFor = &j
-67: BSR (70) (null) null null
+TAG: ELSE_BLOCK(9)  func = &pro1
+64: BSR (32) (null) null null
 "];
 9[shape=box];
-9 -> 8[color=blue]
-9 -> 8[color=blue][style=dotted]
+9 -> 10[color=blue]
+9 -> 3[color=blue][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_3(10)  func = MAIN
-71: BSR (75) (null) null null
+TAG: IF_HEADER(10)  func = &pro1
+32: CMPI (15) (null) null #10 aFor = &c
+33: BGE (37) (null) null null
 "];
 10[shape=box];
-10 -> 6[color=blue]
-10 -> 8[color=blue][style=dotted]
+10 -> 11[color=blue]
+10 -> 12[color=black]
+10 -> 9[color=blue][style=dotted]
 11[label="
-TAG: LOOP_FOLLOW_2(11)  func = MAIN
-76: BSR (80) (null) null null
+TAG: THEN_BLOCK(11)  func = &pro1
+34: ADDI (null) (null) #0 #45 aFor = &a
+36: BSR (40) (null) null null
 "];
 11[shape=box];
-11 -> 4[color=blue]
-11 -> 6[color=blue][style=dotted]
+11 -> 13[color=blue]
+11 -> 10[color=blue][style=dotted]
 12[label="
-TAG: LOOP_FOLLOW_1(12)  func = MAIN
-95: BSR (85) (null) null null
+TAG: ELSE_BLOCK(12)  func = &pro1
+37: ADDI (null) (null) #0 #10 aFor = &c
 "];
 12[shape=box];
 12 -> 13[color=blue]
-12 -> 4[color=blue][style=dotted]
+12 -> 10[color=blue][style=dotted]
 13[label="
-TAG: FOLLOW_BLOCK(13)  func = MAIN
-85: phi (30) (21) null null  PHI FOR &x
-84: phi (10) (80) null null  PHI FOR &c
-83: phi (25) (79) null null  PHI FOR &j
-82: phi (23) (78) null null  PHI FOR &i
-81: phi (19) (77) null null  PHI FOR &d
-88: MUL (13) (13) null null aFor = &madhur bFor = null
-92: ADD (81) (85) null null aFor = &soham bFor = null
+TAG: FOLLOW_BLOCK(13)  func = &pro1
+40: phi (15) (37) null null  PHI FOR &c
+39: phi (34) (17) null null  PHI FOR &a
 "];
 13[shape=box];
+13 -> 14[color=blue]
 13 -> 12[color=blue][style=dotted]
-13 -> 2[color=red][style=dotted]
+13 -> 11[color=black][style=dotted]
+14[label="
+TAG: FOLLOW_BLOCK(14)  func = &pro1
+43: phi (15) (40) null null  PHI FOR &c
+42: phi (29) (12) null null  PHI FOR &b
+41: phi (28) (39) null null  PHI FOR &a
+"];
+14[shape=box];
+14 -> 13[color=blue][style=dotted]
+14 -> 8[color=black][style=dotted]
+15[label="
+TAG: INIT_CONT(15)  func = MAIN_FUNC
+44: load (null) (null) #30 &c
+45: load (null) (null) #30 &d
+46: ADD (44) (45) null null aFor = &a bFor = &d
+50: SUB (44) (45) null null aFor = &b bFor = &d
+54: MUL (44) (45) null null aFor = &i bFor = &d
+56: call (null) (null) &pro1 null aFor = &j
+59: ADDI (46) (null) null #23 aFor = &a
+61: SUB (59) (50) null null aFor = &c bFor = &b
+"];
+15[shape=box];
+15 -> 0[color=blue][style=dotted]
 }

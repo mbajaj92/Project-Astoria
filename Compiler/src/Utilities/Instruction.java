@@ -6,6 +6,8 @@ import java.util.HashMap;
 import Utilities.Utils.CODE;
 
 public class Instruction {
+	private ArrayList<Instruction> funcParameters = null;
+	private boolean isLoadForArray = false;
 	private static boolean allowNextAnchorTest = true;
 	private static ArrayList<Instruction> mInstructionList;
 	private Instruction aInstruction, bInstruction, previousInAnchor, referenceInstruction = null;
@@ -115,19 +117,26 @@ public class Instruction {
 		return "" + index;
 	}
 
-	public static String toStringConstant(String constant) {
-		if (constant == null || constant.equals("&-1"))
+	public static String toStringConstant(String constant, String funcName) {
+		if (constant == null || Integer.parseInt(constant.substring(1)) == Integer.MAX_VALUE)
 			return "null";
 
 		if (constant.charAt(0) != '&')
 			return constant;
 
 		try {
-			return "&" + Utils.address2Identifier(Integer.parseInt(constant.substring(1)));
+			return "&" + Utils.address2Identifier(Integer.parseInt(constant.substring(1)), funcName);
 		} catch (Exception E) {
 			Utils.SOPln(E);
 			return null;
 		}
+	}
+
+	public String toStringConstant(String constant) {
+		String ans = toStringConstant(constant, myBasicBlock.getFunctionName());
+		if (ans == null)
+			Utils.SOPln("WE GFOUND AN EXCEPTION FOR " + index);
+		return ans;
 	}
 
 	public String testToString() {
@@ -141,6 +150,15 @@ public class Instruction {
 				+ (referenceInstruction != null ? " REPLACED WITH (" + referenceInstruction.toStringImpl() + ")" : "");
 	}
 
+	private boolean shouldPrint(String toPrint) {
+		if (toPrint == null)
+			return false;
+
+		if (toPrint.equals("&" + Integer.MAX_VALUE))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		if (hasReferenceInstruction())
@@ -150,14 +168,35 @@ public class Instruction {
 				+ (aInstruction != null ? "" + aInstruction.toStringImpl() : "null") + ") ("
 				+ (bInstruction != null ? "" + bInstruction.toStringImpl() : "null") + ") "
 				+ toStringConstant(aConstant) + " " + toStringConstant(bConstant)
-				+ (aInsFor != null ? " aFor = " + toStringConstant(aInsFor) : "")
-				+ (bInsFor != null ? " bFor = " + toStringConstant(bInsFor) : "")
+				+ (shouldPrint(aInsFor) ? " aFor = " + toStringConstant(aInsFor) : "")
+				+ (shouldPrint(bInsFor) ? " bFor = " + toStringConstant(bInsFor) : "")
 				+ (phiFor != null ? "  PHI FOR " + toStringConstant(phiFor) : "")
-				+ (storeFor == null ? "" : " STORE FOR = " + toStringConstant(storeFor));
+				+ (storeFor == null ? "" : " STORE FOR= " + toStringConstant(storeFor))
+				+ (hasFunctionParameters() ? " has func params" : "");
 	}
 
 	public boolean hasReferenceInstruction() {
 		return (referenceInstruction != null);
+	}
+
+	public boolean hasFunctionParameters() {
+		return funcParameters != null;
+	}
+
+	public Instruction setFunctionParameters(ArrayList<Result> R) {
+		if (R == null)
+			return this;
+
+		funcParameters = new ArrayList<Instruction>();
+		for (Result r : R)
+			funcParameters.add(r.instruction);
+
+		return this;
+	}
+
+	public Instruction setBasicBlock(BasicBlock bb) {
+		myBasicBlock = bb;
+		return this;
 	}
 
 	public void setRightInstruction(Instruction i) {
@@ -242,6 +281,15 @@ public class Instruction {
 
 	public CODE getCode() {
 		return code;
+	}
+
+	public boolean isLoadForArray() {
+		return isLoadForArray;
+	}
+
+	public Instruction setLoadForArray() {
+		isLoadForArray = true;
+		return this;
 	}
 
 	public void setPreviousInAnchor(Instruction prev) {

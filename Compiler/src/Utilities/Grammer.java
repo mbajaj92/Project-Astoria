@@ -2,7 +2,7 @@ package Utilities;
 
 import java.util.ArrayList;
 
-import Utilities.MyScanner.CLASS;
+import Utilities.MyScanner.VARIABLE_TYPE;
 import Utilities.Utils.CODE;
 import Utilities.Utils.RESULT_KIND;
 
@@ -23,7 +23,7 @@ public class Grammer {
 			sc.next();
 			break;
 		default:
-			Utils.error("Expected Relational Operator Token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected Relational Operator Token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		}
 		return code;
 	}
@@ -71,11 +71,11 @@ public class Grammer {
 			sc.next();
 			X = expression();
 			if (sc.currentToken != ScannerUtils.closeparanToken)
-				Utils.error("Expected ) token, got " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error("Expected ) token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 			sc.next();
 			break;
 		case ScannerUtils.callToken:
-			funcCall();
+			X = funcCall();
 			break;
 		}
 		return X;
@@ -86,12 +86,12 @@ public class Grammer {
 		while (sc.currentToken == ScannerUtils.openbracketToken) {
 			sc.next();
 			if (!X.isArray) {
-				X.arrayExp = new ArrayList<Result>();
+				X.expresssions = new ArrayList<Result>();
 				X.isArray = true;
 			}
-			X.arrayExp.add(expression());
+			X.expresssions.add(expression());
 			if (sc.currentToken != ScannerUtils.closebracketToken)
-				Utils.error("Expected token ], got " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error("Expected token ], got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 			sc.next();
 		}
 		return X;
@@ -99,7 +99,7 @@ public class Grammer {
 
 	private static void returnStatement() throws Exception {
 		if (sc.currentToken != ScannerUtils.returnToken)
-			Utils.error("Expected return token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected return token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		sc.next();
 
 		expression();
@@ -107,7 +107,7 @@ public class Grammer {
 
 	private static void whileStatement() throws Exception {
 		if (sc.currentToken != ScannerUtils.whileToken)
-			Utils.error("Expected while token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected while token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		Utils.WHILE_DEPTH++;
 		sc.next();
 
@@ -129,16 +129,16 @@ public class Grammer {
 			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW_"+Utils.WHILE_DEPTH);
 			loopHeader.setChild(followBlock, true);
 			if (sc.currentToken != ScannerUtils.odToken)
-				Utils.error("Expected od token, got " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error("Expected od token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 			Utils.WHILE_DEPTH--;
 			sc.next();
 		} else
-			Utils.error("Expected do token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected do token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 	}
 
 	private static void ifStatement() throws Exception {
 		if (sc.currentToken != ScannerUtils.ifToken)
-			Utils.error("Expected If token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected If token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		sc.next();
 
 		BasicBlock prevBlock = BasicBlock.getCurrentBasicBlock();
@@ -169,35 +169,47 @@ public class Grammer {
 			if (sc.currentToken == ScannerUtils.fiToken)
 				sc.next();
 			else
-				Utils.error("Expected fi token, got " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error("Expected fi token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		} else
-			Utils.error("Expected then token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected then token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 	}
 
-	private static void funcCall() throws Exception {
+	private static Result funcCall() throws Exception {
 		if (sc.currentToken != ScannerUtils.callToken)
-			Utils.error("Expected call token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected call token, got " + sc.token + " at line "
+					+ ScannerUtils.getCurrentScanner().getLineCount());
+		Result X = new Result();
+		sc.setCurrentFunction(Utils.MAIN_FUNC);
+		sc.setVarType(VARIABLE_TYPE.FUNC);
 		sc.next();
-
-		ident();
+		X = ident();
+		X.isFunc = true;
+		sc.setVarType(VARIABLE_TYPE.NONE);
+		sc.setCurrentFunction(BasicBlock.getCurrentBasicBlock().getFunctionName());
 		if (sc.currentToken == ScannerUtils.openparanToken) {
+			X.expresssions = new ArrayList<Result>();
 			sc.next();
-			expression();
+			X.expresssions.add(expression());
 			while (sc.currentToken == ScannerUtils.commaToken) {
 				sc.next();
-				expression();
+				X.expresssions.add(expression());
 			}
 
 			if (sc.currentToken == ScannerUtils.closeparanToken) {
 				sc.next();
 			} else
-				Utils.error("Expected ), got " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error(
+						"Expected ), got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		}
+		X.instruction = Instruction.getInstruction(CODE.call, "&" + X.addressIfVariable, null, true)
+				.setFunctionParameters(X.expresssions);
+		X.kind = RESULT_KIND.INSTRUCTION;
+		return X;
 	}
 
 	private static void assignment() throws Exception {
 		if (sc.currentToken != ScannerUtils.letToken)
-			Utils.error("Expected let token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected let token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		sc.next();
 		Result X = designator();
 		if (sc.currentToken == ScannerUtils.becomesToken) {
@@ -205,7 +217,7 @@ public class Grammer {
 			Result Y = expression();
 			Utils.becomes(X, Y);
 		} else
-			Utils.error("Expected <-, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected <-, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 	}
 
 	private static void statement() throws Exception {
@@ -245,10 +257,10 @@ public class Grammer {
 			statSequence();
 
 			if (sc.currentToken != ScannerUtils.endToken)
-				Utils.error("Expected } token, but got " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error("Expected } token, but got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 			sc.next();
 		} else
-			Utils.error("Expected { token, but got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected { token, but got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 	}
 
 	private static void formalParam(Result X) throws Exception {
@@ -267,7 +279,8 @@ public class Grammer {
 			}
 
 			if (sc.currentToken != ScannerUtils.closeparanToken)
-				Utils.error("Expected ), but found " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error("Expected ), but found " + sc.token + " at line "
+						+ ScannerUtils.getCurrentScanner().getLineCount());
 			sc.next();
 		}
 		Utils.updateParamSize(X.addressIfVariable, size);
@@ -275,16 +288,19 @@ public class Grammer {
 
 	private static boolean funcDecl() throws Exception {
 		if (sc.currentToken == ScannerUtils.funcToken || sc.currentToken == ScannerUtils.procToken) {
+			ScannerUtils.getCurrentScanner().setCurrentFunction(Utils.MAIN_FUNC);
+			sc.setVarType(VARIABLE_TYPE.FUNC);
 			sc.next();
-			sc.mCurrentClass = CLASS.FUNC;
 			Result X = ident();
-			sc.mCurrentClass = CLASS.NONE;
+			ScannerUtils.getCurrentScanner().setCurrentFunction(Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC));
+			new BasicBlock("PROC_START", Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC));
+			sc.setVarType(VARIABLE_TYPE.FUNC_PARAMS);
 			formalParam(X);
+			sc.setVarType(VARIABLE_TYPE.NONE);
 
 			if (sc.currentToken == ScannerUtils.semiToken) {
 				sc.next();
 
-				new BasicBlock("PROC_START", Instruction.toStringConstant("&" + X.addressIfVariable));
 				funcBody();
 				if (!(sc.currentToken == ScannerUtils.semiToken))
 					Utils.error("Expected ; but found " + sc.token);
@@ -298,7 +314,7 @@ public class Grammer {
 
 	private static Result ident() throws Exception {
 		if (sc.currentToken != ScannerUtils.ident)
-			Utils.error("Expected Identifier, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected Identifier, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		Result X = new Result();
 		X.kind = RESULT_KIND.VAR;
 		X.addressIfVariable = sc.id;
@@ -308,7 +324,7 @@ public class Grammer {
 
 	private static Result number() throws Exception {
 		if (sc.currentToken != ScannerUtils.number)
-			Utils.error("Expected number, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected number, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		Result X = new Result();
 		X.kind = RESULT_KIND.CONST;
 		X.valueIfConstant = sc.val;
@@ -320,11 +336,11 @@ public class Grammer {
 		if (sc.currentToken != ScannerUtils.varToken && sc.currentToken != ScannerUtils.arrToken)
 			return false;
 		if (sc.currentToken == ScannerUtils.varToken) {
-			sc.mCurrentClass = CLASS.VAR;
+			sc.setVarType(VARIABLE_TYPE.VAR);
 			valuesForArray = null;
 			sc.next();
 		} else if (sc.currentToken == ScannerUtils.arrToken) {
-			sc.mCurrentClass = CLASS.ARR;
+			sc.setVarType(VARIABLE_TYPE.ARR);
 			sc.next();
 			if (sc.currentToken == ScannerUtils.openbracketToken) {
 				sc.next();
@@ -335,7 +351,7 @@ public class Grammer {
 					sc.setValues(valuesForArray);
 					sc.next();
 				} else
-					Utils.error("Expected ], but got " + sc.token + " at line " + MyScanner.getLineCount());
+					Utils.error("Expected ], but got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 
 				while (sc.currentToken == ScannerUtils.openbracketToken) {
 					sc.next();
@@ -344,10 +360,10 @@ public class Grammer {
 						sc.setValues(valuesForArray);
 						sc.next();
 					} else
-						Utils.error("Expected ], but got " + sc.token + " at line " + MyScanner.getLineCount());
+						Utils.error("Expected ], but got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 				}
 			} else
-				Utils.error("Expected [, but got " + sc.token + " at line " + MyScanner.getLineCount());
+				Utils.error("Expected [, but got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		}
 		return true;
 	}
@@ -363,9 +379,9 @@ public class Grammer {
 		}
 		sc.setValues(null);
 		if (!(sc.currentToken == ScannerUtils.semiToken))
-			Utils.error("Expected ; token, but got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected ; token, but got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
+		sc.setVarType(VARIABLE_TYPE.NONE);
 		sc.next();
-		sc.mCurrentClass = CLASS.NONE;
 		return true;
 	}
 
@@ -373,25 +389,29 @@ public class Grammer {
 		sc = myScan;
 
 		if (sc.currentToken == ScannerUtils.mainToken) {
-
+			BasicBlock buildingBlock = new BasicBlock("INIT_BLOCK", Utils.MAIN_FUNC);
 			sc.next();
+			ScannerUtils.getCurrentScanner().setCurrentFunction(Utils.MAIN_FUNC);
 			while (varDecl())
 				;
 			while (funcDecl())
 				;
-			new BasicBlock("INIT_BLOCK", "MAIN");
+			ScannerUtils.getCurrentScanner().setCurrentFunction(Utils.MAIN_FUNC);
+			BasicBlock secondBlock = new BasicBlock("INIT_CONT");
+			buildingBlock.setChild(secondBlock, true);
+
 			if (sc.currentToken == ScannerUtils.beginToken) {
 				sc.next();
 				statSequence();
 				if (sc.currentToken == ScannerUtils.endToken) {
 					sc.next();
 					if (sc.currentToken != ScannerUtils.periodToken)
-						Utils.error("Expected period token, got " + sc.token + " at line " + MyScanner.getLineCount());
+						Utils.error("Expected period token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 				} else
-					Utils.error("Expected } got " + sc.token + " at line " + MyScanner.getLineCount());
+					Utils.error("Expected } got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 			}
 		} else
-			Utils.error("Expected main token, got " + sc.token + " at line " + MyScanner.getLineCount());
+			Utils.error("Expected main token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 	}
 
 	public static void handleFollowBlockForIf(BasicBlock prev, BasicBlock ifHeader, BasicBlock thenBlock,

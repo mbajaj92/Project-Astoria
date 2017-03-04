@@ -3,26 +3,24 @@ package Utilities;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class MyScanner {
 
-	public static enum CLASS {
-		VAR, ARR, /* PRO, */ FUNC, NONE
+	public static enum VARIABLE_TYPE {
+		VAR, ARR, /* PRO, */ FUNC, FUNC_PARAMS, NONE
 	};
 
-	public CLASS mCurrentClass;
+	private VARIABLE_TYPE mCurrentVarType;
+	private String mCurrentFunction = null;
 
 	private Scanner sc;
 	public int currentToken; // The current token on the input, STILL NOT PROCESSED
 	public int val; // Value of the last no encountered
 	public int id; // ID of the last Identifier encountered, check ID_TABLE
-	private List<String> keywords;
 	public String token = "";
 	private char residualChar = '\0';
-	private static int linecount;
+	private int linecount;
 	private boolean ignoreTillEndLine = false, ignoreTillCommentEndToken = false;
 	private ArrayList<Integer> valuesForArrays = null;
 
@@ -30,9 +28,7 @@ public class MyScanner {
 		sc = new Scanner(new FileReader(FileName));
 		sc.useDelimiter("");
 		linecount = 1;
-		keywords = Arrays.asList("then", "do", "od", "fi", "else", "let", "call", "if", "while", "return", "var",
-				"array", "function", "procedure", "main");
-		mCurrentClass = CLASS.NONE;
+		mCurrentVarType = VARIABLE_TYPE.NONE;
 	}
 
 	private void number() throws Exception {
@@ -264,15 +260,13 @@ public class MyScanner {
 					 */
 					restOfIdentifier();
 					token = token.toLowerCase();
-					/*
-					 * Token accepted, now we categorize it as either token or
-					 * id
-					 */
-					if (keywords.contains(token)) {
+					/* Token accepted, now we categorize it as either token or
+					 * id */
+					if (ScannerUtils.isKeyword(token)) {
 						handleKeyword(token);
 					} else {
 						currentToken = ScannerUtils.ident;
-						id = Utils.identifier2Address(token, valuesForArrays, mCurrentClass);
+						id = Utils.identifier2Address(token, valuesForArrays, mCurrentVarType);
 					}
 					break;
 				} else {
@@ -286,8 +280,20 @@ public class MyScanner {
 		}
 	}
 
-	public static int getLineCount() {
+	public int getLineCount() {
 		return linecount;
+	}
+
+	public String getCurrentFunction() {
+		return mCurrentFunction;
+	}
+
+	public void setCurrentFunction(String func) {
+		mCurrentFunction = func;
+	}
+
+	public void setVarType(VARIABLE_TYPE c) {
+		mCurrentVarType = c;
 	}
 
 	public void setValues(ArrayList<Integer> values) {
@@ -305,7 +311,6 @@ public class MyScanner {
 
 	protected void shutDown() {
 		sc.close();
-		keywords = null;
 		shutDown = true;
 	}
 }

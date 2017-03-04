@@ -1,12 +1,27 @@
 package Utilities;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ScannerUtils {
 	private static MyScanner myScanner = null;
+	private static List<String> keywords = Arrays.asList("then", "do", "od", "fi", "else", "let", "call", "if",
+			"while", "return", "var", "array", "function", "procedure", "main");
+
+	public static MyScanner getCurrentScanner() throws Exception {
+		if (myScanner == null)
+			Utils.error("SCANNER NOT DEFINED");
+		return myScanner;
+	}
 
 	public static MyScanner getScanner(String path) throws Exception {
 		if (myScanner == null)
 			myScanner = new MyScanner(path);
 		return myScanner;
+	}
+
+	public static boolean isKeyword(String token) {
+		return keywords.contains(token);
 	}
 
 	final public static int errorToken = 0;

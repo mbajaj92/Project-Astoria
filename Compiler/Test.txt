@@ -1,36 +1,12 @@
 main
-var b,a,c,x,y;
+var a,c,x,y,b,madhur,soham,d,z,i,j;
 array [13][13][13][13]arr1;
 array [5][10] swing;
-{
-	let madhur <-45;
-	let soham <- 68;
-	let soham <- 68;
-	let d<-a-56;
-	let a<-b-c+z;
-	let d<-d-c+z;
-	let x<-09;
-	let i<-98;
-	let j<-94;
-	if a < 45 then
-		let x<-90;
-	else
-	while d<45 do
-		let i<-i*(45-c);		
-		while i<56 do
-			let c<-c*(45-d);
-			while c<90 do
-				let d<-d*(45-i);
-				let j<-i-c;
-				let i<-j-1;
-			od;
-		od;
-	od;
-	fi;
-	let madhur <-a*a;
-	let soham <- d+x;
-}.
-/*procedure pro1(a,b,c,d); {
+procedure pro2(a,b,c,d); {
+let b<-d-01;
+let c<-call pro1(b,a,78+c,5-d+8);
+};
+procedure pro1(a,b,c,d); {
 let b<-d-01;
 let c<-b-90;
 if a<10 then
@@ -47,36 +23,18 @@ if a<10 then
 		fi;
 	fi;
 };
-
-procedure pro2(m,n,o,p); {
-let b<-89-67;
-let c<-67;
-while c<10 do
-		if b<25 then
-		while c<11 do
-			let c<-c-1;
-		od;
-		else
-		while c<11 do
-			let c<-c-1;
-		od;
-		fi;
-	od;
-	let c<-c-1;
-};
-
 {
 	let a<-c+d;
 	let b<-c-d;
 	let i<-c*d;
-	let j<-c/d;
-	while swing[i][j]<10 do
+	let j<-call pro1;
+	/*while swing[i][j]<10 do
 		let i<-c+d; #This instruction gets replaced completely 
 					#because aliasing need to find solution
 		let c<-c-1;
 		while swing[i][j]<20 do
 			let j<-a-b;
 		od;
-	od;
+	od;*/
 	let c<-a+23-b;
-}.*/
+}.

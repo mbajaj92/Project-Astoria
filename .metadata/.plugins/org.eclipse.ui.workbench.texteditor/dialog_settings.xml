@@ -6,37 +6,37 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="parentAnchor =" key="selection"/>
+		<item value="*/" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="parentAnchor ="/>
-			<item value="parentLastAccess ="/>
-			<item value="Case 22"/>
-			<item value="anchor ="/>
-			<item value="if (i.referenceInstruction != null)"/>
-			<item value="oneParentON"/>
-			<item value="oneChildON"/>
-			<item value="twoChild.index"/>
+			<item value="*/"/>
+			<item value="Assign"/>
+			<item value="MyScanner.setCurrentFunction"/>
+			<item value="MyScanner.getLineCount()"/>
+			<item value="storeFor ="/>
+			<item value="addressIfVariable = "/>
+			<item value="addressIfVariable"/>
+			<item value="mInstructionSet.add("/>
 		</list>
 		<list key="replacehistory">
+			<item value="ScannerUtils.getCurrentScanner().setCurrentFunction"/>
+			<item value="ScannerUtils.getCurrentScanner().getLineCount()"/>
+			<item value="ScannerUtils.getCurrentScanner.getLineCount()"/>
 			<item value="/*if (i.referenceInstruction != null)*/"/>
 			<item value="firstParentExists()"/>
 			<item value="firstChildExists()"/>
 			<item value="twoChild.getIndex()"/>
 			<item value="oneChild.getIndex()"/>
-			<item value="i.getIndex()"/>
-			<item value="MyScanner.getLineCount()"/>
-			<item value="Utils.SOPln"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="385" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="523" key="DIALOG_HEIGHT"/>
-		<item value="700" key="DIALOG_X_ORIGIN"/>
-		<item value="243" key="DIALOG_Y_ORIGIN"/>
+		<item value="1101" key="DIALOG_X_ORIGIN"/>
+		<item value="508" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

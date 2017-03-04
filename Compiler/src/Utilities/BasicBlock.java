@@ -58,9 +58,9 @@ public class BasicBlock {
 		}
 
 		if (code == CODE.phi)
-			mInstructionSet.add(0, i);
+			mInstructionSet.add(0, i.setBasicBlock(this));
 		else
-			mInstructionSet.add(i);
+			mInstructionSet.add(i.setBasicBlock(this));
 	}
 
 	public void setAsCurrent() {
@@ -84,16 +84,16 @@ public class BasicBlock {
 			boolean isWhile) throws Exception {
 		for (String key : leftTable.keySet()) {
 			Instruction left = leftTable.get(key);
-			if (!isWhile && left == null)
-				Utils.error("Left Chain is null for " + Instruction.toStringConstant(key));
 			Instruction right = rightTable.get(key);
+			if (!isWhile && left == null)
+				Utils.error("Left Chain is null for " + right.toStringConstant(key));
 			if (right == null && !isWhile)
-				Utils.error("Right Chain is null for " + Instruction.toStringConstant(key));
+				Utils.error("Right Chain is null for " + left.toStringConstant(key));
 
 			if (((isWhile && right != null) || (!isWhile)) && (left != right && !left.isDuplicate(right))) {
 				if (isWhile) {
 					if (right.getCode() != CODE.load) {
-						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key);
+						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key).setBasicBlock(this);
 						mInstructionSet.add(0, i);
 						updateLastAccessFor(key, i);
 					} else
@@ -106,18 +106,18 @@ public class BasicBlock {
 
 		for (String key : rightTable.keySet()) {
 			Instruction left = leftTable.get(key);
-			if (left == null && !isWhile)
-				Utils.error("Left Chain is null for for " + Instruction.toStringConstant(key));
 			Instruction right = rightTable.get(key);
+			if (left == null && !isWhile)
+				Utils.error("Left Chain is null for for " + right.toStringConstant(key));
 			if (right == null && !isWhile)
-				Utils.error("Right Chain is null for for " + Instruction.toStringConstant(key));
+				Utils.error("Right Chain is null for for " + left.toStringConstant(key));
 
 			if ((isWhile && left == null)
 					|| ((((isWhile && right != null) || (!isWhile)) && (left != right && !right.isDuplicate(left))))
 							&& !lastAccessTable.containsKey(key)) {
 				if (isWhile) {
 					if (right.getCode() != CODE.load) {
-						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key);
+						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key).setBasicBlock(this);
 						mInstructionSet.add(0, i);
 						updateLastAccessFor(key, i);
 					} else
@@ -215,12 +215,12 @@ public class BasicBlock {
 			ArrayList<Instruction> phiParams, HashMap<Instruction, Instruction> replaceList,
 			HashMap<CODE, Instruction> parentAnchor, HashMap<String, Instruction> parentLastAccess) {
 
-		if (i.getCode() == CODE.load) {
+		if (!i.isLoadForArray() && i.getCode() == CODE.load) {
 			boolean broken = false;
+			//Utils.SOPln("index = " + i.getIndex()+" right =  "+i.getRightConstant());
 			for (Instruction ins : phiInstructions) {
 				if (i.getRightConstant().equals(ins.getPhiFor())) {
 					replaceList.put(i, ins);
-					Utils.SOPln("Replacing " + i.getIndex() + "  with " + ins.getIndex() + " CASE 11");
 					broken = true;
 					break;
 				}
@@ -346,7 +346,7 @@ public class BasicBlock {
 
 	public void fixUp() {
 		if (mInstructionSet.isEmpty() && (oneChildON || twoChildON))
-			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false));
+			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false).setBasicBlock(this));
 		else if (mInstructionSet.isEmpty())
 			return;
 
@@ -434,7 +434,7 @@ public class BasicBlock {
 
 	public Instruction getFirstInstruction() {
 		if (mInstructionSet.isEmpty() && (oneChildON || twoChildON))
-			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false));
+			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false).setBasicBlock(this));
 
 		if (!mInstructionSet.isEmpty())
 			return mInstructionSet.get(0);

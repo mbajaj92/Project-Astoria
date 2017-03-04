@@ -5,61 +5,138 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import Utilities.MyScanner.CLASS;
+import Utilities.MyScanner.VARIABLE_TYPE;
 
 public class Utils {
+	public static final String MAIN_FUNC = "MAIN_FUNC";
 	public static int WHILE_DEPTH = 0;
 	public static final boolean COM_SUBEX_ELIM = true;
 	public static final boolean COPY_PROP = true;
 	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE,
-			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store);
-	private static ArrayList<String> idTable = null;
-	private static HashMap<Integer, ArrayList<Integer>> arrayInfoTable = null;
+			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store, CODE.call);
+	/* private static ArrayList<String> idTable = null; */
+	private static HashMap<String, HashMap<String, Integer>> metaIDTable = null;
+	private static HashMap<String, HashMap<Integer, ArrayList<Integer>>> metaArrayTable = null;
 	private static HashMap<Integer, Integer> funcInfoTable = null;
 
 	public static void nullCheck() {
-		if (idTable == null)
-			idTable = new ArrayList<String>();
+		if (metaIDTable == null)
+			metaIDTable = new HashMap<String, HashMap<String, Integer>>();
 
-		if (arrayInfoTable == null)
-			arrayInfoTable = new HashMap<Integer, ArrayList<Integer>>();
+		if (metaArrayTable == null)
+			metaArrayTable = new HashMap<String, HashMap<Integer, ArrayList<Integer>>>();
 
 		if (funcInfoTable == null)
 			funcInfoTable = new HashMap<Integer, Integer>();
 	}
 
-	public static String address2Identifier(int id) throws Exception {
+	public static String address2Identifier(int id, String functionName) throws Exception {
 		nullCheck();
+		/* Utils.SOPln("Asking to convert "+id+" in "+functionName); */
+		HashMap<String, Integer> idTable = metaIDTable.get(functionName);
+		if (idTable == null)
+			Utils.error("FUNCTION DOESNT EXIST");
 
-		if (id >= idTable.size() || id < 0)
-			Utils.error("ID " + id + " NOT FOUND");
+		for (String key : idTable.keySet()) {
+			if (id == idTable.get(key))
+				return key;
+		}
 
-		return idTable.get(id);
+		/*
+		 * Utils.SOPln("Could't find "+id+" in "+functionName+" searching in "
+		 * +Utils.MAIN_FUNC);
+		 */
+		idTable = metaIDTable.get(Utils.MAIN_FUNC);
+		for (String key : idTable.keySet()) {
+			if (id == idTable.get(key))
+				return key;
+		}
+
+		Utils.error("ID " + id + " NOT FOUND at " + ScannerUtils.getCurrentScanner().getLineCount());
+		return null;
 	}
 
 	public static void updateParamSize(int id, int paramSize) {
 		funcInfoTable.put(id, paramSize);
 	}
 
-	public static int identifier2Address(String name) {
-		return identifier2Address(name, null, CLASS.NONE);
+	public static int identifier2Address(String name) throws Exception {
+		return identifier2Address(name, null, VARIABLE_TYPE.NONE);
 	}
 
-	public static int identifier2Address(String name, ArrayList<Integer> arrayInfo, CLASS mClass) {
+	public static int identifier2Address(String name, ArrayList<Integer> arrayInfo, VARIABLE_TYPE mVarType)
+			throws Exception {
 		nullCheck();
 
-		if (!idTable.contains(name)) {
-			idTable.add(name);
-			Utils.SOPln(name + " = &" + (idTable.size() - 1));
+		String currentFunc = ScannerUtils.getCurrentScanner().getCurrentFunction();
+		HashMap<String, Integer> idTable = null;
+		if (!metaIDTable.containsKey(currentFunc)) {
+			idTable = new HashMap<String, Integer>();
+			metaIDTable.put(currentFunc, idTable);
+		} else
+			idTable = metaIDTable.get(currentFunc);
 
-			if (mClass == CLASS.ARR) {
-				arrayInfoTable.put((idTable.size() - 1), arrayInfo);
-			} else if (mClass == CLASS.FUNC) {
-				funcInfoTable.put((idTable.size() - 1), 0);
+		/*
+		 * SOPln("Asking for " + name + " class = " + mVarType +
+		 * " in the function " + currentFunc + " at line " +
+		 * MyScanner.getLineCount());
+		 */
+		if (mVarType == VARIABLE_TYPE.FUNC) {
+			if (idTable.containsKey(name)) {
+				/* function already defined */
+				return idTable.get(name);
+			} else {
+				/* function needs to be defined */
+				int value = idTable.size();
+				funcInfoTable.put(value, 0);
+				idTable.put(name, value);
+				SOPln(name + " - [" + value + "] | " + currentFunc);
+				return value;
 			}
-
+		} else if (mVarType == VARIABLE_TYPE.NONE) {
+			/* ACCESS OLD */
+			int returnValue = 0;
+			if (idTable.containsKey(name))
+				returnValue = idTable.get(name);
+			else {
+				/*
+				 * SOPln("Couldn't find " + name + " in the function " +
+				 * currentFunc + " hence looking for " + MAIN_FUNC);
+				 */
+				idTable = metaIDTable.get(MAIN_FUNC);
+				if (idTable.containsKey(name))
+					returnValue = idTable.get(name);
+				else
+					Utils.error("Undefined Identifier " + name + " at line "
+							+ ScannerUtils.getCurrentScanner().getLineCount());
+			}
+			return returnValue;
+		} else {
+			int returnValue = 0;
+			switch (mVarType) {
+			case VAR:
+				returnValue = idTable.size();
+				break;
+			case ARR:
+				returnValue = idTable.size();
+				if (metaArrayTable.containsKey(currentFunc))
+					metaArrayTable.get(currentFunc).put(returnValue, arrayInfo);
+				else {
+					HashMap<Integer, ArrayList<Integer>> table = new HashMap<Integer, ArrayList<Integer>>();
+					table.put(returnValue, arrayInfo);
+					metaArrayTable.put(currentFunc, table);
+				}
+				break;
+			case FUNC_PARAMS:
+				returnValue = (-1 * (idTable.size() + 1));
+				break;
+			default:
+				Utils.error("UNKNOWN CASE " + mVarType);
+			}
+			SOPln(name + " - [" + returnValue + "] | " + currentFunc);
+			idTable.put(name, returnValue);
+			return returnValue;
 		}
-		return idTable.indexOf(name);
 	}
 
 	public static void SOPln(Object toPrint) {
@@ -75,7 +152,7 @@ public class Utils {
 	};
 
 	public static enum CODE {
-		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi
+		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi, call
 	};
 
 	final public static boolean BINARY = false;
@@ -487,7 +564,7 @@ public class Utils {
 
 					X.instruction = Instruction.getInstruction(command, X.instruction, Y.instruction)
 							.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
-					X.addressIfVariable = -1;
+					X.addressIfVariable = Integer.MAX_VALUE;
 					if (command == CODE.CMP)
 						handleCompare(opCode);
 				}
@@ -528,7 +605,7 @@ public class Utils {
 		} else if (X.kind == RESULT_KIND.VAR && !X.isArray) {
 			X.instruction = Instruction.getInstruction(CODE.load, "#30", "&" + X.addressIfVariable);
 		} else if (X.kind == RESULT_KIND.VAR && X.isArray) {
-			Result a = getOffsetForArray(X);
+			Result a = getOffsetForArray(X, ScannerUtils.getCurrentScanner().getCurrentFunction());
 			Result b = new Result();
 			b.kind = RESULT_KIND.CONST;
 			b.valueIfConstant = 4;
@@ -536,7 +613,8 @@ public class Utils {
 			load(a);
 			Instruction two = Instruction.getInstruction(CODE.ADDI, "#30", "&" + X.addressIfVariable);
 			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
-			X.instruction = Instruction.getInstructionForArray(CODE.load, three, null);
+			X.instruction = Instruction.getInstructionForArray(CODE.load, three, null).setLoadForArray()
+					.setAInsFor("&" + X.addressIfVariable);
 		}
 		X.kind = RESULT_KIND.INSTRUCTION;
 	}
@@ -545,11 +623,14 @@ public class Utils {
 
 		load(Y);
 		if (!X.isArray) {
-			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction)
-					.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
+			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction).setAInsFor(
+					"&" + X.addressIfVariable)/*
+												 * .setBInsFor("&" +
+												 * Y.addressIfVariable)
+												 */;
 		} else {
 
-			Result a = getOffsetForArray(X);
+			Result a = getOffsetForArray(X, ScannerUtils.getCurrentScanner().getCurrentFunction());
 			Result b = new Result();
 			b.kind = RESULT_KIND.CONST;
 			b.valueIfConstant = 4;
@@ -565,20 +646,27 @@ public class Utils {
 		return WHILE_DEPTH > 0;
 	}
 
-	public static Result getOffsetForArray(Result X) throws Exception {
+	public static Result getOffsetForArray(Result X, String funcName) throws Exception {
+		HashMap<Integer, ArrayList<Integer>> arrayInfoTable = metaArrayTable.get(funcName);
+		if (arrayInfoTable == null || !arrayInfoTable.containsKey(X.addressIfVariable))
+			arrayInfoTable = metaArrayTable.get(Utils.MAIN_FUNC);
+
+		if (!arrayInfoTable.containsKey(X.addressIfVariable))
+			Utils.error("ARRAY " + X.addressIfVariable + " does not exist");
+
 		ArrayList<Integer> indices = arrayInfoTable.get(X.addressIfVariable);
-		if (X.arrayExp.size() != indices.size())
+		if (X.expresssions.size() != indices.size())
 			Utils.error("Array index mismatch");
 
 		Result temp = new Result();
 		temp.valueIfConstant = 0;
 		temp.kind = RESULT_KIND.CONST;
 
-		for (int i = 0; i < X.arrayExp.size(); i++) {
-			Result r = X.arrayExp.get(i);
+		for (int i = 0; i < X.expresssions.size(); i++) {
+			Result r = X.expresssions.get(i);
 			if (r.kind == RESULT_KIND.CONST && r.valueIfConstant >= indices.get(i))
 				Utils.error("Array Index " + r.valueIfConstant + " out of range " + indices.get(i) + " at line "
-						+ MyScanner.getLineCount());
+						+ ScannerUtils.getCurrentScanner().getLineCount());
 
 			int prod = 1;
 			for (int j = i + 1; j < indices.size(); j++)
@@ -600,12 +688,15 @@ public class Utils {
 	}
 
 	public static void printArrayTable() {
-		for (Integer key : arrayInfoTable.keySet()) {
-			ArrayList<Integer> list = arrayInfoTable.get(key);
-			Utils.SOP(key + ": ");
-			for (Integer value : list)
-				Utils.SOP(" " + value);
-			Utils.SOPln("");
+		for (String key : metaArrayTable.keySet()) {
+			Utils.SOPln("Inside function " + key);
+			for (Integer innerKey : metaArrayTable.get(key).keySet()) {
+				ArrayList<Integer> list = metaArrayTable.get(key).get(innerKey);
+				Utils.SOP(innerKey + ": ");
+				for (Integer value : list)
+					Utils.SOP(" " + value);
+				Utils.SOPln("");
+			}
 		}
 	}
 }

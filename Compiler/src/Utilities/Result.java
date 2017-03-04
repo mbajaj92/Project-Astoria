@@ -9,7 +9,8 @@ public class Result {
 
 	public RESULT_KIND kind;
 	public boolean isArray;
-	public ArrayList<Result> arrayExp;
+	public boolean isFunc;
+	public ArrayList<Result> expresssions;
 	public int valueIfConstant;
 	public int addressIfVariable;
 	public Instruction instruction;
@@ -18,9 +19,10 @@ public class Result {
 	public Result() {
 		kind = RESULT_KIND.NONE;
 		isArray = false;
-		arrayExp = null;
+		isFunc = false;
+		expresssions = null;
 		valueIfConstant = -1;
-		addressIfVariable = -1;
+		addressIfVariable = Integer.MAX_VALUE;
 		instruction = null;
 		cond = CODE.NONE;
 	}

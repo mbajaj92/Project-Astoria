@@ -1,4 +1,0 @@
-Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> 
-
-What about uninitialized variables?
-We an either emit an error, or assume that it is zero. 

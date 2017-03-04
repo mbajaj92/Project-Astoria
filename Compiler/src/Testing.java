@@ -42,13 +42,13 @@ public class Testing {
 				write += i.getIndex() + " -> " + i.getFirstChild().getIndex() + "[color=blue]\n";
 
 			if (i.secondChildExists())
-				write += i.getIndex() + " -> " + i.getSecondChild().getIndex() + "[color=red]\n";
+				write += i.getIndex() + " -> " + i.getSecondChild().getIndex() + "[color=black]\n";
 
 			if (i.firstParentExists())
 				write += i.getIndex() + " -> " + i.getFirstParent().getIndex() + "[color=blue][style=dotted]\n";
 
 			if (i.secondParentExists())
-				write += i.getIndex() + " -> " + i.getSecondParent().getIndex() + "[color=red][style=dotted]\n";
+				write += i.getIndex() + " -> " + i.getSecondParent().getIndex() + "[color=black][style=dotted]\n";
 
 			randomAccessFile.writeBytes(write);
 		}
