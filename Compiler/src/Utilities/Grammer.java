@@ -307,6 +307,7 @@ public class Grammer {
 				sc.next();
 			} else
 				Utils.error("Expected ; but found " + sc.token);
+			BasicBlock.getCurrentBasicBlock().setLast();
 			return true;
 		}
 		return false;
@@ -412,6 +413,7 @@ public class Grammer {
 			}
 		} else
 			Utils.error("Expected main token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
+		BasicBlock.getCurrentBasicBlock().setLast();
 	}
 
 	public static void handleFollowBlockForIf(BasicBlock prev, BasicBlock ifHeader, BasicBlock thenBlock,
@@ -421,10 +423,8 @@ public class Grammer {
 
 		if (elseBlock == null) {
 			rightBlock = ifHeader;
-			ifHeader.setChild(followBlock, false);
 		} else if (elseBlock.hasInstructions()) {
 			rightBlock = elseBlock;
-			elseBlock.setChild(followBlock, false);
 		} else {
 			rightBlock = ifHeader;
 		}
@@ -439,9 +439,10 @@ public class Grammer {
 			}
 		} else {
 			leftBlock = thenBlock;
-			thenBlock.setChild(followBlock, false);
 		}
 
+		leftBlock.setChild(followBlock, false);
+		rightBlock.setChild(followBlock, false);
 		if (isFollow)
 			followBlock.updateAnchorLastAccessAndPhi(ifHeader, leftBlock.getLastAccessTable(),
 					rightBlock.getLastAccessTable());

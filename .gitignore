@@ -217,3 +217,29 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+*.log
+*.markers
+*.prefs
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+*.resources
+*.prefs
+*.xmi
+*.xmi
+*.xml
+*.index
+*.markers
+*.xmi
+*.xml
+*.xml
+*.json
+*.fnm
+*.nrm
+*.tis
+*.class
+*.class
+*.class
+*.log
+*.class
+*.class
+Compiler/bin/Utilities/Grammer.class
+*.class

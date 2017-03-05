@@ -13,7 +13,7 @@ public class BasicBlock {
 	private boolean ignore = false;
 	private static ArrayList<BasicBlock> mBasicBlockList;
 	private int index = -1;
-	private boolean oneChildON = false, twoChildON = false, oneParentON = false, twoParentON = false;
+	private boolean visited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false, twoParentON = false;
 	private BasicBlock oneChild, twoChild, oneParent, twoParent;
 	private ArrayList<Instruction> mInstructionSet = null;
 	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BSR);
@@ -412,6 +412,60 @@ public class BasicBlock {
 
 	public BasicBlock getFirstParent() {
 		return oneParent;
+	}
+
+	public void setVisited() {
+		visited = true;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setLast() {
+		isLast = true;
+	}
+
+	public boolean isLastBlock() {
+		return isLast;
+	}
+
+	public ArrayList<Instruction> getBasicBlockInstructionSet() {
+		return mInstructionSet;
+	}
+
+	public int getTagtype() {
+		if (TAG.contains("LOOP_HEADER"))
+			return 0;
+		else if (TAG.contains("IF_HEADER"))
+			return 1;
+		return -1;
+	}
+
+	public boolean areBothChildrenVisited() {
+		return isFirstChildVisited() && isSecondChildVisited();
+	}
+
+	public boolean isFirstChildVisited() {
+		boolean flag = false;
+		if (!firstChildExists())
+			return true;
+		else {
+			if (getFirstChild().isVisited())
+				return true;
+		}
+		return flag;
+	}
+
+	public boolean isSecondChildVisited() {
+		boolean flag = false;
+		if (!secondChildExists())
+			return true;
+		else {
+			if (getSecondChild().isVisited())
+				return true;
+		}
+		return flag;
 	}
 
 	public static ArrayList<BasicBlock> getBasicBlockList() {
