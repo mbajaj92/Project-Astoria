@@ -45,10 +45,10 @@ public class Testing {
 				write += i.getIndex() + " -> " + i.getSecondChild().getIndex() + "[color=black]\n";
 
 			if (i.firstParentExists())
-				write += i.getIndex() + " -> " + i.getFirstParent().getIndex() + "[color=blue][style=dotted]\n";
+				write += i.getIndex() + " -> " + i.getFirstParent().getIndex() + "[color=red][style=dotted]\n";
 
 			if (i.secondParentExists())
-				write += i.getIndex() + " -> " + i.getSecondParent().getIndex() + "[color=black][style=dotted]\n";
+				write += i.getIndex() + " -> " + i.getSecondParent().getIndex() + "[color=green][style=dotted]\n";
 
 			randomAccessFile.writeBytes(write);
 		}
@@ -61,6 +61,16 @@ public class Testing {
 			for (Instruction i : Instruction.getInstructionList())
 				Utils.SOPln(i.testToString());
 		Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
+		
+		Utils.SOPln("");		
+		Utils.SOPln("Basic Block Traversal");
+		for(BasicBlock b:BasicBlock.getBasicBlockList())
+		{
+			if(b.isLastBlock())
+				Utils.traversefunc(b);
+		}
+		
+
 		ScannerUtils.shutDown();
 	}
 }

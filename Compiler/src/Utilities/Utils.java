@@ -699,4 +699,38 @@ public class Utils {
 			}
 		}
 	}
+
+	/**
+	 * 
+	 * @author - SOHAM
+	 */
+	public static void traversefunc(BasicBlock current) {
+
+		if (current.isVisited())
+			return;
+		boolean shouldIVisit = false;
+		switch (current.getTagtype()) {
+		case 0:
+			shouldIVisit = true;
+			break;
+		case 1:
+			shouldIVisit = current.areBothChildrenVisited();
+			break;
+
+		case -1:
+			shouldIVisit = true;
+			break;
+		}
+
+		if (!shouldIVisit)
+			return;
+
+		current.setVisited();
+		Utils.SOPln(current.getIndex());
+
+		if (current.secondParentExists())
+			traversefunc(current.getSecondParent());
+		if (current.firstParentExists())
+			traversefunc(current.getFirstParent());
+	}
 }
