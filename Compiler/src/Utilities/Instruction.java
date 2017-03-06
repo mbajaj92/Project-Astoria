@@ -313,7 +313,8 @@ public class Instruction {
 	}
 
 	public boolean isDuplicate(Instruction i) {
-		return (code == i.code) && isAEqual(i) && (isArray && code == CODE.load ? true : isBEqual(i));
+		return (code == i.code && code != CODE.phi) && isAEqual(i)
+				&& (isArray && code == CODE.load ? true : isBEqual(i));
 	}
 
 	private void lastAccessTest() {

@@ -772,7 +772,10 @@ public class Utils {
 			traversefunc(current.getFirstParent(), tobeGivenAhead);
 		}
 
-		Utils.SOPln("BB= " + current.getIndex() + "  " + current.getLiveRange());
+		/*if(currentType == "LOOP_HEADER") {
+			HashSet<Integer> liveRangeUpdated = 
+			Utils.SOPln("BB= " + current.getIndex() + "  " + current.getLiveRange());
+		}*/
 	}
 
 	public static void addEdge(int index1, int index2) {

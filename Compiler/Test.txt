@@ -8,9 +8,13 @@ array [5][10] swing;
 	let b<-45;
 	let z<-3;
 	if a<b then 
-		let b<-76+i;
+		while c<11 do
+			let c<-c-1;
+		od;
 	else
-		let i<-c*d*z;
+		while c<11 do
+			let c<-c-1;
+		od;
 	fi;
 	let c<-i+23-b+z;
 }.

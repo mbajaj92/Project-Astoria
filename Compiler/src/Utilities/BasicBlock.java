@@ -79,7 +79,7 @@ public class BasicBlock {
 	}
 
 	public void copyParentLastAccess(BasicBlock parent) {
-		lastAccessTable.putAll(parent.lastAccessTable);
+		lastAccessTable = new HashMap<String, Instruction>(parent.lastAccessTable);
 	}
 
 	private void takeCareOfPhi(HashMap<String, Instruction> leftTable, HashMap<String, Instruction> rightTable,
@@ -133,7 +133,7 @@ public class BasicBlock {
 
 	private void takeCareOfAccess(BasicBlock parent) {
 		if (mInstructionSet.isEmpty()) {
-			lastAccessTable.putAll(parent.lastAccessTable);
+			lastAccessTable = new HashMap<String, Instruction>(parent.lastAccessTable);
 			return;
 		}
 
@@ -161,7 +161,7 @@ public class BasicBlock {
 
 	public void updateAnchorLastAccessAndPhi(BasicBlock parent, HashMap<String, Instruction> leftParent,
 			HashMap<String, Instruction> rightParent) throws Exception {
-		anchor.putAll(parent.anchor);
+		anchor = new HashMap<CODE, Instruction>(parent.anchor);
 
 		if (leftParent != null && rightParent != null)
 			takeCareOfPhi(leftParent, rightParent, false);

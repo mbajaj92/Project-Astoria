@@ -1,7 +1,7 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN_FUNC
-33: BRA (0) (null) null null
+39: BRA (0) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
@@ -20,37 +20,86 @@ TAG: INIT_CONT(1)  func = MAIN_FUNC
 2[label="
 TAG: IF_HEADER(2)  func = MAIN_FUNC
 12: CMP (2) (6) null null aFor = &a bFor = &b
-13: BGE (12) (20) null null
+13: BGE (12) (40) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
-2 -> 4[color=black]
+2 -> 7[color=black]
 2 -> 1[color=red][style=dotted]
 3[label="
 TAG: THEN_BLOCK(3)  func = MAIN_FUNC
-15: ADDI (4) (null) null #76 aFor = &b
-17: BRA (25) (null) null null
+41: BRA (21) (null) null null
 "];
 3[shape=box];
-3 -> 5[color=blue]
+3 -> 4[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
-TAG: ELSE_BLOCK(4)  func = MAIN_FUNC
-20: MUL (0) (1) null null aFor = &c bFor = &d
-22: MUL (20) (8) null null aFor = &i bFor = &z
+TAG: LOOP_HEADER_1(4)  func = MAIN_FUNC
+21: phi (0) (18) null null  PHI FOR &c
+15: CMPI (21) (null) null #11 aFor = &c
+16: BGE (15) (22) null null
 "];
 4[shape=box];
 4 -> 5[color=blue]
-4 -> 2[color=red][style=dotted]
+4 -> 6[color=black]
+4 -> 3[color=red][style=dotted]
+4 -> 5[color=green][style=dotted]
 5[label="
-TAG: FOLLOW_BLOCK(5)  func = MAIN_FUNC
-25: phi (15) (6) null null  PHI FOR &b
-24: phi (4) (22) null null  PHI FOR &i
-27: ADDI (24) (null) null #23 aFor = &i
-29: SUB (27) (25) null null aFor = &i bFor = &b
-31: ADD (29) (8) null null aFor = &c bFor = &z
+TAG: DO_BLOCK(5)  func = MAIN_FUNC
+18: SUBI (21) (null) null #1 aFor = &c
+20: BRA (21) (null) null null
 "];
 5[shape=box];
-5 -> 3[color=red][style=dotted]
-5 -> 4[color=green][style=dotted]
+5 -> 4[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: LOOP_FOLLOW_1(6)  func = MAIN_FUNC
+22: BRA (31) (null) null null
+"];
+6[shape=box];
+6 -> 11[color=blue]
+6 -> 4[color=red][style=dotted]
+7[label="
+TAG: ELSE_BLOCK(7)  func = MAIN_FUNC
+40: BRA (30) (null) null null
+"];
+7[shape=box];
+7 -> 8[color=blue]
+7 -> 2[color=red][style=dotted]
+8[label="
+TAG: LOOP_HEADER_1(8)  func = MAIN_FUNC
+30: phi (0) (27) null null  PHI FOR &c
+24: CMPI (30) (null) null #11 aFor = &c
+25: BGE (24) (42) null null
+"];
+8[shape=box];
+8 -> 9[color=blue]
+8 -> 10[color=black]
+8 -> 7[color=red][style=dotted]
+8 -> 9[color=green][style=dotted]
+9[label="
+TAG: DO_BLOCK(9)  func = MAIN_FUNC
+27: SUBI (30) (null) null #1 aFor = &c
+29: BRA (30) (null) null null
+"];
+9[shape=box];
+9 -> 8[color=blue]
+9 -> 8[color=red][style=dotted]
+10[label="
+TAG: LOOP_FOLLOW_1(10)  func = MAIN_FUNC
+42: BRA (31) (null) null null
+"];
+10[shape=box];
+10 -> 11[color=blue]
+10 -> 8[color=red][style=dotted]
+11[label="
+TAG: FOLLOW_BLOCK(11)  func = MAIN_FUNC
+31: phi (21) (30) null null  PHI FOR &c
+33: ADDI (4) (null) null #23 aFor = &i
+35: SUB (33) (6) null null aFor = &i bFor = &b
+37: ADD (35) (8) null null aFor = &c bFor = &z
+"];
+11[shape=box];
+11 -> 6[color=red][style=dotted]
+11 -> 10[color=green][style=dotted]
 }
