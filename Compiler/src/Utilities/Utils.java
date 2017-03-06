@@ -1,8 +1,11 @@
 package Utilities;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import Utilities.MyScanner.VARIABLE_TYPE;
@@ -12,11 +15,14 @@ public class Utils {
 	public static int WHILE_DEPTH = 0;
 	public static final boolean COM_SUBEX_ELIM = true;
 	public static final boolean COPY_PROP = true;
-	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE,
+	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
 			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store, CODE.call);
+	public static List<CODE> compareInstructions = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
+			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT);
 	/* private static ArrayList<String> idTable = null; */
 	private static HashMap<String, HashMap<String, Integer>> metaIDTable = null;
 	private static HashMap<String, HashMap<Integer, ArrayList<Integer>>> metaArrayTable = null;
+	private static HashMap<Integer, HashSet<Integer>> interfearanceGraph = null;
 	private static HashMap<Integer, Integer> funcInfoTable = null;
 
 	public static void nullCheck() {
@@ -28,6 +34,9 @@ public class Utils {
 
 		if (funcInfoTable == null)
 			funcInfoTable = new HashMap<Integer, Integer>();
+
+		if (interfearanceGraph == null)
+			interfearanceGraph = new HashMap<Integer, HashSet<Integer>>();
 	}
 
 	public static String address2Identifier(int id, String functionName) throws Exception {
@@ -152,7 +161,7 @@ public class Utils {
 	};
 
 	public static enum CODE {
-		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi, call
+		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BRA, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi, call
 	};
 
 	final public static boolean BINARY = false;
@@ -410,7 +419,7 @@ public class Utils {
 
 			putF1(45, a, 0, c, op.toString());
 			break;
-		case BSR:
+		case BRA:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
@@ -534,7 +543,7 @@ public class Utils {
 					X.instruction = Instruction.getInstruction(command, X.instruction, "#" + Y.valueIfConstant)
 							.setAInsFor("&" + X.addressIfVariable);
 					if (command == CODE.CMPI)
-						handleCompare(opCode);
+						handleCompare(opCode,X.instruction);
 
 				} else {
 					load(Y);
@@ -566,31 +575,31 @@ public class Utils {
 							.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
 					X.addressIfVariable = Integer.MAX_VALUE;
 					if (command == CODE.CMP)
-						handleCompare(opCode);
+						handleCompare(opCode, X.instruction);
 				}
 			}
 		}
 	}
 
-	public static void handleCompare(int code) {
+	public static void handleCompare(int code, Instruction i) {
 		switch (code) {
 		case ScannerUtils.leqToken:
-			Instruction.getInstruction(CODE.BGT);
+			Instruction.getInstruction(CODE.BGT).setLeftInstruction(i);
 			break;
 		case ScannerUtils.neqToken:
-			Instruction.getInstruction(CODE.BEQ);
+			Instruction.getInstruction(CODE.BEQ).setLeftInstruction(i);
 			break;
 		case ScannerUtils.eqlToken:
-			Instruction.getInstruction(CODE.BNE);
+			Instruction.getInstruction(CODE.BNE).setLeftInstruction(i);
 			break;
 		case ScannerUtils.geqToken:
-			Instruction.getInstruction(CODE.BLT);
+			Instruction.getInstruction(CODE.BLT).setLeftInstruction(i);
 			break;
 		case ScannerUtils.gtrToken:
-			Instruction.getInstruction(CODE.BLE);
+			Instruction.getInstruction(CODE.BLE).setLeftInstruction(i);
 			break;
 		case ScannerUtils.lssToken:
-			Instruction.getInstruction(CODE.BGE);
+			Instruction.getInstruction(CODE.BGE).setLeftInstruction(i);
 			break;
 		}
 	}
@@ -704,33 +713,103 @@ public class Utils {
 	 * 
 	 * @author - SOHAM
 	 */
-	public static void traversefunc(BasicBlock current) {
+	public static void traversefunc(BasicBlock current, HashSet<Integer> live) {
 
-		if (current.isVisited())
+		if (current.isVisited()) {
+			/* Will be executed for LOOP_HEADER for 2nd time */
+			current.visitAndUpdateLiveRange(live);
 			return;
+		}
+
 		boolean shouldIVisit = false;
-		switch (current.getTagtype()) {
-		case 0:
+		String currentType = current.getTagtype();
+		switch (currentType) {
+		case "LOOP_HEADER":
 			shouldIVisit = true;
 			break;
-		case 1:
+		case "IF_HEADER":
 			shouldIVisit = current.areBothChildrenVisited();
 			break;
 
-		case -1:
+		case "REGULAR":
 			shouldIVisit = true;
 			break;
 		}
 
-		if (!shouldIVisit)
+		if (!shouldIVisit) {
+			/* This is if header for 1st time */
+			current.addLiveRange(live);
 			return;
+		}
 
-		current.setVisited();
+		if (live == null)
+			live = new HashSet<Integer>();
+
+		current.visitAndUpdateLiveRange(live);
 		Utils.SOPln(current.getIndex());
 
-		if (current.secondParentExists())
-			traversefunc(current.getSecondParent());
-		if (current.firstParentExists())
-			traversefunc(current.getFirstParent());
+		if (current.secondParentExists()) {
+			HashSet<Integer> tobeGivenAhead = new HashSet<Integer>(current.getLiveRange());
+			for (Instruction ins : current.getInstructionList()) {
+				if (ins.getCode() != CODE.phi)
+					break;
+				if (currentType != "LOOP_HEADER")
+					tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
+				tobeGivenAhead.add(ins.getRightInstruction().getInstructionNumber());
+			}
+
+			traversefunc(current.getSecondParent(), tobeGivenAhead);
+		}
+
+		if (current.firstParentExists()) {
+			HashSet<Integer> tobeGivenAhead = new HashSet<Integer>(current.getLiveRange());
+			for (Instruction ins : current.getInstructionList()) {
+				if (ins.getCode() != CODE.phi)
+					break;
+				tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
+				tobeGivenAhead.add(ins.getLeftInstruction().getInstructionNumber());
+			}
+			traversefunc(current.getFirstParent(), tobeGivenAhead);
+		}
+
+		Utils.SOPln("BB= " + current.getIndex() + "  " + current.getLiveRange());
+	}
+
+	public static void addEdge(int index1, int index2) {
+		HashSet<Integer> edgeList = null;
+		if (!interfearanceGraph.containsKey(index1)) {
+			edgeList = new HashSet<Integer>();
+			interfearanceGraph.put(index1, edgeList);
+		} else
+			edgeList = interfearanceGraph.get(index1);
+		edgeList.add(index2);
+
+		edgeList = null;
+		if (!interfearanceGraph.containsKey(index2)) {
+			edgeList = new HashSet<Integer>();
+			interfearanceGraph.put(index2, edgeList);
+		} else
+			edgeList = interfearanceGraph.get(index2);
+		edgeList.add(index1);
+	}
+
+	public static void printGraph() throws Exception {
+		File f = new File("iGraph.dot");
+		f.delete();
+		f = new File("iGraph.png");
+		f.delete();
+		RandomAccessFile randomAccessFile = new RandomAccessFile("iGraph.dot", "rw");
+		randomAccessFile.writeBytes("graph {\n");
+		for (Integer key : interfearanceGraph.keySet()) {
+			String write = key + "[label=\"" + key + "\" style=filled fillcolor=\"red\"];\n";
+			//String write = key + "[label=\"" + key + "\" style=filled fillcolor=\""+Instruction.getInstructionList().get(key).getColor()+"\"];\n";
+			HashSet<Integer> edges = interfearanceGraph.get(key);
+			for(int j:edges)
+				write += key+" -- "+j+"\n";
+			randomAccessFile.writeBytes(write);
+		}
+		randomAccessFile.writeBytes("}");
+		randomAccessFile.close();
+		Runtime.getRuntime().exec("dot iGraph.dot -Tpng -o iGraph.png");
 	}
 }

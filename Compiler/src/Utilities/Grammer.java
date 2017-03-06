@@ -122,7 +122,7 @@ public class Grammer {
 			loopHeader.setChild(doBlock, true);
 			statSequence();
 			doBlock = BasicBlock.getCurrentBasicBlock();
-			Instruction.getInstruction(CODE.BSR);
+			Instruction.getInstruction(CODE.BRA);
 			doBlock.setChild(loopHeader, false);
 			loopHeader.generetePhiAndUpdateTree(previousBlock.getLastAccessTable(), doBlock.getLastAccessTable(),
 					previousBlock.getAnchor());
@@ -156,7 +156,7 @@ public class Grammer {
 			BasicBlock elseBlock = null;
 
 			if (sc.currentToken == ScannerUtils.elseToken) {
-				Instruction.getInstruction(CODE.BSR);
+				Instruction.getInstruction(CODE.BRA);
 				sc.next();
 				elseBlock = new BasicBlock("ELSE_BLOCK");
 				ifHeader.setChild(elseBlock, true);

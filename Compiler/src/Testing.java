@@ -61,16 +61,16 @@ public class Testing {
 			for (Instruction i : Instruction.getInstructionList())
 				Utils.SOPln(i.testToString());
 		Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
-		
-		Utils.SOPln("");		
-		Utils.SOPln("Basic Block Traversal");
-		for(BasicBlock b:BasicBlock.getBasicBlockList())
-		{
-			if(b.isLastBlock())
-				Utils.traversefunc(b);
-		}
-		
 
+		Utils.SOPln("");
+		Utils.SOPln("Basic Block Traversal");
+		for (BasicBlock b : BasicBlock.getBasicBlockList()) {
+			if (b.isLastBlock())
+				Utils.traversefunc(b, null);
+		}
+
+		//COLOR
+		Utils.printGraph();
 		ScannerUtils.shutDown();
 	}
 }

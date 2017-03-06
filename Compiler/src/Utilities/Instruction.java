@@ -223,7 +223,7 @@ public class Instruction {
 		referenceInstruction = ref;
 	}
 
-	public int getIndex() {
+	public int getInstructionNumber() {
 		return index;
 	}
 
@@ -264,10 +264,6 @@ public class Instruction {
 	public Instruction setStoreFor(String sFor) {
 		storeFor = sFor;
 		return this;
-	}
-
-	public void fixup(Instruction a) {
-		aInstruction = a;
 	}
 
 	public Instruction setPhiFor(String str) {

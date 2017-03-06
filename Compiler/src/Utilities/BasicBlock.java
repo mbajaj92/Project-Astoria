@@ -3,11 +3,13 @@ package Utilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import Utilities.Utils.CODE;
 
 public class BasicBlock {
+	private HashSet<Integer> liveRange = null;
 	private static ArrayList<BasicBlock> fixList;
 	private String TAG, mFunctionName;
 	private boolean ignore = false;
@@ -16,7 +18,7 @@ public class BasicBlock {
 	private boolean visited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false, twoParentON = false;
 	private BasicBlock oneChild, twoChild, oneParent, twoParent;
 	private ArrayList<Instruction> mInstructionSet = null;
-	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BSR);
+	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BRA);
 	private static List<CODE> notToBeAnchored = Arrays.asList(CODE.phi, CODE.BEQ, CODE.BGE, CODE.BLE, CODE.BGT,
 			CODE.BLT, CODE.BNE);
 	private HashMap<CODE, Instruction> anchor = null;
@@ -346,7 +348,7 @@ public class BasicBlock {
 
 	public void fixUp() {
 		if (mInstructionSet.isEmpty() && (oneChildON || twoChildON))
-			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false).setBasicBlock(this));
+			mInstructionSet.add(Instruction.getInstruction(CODE.BRA, false).setBasicBlock(this));
 		else if (mInstructionSet.isEmpty())
 			return;
 
@@ -354,10 +356,10 @@ public class BasicBlock {
 		if (!toBeFixed.contains(lastInstruction.getCode()))
 			return;
 
-		if (lastInstruction.getCode() == CODE.BSR)
-			lastInstruction.fixup(oneChild.getFirstInstruction());
+		if (lastInstruction.getCode() == CODE.BRA)
+			lastInstruction.setLeftInstruction(oneChild.getFirstInstruction());
 		else
-			lastInstruction.fixup(twoChild.getFirstInstruction());
+			lastInstruction.setRightInstruction(twoChild.getFirstInstruction());
 	}
 
 	public boolean hasInstructions() {
@@ -414,7 +416,41 @@ public class BasicBlock {
 		return oneParent;
 	}
 
-	public void setVisited() {
+	
+	public HashSet<Integer> getLiveRange() {
+		if (liveRange == null)
+			liveRange = new HashSet<Integer>();
+		return liveRange;
+	}
+
+	public void addLiveRange(HashSet<Integer> live) {
+		if (liveRange == null)
+			liveRange = new HashSet<Integer>();
+		liveRange.addAll(live);
+	}
+	
+	public void visitAndUpdateLiveRange(HashSet<Integer> live) {
+		addLiveRange(live);
+
+		for (int i = mInstructionSet.size() - 1; i >= 0; i--) {
+			Instruction current = mInstructionSet.get(i);
+			if (current.getCode() == CODE.phi || current.getCode() == CODE.BRA)
+				continue;
+
+			int currentIndex = current.getInstructionNumber();
+			if (getTagtype() != "LOOP_HEADER" || isVisited())
+				liveRange.remove((Integer) currentIndex);
+
+			for (int j : liveRange)
+				if (j != currentIndex)
+					Utils.addEdge(currentIndex, j);
+
+			if (current.getLeftInstruction() != null)
+				liveRange.add(current.getLeftInstruction().getInstructionNumber());
+
+			if (!Utils.compareInstructions.contains(current.getCode()) && current.getRightInstruction() != null)
+				liveRange.add(current.getRightInstruction().getInstructionNumber());
+		}
 		visited = true;
 	}
 
@@ -430,16 +466,16 @@ public class BasicBlock {
 		return isLast;
 	}
 
-	public ArrayList<Instruction> getBasicBlockInstructionSet() {
+	public ArrayList<Instruction> getInstructionList() {
 		return mInstructionSet;
 	}
 
-	public int getTagtype() {
+	public String getTagtype() {
 		if (TAG.contains("LOOP_HEADER"))
-			return 0;
+			return "LOOP_HEADER";
 		else if (TAG.contains("IF_HEADER"))
-			return 1;
-		return -1;
+			return "IF_HEADER";
+		return "REGULAR";
 	}
 
 	public boolean areBothChildrenVisited() {
@@ -488,7 +524,7 @@ public class BasicBlock {
 
 	public Instruction getFirstInstruction() {
 		if (mInstructionSet.isEmpty() && (oneChildON || twoChildON))
-			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false).setBasicBlock(this));
+			mInstructionSet.add(Instruction.getInstruction(CODE.BRA, false).setBasicBlock(this));
 
 		if (!mInstructionSet.isEmpty())
 			return mInstructionSet.get(0);

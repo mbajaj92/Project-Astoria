@@ -243,3 +243,16 @@ pip-log.txt
 *.class
 Compiler/bin/Utilities/Grammer.class
 *.class
+*.log
+.metadata/.plugins/org.eclipse.core.resources/.projects/Compiler/.indexes/e4/16/history.index
+*.index
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+*.xmi
+*.index
+.metadata/.plugins/org.eclipse.jdt.ui/QualifiedTypeNameHistory.xml
+*.log
+*.log
+.metadata/.plugins/org.eclipse.ui.ide/dialog_settings.xml
+*.xml
+.metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
+*.class
