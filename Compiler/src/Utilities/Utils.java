@@ -20,6 +20,7 @@ public class Utils {
 	public static final boolean COPY_PROP = true;
 	public static final int MACHINE_BYTE_SIZE = 4;
 	public static List<CODE> isNotDeadCode = Arrays.asList(CODE.write, CODE.writeNL, CODE.read, CODE.CMP, CODE.BLE,
+			CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLT, CODE.BNE, CODE.BRA, CODE.CMPI);
 	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
 			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store, CODE.call, CODE.read, CODE.write, CODE.writeNL);
 	public static List<CODE> compareInstructions = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,

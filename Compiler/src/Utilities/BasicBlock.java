@@ -9,18 +9,20 @@ import java.util.List;
 import Utilities.Utils.CODE;
 
 public class BasicBlock {
-	private HashSet<Integer> liveRange = null;
+	private int myWhileDepth = 0;
+	private HashSet<Integer> liveRange = null, leftOver = null;
 	private static ArrayList<BasicBlock> fixList;
 	private String TAG, mFunctionName;
 	private boolean ignore = false;
 	private static ArrayList<BasicBlock> mBasicBlockList;
 	private int index = -1;
-	private boolean visited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false, twoParentON = false;
+	private boolean visited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false,
+			twoParentON = false;
 	private BasicBlock oneChild, twoChild, oneParent, twoParent;
 	private ArrayList<Instruction> mInstructionSet = null;
 	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BRA);
-	private static List<CODE> notToBeAnchored = Arrays.asList(CODE.phi, CODE.BEQ, CODE.BGE, CODE.BLE, CODE.BGT,
-			CODE.BLT, CODE.BNE);
+	private static List<CODE> notToBeAnchored = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.phi, CODE.BEQ, CODE.BGE,
+			CODE.BLE, CODE.BGT, CODE.BLT, CODE.BNE, CODE.read, CODE.write, CODE.writeNL);
 	private HashMap<CODE, Instruction> anchor = null;
 	private HashMap<String, Instruction> lastAccessTable = null;
 
@@ -37,7 +39,7 @@ public class BasicBlock {
 		lastAccessTable = new HashMap<String, Instruction>();
 		mBasicBlockList.add(this);
 		index = mBasicBlockList.size() - 1;
-
+		myWhileDepth = Utils.WHILE_DEPTH;
 	}
 
 	public Instruction getAnchorInstructionForCode(CODE code) {
@@ -95,7 +97,8 @@ public class BasicBlock {
 			if (((isWhile && right != null) || (!isWhile)) && (left != right && !left.isDuplicate(right))) {
 				if (isWhile) {
 					if (right.getCode() != CODE.load) {
-						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key).setBasicBlock(this);
+						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key)
+								.setBasicBlock(this);
 						mInstructionSet.add(0, i);
 						updateLastAccessFor(key, i);
 					} else
@@ -119,7 +122,8 @@ public class BasicBlock {
 							&& !lastAccessTable.containsKey(key)) {
 				if (isWhile) {
 					if (right.getCode() != CODE.load) {
-						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key).setBasicBlock(this);
+						Instruction i = Instruction.getInstruction(CODE.phi, left, right, false).setPhiFor(key)
+								.setBasicBlock(this);
 						mInstructionSet.add(0, i);
 						updateLastAccessFor(key, i);
 					} else
@@ -219,7 +223,8 @@ public class BasicBlock {
 
 		if (!i.isLoadForArray() && i.getCode() == CODE.load) {
 			boolean broken = false;
-			//Utils.SOPln("index = " + i.getIndex()+" right =  "+i.getRightConstant());
+			// Utils.SOPln("index = " + i.getIndex()+" right =
+			// "+i.getRightConstant());
 			for (Instruction ins : phiInstructions) {
 				if (i.getRightConstant().equals(ins.getPhiFor())) {
 					replaceList.put(i, ins);
@@ -295,7 +300,7 @@ public class BasicBlock {
 			for (int k = phiInstructions.size() - 1; k >= 0; k--) {
 				Instruction phi = phiInstructions.get(k);
 				if (phi.getPhiFor().equals(Str)) {
-					if(i.getLeftInstruction() == null)
+					if (i.getLeftInstruction() == null)
 						i.setLeftInstruction(phi);
 
 					phiInstructions.remove(phi);
@@ -416,7 +421,18 @@ public class BasicBlock {
 		return oneParent;
 	}
 
-	
+	public HashSet<Integer> getLeftOver() {
+		if (leftOver == null)
+			leftOver = new HashSet<Integer>();
+		return leftOver;
+	}
+
+	public void addLeftOver(HashSet<Integer> left) {
+		if (leftOver == null)
+			leftOver = new HashSet<Integer>();
+		leftOver.addAll(left);
+	}
+
 	public HashSet<Integer> getLiveRange() {
 		if (liveRange == null)
 			liveRange = new HashSet<Integer>();
@@ -428,7 +444,17 @@ public class BasicBlock {
 			liveRange = new HashSet<Integer>();
 		liveRange.addAll(live);
 	}
-	
+
+	public boolean isDeadInstruction(Instruction i) {
+		CODE code = i.getCode();
+		if (Utils.isNotDeadCode.contains(code))
+			return false;
+
+		if (!liveRange.contains((Integer) i.getInstructionNumber()))
+			return true;
+		return false;
+	}
+
 	public void visitAndUpdateLiveRange(HashSet<Integer> live) {
 		addLiveRange(live);
 
@@ -438,12 +464,16 @@ public class BasicBlock {
 				continue;
 
 			int currentIndex = current.getInstructionNumber();
-			if (getTagtype() != "LOOP_HEADER" || isVisited())
-				liveRange.remove((Integer) currentIndex);
+			if (getTagtype() != "LOOP_HEADER" || isVisited()) {
+				if (isDeadInstruction(current)) {
+					mInstructionSet.remove(i);
+					Utils.SOPln("Removing Instruction " + currentIndex + " from BB " + index);
+					continue;
+				} else
+					liveRange.remove((Integer) currentIndex);
+			}
 
-			for (int j : liveRange)
-				if (j != currentIndex)
-					Utils.addEdge(currentIndex, j);
+			Utils.addEdge(currentIndex, liveRange);
 
 			if (current.getLeftInstruction() != null)
 				liveRange.add(current.getLeftInstruction().getInstructionNumber());
@@ -543,7 +573,7 @@ public class BasicBlock {
 	public String toString() {
 		String returnString = "";
 		if (!mInstructionSet.isEmpty()) {
-			returnString = "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName;
+			returnString = "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName + " WD = " + myWhileDepth;
 			for (Instruction i : mInstructionSet)
 				returnString += "\n" + i;
 			return returnString;
