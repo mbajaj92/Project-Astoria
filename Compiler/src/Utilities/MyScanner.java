@@ -259,7 +259,7 @@ public class MyScanner {
 					 * keyword
 					 */
 					restOfIdentifier();
-					token = token.toLowerCase();
+					/*token = token.toLowerCase();*/
 					/* Token accepted, now we categorize it as either token or
 					 * id */
 					if (ScannerUtils.isKeyword(token)) {

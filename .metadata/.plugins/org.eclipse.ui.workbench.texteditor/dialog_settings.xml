@@ -6,20 +6,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="funcParameters =" key="selection"/>
+		<item value="liveRange =" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="liveRange ="/>
+			<item value="funcInfoTable"/>
+			<item value="metaArrayTable"/>
+			<item value="isDeadCode"/>
+			<item value="lower"/>
 			<item value="funcParameters ="/>
 			<item value="interfearanceGraph ="/>
 			<item value="return mIns"/>
-			<item value="mInstructionSet"/>
-			<item value="*/"/>
-			<item value="Assign"/>
-			<item value="MyScanner.setCurrentFunction"/>
-			<item value="MyScanner.getLineCount()"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ScannerUtils.getCurrentScanner().setCurrentFunction"/>

@@ -8,9 +8,10 @@
 #inner loop variable discovery while Graph Generation
 #Branch Instructions handling during Graph Generation - DONE
 #Jump isntruction - 2 (check, jump) - DONE
-#inputNum, outputnum
-#anchor and lastAccess - create hard-copies
-#add WHILE DEPTH
+#inputNum, outputnum - DONE
+#anchor and lastAccess - create hard-copies - DONE
+#add WHILE DEPTH - DONE
+#introduce SP and FP - DONE
 
 Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> Do arrays and procedures -> RA -> Lowering to machine code.
 

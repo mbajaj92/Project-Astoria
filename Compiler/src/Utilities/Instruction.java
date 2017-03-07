@@ -118,11 +118,14 @@ public class Instruction {
 	}
 
 	public static String toStringConstant(String constant, String funcName) {
-		if (constant == null || Integer.parseInt(constant.substring(1)) == Integer.MAX_VALUE)
+		if (constant == null)
 			return "null";
 
 		if (constant.charAt(0) != '&')
 			return constant;
+
+		if (Integer.parseInt(constant.substring(1)) == Integer.MAX_VALUE)
+			return "null";
 
 		try {
 			return "&" + Utils.address2Identifier(Integer.parseInt(constant.substring(1)), funcName);
@@ -313,8 +316,7 @@ public class Instruction {
 	}
 
 	public boolean isDuplicate(Instruction i) {
-		return (code == i.code && code != CODE.phi) && isAEqual(i)
-				&& (isArray && code == CODE.load ? true : isBEqual(i));
+		return (code != CODE.phi && code == i.code) && isAEqual(i) && (isArray && code == CODE.load ? true : isBEqual(i));
 	}
 
 	private void lastAccessTest() {

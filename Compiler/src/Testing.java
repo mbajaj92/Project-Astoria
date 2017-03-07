@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.HashSet;
 
 import Utilities.BasicBlock;
 import Utilities.Grammer;
@@ -66,11 +67,11 @@ public class Testing {
 		Utils.SOPln("Basic Block Traversal");
 		for (BasicBlock b : BasicBlock.getBasicBlockList()) {
 			if (b.isLastBlock())
-				Utils.traversefunc(b, null);
+				Utils.traversefunc(b, new HashSet<Integer>());
 		}
 
 		//COLOR
-		Utils.printGraph();
+		Utils.colorAndPrintInterfearenceGraph();
 		ScannerUtils.shutDown();
 	}
 }

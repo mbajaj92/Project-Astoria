@@ -257,3 +257,5 @@ Compiler/bin/Utilities/Grammer.class
 .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
 *.class
 *.log
+Compiler/bin/Testing.class
+*.class

@@ -2,9 +2,15 @@ main
 var a,c,x,y,b,madhur,soham,d,z,i,j;
 array [13][13][13][13]arr1;
 array [5][10] swing;
+procedure pro1(x,y,z,a,b,h,i,d,n); {
+	let x<-b-h;
+	let y<-98;
+	call OutputNum(x);
+};
+
 {
 	let a<-c+d;
-	let i<-90;
+	let i<-call InputNum();
 	let b<-45;
 	let z<-3;
 	if a<b then 
@@ -13,8 +19,11 @@ array [5][10] swing;
 		od;
 	else
 		while c<11 do
-			let c<-c-1;
+			let c<-z-1;
 		od;
 	fi;
-	let c<-i+23-b+z;
+	call OutputNum(a);
+	call OutputNum(i);
+	call OutputNum(b);
+	let c<-i+23-b;
 }.
