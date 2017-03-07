@@ -15,15 +15,24 @@ procedure pro1(x,y,z,a,b,h,i,d,n); {
 	let z<-3;
 	if a<b then 
 		while c<11 do
-			let c<-c-1;
+			while c<12 do
+				let c<-b-1;
+			od;
+			let a<-a*a;
+			let i<-67;
+			let z<-76;
+			if a<45 then
+				let a<-a-90+i;
+			else
+				let a<-a-79+z;
+			fi;
 		od;
+		let z<-z*z;
 	else
 		while c<11 do
 			let c<-z-1;
 		od;
 	fi;
 	call OutputNum(a);
-	call OutputNum(i);
-	call OutputNum(b);
-	let c<-i+23-b;
+	#call OutputNum(i);
 }.

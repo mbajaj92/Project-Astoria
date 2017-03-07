@@ -11,6 +11,7 @@ import java.util.List;
 import Utilities.MyScanner.VARIABLE_TYPE;
 
 public class Utils {
+	public static HashMap<Integer, BasicBlock> leftOverTrace = null;
 	public static final String OUTPUT_NUM = "OutputNum";
 	public static final String OUTPUT_NL = "OutputNewLine";
 	public static final String INPUT_NUM = "InputNum";
@@ -54,6 +55,9 @@ public class Utils {
 			init[1] = 0;
 			metaStackAndFramePointerData.put(Utils.MAIN_FUNC, init);
 		}
+		
+		if (leftOverTrace == null)
+			leftOverTrace = new HashMap<Integer, BasicBlock>();
 	}
 
 	public static String getFunctionForIdentifier(int id) throws Exception {
@@ -790,6 +794,21 @@ public class Utils {
 			current.getLeftOver().addAll(current.getLiveRange());
 			current.getLeftOver().removeAll(current.getSecondChild().getLiveRange());
 			Utils.SOPln("BB = " + current.getIndex() + " left Over = " + current.getLeftOver());
+			for (int i : current.getLeftOver()) {
+				if (!leftOverTrace.containsKey(i))
+					leftOverTrace.put(i, current);
+				else {
+					/* 2nd Consecutive BB found, time to fix it */
+					SOPln("We have My case for " + i+" for BB = "+current.getIndex());
+					ArrayList<BasicBlock> stop = new ArrayList<BasicBlock>();
+					stop.add(current);
+					leftOverTrace.get(i).getSecondChild().fixLeftOverTrace(stop, i);
+					stop.clear();
+					stop = null;
+					leftOverTrace.put(i, current);
+				}
+			}
+
 			return;
 		}
 
@@ -821,11 +840,22 @@ public class Utils {
 
 		if (current.secondParentExists()) {
 			HashSet<Integer> tobeGivenAhead = new HashSet<Integer>(current.getLiveRange());
-			for (Instruction ins : current.getInstructionList()) {
+			for (int abc = current.getInstructionList().size() - 1; abc >= 0; abc--) {
+				Instruction ins = current.getInstructionList().get(abc);
 				if (ins.getCode() != CODE.phi)
-					break;
-				if (currentType != "LOOP_HEADER")
-					tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
+					continue;
+
+				if (currentType != "LOOP_HEADER") {
+					if (!current.isDeadInstruction(ins)) {
+						tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
+						addEdge(ins.getInstructionNumber(), tobeGivenAhead);
+						leftOverTrace.remove((Integer) ins.getInstructionNumber());
+					} else {
+						Utils.SOPln("Removing Instruction " + ins.getInstructionNumber() + " from BB "
+								+ current.getIndex());
+						current.getInstructionList().remove(ins);
+					}
+				}
 				tobeGivenAhead.add(ins.getRightInstruction().getInstructionNumber());
 			}
 
@@ -835,15 +865,44 @@ public class Utils {
 
 		if (current.firstParentExists()) {
 			HashSet<Integer> tobeGivenAhead = new HashSet<Integer>(current.getLiveRange());
-			for (Instruction ins : current.getInstructionList()) {
+			for (int abc = current.getInstructionList().size() - 1; abc >= 0; abc--) {
+				Instruction ins = current.getInstructionList().get(abc);
+
 				if (ins.getCode() != CODE.phi)
-					break;
-				tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
-				tobeGivenAhead.add(ins.getLeftInstruction().getInstructionNumber());
+					continue;
+
+				if (!current.isDeadInstruction(ins)) {
+					tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
+					addEdge(ins.getInstructionNumber(), tobeGivenAhead);
+					leftOverTrace.remove((Integer) ins.getInstructionNumber());
+					tobeGivenAhead.add(ins.getLeftInstruction().getInstructionNumber());
+				} else {
+					Utils.SOPln(
+							"Removing Instruction " + ins.getInstructionNumber() + " from BB " + current.getIndex());
+					current.getInstructionList().remove(ins);
+				}
 			}
-			
+
 			current.getFirstParent().addLeftOver(current.getLeftOver());
 			traversefunc(current.getFirstParent(), tobeGivenAhead);
+		}
+	}
+
+	public static void createTraceEdges(int index, ArrayList<Instruction> ins) {
+		HashSet<Integer> edgeList = null;
+		if (!interfearanceGraph.containsKey(index)) {
+			edgeList = new HashSet<Integer>();
+			interfearanceGraph.put(index, edgeList);
+		} else
+			edgeList = interfearanceGraph.get(index);
+
+		for (Instruction i : ins) {
+			int index1 = i.getInstructionNumber();
+			if (!interfearanceGraph.containsKey(index1))
+				continue;
+			Utils.SOPln("Creating edges for "+index1+" and "+index);
+			interfearanceGraph.get(index1).add(index);
+			edgeList.add(index1);
 		}
 	}
 
@@ -877,7 +936,7 @@ public class Utils {
 		f = new File("iGraph.png");
 		f.delete();
 		RandomAccessFile randomAccessFile = new RandomAccessFile("iGraph.dot", "rw");
-		randomAccessFile.writeBytes("strict `graph {\n");
+		randomAccessFile.writeBytes("strict graph {\n");
 		for (Integer key : interfearanceGraph.keySet()) {
 			String write = key + "[label=\"" + key + "\" style=filled fillcolor=\"red\"];\n";
 			//String write = key + "[label=\"" + key + "\" style=filled fillcolor=\""+Instruction.getInstructionList().get(key).getColor()+"\"];\n";

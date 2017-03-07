@@ -351,6 +351,22 @@ public class BasicBlock {
 		fixList = null;
 	}
 
+	public void fixLeftOverTrace(ArrayList<BasicBlock> stop, int i) {
+		Utils.SOPln("CALLING to FIX LEFT OVER FOR " + i + " in BB = " + getIndex());
+		if (stop.contains(this))
+			return;
+
+		Utils.SOPln("FIXING LEFT OVER FOR " + i + " in BB = " + getIndex());
+		stop.add(this);
+		Utils.createTraceEdges(i, mInstructionSet);
+
+		if (firstChildExists())
+			getFirstChild().fixLeftOverTrace(stop, i);
+
+		if (secondChildExists())
+			getSecondChild().fixLeftOverTrace(stop, i);
+	}
+
 	public void fixUp() {
 		if (mInstructionSet.isEmpty() && (oneChildON || twoChildON))
 			mInstructionSet.add(Instruction.getInstruction(CODE.BRA, false).setBasicBlock(this));
@@ -467,6 +483,7 @@ public class BasicBlock {
 			if (getTagtype() != "LOOP_HEADER" || isVisited()) {
 				if (isDeadInstruction(current)) {
 					mInstructionSet.remove(i);
+					Utils.leftOverTrace.remove((Integer) currentIndex);
 					Utils.SOPln("Removing Instruction " + currentIndex + " from BB " + index);
 					continue;
 				} else
