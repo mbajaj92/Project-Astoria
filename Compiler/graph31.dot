@@ -1,0 +1,47 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &d
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
+5: read (null) (null) null null aFor = &a
+7: write (5) (null) null null
+8: writeNL (null) (null) null null
+"];
+1[shape=box];
+1 -> 2[color=blue]
+1 -> 0[color=red][style=dotted]
+2[label="
+TAG: LOOP_HEADER_1(2)  func = MAIN_FUNC WD = 1
+26: phi (0) (13) null null  PHI FOR &d
+25: phi (0) (21) null null  PHI FOR &b
+24: phi (0) (16) null null  PHI FOR &c
+11: CMP (25) (24) null null aFor = &b bFor = &c
+12: BLE (11) (null) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 4[color=black]
+2 -> 1[color=red][style=dotted]
+2 -> 3[color=green][style=dotted]
+3[label="
+TAG: DO_BLOCK(3)  func = MAIN_FUNC WD = 1
+13: read (null) (null) null null aFor = &d
+16: ADDI (24) (null) null #1 aFor = &c
+18: write (13) (null) null null
+19: writeNL (null) (null) null null
+21: ADDI (25) (null) null #1 aFor = &b
+23: BRA (26) (null) null null
+"];
+3[shape=box];
+3 -> 2[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: LOOP_FOLLOW_1(4)  THIS IS LAST BB, we have no Instructions because we are a sucks !!
+"];
+4[shape=box];
+4 -> 2[color=red][style=dotted]
+}

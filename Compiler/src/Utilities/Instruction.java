@@ -6,6 +6,7 @@ import java.util.HashMap;
 import Utilities.Utils.CODE;
 
 public class Instruction {
+	private String Color = "";
 	private ArrayList<Instruction> funcParameters = null;
 	private boolean isLoadForArray = false;
 	private static boolean allowNextAnchorTest = true;
@@ -130,15 +131,18 @@ public class Instruction {
 		try {
 			return "&" + Utils.address2Identifier(Integer.parseInt(constant.substring(1)), funcName);
 		} catch (Exception E) {
-			Utils.SOPln(E);
+			//Utils.SOPln(E);
 			return null;
 		}
 	}
 
 	public String toStringConstant(String constant) {
-		String ans = toStringConstant(constant, myBasicBlock.getFunctionName());
-		if (ans == null)
-			Utils.SOPln("WE GFOUND AN EXCEPTION FOR " + index);
+		String ans = toStringConstant(constant,
+				(hasFunctionParameters()) ? Utils.MAIN_FUNC : myBasicBlock.getFunctionName());
+		if (ans == null) {
+			Utils.SOPln("WE FOUND AN EXCEPTION FOR " + index);
+			ans = toStringConstant(constant,Utils.MAIN_FUNC);
+		}
 		return ans;
 	}
 
@@ -186,6 +190,10 @@ public class Instruction {
 		return funcParameters != null;
 	}
 
+	public void setColor(String c) {
+		Color = c;
+	}
+	
 	public Instruction setFunctionParameters(ArrayList<Result> R) {
 		if (R == null)
 			return this;
@@ -212,6 +220,10 @@ public class Instruction {
 
 	public Instruction getRightInstruction() {
 		return bInstruction;
+	}
+
+	public String getColor() {
+		return Color;
 	}
 
 	public Instruction getLeftInstruction() {
@@ -316,6 +328,9 @@ public class Instruction {
 	}
 
 	public boolean isDuplicate(Instruction i) {
+		if(i == null)
+			return false;
+
 		return (code != CODE.phi && code == i.code) && isAEqual(i) && (isArray && code == CODE.load ? true : isBEqual(i));
 	}
 
@@ -351,5 +366,13 @@ public class Instruction {
 
 	private void anchorTest() {
 		anchorTest(null);
+	}
+
+	public static void shutDown() {
+
+		if (mInstructionList != null)
+			mInstructionList.clear();
+		mInstructionList = null;
+		allowNextAnchorTest = true;
 	}
 }

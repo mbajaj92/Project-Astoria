@@ -22,7 +22,7 @@ public class BasicBlock {
 	private ArrayList<Instruction> mInstructionSet = null;
 	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BRA);
 	private static List<CODE> notToBeAnchored = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.phi, CODE.BEQ, CODE.BGE,
-			CODE.BLE, CODE.BGT, CODE.BLT, CODE.BNE, CODE.read, CODE.write, CODE.writeNL);
+			CODE.BLE, CODE.BGT, CODE.BLT, CODE.BNE, CODE.read, CODE.write, CODE.writeNL, CODE.RET);
 	private HashMap<CODE, Instruction> anchor = null;
 	private HashMap<String, Instruction> lastAccessTable = null;
 
@@ -32,6 +32,7 @@ public class BasicBlock {
 
 	BasicBlock(String tag, String name) {
 		TAG = tag;
+		/*Utils.SOPln("setting function name to "+name);*/
 		mFunctionName = name;
 		nullCheck();
 		mInstructionSet = new ArrayList<Instruction>();
@@ -89,10 +90,10 @@ public class BasicBlock {
 		for (String key : leftTable.keySet()) {
 			Instruction left = leftTable.get(key);
 			Instruction right = rightTable.get(key);
-			if (!isWhile && left == null)
+			/*if (!isWhile && left == null)
 				Utils.error("Left Chain is null for " + right.toStringConstant(key));
 			if (right == null && !isWhile)
-				Utils.error("Right Chain is null for " + left.toStringConstant(key));
+				Utils.error("Right Chain is null for " + left.toStringConstant(key));*/
 
 			if (((isWhile && right != null) || (!isWhile)) && (left != right && !left.isDuplicate(right))) {
 				if (isWhile) {
@@ -112,10 +113,10 @@ public class BasicBlock {
 		for (String key : rightTable.keySet()) {
 			Instruction left = leftTable.get(key);
 			Instruction right = rightTable.get(key);
-			if (left == null && !isWhile)
+			/*if (left == null && !isWhile)
 				Utils.error("Left Chain is null for for " + right.toStringConstant(key));
 			if (right == null && !isWhile)
-				Utils.error("Right Chain is null for for " + left.toStringConstant(key));
+				Utils.error("Right Chain is null for for " + left.toStringConstant(key));*/
 
 			if ((isWhile && left == null)
 					|| ((((isWhile && right != null) || (!isWhile)) && (left != right && !right.isDuplicate(left))))
@@ -218,7 +219,8 @@ public class BasicBlock {
 	}
 
 	private void whileFixSingleIns(Instruction i, ArrayList<Instruction> phiInstructions,
-			ArrayList<Instruction> phiParams, HashMap<Instruction, Instruction> replaceList,
+			ArrayList<Instruction> leftPhiParams, ArrayList<Instruction> rightPhiParams,
+			/*ArrayList<Instruction> phiParams,*/ HashMap<Instruction, Instruction> replaceList,
 			HashMap<CODE, Instruction> parentAnchor, HashMap<String, Instruction> parentLastAccess) {
 
 		if (!i.isLoadForArray() && i.getCode() == CODE.load) {
@@ -246,16 +248,32 @@ public class BasicBlock {
 		} else {
 			replaceIfRequired(i, replaceList);
 
-			if (i.getLeftInstruction() != null && phiParams.contains(i.getLeftInstruction())) {
-				Instruction phi = phiInstructions.get(phiParams.indexOf(i.getLeftInstruction()) / 2);
+			if (i.getLeftInstruction() != null && leftPhiParams.contains(i.getLeftInstruction())) {
+				Instruction phi = phiInstructions.get(leftPhiParams.indexOf(i.getLeftInstruction()));
 				if (phi.getPhiFor().equals(i.getAInsFor())) {
 					i.setLeftInstruction(phi);
 					i.clearReferenceInstruction();
 				}
 			}
 
-			if (i.getRightInstruction() != null && phiParams.contains(i.getRightInstruction())) {
-				Instruction phi = phiInstructions.get(phiParams.indexOf(i.getRightInstruction()) / 2);
+			if (i.getLeftInstruction() != null && rightPhiParams.contains(i.getLeftInstruction())) {
+				Instruction phi = phiInstructions.get(rightPhiParams.indexOf(i.getLeftInstruction()));
+				if (phi.getPhiFor().equals(i.getAInsFor())) {
+					i.setLeftInstruction(phi);
+					i.clearReferenceInstruction();
+				}
+			}
+
+			if (i.getRightInstruction() != null && leftPhiParams.contains(i.getRightInstruction())) {
+				Instruction phi = phiInstructions.get(leftPhiParams.indexOf(i.getRightInstruction()));
+				if (phi.getPhiFor().equals(i.getBInsFor())) {
+					i.setRightInstruction(phi);
+					i.clearReferenceInstruction();
+				}
+			}
+
+			if (i.getRightInstruction() != null && rightPhiParams.contains(i.getRightInstruction())) {
+				Instruction phi = phiInstructions.get(rightPhiParams.indexOf(i.getRightInstruction()));
 				if (phi.getPhiFor().equals(i.getBInsFor())) {
 					i.setRightInstruction(phi);
 					i.clearReferenceInstruction();
@@ -269,17 +287,22 @@ public class BasicBlock {
 				i.clearReferenceInstruction();
 		}
 
-		if (i.getCode() != CODE.phi && phiParams.contains(i)) {
-			int index = phiParams.indexOf(i);
-			phiParams.remove(index - 1);
-			phiParams.remove(index - 1);
-			phiInstructions.remove(index / 2);
+		if (i.getCode() != CODE.phi && leftPhiParams.contains(i)) {
+			int index = leftPhiParams.indexOf(i);
+			leftPhiParams.remove(index);
+			leftPhiParams.add(index,null);
+		}
+		
+		if (i.getCode() != CODE.phi && rightPhiParams.contains(i)) {
+			int index = rightPhiParams.indexOf(i);
+			rightPhiParams.remove(index);
+			rightPhiParams.add(index,null);
 		}
 	}
 
-	public void whileFix(ArrayList<Instruction> phiInstructions, ArrayList<Instruction> phiParams,
-			HashMap<Instruction, Instruction> replaceList, HashMap<CODE, Instruction> parentAnchor,
-			HashMap<String, Instruction> parentLastAccess) {
+	public void whileFix(ArrayList<Instruction> phiInstructions, ArrayList<Instruction> leftPhiParams,
+			ArrayList<Instruction> rightPhiParams, HashMap<Instruction, Instruction> replaceList,
+			HashMap<CODE, Instruction> parentAnchor, HashMap<String, Instruction> parentLastAccess) {
 		if (fixList.contains(this))
 			return;
 
@@ -287,7 +310,8 @@ public class BasicBlock {
 
 		for (int j = 0; j < mInstructionSet.size(); j++) {
 			Instruction i = mInstructionSet.get(j);
-			whileFixSingleIns(i, phiInstructions, phiParams, replaceList, parentAnchor, parentLastAccess);
+			whileFixSingleIns(i, phiInstructions, leftPhiParams, rightPhiParams, replaceList, parentAnchor,
+					parentLastAccess);
 			if (replaceList.containsKey(i)) {
 				mInstructionSet.remove(i);
 				j--;
@@ -303,31 +327,39 @@ public class BasicBlock {
 					if (i.getLeftInstruction() == null)
 						i.setLeftInstruction(phi);
 
+					if (i.getRightInstruction() == null)
+						i.setRightInstruction(phi);
+
 					phiInstructions.remove(phi);
-					phiParams.remove(2 * k);
-					phiParams.remove(2 * k);
+					leftPhiParams.remove(k);
+					rightPhiParams.remove(k);
 				}
 			}
 		}
 
 		if (oneChildON)
-			oneChild.whileFix(phiInstructions, phiParams, replaceList, parentAnchor, parentLastAccess);
+			oneChild.whileFix(new ArrayList<Instruction>(phiInstructions), new ArrayList<Instruction>(leftPhiParams),
+					new ArrayList<Instruction>(rightPhiParams), new HashMap<Instruction, Instruction>(replaceList),
+					parentAnchor, parentLastAccess);
 
 		if (twoChildON)
-			twoChild.whileFix(phiInstructions, phiParams, replaceList, parentAnchor, parentLastAccess);
+			twoChild.whileFix(new ArrayList<Instruction>(phiInstructions), new ArrayList<Instruction>(leftPhiParams),
+					new ArrayList<Instruction>(rightPhiParams), new HashMap<Instruction, Instruction>(replaceList),
+					parentAnchor, parentLastAccess);
 	}
 
 	public void fixPhis(HashMap<CODE, Instruction> parentAnchor, HashMap<String, Instruction> parentLastAccess) {
-		ArrayList<Instruction> phiInstructions = null, phiParams = null;
+		ArrayList<Instruction> phiInstructions = null, /*phiParams = null,*/ leftPhiParams = null, rightPhiParams = null;
 		HashMap<Instruction, Instruction> replaceList = new HashMap<Instruction, Instruction>();
 
 		phiInstructions = new ArrayList<Instruction>();
-		phiParams = new ArrayList<Instruction>();
+		leftPhiParams = new ArrayList<Instruction>();
+		rightPhiParams = new ArrayList<Instruction>();
 
 		for (int j = 0; j < mInstructionSet.size(); j++) {
 			Instruction i = mInstructionSet.get(j);
 			if (i.getCode() != CODE.phi) {
-				whileFixSingleIns(i, phiInstructions, phiParams, replaceList, parentAnchor, parentLastAccess);
+				whileFixSingleIns(i, phiInstructions, leftPhiParams, rightPhiParams, replaceList, parentAnchor, parentLastAccess);
 				if (replaceList.containsKey(i)) {
 					mInstructionSet.remove(i);
 					j--;
@@ -336,27 +368,31 @@ public class BasicBlock {
 			}
 
 			phiInstructions.add(i);
-			phiParams.add(i.getLeftInstruction());
-			phiParams.add(i.getRightInstruction());
+			leftPhiParams.add(i.getLeftInstruction());
+			rightPhiParams.add(i.getRightInstruction());
+			/*phiParams.add(i.getLeftInstruction());
+			phiParams.add(i.getRightInstruction());*/
 		}
 
 		fixList = new ArrayList<BasicBlock>();
 		fixList.add(this);
-		oneChild.whileFix(phiInstructions, phiParams, replaceList, parentAnchor, parentLastAccess);
+		oneChild.whileFix(phiInstructions, leftPhiParams, rightPhiParams, replaceList, parentAnchor, parentLastAccess);
 		fixList.clear();
 		phiInstructions.clear();
-		phiParams.clear();
+		leftPhiParams.clear();
+		leftPhiParams = null;
+		rightPhiParams.clear();
+		rightPhiParams = null;
 		phiInstructions = null;
-		phiParams = null;
 		fixList = null;
 	}
 
 	public void fixLeftOverTrace(ArrayList<BasicBlock> stop, int i) {
-		Utils.SOPln("CALLING to FIX LEFT OVER FOR " + i + " in BB = " + getIndex());
+		//Utils.SOPln("CALLING to FIX LEFT OVER FOR " + i + " in BB = " + getIndex());
 		if (stop.contains(this))
 			return;
 
-		Utils.SOPln("FIXING LEFT OVER FOR " + i + " in BB = " + getIndex());
+		//Utils.SOPln("FIXING LEFT OVER FOR " + i + " in BB = " + getIndex());
 		stop.add(this);
 		Utils.createTraceEdges(i, mInstructionSet);
 
@@ -596,5 +632,16 @@ public class BasicBlock {
 			return returnString;
 		}
 		return "\nTAG: " + TAG + "(" + index + ")  THIS IS LAST BB, we have no Instructions because we are a sucks !!";
+	}
+	
+	public static void shutDown() {
+		if (fixList != null)
+			fixList.clear();
+		fixList = null;
+
+		if (mBasicBlockList != null)
+			mBasicBlockList.clear();
+		mBasicBlockList = null;
+
 	}
 }

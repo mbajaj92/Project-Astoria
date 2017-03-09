@@ -1,0 +1,40 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &e
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
+6: ADDI (null) (null) #0 #1 aFor = &b
+11: MULI (6) (null) null #4 aFor = &c
+"];
+1[shape=box];
+1 -> 2[color=blue]
+1 -> 0[color=red][style=dotted]
+2[label="
+TAG: IF_HEADER(2)  func = MAIN_FUNC WD = 0
+15: CMP (11) (6) null null aFor = &c bFor = &b
+16: BLE (15) (20) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 4[color=black]
+2 -> 1[color=red][style=dotted]
+3[label="
+TAG: THEN_BLOCK(3)  func = MAIN_FUNC WD = 0
+18: ADDI (6) (null) null #2 aFor = &d
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: FOLLOW_BLOCK(4)  func = MAIN_FUNC WD = 0
+20: phi (18) (0) null null  PHI FOR &d
+23: ADD (6) (6) null null aFor = &e bFor = &b
+"];
+4[shape=box];
+4 -> 3[color=red][style=dotted]
+4 -> 2[color=green][style=dotted]
+}

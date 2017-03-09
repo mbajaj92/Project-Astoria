@@ -1,0 +1,43 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &d
+"];
+0[shape=box];
+0 -> 2[color=blue]
+1[label="
+TAG: PROC_START(1)  func = foo WD = 0
+6: ADDI (null) (null) #0 #14
+7: RET (6) (null) null null
+"];
+1[shape=box];
+2[label="
+TAG: INIT_CONT(2)  func = MAIN_FUNC WD = 0
+8: ADDI (null) (null) #0 #1 aFor = &b
+10: ADDI (null) (null) #0 #19 aFor = &c
+12: call (null) (null) &foo null has func params
+13: ADDI (12) (null) null #1 aFor = &foo
+16: MUL (8) (10) null null aFor = &b bFor = &c
+17: ADDI (null) (null) #0 #45
+18: MULI (13) (null) null #20
+19: ADDI (18) (null) null #14700
+20: ADD (19) (16) null null
+21: ADDI (20) (null) null #4
+22: ADDI (null) (null) #30 &a
+23: adda (21) (22) null null
+24: store (17) (23) null null STORE FOR= &a
+25: call (null) (null) &foo null has func params
+26: ADDI (25) (null) null #1 aFor = &foo
+29: MUL (10) (8) null null aFor = &c bFor = &b
+30: MULI (26) (null) null #20 aFor = &foo
+31: ADDI (30) (null) null #14700 aFor = &foo
+32: ADD (31) (29) null null
+33: ADDI (32) (null) null #4
+34: ADDI (null) (null) ##FP_MAIN_FUNC &a
+35: adda (33) (34) null null
+36: load (35) (null) null null aFor = &a
+37: ADDI (36) (null) null #2 aFor = &d
+"];
+2[shape=box];
+2 -> 0[color=red][style=dotted]
+}

@@ -1,0 +1,4 @@
+strict graph {
+2[label="2" style=filled fillcolor="blue1"];
+4[label="4" style=filled fillcolor="blue1"];
+}

@@ -1,0 +1,86 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &c
+"];
+0[shape=box];
+0 -> 3[color=blue]
+1[label="
+TAG: PROC_START(1)  func = foo WD = 0
+6: ADDI (null) (null) #0 #55
+7: write (6) (null) null null
+8: ADDI (null) (null) #0 #2 aFor = &b
+10: ADDI (null) (null) #0 #3 aFor = &c
+14: ADD (8) (10) null null aFor = &b bFor = &c
+15: RET (14) (null) null null
+"];
+1[shape=box];
+2[label="
+TAG: PROC_START(2)  func = bar WD = 0
+16: ADDI (null) (null) #0 #35
+17: write (16) (null) null null
+18: ADDI (null) (null) #0 #3 aFor = &b
+20: ADDI (null) (null) #0 #4 aFor = &c
+24: ADD (18) (20) null null aFor = &b bFor = &c
+25: RET (24) (null) null null
+"];
+2[shape=box];
+3[label="
+TAG: INIT_CONT(3)  func = MAIN_FUNC WD = 0
+26: ADDI (null) (null) #0 #1
+27: ADDI (null) (null) #0 #15
+28: ADDI (null) (null) #30 &a
+29: adda (27) (28) null null
+30: store (26) (29) null null STORE FOR= &a
+31: ADDI (null) (null) #0 #2
+32: ADDI (null) (null) #0 #14
+34: adda (32) (28) null null
+35: store (31) (34) null null STORE FOR= &a
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 0[color=red][style=dotted]
+4[label="
+TAG: IF_HEADER(4)  func = MAIN_FUNC WD = 0
+37: ADDI (null) (null) ##FP_MAIN_FUNC &a
+38: adda (27) (37) null null
+39: load (38) (null) null null aFor = &a
+42: adda (32) (37) null null
+44: CMP (39) (43) null null aFor = &a bFor = &a
+45: BLE (44) (52) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 6[color=black]
+4 -> 3[color=red][style=dotted]
+5[label="
+TAG: THEN_BLOCK(5)  func = MAIN_FUNC WD = 0
+46: call (null) (null) &foo null
+47: ADDI (null) (null) #0 #13
+49: adda (47) (28) null null
+50: store (46) (49) null null STORE FOR= &a
+51: BRA (57) (null) null null
+"];
+5[shape=box];
+5 -> 7[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: ELSE_BLOCK(6)  func = MAIN_FUNC WD = 0
+52: call (null) (null) &foo null
+53: ADDI (null) (null) #0 #13
+55: adda (53) (28) null null
+56: store (52) (55) null null STORE FOR= &a
+"];
+6[shape=box];
+6 -> 7[color=blue]
+6 -> 4[color=red][style=dotted]
+7[label="
+TAG: FOLLOW_BLOCK(7)  func = MAIN_FUNC WD = 0
+57: ADDI (null) (null) #0 #13
+59: adda (57) (37) null null
+62: write (60) (null) null null
+"];
+7[shape=box];
+7 -> 5[color=red][style=dotted]
+7 -> 6[color=green][style=dotted]
+}

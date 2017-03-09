@@ -1,0 +1,16 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &y
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
+3: ADDI (null) (null) #0 #51 aFor = &x
+6: MULI (3) (null) null #2 aFor = &y
+8: write (6) (null) null null
+"];
+1[shape=box];
+1 -> 0[color=red][style=dotted]
+}

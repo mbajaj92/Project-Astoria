@@ -289,6 +289,7 @@ public class MyScanner {
 	}
 
 	public void setCurrentFunction(String func) {
+		/*Utils.SOPln("Setting current function to "+func);*/
 		mCurrentFunction = func;
 	}
 

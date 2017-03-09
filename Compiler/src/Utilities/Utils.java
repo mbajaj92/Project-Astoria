@@ -1,12 +1,15 @@
 package Utilities;
 
-import java.io.File;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import Utilities.MyScanner.VARIABLE_TYPE;
 
@@ -23,7 +26,7 @@ public class Utils {
 	public static List<CODE> isNotDeadCode = Arrays.asList(CODE.write, CODE.writeNL, CODE.read, CODE.CMP, CODE.BLE,
 			CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLT, CODE.BNE, CODE.BRA, CODE.CMPI);
 	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
-			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store, CODE.call, CODE.read, CODE.write, CODE.writeNL);
+			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store, CODE.call, CODE.read, CODE.write, CODE.writeNL, CODE.RET);
 	public static List<CODE> compareInstructions = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
 			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT);
 	/* private static ArrayList<String> idTable = null; */
@@ -32,6 +35,8 @@ public class Utils {
 	private static HashMap<String, HashMap<Integer, ArrayList<Integer>>> metaArrayTable = null;
 	private static HashMap<Integer, HashSet<Integer>> interfearanceGraph = null;
 	private static HashMap<Integer, Integer> funcInfoTable = null;
+	private static HashMap<String, Integer> functionList = null;
+	private static LinkedHashMap<Integer, ArrayList<Boolean>> color_mapping = null;
 
 	public static void nullCheck() {
 		if (metaIDTable == null)
@@ -45,6 +50,9 @@ public class Utils {
 
 		if (interfearanceGraph == null)
 			interfearanceGraph = new HashMap<Integer, HashSet<Integer>>();
+
+		if(functionList == null)
+			functionList = new HashMap<String,Integer>();
 
 		if (metaStackAndFramePointerData == null) {
 			metaStackAndFramePointerData = new HashMap<String, int[]>();
@@ -71,33 +79,39 @@ public class Utils {
 	public static String[] address2IdentifierImpl(int id, String functionName) throws Exception {
 		nullCheck();
 		String returnValue[] = new String[2];
+
 		/* Utils.SOPln("Asking to convert "+id+" in "+functionName); */
 		HashMap<String, Integer> idTable = metaIDTable.get(functionName);
-		if (idTable == null)
-			Utils.error("FUNCTION DOESNT EXIST");
+		if (idTable != null) {
+			for (String key : idTable.keySet()) {
+				if (id == idTable.get(key)) {
+					returnValue[0] = key;
+					returnValue[1] = functionName;
+					return returnValue;
+				}
+			}
+		} else 
+			SOPln("ID TABLE FOR "+functionName+" not found");
 
+		idTable = metaIDTable.get(MAIN_FUNC);
 		for (String key : idTable.keySet()) {
 			if (id == idTable.get(key)) {
 				returnValue[0] = key;
-				returnValue[1] = functionName;
+				returnValue[1] = MAIN_FUNC;
 				return returnValue;
 			}
 		}
 
-		/*
-		 * Utils.SOPln("Could't find "+id+" in "+functionName+" searching in "
-		 * +Utils.MAIN_FUNC);
-		 */
-		idTable = metaIDTable.get(Utils.MAIN_FUNC);
-		for (String key : idTable.keySet()) {
-			if (id == idTable.get(key)) {
-				returnValue[0] = key;
-				returnValue[1] = Utils.MAIN_FUNC;
-				return returnValue;
+		if(functionName.equals(MAIN_FUNC)) {
+			for (String key : functionList.keySet()) {
+				if (id == functionList.get(key)) {
+					returnValue[0] = key;
+					returnValue[1] = MAIN_FUNC;
+					return returnValue;
+				}
 			}
 		}
-
-		Utils.error("ID " + id + " NOT FOUND at " + ScannerUtils.getCurrentScanner().getLineCount());
+		Utils.error("ID " + id + " NOT FOUND at " + ScannerUtils.getCurrentScanner().getLineCount()+" funName is "+functionName);
 		return null;
 	}
 
@@ -112,8 +126,9 @@ public class Utils {
 	}
 
 	public static int getStackPointerFor(String func) throws Exception {
+
 		if (!metaStackAndFramePointerData.containsKey(func))
-			error("Function " + func + " not defined");
+			error("Function " + func + " not defined at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		return metaStackAndFramePointerData.get(func)[1];
 	}
 
@@ -148,28 +163,27 @@ public class Utils {
 		String currentFunc = ScannerUtils.getCurrentScanner().getCurrentFunction();
 		HashMap<String, Integer> idTable = null;
 		if (!metaIDTable.containsKey(currentFunc)) {
+			/*SOPln("Creating ID Table for "+currentFunc);*/
 			idTable = new HashMap<String, Integer>();
 			metaIDTable.put(currentFunc, idTable);
 		} else
 			idTable = metaIDTable.get(currentFunc);
 
-		/*
-		 * SOPln("Asking for " + name + " class = " + mVarType +
-		 * " in the function " + currentFunc + " at line " +
-		 * MyScanner.getLineCount());
-		 */
 		if (mVarType == VARIABLE_TYPE.FUNC) {
-			if (idTable.containsKey(name)) {
+			/*SOPln("Looking for Function "+name);*/
+			if (functionList.containsKey(name)) {
 				/* function already defined */
-				return idTable.get(name);
+				/*SOPln("Function "+name+" already defined ");*/
+				return functionList.get(name);
 			} else {
 				/* function needs to be defined */
+				/*SOPln("Function "+name+" is being defined ");*/
 				updateFramePointerFor(name, 0);
 				updateStackPointerFor(name, 0);
 				int value = getStackPointerFor(currentFunc);
 				updateStackPointerFor(currentFunc, value + MACHINE_BYTE_SIZE);;
 				funcInfoTable.put(value, 0);
-				idTable.put(name, value);
+				functionList.put(name, value);
 				SOPln(name + " - [" + value + "] | " + currentFunc);
 				return value;
 			}
@@ -567,6 +581,19 @@ public class Utils {
 			case ScannerUtils.divToken:
 				X.valueIfConstant /= Y.valueIfConstant;
 				break;
+			case ScannerUtils.leqToken:
+			case ScannerUtils.neqToken:
+			case ScannerUtils.eqlToken:
+			case ScannerUtils.geqToken:
+			case ScannerUtils.gtrToken:
+			case ScannerUtils.lssToken:
+				load(X);
+				load(Y);
+				X.instruction = Instruction.getInstruction(CODE.CMPI, X.instruction, Y.instruction)
+						.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
+				X.addressIfVariable = Integer.MAX_VALUE;
+				handleCompare(opCode, X.instruction);
+				break;
 			}
 		} else {
 			if ((opCode == ScannerUtils.plusToken || opCode == ScannerUtils.timesToken) && X.kind == RESULT_KIND.CONST
@@ -786,6 +813,77 @@ public class Utils {
 	 * 
 	 * @author - SOHAM
 	 */
+	////////////////////////////////////////////////////////////////////////////
+	public static void registerAllocation() throws Exception {
+		//
+		LinkedHashMap<Integer, HashSet<Integer>> sortedinterfearanceGraph = sort();
+		Utils.SOPln("");
+
+		color_mapping = new LinkedHashMap<Integer, ArrayList<Boolean>>(sortedinterfearanceGraph.size());
+
+		// mapping every ins with the register numbers
+		for (Integer i : sortedinterfearanceGraph.keySet()) {
+			Utils.SOP(i + " ");
+			Utils.SOPln(sortedinterfearanceGraph.get(i));
+			color_mapping.put(i, new ArrayList<Boolean>(Collections.nCopies(9, Boolean.TRUE)));
+		}
+		Utils.SOPln("");
+
+		for (Integer i : color_mapping.keySet()) {
+			int j = findNextAvailableColor(i);
+			Instruction.getInstructionList().get(i).setColor(colors[j]);
+			Utils.SOPln("Instruction " + i + " Color "+colors[j]);
+			if (j != 8) {
+				followup(i, j);
+			}
+		}
+	}
+	public static  String colors[] = { "blue1", "darkorchid1", "chocolate", "darkgoldenrod3", "mediumslateblue", "firebrick3", "gray73", "greenyellow", "white" };
+	public static void followup(int i, int j) {
+
+		ArrayList<Integer> neighbours = new ArrayList<Integer>(interfearanceGraph.get(i));
+
+		for (Integer k : neighbours) {
+			color_mapping.get(k).set(j, false);
+		}
+	}
+
+	public static void printColorMapping() {
+		for (Integer i : color_mapping.keySet()) {
+			Utils.SOP(i + ": ");
+			for (boolean j : color_mapping.get(i))
+				Utils.SOP(j + " ");
+			Utils.SOPln("");
+		}
+	}
+
+	public static int findNextAvailableColor(int i) {
+		for (int j = 0; j < color_mapping.get(i).size(); j++) {
+			if (color_mapping.get(i).get(j))
+				return j;
+		}
+		return -1;
+	}
+
+	public static LinkedHashMap<Integer, HashSet<Integer>> sort() {
+		List<Map.Entry<Integer, HashSet<Integer>>> aList = new ArrayList<Map.Entry<Integer, HashSet<Integer>>>(
+				interfearanceGraph.entrySet());
+
+		Collections.sort(aList, new Comparator<Map.Entry<Integer, HashSet<Integer>>>() {
+			@Override
+			public int compare(Entry<Integer, HashSet<Integer>> a, Entry<Integer, HashSet<Integer>> b) {
+				return b.getValue().size() - a.getValue().size();
+			}
+		});
+
+		LinkedHashMap<Integer, HashSet<Integer>> interfearanceGraph1 = new LinkedHashMap<Integer, HashSet<Integer>>();
+		for (Map.Entry<Integer, HashSet<Integer>> entry : aList) {
+			interfearanceGraph1.put(entry.getKey(), entry.getValue());
+		}
+		return interfearanceGraph1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////
 	public static void traversefunc(BasicBlock current, HashSet<Integer> live) {
 
 		if (current.isVisited()) {
@@ -799,7 +897,7 @@ public class Utils {
 					leftOverTrace.put(i, current);
 				else {
 					/* 2nd Consecutive BB found, time to fix it */
-					SOPln("We have My case for " + i+" for BB = "+current.getIndex());
+					//SOPln("We have My case for " + i+" for BB = "+current.getIndex());
 					ArrayList<BasicBlock> stop = new ArrayList<BasicBlock>();
 					stop.add(current);
 					leftOverTrace.get(i).getSecondChild().fixLeftOverTrace(stop, i);
@@ -875,6 +973,9 @@ public class Utils {
 					tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
 					addEdge(ins.getInstructionNumber(), tobeGivenAhead);
 					leftOverTrace.remove((Integer) ins.getInstructionNumber());
+					if (ins.getLeftInstruction() == null)
+						SOPln("CHECK " + ins.getInstructionNumber());
+
 					tobeGivenAhead.add(ins.getLeftInstruction().getInstructionNumber());
 				} else {
 					Utils.SOPln(
@@ -898,9 +999,12 @@ public class Utils {
 
 		for (Instruction i : ins) {
 			int index1 = i.getInstructionNumber();
+			if (index1 == index)
+				continue;
+
 			if (!interfearanceGraph.containsKey(index1))
 				continue;
-			Utils.SOPln("Creating edges for "+index1+" and "+index);
+
 			interfearanceGraph.get(index1).add(index);
 			edgeList.add(index1);
 		}
@@ -929,24 +1033,45 @@ public class Utils {
 			edgeList.add(index1);
 		}
 	}
+	
+	public static HashMap<Integer, HashSet<Integer>> getInterfearenceGraph() {
+		return interfearanceGraph;
+	}
 
-	public static void colorAndPrintInterfearenceGraph() throws Exception {
-		File f = new File("iGraph.dot");
-		f.delete();
-		f = new File("iGraph.png");
-		f.delete();
-		RandomAccessFile randomAccessFile = new RandomAccessFile("iGraph.dot", "rw");
-		randomAccessFile.writeBytes("strict graph {\n");
-		for (Integer key : interfearanceGraph.keySet()) {
-			String write = key + "[label=\"" + key + "\" style=filled fillcolor=\"red\"];\n";
-			//String write = key + "[label=\"" + key + "\" style=filled fillcolor=\""+Instruction.getInstructionList().get(key).getColor()+"\"];\n";
-			HashSet<Integer> edges = interfearanceGraph.get(key);
-			for(int j:edges)
-				write += key+" -- "+j+"\n";
-			randomAccessFile.writeBytes(write);
-		}
-		randomAccessFile.writeBytes("}");
-		randomAccessFile.close();
-		Runtime.getRuntime().exec("dot iGraph.dot -Tpng -o iGraph.png");
+	public static void shutDown() {
+		if (leftOverTrace != null)
+			leftOverTrace.clear();
+		leftOverTrace = null;
+
+		if (metaStackAndFramePointerData != null)
+			metaStackAndFramePointerData.clear();
+		metaStackAndFramePointerData = null;
+
+		if (metaIDTable != null)
+			metaIDTable.clear();
+		metaIDTable = null;
+
+		if (metaArrayTable != null)
+			metaArrayTable.clear();
+		metaArrayTable = null;
+
+		if (interfearanceGraph != null)
+			interfearanceGraph.clear();
+		interfearanceGraph = null;
+
+		if (funcInfoTable != null)
+			funcInfoTable.clear();
+		funcInfoTable = null;
+
+		if (functionList != null)
+			functionList.clear();
+		functionList = null;
+
+		if (color_mapping != null)
+			color_mapping.clear();
+		color_mapping = null;
+		
+		Instruction.shutDown();
+		BasicBlock.shutDown();
 	}
 }

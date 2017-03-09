@@ -1,0 +1,89 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+63: BRA (62) (null) null null
+"];
+0[shape=box];
+0 -> 9[color=blue]
+1[label="
+TAG: PROC_START(1)  func = foo WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &h
+11: ADD (0) (0) null null aFor = &d bFor = &b
+17: MUL (11) (11) null null aFor = &g bFor = &d
+21: ADD (0) (11) null null aFor = &f bFor = &c
+27: ADD (17) (11) null null aFor = &a bFor = &d
+"];
+1[shape=box];
+1 -> 2[color=blue]
+2[label="
+TAG: IF_HEADER(2)  func = foo WD = 0
+31: CMP (27) (11) null null aFor = &a bFor = &c
+32: BGE (31) (39) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 4[color=black]
+2 -> 1[color=red][style=dotted]
+3[label="
+TAG: THEN_BLOCK(3)  func = foo WD = 0
+34: ADDI (17) (null) null #1 aFor = &h
+36: BRA (50) (null) null null
+"];
+3[shape=box];
+3 -> 8[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: ELSE_BLOCK(4)  func = foo WD = 0
+39: SUB (11) (17) null null aFor = &f bFor = &g
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 2[color=red][style=dotted]
+5[label="
+TAG: IF_HEADER(5)  func = foo WD = 0
+43: CMP (39) (27) null null aFor = &f bFor = &a
+44: BLE (43) (47) null null
+"];
+5[shape=box];
+5 -> 6[color=blue]
+5 -> 7[color=black]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: THEN_BLOCK(6)  func = foo WD = 0
+45: ADDI (null) (null) #0 #2 aFor = &c
+"];
+6[shape=box];
+6 -> 7[color=blue]
+6 -> 5[color=red][style=dotted]
+7[label="
+TAG: FOLLOW_BLOCK(7)  func = foo WD = 0
+47: phi (45) (11) null null  PHI FOR &c
+"];
+7[shape=box];
+7 -> 8[color=blue]
+7 -> 6[color=red][style=dotted]
+7 -> 5[color=green][style=dotted]
+8[label="
+TAG: FOLLOW_BLOCK(8)  func = foo WD = 0
+50: phi (34) (0) null null  PHI FOR &h
+49: phi (21) (39) null null  PHI FOR &f
+48: phi (11) (47) null null  PHI FOR &c
+53: MUL (17) (27) null null aFor = &b bFor = &a
+55: write (27) (null) null null
+56: write (53) (null) null null
+57: write (48) (null) null null
+58: write (11) (null) null null
+59: write (49) (null) null null
+60: write (17) (null) null null
+61: write (50) (null) null null
+"];
+8[shape=box];
+8 -> 3[color=red][style=dotted]
+8 -> 7[color=green][style=dotted]
+9[label="
+TAG: INIT_CONT(9)  func = MAIN_FUNC WD = 0
+62: call (null) (null) &foo null
+"];
+9[shape=box];
+9 -> 0[color=red][style=dotted]
+}

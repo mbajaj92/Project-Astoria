@@ -4,7 +4,7 @@
 #implement procedures, functions CFG generation. - DONE (Soham)
 #how to fix Aliasing issues - DONE
 #introduce instructions for procedure calls - DONE
-#handle return instructions for functions
+#handle return instructions for functions - DONE
 #inner loop variable discovery while Graph Generation
 #Branch Instructions handling during Graph Generation - DONE
 #Jump isntruction - 2 (check, jump) - DONE
@@ -12,6 +12,8 @@
 #anchor and lastAccess - create hard-copies - DONE
 #add WHILE DEPTH - DONE
 #introduce SP and FP - DONE
+#ask what to do for left null phis
+#handle Function name stupidity
 
 Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> Do arrays and procedures -> RA -> Lowering to machine code.
 

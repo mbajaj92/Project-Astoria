@@ -1,0 +1,96 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &c
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
+4: ADDI (null) (null) #0 #1 aFor = &a
+6: ADDI (null) (null) #0 #2 aFor = &b
+8: ADDI (null) (null) #0 #3 aFor = &c
+"];
+1[shape=box];
+1 -> 2[color=blue]
+1 -> 0[color=red][style=dotted]
+2[label="
+TAG: IF_HEADER(2)  func = MAIN_FUNC WD = 0
+12: CMP (6) (8) null null aFor = &b bFor = &c
+13: BGE (12) (36) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 10[color=black]
+2 -> 1[color=red][style=dotted]
+3[label="
+TAG: THEN_BLOCK(3)  func = MAIN_FUNC WD = 0
+40: BRA (34) (null) null null
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: LOOP_HEADER_1(4)  func = MAIN_FUNC WD = 1
+34: phi (6) (31) null null  PHI FOR &b
+33: phi (4) (20) null null  PHI FOR &a
+15: ADDI (34) (null) null #1 aFor = &b
+17: CMP (15) (8) null null aFor = &b bFor = &c
+18: BGE (17) (41) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 9[color=black]
+4 -> 3[color=red][style=dotted]
+4 -> 8[color=green][style=dotted]
+5[label="
+TAG: DO_BLOCK(5)  func = MAIN_FUNC WD = 1
+20: ADDI (33) (null) null #1 aFor = &a
+"];
+5[shape=box];
+5 -> 6[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: LOOP_HEADER_2(6)  func = MAIN_FUNC WD = 2
+31: phi (34) (28) null null  PHI FOR &b
+23: ADDI (31) (null) null #2 aFor = &b
+25: CMP (23) (8) null null aFor = &b bFor = &c
+26: BGE (25) (32) null null
+"];
+6[shape=box];
+6 -> 7[color=blue]
+6 -> 8[color=black]
+6 -> 5[color=red][style=dotted]
+6 -> 7[color=green][style=dotted]
+7[label="
+TAG: DO_BLOCK(7)  func = MAIN_FUNC WD = 2
+28: ADDI (31) (null) null #1 aFor = &b
+30: BRA (31) (null) null null
+"];
+7[shape=box];
+7 -> 6[color=blue]
+7 -> 6[color=red][style=dotted]
+8[label="
+TAG: LOOP_FOLLOW_2(8)  func = MAIN_FUNC WD = 2
+32: BRA (34) (null) null null
+"];
+8[shape=box];
+8 -> 4[color=blue]
+8 -> 6[color=red][style=dotted]
+9[label="
+TAG: LOOP_FOLLOW_1(9)  func = MAIN_FUNC WD = 1
+41: BRA (36) (null) null null
+"];
+9[shape=box];
+9 -> 10[color=blue]
+9 -> 4[color=red][style=dotted]
+10[label="
+TAG: FOLLOW_BLOCK(10)  func = MAIN_FUNC WD = 0
+36: phi (34) (6) null null  PHI FOR &b
+35: phi (33) (4) null null  PHI FOR &a
+38: ADDI (8) (null) null #1 aFor = &b
+"];
+10[shape=box];
+10 -> 9[color=red][style=dotted]
+10 -> 2[color=green][style=dotted]
+}

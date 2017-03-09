@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import Utilities.BasicBlock;
 import Utilities.Grammer;
@@ -13,65 +15,86 @@ public class Testing {
 	private static MyScanner sc;
 
 	public static void main(String args[]) throws Exception {
-		/*
-		 * for (int i = 14; i <= 31; i++) { sc = ScannerUtils.
-		 * getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\src\\Test Cases\\test"
-		 * +i+".txt"); sc.next(); Grammer.computation(sc);
-		 * Utils.SOPln("Parsing Complete for tes t" + i + ".txt");
-		 * ScannerUtils.shutDown(); }
-		 */
-		sc = ScannerUtils.getScanner("Test.txt");
-		sc.next();
-		Grammer.computation(sc);
-		Utils.printArrayTable();
-		Utils.SOPln("Parsing Complete for Test" + /* i + */ ".txt\n\n\n");
-		File f = new File("graph.dot");
-		f.delete();
-		f = new File("graph.png");
-		f.delete();
-		RandomAccessFile randomAccessFile = new RandomAccessFile("graph.dot", "rw");
-		randomAccessFile.writeBytes("digraph {\n");
-		for (BasicBlock i : BasicBlock.getBasicBlockList()) {
-			if (i.shouldIgnore())
+		//27
+		List<Integer> error = Arrays.asList(27/*,34*/);
+		for (int fileNumber/*:error */= 32; fileNumber <= 32; fileNumber++) {
+			Utils.SOPln("FILENUMBER = " + fileNumber);
+			if (error.contains(fileNumber))
 				continue;
 
-			i.fixUp();
-			Utils.SOPln(i);
+			sc = ScannerUtils.getScanner("D:\\Course Work\\ACC\\Project-Astoria\\Compiler\\Test Cases\\test"+fileNumber+".txt");
+			sc.next();
+			Grammer.computation(sc);
+			Utils.printArrayTable();
+			Utils.SOPln("Parsing Complete for Test" + fileNumber + ".txt\n\n\n");
+			File f = new File("graph"+fileNumber+".dot");
+			f.delete();
+			f = new File("graph"+fileNumber+".png");
+			f.delete();
+			RandomAccessFile randomAccessFile = new RandomAccessFile("graph"+fileNumber+".dot", "rw");
+			randomAccessFile.writeBytes("digraph {\n");
+			for (BasicBlock i : BasicBlock.getBasicBlockList()) {
+				if (i.shouldIgnore())
+					continue;
 
-			String write = i.getIndex() + "[label=\"" + i + "\n\"];\n" + i.getIndex() + "[shape=box];\n";
-			if (i.firstChildExists())
-				write += i.getIndex() + " -> " + i.getFirstChild().getIndex() + "[color=blue]\n";
+				i.fixUp();
+				Utils.SOPln(i);
 
-			if (i.secondChildExists())
-				write += i.getIndex() + " -> " + i.getSecondChild().getIndex() + "[color=black]\n";
+				String write = i.getIndex() + "[label=\"" + i + "\n\"];\n" + i.getIndex() + "[shape=box];\n";
+				if (i.firstChildExists())
+					write += i.getIndex() + " -> " + i.getFirstChild().getIndex() + "[color=blue]\n";
 
-			if (i.firstParentExists())
-				write += i.getIndex() + " -> " + i.getFirstParent().getIndex() + "[color=red][style=dotted]\n";
+				if (i.secondChildExists())
+					write += i.getIndex() + " -> " + i.getSecondChild().getIndex() + "[color=black]\n";
 
-			if (i.secondParentExists())
-				write += i.getIndex() + " -> " + i.getSecondParent().getIndex() + "[color=green][style=dotted]\n";
+				if (i.firstParentExists())
+					write += i.getIndex() + " -> " + i.getFirstParent().getIndex() + "[color=red][style=dotted]\n";
 
-			randomAccessFile.writeBytes(write);
+				if (i.secondParentExists())
+					write += i.getIndex() + " -> " + i.getSecondParent().getIndex() + "[color=green][style=dotted]\n";
+
+				randomAccessFile.writeBytes(write);
+			}
+			randomAccessFile.writeBytes("}");
+			randomAccessFile.close();
+
+			Utils.SOPln("------");
+
+			if (Instruction.getInstructionList() != null)
+				for (Instruction i : Instruction.getInstructionList())
+					Utils.SOPln(i.testToString());
+			Runtime.getRuntime().exec("dot graph"+fileNumber+".dot -Tpng -o graph"+fileNumber+".png");
+
+			Utils.SOPln("");
+			Utils.SOPln("Basic Block Traversal");
+			for (BasicBlock b : BasicBlock.getBasicBlockList()) {
+				if (b.isLastBlock())
+					Utils.traversefunc(b, new HashSet<Integer>());
+			}
+
+			/* Graph Coloring */
+			Utils.registerAllocation();
+
+			f = new File("iGraph"+fileNumber+".dot");
+			f.delete();
+			f = new File("iGraph"+fileNumber+".png");
+			f.delete();
+			randomAccessFile = new RandomAccessFile("iGraph"+fileNumber+".dot", "rw");
+			randomAccessFile.writeBytes("strict graph {\n");
+			for (Integer key : Utils.getInterfearenceGraph().keySet()) {
+				//String write = key + "[label=\"" + key + "\" style=filled fillcolor=\"red\"];\n";
+				String write = key + "[label=\"" + key + "\" style=filled fillcolor=\""+Instruction.getInstructionList().get(key).getColor()+"\"];\n";
+				HashSet<Integer> edges = Utils.getInterfearenceGraph().get(key);
+
+				for(int j:edges)
+					write += key+" -- "+j+"\n";
+				randomAccessFile.writeBytes(write);
+			}
+			randomAccessFile.writeBytes("}");
+			randomAccessFile.close();
+			Runtime.getRuntime().exec("dot iGraph"+fileNumber+".dot -Tpng -o iGraph"+fileNumber+".png");
+			ScannerUtils.shutDown();
+			Utils.shutDown();
 		}
-		randomAccessFile.writeBytes("}");
-		randomAccessFile.close();
-
-		Utils.SOPln("------");
-
-		if (Instruction.getInstructionList() != null)
-			for (Instruction i : Instruction.getInstructionList())
-				Utils.SOPln(i.testToString());
-		Runtime.getRuntime().exec("dot graph.dot -Tpng -o graph.png");
-
-		Utils.SOPln("");
-		Utils.SOPln("Basic Block Traversal");
-		for (BasicBlock b : BasicBlock.getBasicBlockList()) {
-			if (b.isLastBlock())
-				Utils.traversefunc(b, new HashSet<Integer>());
-		}
-
-		//COLOR
-		Utils.colorAndPrintInterfearenceGraph();
-		ScannerUtils.shutDown();
 	}
 }

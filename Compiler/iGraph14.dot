@@ -1,0 +1,24 @@
+strict graph {
+16[label="16" style=filled fillcolor="blue1"];
+16 -- 7
+16 -- 8
+16 -- 10
+16 -- 13
+3[label="3" style=filled fillcolor="blue1"];
+7[label="7" style=filled fillcolor="darkorchid1"];
+7 -- 16
+7 -- 8
+7 -- 10
+7 -- 13
+8[label="8" style=filled fillcolor="chocolate"];
+8 -- 16
+8 -- 7
+10[label="10" style=filled fillcolor="chocolate"];
+10 -- 16
+10 -- 7
+10 -- 13
+13[label="13" style=filled fillcolor="darkgoldenrod3"];
+13 -- 16
+13 -- 7
+13 -- 10
+}

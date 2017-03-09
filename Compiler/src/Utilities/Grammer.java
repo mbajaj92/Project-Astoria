@@ -102,7 +102,9 @@ public class Grammer {
 			Utils.error("Expected return token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		sc.next();
 
-		expression();
+		Result X = expression();
+		Utils.load(X);
+		Instruction.getInstruction(CODE.RET).setLeftInstruction(X.instruction); 
 	}
 
 	private static void whileStatement() throws Exception {
@@ -177,14 +179,28 @@ public class Grammer {
 	private static Result handleOutputNum(Result X) throws Exception {
 		if (sc.currentToken == ScannerUtils.openparanToken) {
 			sc.next();
-			Result identifier = ident();
-			Instruction i = BasicBlock.getCurrentBasicBlock().getLastAccessFor("&" + identifier.addressIfVariable);
-			if (i == null)
-				Utils.error(
-						"Trying to print garbage value for "
-								+ Utils.address2Identifier(identifier.addressIfVariable,
-										BasicBlock.getCurrentBasicBlock().getFunctionName())
-								+ " at line " + sc.getLineCount());
+			Result parameter = null;
+			Instruction i = null;
+			if (sc.currentToken == ScannerUtils.ident) {				
+				parameter = ident();
+				i = BasicBlock.getCurrentBasicBlock().getLastAccessFor("&" + parameter.addressIfVariable);
+				if (i == null)
+					Utils.error(
+							"Trying to print garbage value for "
+									+ Utils.address2Identifier(parameter.addressIfVariable,
+											BasicBlock.getCurrentBasicBlock().getFunctionName())
+									+ " at line " + sc.getLineCount());
+			} else if (sc.currentToken == ScannerUtils.number) {
+				parameter = number();
+				Utils.load(parameter);
+				i = parameter.instruction;
+			} else if (sc.currentToken == ScannerUtils.callToken) {
+				parameter = funcCall();
+				Utils.load(parameter);
+				i = parameter.instruction;
+			} else
+				Utils.error("Expected Identifier or Number, got " + sc.token + " at line " + sc.getLineCount());
+
 			X.instruction = Instruction.getInstruction(CODE.write);
 			X.instruction.setLeftInstruction(i);
 			X.kind = RESULT_KIND.INSTRUCTION;
@@ -241,8 +257,8 @@ public class Grammer {
 		sc.setVarType(VARIABLE_TYPE.NONE);
 		sc.setCurrentFunction(BasicBlock.getCurrentBasicBlock().getFunctionName());
 
+		/* This is the implementation of the inbuilt functions */
 		if (Utils.address2Identifier(X.addressIfVariable, Utils.MAIN_FUNC).equals(Utils.INPUT_NUM)) {
-			/* This is the implementation of the inbuilt functions */
 			return handleInputNum(X);
 		} else if (Utils.address2Identifier(X.addressIfVariable, Utils.MAIN_FUNC).equals(Utils.OUTPUT_NUM)) {
 			return handleOutputNum(X);
@@ -356,8 +372,14 @@ public class Grammer {
 			sc.setVarType(VARIABLE_TYPE.FUNC);
 			sc.next();
 			Result X = ident();
-			ScannerUtils.getCurrentScanner().setCurrentFunction(Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC));
-			new BasicBlock("PROC_START", Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC));
+			String funcName = Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC);
+			if(!funcName.equals(Utils.MAIN_FUNC))
+				funcName = funcName.substring(1);
+			ScannerUtils.getCurrentScanner().setCurrentFunction(funcName);
+			funcName = Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC);
+			if(!funcName.equals(Utils.MAIN_FUNC))
+				funcName = funcName.substring(1);
+			new BasicBlock("PROC_START", funcName);
 			sc.setVarType(VARIABLE_TYPE.FUNC_PARAMS);
 			formalParam(X);
 			sc.setVarType(VARIABLE_TYPE.NONE);
@@ -436,11 +458,15 @@ public class Grammer {
 	private static boolean varDecl() throws Exception {
 		if (!typeDecl())
 			return false;
-
-		ident();
+		Result Zero = new Result();
+		Zero.valueIfConstant = 0;
+		Zero.kind = RESULT_KIND.CONST;
+		Result X = ident();
+		Utils.becomes(X, Zero);
 		while (sc.currentToken == ScannerUtils.commaToken) {
 			sc.next();
-			ident();
+			X = ident();
+			Utils.becomes(X, Zero);
 		}
 		sc.setValues(null);
 		if (!(sc.currentToken == ScannerUtils.semiToken))

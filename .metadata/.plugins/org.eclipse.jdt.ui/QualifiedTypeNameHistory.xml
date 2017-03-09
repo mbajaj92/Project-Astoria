@@ -15,18 +15,19 @@
 <fullyQualifiedTypeName name="Utilities.Grammer.CLASS"/>
 <fullyQualifiedTypeName name="java.util.Stack"/>
 <fullyQualifiedTypeName name="java.io.RandomAccessFile"/>
-<fullyQualifiedTypeName name="java.util.Arrays"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="Utilities.MyScanner"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
-<fullyQualifiedTypeName name="Utilities.ScannerUtils"/>
 <fullyQualifiedTypeName name="javax.swing.text.html.ListView"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
-<fullyQualifiedTypeName name="Utilities.BasicBlock"/>
 <fullyQualifiedTypeName name="Utilities.Utils"/>
-<fullyQualifiedTypeName name="Utilities.Instruction"/>
 <fullyQualifiedTypeName name="Utilities.Utils.RESULT_KIND"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="Utilities.Instruction"/>
+<fullyQualifiedTypeName name="Utilities.BasicBlock"/>
+<fullyQualifiedTypeName name="java.lang.FunctionalInterface"/>
+<fullyQualifiedTypeName name="Utilities.ScannerUtils"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

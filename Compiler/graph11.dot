@@ -1,0 +1,164 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &d
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
+5: ADDI (null) (null) #0 #1 aFor = &a
+7: ADDI (null) (null) #0 #2 aFor = &b
+9: ADDI (null) (null) #0 #3 aFor = &c
+11: ADDI (null) (null) #0 #4 aFor = &d
+"];
+1[shape=box];
+1 -> 2[color=blue]
+1 -> 0[color=red][style=dotted]
+2[label="
+TAG: IF_HEADER(2)  func = MAIN_FUNC WD = 0
+15: CMP (5) (7) null null aFor = &a bFor = &b
+16: BGE (15) (35) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 7[color=black]
+2 -> 1[color=red][style=dotted]
+3[label="
+TAG: THEN_BLOCK(3)  func = MAIN_FUNC WD = 0
+18: ADDI (5) (null) null #1 aFor = &a
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: LOOP_HEADER_1(4)  func = MAIN_FUNC WD = 1
+32: phi (11) (28) null null  PHI FOR &d
+31: phi (9) (25) null null  PHI FOR &c
+22: CMP (31) (32) null null aFor = &c bFor = &d
+23: BGE (22) (33) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 6[color=black]
+4 -> 3[color=red][style=dotted]
+4 -> 5[color=green][style=dotted]
+5[label="
+TAG: DO_BLOCK(5)  func = MAIN_FUNC WD = 1
+25: ADDI (31) (null) null #2 aFor = &c
+28: ADDI (32) (null) null #1 aFor = &d
+30: BRA (32) (null) null null
+"];
+5[shape=box];
+5 -> 4[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: LOOP_FOLLOW_1(6)  func = MAIN_FUNC WD = 1
+33: BRA (52) (null) null null
+"];
+6[shape=box];
+6 -> 11[color=blue]
+6 -> 4[color=red][style=dotted]
+7[label="
+TAG: ELSE_BLOCK(7)  func = MAIN_FUNC WD = 0
+35: ADDI (5) (null) null #2 aFor = &a
+"];
+7[shape=box];
+7 -> 8[color=blue]
+7 -> 2[color=red][style=dotted]
+8[label="
+TAG: LOOP_HEADER_1(8)  func = MAIN_FUNC WD = 1
+49: phi (11) (45) null null  PHI FOR &d
+48: phi (9) (42) null null  PHI FOR &c
+39: CMP (48) (49) null null aFor = &c bFor = &d
+40: BGE (39) (71) null null
+"];
+8[shape=box];
+8 -> 9[color=blue]
+8 -> 10[color=black]
+8 -> 7[color=red][style=dotted]
+8 -> 9[color=green][style=dotted]
+9[label="
+TAG: DO_BLOCK(9)  func = MAIN_FUNC WD = 1
+42: ADDI (48) (null) null #3 aFor = &c
+45: ADDI (49) (null) null #2 aFor = &d
+47: BRA (49) (null) null null
+"];
+9[shape=box];
+9 -> 8[color=blue]
+9 -> 8[color=red][style=dotted]
+10[label="
+TAG: LOOP_FOLLOW_1(10)  func = MAIN_FUNC WD = 1
+71: BRA (52) (null) null null
+"];
+10[shape=box];
+10 -> 11[color=blue]
+10 -> 8[color=red][style=dotted]
+11[label="
+TAG: FOLLOW_BLOCK(11)  func = MAIN_FUNC WD = 0
+52: phi (32) (49) null null  PHI FOR &d
+51: phi (18) (35) null null  PHI FOR &a
+50: phi (31) (48) null null  PHI FOR &c
+"];
+11[shape=box];
+11 -> 12[color=blue]
+11 -> 6[color=red][style=dotted]
+11 -> 10[color=green][style=dotted]
+12[label="
+TAG: LOOP_HEADER_1(12)  func = MAIN_FUNC WD = 1
+70: phi (7) (67) null null  PHI FOR &b
+69: phi (50) (66) null null  PHI FOR &c
+55: CMP (70) (52) null null aFor = &b bFor = &d
+56: BGE (55) (null) null null
+"];
+12[shape=box];
+12 -> 13[color=blue]
+12 -> 18[color=black]
+12 -> 11[color=red][style=dotted]
+12 -> 17[color=green][style=dotted]
+13[label="
+TAG: DO_BLOCK(13)  func = MAIN_FUNC WD = 1
+72: BRA (59) (null) null null
+"];
+13[shape=box];
+13 -> 14[color=blue]
+13 -> 12[color=red][style=dotted]
+14[label="
+TAG: IF_HEADER(14)  func = MAIN_FUNC WD = 1
+59: CMP (51) (52) null null aFor = &a bFor = &d
+60: BLE (59) (73) null null
+"];
+14[shape=box];
+14 -> 15[color=blue]
+14 -> 16[color=black]
+14 -> 13[color=red][style=dotted]
+15[label="
+TAG: THEN_BLOCK(15)  func = MAIN_FUNC WD = 1
+63: BRA (67) (null) null null
+"];
+15[shape=box];
+15 -> 17[color=blue]
+15 -> 14[color=red][style=dotted]
+16[label="
+TAG: ELSE_BLOCK(16)  func = MAIN_FUNC WD = 1
+73: BRA (67) (null) null null
+"];
+16[shape=box];
+16 -> 17[color=blue]
+16 -> 14[color=red][style=dotted]
+17[label="
+TAG: FOLLOW_BLOCK(17)  func = MAIN_FUNC WD = 1
+67: phi (69) (70) null null  PHI FOR &b
+66: phi (69) (70) null null  PHI FOR &c
+68: BRA (70) (null) null null
+"];
+17[shape=box];
+17 -> 12[color=blue]
+17 -> 15[color=red][style=dotted]
+17 -> 16[color=green][style=dotted]
+18[label="
+TAG: LOOP_FOLLOW_1(18)  THIS IS LAST BB, we have no Instructions because we are a sucks !!
+"];
+18[shape=box];
+18 -> 12[color=red][style=dotted]
+}

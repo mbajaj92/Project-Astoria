@@ -15,7 +15,7 @@ public class ScannerUtils {
 	}
 
 	public static MyScanner getScanner(String path) throws Exception {
-		if (myScanner == null)
+		/*if (myScanner == null)*/
 			myScanner = new MyScanner(path);
 		return myScanner;
 	}

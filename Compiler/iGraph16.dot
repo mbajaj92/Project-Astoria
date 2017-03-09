@@ -1,0 +1,22 @@
+strict graph {
+33[label="33" style=filled fillcolor="chocolate"];
+33 -- 34
+33 -- 41
+34[label="34" style=filled fillcolor="blue1"];
+34 -- 33
+34 -- 35
+34 -- 38
+34 -- 41
+35[label="35" style=filled fillcolor="chocolate"];
+35 -- 34
+35 -- 41
+38[label="38" style=filled fillcolor="chocolate"];
+38 -- 34
+38 -- 41
+41[label="41" style=filled fillcolor="darkorchid1"];
+41 -- 33
+41 -- 34
+41 -- 35
+41 -- 38
+28[label="28" style=filled fillcolor="blue1"];
+}
