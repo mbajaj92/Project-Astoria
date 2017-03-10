@@ -1,0 +1,26 @@
+strict graph {
+32[label="32" style=filled fillcolor="chocolate"];
+32 -- 18
+32 -- 8
+33[label="33" style=filled fillcolor="darkorchid1"];
+33 -- 4
+33 -- 15
+18[label="18" style=filled fillcolor="chocolate"];
+18 -- 32
+34[label="34" style=filled fillcolor="blue1"];
+34 -- 6
+34 -- 30
+4[label="4" style=filled fillcolor="darkorchid1"];
+4 -- 33
+6[label="6" style=filled fillcolor="blue1"];
+6 -- 34
+8[label="8" style=filled fillcolor="chocolate"];
+8 -- 32
+27[label="27" style=filled fillcolor="blue1"];
+27 -- 30
+30[label="30" style=filled fillcolor="blue1"];
+30 -- 34
+30 -- 27
+15[label="15" style=filled fillcolor="darkorchid1"];
+15 -- 33
+}

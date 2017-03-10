@@ -5,15 +5,20 @@
 #how to fix Aliasing issues - DONE
 #introduce instructions for procedure calls - DONE
 #handle return instructions for functions - DONE
-#inner loop variable discovery while Graph Generation
+#inner loop variable discovery while Graph Generation - DONE
 #Branch Instructions handling during Graph Generation - DONE
 #Jump isntruction - 2 (check, jump) - DONE
 #inputNum, outputnum - DONE
 #anchor and lastAccess - create hard-copies - DONE
 #add WHILE DEPTH - DONE
 #introduce SP and FP - DONE
-#ask what to do for left null phis
-#handle Function name stupidity
+#removal of phi for loop header - DONE
+#handle Function name stupidity - DONE
+#handle constant Compare instructions - URGENT
+#write/output/writeNL - DONE
+#update last access when sending to followblock
+#generate png for clusters
+#given an id, differentiate between global and local variables
 
 Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> Do arrays and procedures -> RA -> Lowering to machine code.
 

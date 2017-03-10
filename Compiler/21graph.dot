@@ -1,0 +1,13 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+16: BRA (null) (null) null null
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC
+"];
+1[shape=box];
+1 -> 0[color=red][style=dotted]
+}

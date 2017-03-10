@@ -1,0 +1,161 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+92: BRA (null) (null) null null
+"];
+0[shape=box];
+0 -> 18[color=blue]
+1[label="
+TAG: PROC_START(1)  func = bar WD = 0
+8: ADDI (null) (null) #0 #9 aFor = &q
+10: ADDI (null) (null) #0 #3 aFor = &par
+"];
+1[shape=box];
+1 -> 2[color=blue]
+2[label="
+TAG: LOOP_HEADER_1(2)  func = bar WD = 1
+40: phi (8) (34) null null  PHI FOR &q
+39: phi (10) (36) null null  PHI FOR &par
+14: CMP (10) (39) null null bFor = &par
+15: BGE (14) (43) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 10[color=black]
+2 -> 1[color=red][style=dotted]
+2 -> 9[color=green][style=dotted]
+3[label="
+TAG: DO_BLOCK(3)  func = bar WD = 1
+93: BRA (16) (null) null null
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: IF_HEADER(4)  func = bar WD = 1
+16: ADDI (null) (null) #0 #2
+18: CMPI (16) (10) null null
+19: BGE (18) (24) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 6[color=black]
+4 -> 3[color=red][style=dotted]
+5[label="
+TAG: THEN_BLOCK(5)  func = bar WD = 1
+22: ADD (39) (40) null null aFor = &q bFor = &q
+"];
+5[shape=box];
+5 -> 6[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: FOLLOW_BLOCK(6)  func = bar WD = 1
+24: phi (22) (40) null null  PHI FOR &q
+"];
+6[shape=box];
+6 -> 7[color=blue]
+6 -> 5[color=red][style=dotted]
+6 -> 4[color=green][style=dotted]
+7[label="
+TAG: LOOP_HEADER_2(7)  func = bar WD = 2
+34: phi (24) (31) null null  PHI FOR &q
+25: ADDI (null) (null) #0 #4
+27: CMP (25) (34) null null bFor = &q
+28: BLT (27) (36) null null
+"];
+7[shape=box];
+7 -> 8[color=blue]
+7 -> 9[color=black]
+7 -> 6[color=red][style=dotted]
+7 -> 8[color=green][style=dotted]
+8[label="
+TAG: DO_BLOCK(8)  func = bar WD = 2
+31: SUB (39) (34) null null aFor = &q bFor = &q
+33: BRA (34) (null) null null
+"];
+8[shape=box];
+8 -> 7[color=blue]
+8 -> 7[color=red][style=dotted]
+9[label="
+TAG: LOOP_FOLLOW_2(9)  func = bar WD = 2
+36: SUBI (34) (null) null #3 aFor = &par
+38: BRA (40) (null) null null
+"];
+9[shape=box];
+9 -> 2[color=blue]
+9 -> 7[color=red][style=dotted]
+10[label="
+TAG: LOOP_FOLLOW_1(10)  func = bar WD = 1
+43: ADD (39) (40) null null aFor = &x bFor = &q
+45: ADDI (null) (null) #0 #4 aFor = &af
+48: RET (43) (null) null null
+"];
+10[shape=box];
+10 -> 2[color=red][style=dotted]
+11[label="
+TAG: PROC_START(11)  func = foo WD = 0
+52: ADDI (null) (null) #0 #9 aFor = &q
+54: ADDI (null) (null) #0 #3 aFor = &par
+"];
+11[shape=box];
+11 -> 12[color=blue]
+12[label="
+TAG: LOOP_HEADER_1(12)  func = foo WD = 1
+79: phi (52) (73) null null  PHI FOR &q
+78: phi (54) (75) null null  PHI FOR &par
+58: CMP (54) (78) null null bFor = &par
+59: BGE (58) (82) null null
+"];
+12[shape=box];
+12 -> 13[color=blue]
+12 -> 17[color=black]
+12 -> 11[color=red][style=dotted]
+12 -> 16[color=green][style=dotted]
+13[label="
+TAG: DO_BLOCK(13)  func = foo WD = 1
+62: ADD (78) (79) null null aFor = &q bFor = &q
+"];
+13[shape=box];
+13 -> 14[color=blue]
+13 -> 12[color=red][style=dotted]
+14[label="
+TAG: LOOP_HEADER_2(14)  func = foo WD = 2
+73: phi (62) (70) null null  PHI FOR &q
+64: ADDI (null) (null) #0 #4
+66: CMP (64) (73) null null bFor = &q
+67: BLT (66) (75) null null
+"];
+14[shape=box];
+14 -> 15[color=blue]
+14 -> 16[color=black]
+14 -> 13[color=red][style=dotted]
+14 -> 15[color=green][style=dotted]
+15[label="
+TAG: DO_BLOCK(15)  func = foo WD = 2
+70: SUB (78) (73) null null aFor = &q bFor = &q
+72: BRA (73) (null) null null
+"];
+15[shape=box];
+15 -> 14[color=blue]
+15 -> 14[color=red][style=dotted]
+16[label="
+TAG: LOOP_FOLLOW_2(16)  func = foo WD = 2
+75: SUBI (73) (null) null #3 aFor = &par
+77: BRA (79) (null) null null
+"];
+16[shape=box];
+16 -> 12[color=blue]
+16 -> 14[color=red][style=dotted]
+17[label="
+TAG: LOOP_FOLLOW_1(17)  func = foo WD = 1
+82: ADD (78) (79) null null aFor = &x bFor = &q
+85: RET (82) (null) null null
+"];
+17[shape=box];
+17 -> 12[color=red][style=dotted]
+18[label="
+TAG: INIT_CONT(18)  func = MAIN_FUNC
+"];
+18[shape=box];
+18 -> 0[color=red][style=dotted]
+}

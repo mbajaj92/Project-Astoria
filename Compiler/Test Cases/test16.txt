@@ -6,7 +6,8 @@ var a, b;
 	let a <- 1;
 	let b <- 2;
 	let x <- a;
-	let y <- b
+	let y <- b;
+	call OutputNum(x);
 };
 procedure bar( a );
 var b, c;

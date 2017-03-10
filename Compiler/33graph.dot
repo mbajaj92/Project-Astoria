@@ -1,0 +1,277 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+227: BRA (197) (null) null null
+"];
+0[shape=box];
+0 -> 27[color=blue]
+1[label="
+TAG: PROC_START(1)  func = SetNextBit WD = 0
+10: load (null) (null) #FP_SetNextBit &Bits
+11: DIVI (10) (null) null #2 aFor = &Bits
+12: MULI (11) (null) null #2 aFor = &Bits
+14: SUB (10) (12) null null aFor = &Bits bFor = &Bits
+15: load (null) (null) #FP_SetNextBit &Last
+16: MULI (15) (null) null #4 aFor = &Last
+17: load (null) (null) #FP_SetNextBit &Akt
+18: MULI (17) (null) null #2 aFor = &Akt
+19: ADD (16) (18) null null bFor = &Akt
+20: load (null) (null) #FP_SetNextBit &Next
+21: ADD (19) (20) null null bFor = &Next
+22: ADDI (21) (null) null #4
+23: ADDI (null) (null) #FP_MAIN_FUNC &RuleBin
+24: adda (22) (23) null null
+25: store (14) (24) null null STORE FOR= &RuleBin
+28: RET (11) (null) null null
+"];
+1[shape=box];
+2[label="
+TAG: PROC_START(2)  func = InitRuleBin WD = 0
+33: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+35: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+37: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+39: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+41: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+43: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+45: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+47: call (null) (null) &SetNextBit null aFor = &ColCount has func params
+"];
+2[shape=box];
+3[label="
+TAG: PROC_START(3)  func = ClearData WD = 0
+49: ADDI (null) (null) #0 #0 aFor = &i
+"];
+3[shape=box];
+3 -> 4[color=blue]
+4[label="
+TAG: LOOP_HEADER_1(4)  func = ClearData WD = 1
+68: phi (49) (65) null null  PHI FOR &i
+56: CMP (68) (54) null null aFor = &i bFor = &i
+57: BGE (56) (null) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 6[color=black]
+4 -> 3[color=red][style=dotted]
+4 -> 5[color=green][style=dotted]
+5[label="
+TAG: DO_BLOCK(5)  func = ClearData WD = 1
+60: ADDI (68) (null) null #4
+61: ADDI (null) (null) #FP_MAIN_FUNC &Data
+62: adda (60) (61) null null
+63: store (49) (62) null null STORE FOR= &Data
+65: ADDI (68) (null) null #1 aFor = &i
+67: BRA (68) (null) null null
+"];
+5[shape=box];
+5 -> 4[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: LOOP_FOLLOW_1(6)  func = ClearData
+"];
+6[shape=box];
+6 -> 4[color=red][style=dotted]
+7[label="
+TAG: PROC_START(7)  func = Output WD = 0
+69: ADDI (null) (null) #0 #0 aFor = &i
+71: ADDI (null) (null) #0 #1 aFor = &i
+"];
+7[shape=box];
+7 -> 8[color=blue]
+8[label="
+TAG: LOOP_HEADER_1(8)  func = Output WD = 1
+103: phi (71) (100) null null  PHI FOR &i
+75: CMP (103) (103) null null aFor = &i bFor = &i
+76: BGT (75) (104) null null
+"];
+8[shape=box];
+8 -> 9[color=blue]
+8 -> 18[color=black]
+8 -> 7[color=red][style=dotted]
+8 -> 17[color=green][style=dotted]
+9[label="
+TAG: DO_BLOCK(9)  func = Output WD = 1
+228: BRA (78) (null) null null
+"];
+9[shape=box];
+9 -> 10[color=blue]
+9 -> 8[color=red][style=dotted]
+10[label="
+TAG: IF_HEADER(10)  func = Output WD = 1
+78: ADDI (103) (null) null #4
+79: ADDI (null) (null) #FP_MAIN_FUNC &Data
+80: adda (78) (79) null null
+81: load (80) (null) null null aFor = &Data
+82: CMPI (81) (null) null #0 aFor = &Data
+83: BNE (82) (229) null null
+"];
+10[shape=box];
+10 -> 11[color=blue]
+10 -> 12[color=black]
+10 -> 9[color=red][style=dotted]
+11[label="
+TAG: THEN_BLOCK(11)  func = Output WD = 1
+85: write (71) (null) null null
+86: BRA (100) (null) null null
+"];
+11[shape=box];
+11 -> 17[color=blue]
+11 -> 10[color=red][style=dotted]
+12[label="
+TAG: ELSE_BLOCK(12)  func = Output WD = 1
+229: BRA (92) (null) null null
+"];
+12[shape=box];
+12 -> 13[color=blue]
+12 -> 10[color=red][style=dotted]
+13[label="
+TAG: IF_HEADER(13)  func = Output WD = 1
+92: CMPI (91) (null) null #1 aFor = &Data
+93: BNE (92) (98) null null
+"];
+13[shape=box];
+13 -> 14[color=blue]
+13 -> 15[color=black]
+13 -> 12[color=red][style=dotted]
+14[label="
+TAG: THEN_BLOCK(14)  func = Output WD = 1
+94: ADDI (null) (null) #0 #8
+95: write (94) (null) null null
+96: BRA (230) (null) null null
+"];
+14[shape=box];
+14 -> 16[color=blue]
+14 -> 13[color=red][style=dotted]
+15[label="
+TAG: ELSE_BLOCK(15)  func = Output WD = 1
+98: write (69) (null) null null
+"];
+15[shape=box];
+15 -> 16[color=blue]
+15 -> 13[color=red][style=dotted]
+16[label="
+TAG: FOLLOW_BLOCK(16)  func = Output WD = 1
+230: BRA (100) (null) null null
+"];
+16[shape=box];
+16 -> 17[color=blue]
+16 -> 14[color=red][style=dotted]
+16 -> 15[color=green][style=dotted]
+17[label="
+TAG: FOLLOW_BLOCK(17)  func = Output WD = 1
+100: ADDI (103) (null) null #1 aFor = &i
+102: BRA (103) (null) null null
+"];
+17[shape=box];
+17 -> 8[color=blue]
+17 -> 11[color=red][style=dotted]
+17 -> 16[color=green][style=dotted]
+18[label="
+TAG: LOOP_FOLLOW_1(18)  func = Output WD = 1
+104: writeNL (null) (null) null null
+"];
+18[shape=box];
+18 -> 8[color=red][style=dotted]
+19[label="
+TAG: PROC_START(19)  func = CalcNext WD = 0
+105: ADDI (null) (null) #0 #0 aFor = &Next
+111: ADDI (null) (null) #0 #5
+112: ADDI (null) (null) #FP_CalcNext &Akt
+113: adda (111) (112) null null
+114: load (113) (null) null null aFor = &Akt
+115: ADDI (null) (null) #0 #4
+117: adda (115) (112) null null
+118: store (114) (117) null null STORE FOR= &Akt
+120: ADDI (105) (null) null #1 aFor = &i
+126: ADDI (120) (null) null #4
+128: adda (126) (112) null null
+129: store (125) (128) null null STORE FOR= &Akt
+140: ADDI (null) (null) #0 #1 aFor = &i
+"];
+19[shape=box];
+19 -> 20[color=blue]
+20[label="
+TAG: LOOP_HEADER_1(20)  func = CalcNext WD = 1
+177: phi (140) (147) null null  PHI FOR &i
+144: CMP (177) (177) null null aFor = &i bFor = &i
+145: BGT (144) (null) null null
+"];
+20[shape=box];
+20 -> 21[color=blue]
+20 -> 22[color=black]
+20 -> 19[color=red][style=dotted]
+20 -> 21[color=green][style=dotted]
+21[label="
+TAG: DO_BLOCK(21)  func = CalcNext WD = 1
+147: ADDI (177) (null) null #1 aFor = &i
+165: ADDI (177) (null) null #4
+167: adda (165) (112) null null
+168: store (163) (167) null null STORE FOR= &Akt
+176: BRA (177) (null) null null
+"];
+21[shape=box];
+21 -> 20[color=blue]
+21 -> 20[color=red][style=dotted]
+22[label="
+TAG: LOOP_FOLLOW_1(22)  func = CalcNext
+"];
+22[shape=box];
+22 -> 20[color=red][style=dotted]
+23[label="
+TAG: PROC_START(23)  func = Run WD = 0
+178: ADDI (null) (null) #0 #0 aFor = &i
+"];
+23[shape=box];
+23 -> 24[color=blue]
+24[label="
+TAG: LOOP_HEADER_1(24)  func = Run WD = 1
+192: phi (178) (189) null null  PHI FOR &i
+184: CMP (192) (183) null null aFor = &i bFor = &RowCount
+185: BGE (184) (null) null null
+"];
+24[shape=box];
+24 -> 25[color=blue]
+24 -> 26[color=black]
+24 -> 23[color=red][style=dotted]
+24 -> 25[color=green][style=dotted]
+25[label="
+TAG: DO_BLOCK(25)  func = Run WD = 1
+186: call (null) (null) &Output null has func params
+187: call (null) (null) &CalcNext null has func params
+189: ADDI (192) (null) null #1 aFor = &i
+191: BRA (192) (null) null null
+"];
+25[shape=box];
+25 -> 24[color=blue]
+25 -> 24[color=red][style=dotted]
+26[label="
+TAG: LOOP_FOLLOW_1(26)  func = Run
+"];
+26[shape=box];
+26 -> 24[color=red][style=dotted]
+27[label="
+TAG: INIT_CONT(27)  func = MAIN_FUNC WD = 0
+197: call (null) (null) &ClearData null has func params
+198: ADDI (null) (null) #0 #1
+199: ADDI (null) (null) #0 #5
+200: ADDI (null) (null) #FP_MAIN_FUNC &Data
+201: adda (199) (200) null null
+202: store (198) (201) null null STORE FOR= &Data
+204: ADDI (null) (null) #0 #84
+206: adda (204) (200) null null
+207: store (198) (206) null null STORE FOR= &Data
+209: ADDI (null) (null) #0 #104
+211: adda (209) (200) null null
+212: store (198) (211) null null STORE FOR= &Data
+214: ADDI (null) (null) #0 #124
+216: adda (214) (200) null null
+217: store (198) (216) null null STORE FOR= &Data
+219: ADDI (null) (null) #0 #204
+221: adda (219) (200) null null
+222: store (198) (221) null null STORE FOR= &Data
+225: call (null) (null) &InitRuleBin null has func params
+226: call (null) (null) &Run null has func params
+"];
+27[shape=box];
+27 -> 0[color=red][style=dotted]
+}

@@ -1,0 +1,109 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+0: ADDI (null) (null) #0 #0 aFor = &c
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
+8: MULI (0) (null) null #2 aFor = &a
+9: SUBI (8) (null) null #6
+10: ADDI (9) (null) null #4
+11: ADDI (null) (null) #FP_MAIN_FUNC &foo
+12: adda (10) (11) null null
+13: load (12) (null) null null aFor = &c
+"];
+1[shape=box];
+1 -> 2[color=blue]
+1 -> 0[color=red][style=dotted]
+2[label="
+TAG: LOOP_HEADER_1(2)  func = MAIN_FUNC WD = 1
+15: ADDI (null) (null) #0 #2
+16: ADDI (null) (null) #0 #3
+17: CMPI (15) (16) null null
+18: BGE (17) (null) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 11[color=black]
+2 -> 1[color=red][style=dotted]
+2 -> 10[color=green][style=dotted]
+3[label="
+TAG: DO_BLOCK(3)  func = MAIN_FUNC WD = 1
+73: BRA (55) (null) null null
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: LOOP_HEADER_2(4)  func = MAIN_FUNC WD = 2
+55: phi (null) (53) null null  PHI FOR &c
+30: ADDI (null) (null) #0 #4
+35: CMP (30) (13) null null bFor = &foo
+36: BGE (35) (64) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 10[color=black]
+4 -> 3[color=red][style=dotted]
+4 -> 9[color=green][style=dotted]
+5[label="
+TAG: DO_BLOCK(5)  func = MAIN_FUNC WD = 2
+74: BRA (39) (null) null null
+"];
+5[shape=box];
+5 -> 6[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: IF_HEADER(6)  func = MAIN_FUNC WD = 2
+39: CMPI (16) (30) null null
+40: BGE (39) (48) null null
+"];
+6[shape=box];
+6 -> 7[color=blue]
+6 -> 8[color=black]
+6 -> 5[color=red][style=dotted]
+7[label="
+TAG: THEN_BLOCK(7)  func = MAIN_FUNC WD = 2
+43: ADDI (55) (null) null #4
+44: ADDI (null) (null) #FP_MAIN_FUNC &boo
+45: adda (43) (44) null null
+46: store (16) (45) null null STORE FOR= &boo
+47: BRA (53) (null) null null
+"];
+7[shape=box];
+7 -> 9[color=blue]
+7 -> 6[color=red][style=dotted]
+8[label="
+TAG: ELSE_BLOCK(8)  func = MAIN_FUNC WD = 2
+48: ADDI (null) (null) #0 #5
+49: ADDI (null) (null) #0 #6
+51: adda (49) (11) null null
+52: store (48) (51) null null STORE FOR= &foo
+"];
+8[shape=box];
+8 -> 9[color=blue]
+8 -> 6[color=red][style=dotted]
+9[label="
+TAG: FOLLOW_BLOCK(9)  func = MAIN_FUNC WD = 2
+53: phi (55) (55) null null  PHI FOR &c
+54: BRA (55) (null) null null
+"];
+9[shape=box];
+9 -> 4[color=blue]
+9 -> 7[color=red][style=dotted]
+9 -> 8[color=green][style=dotted]
+10[label="
+TAG: LOOP_FOLLOW_2(10)  func = MAIN_FUNC WD = 2
+64: BRA (15) (null) null null
+"];
+10[shape=box];
+10 -> 2[color=blue]
+10 -> 4[color=red][style=dotted]
+11[label="
+TAG: LOOP_FOLLOW_1(11)  func = MAIN_FUNC
+"];
+11[shape=box];
+11 -> 2[color=red][style=dotted]
+}

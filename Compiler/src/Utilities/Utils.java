@@ -24,7 +24,7 @@ public class Utils {
 	public static final boolean COPY_PROP = true;
 	public static final int MACHINE_BYTE_SIZE = 4;
 	public static List<CODE> isNotDeadCode = Arrays.asList(CODE.write, CODE.writeNL, CODE.read, CODE.CMP, CODE.BLE,
-			CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLT, CODE.BNE, CODE.BRA, CODE.CMPI);
+			CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLT, CODE.BNE, CODE.BRA, CODE.CMPI, CODE.store, CODE.RET, CODE.call);
 	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
 			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store, CODE.call, CODE.read, CODE.write, CODE.writeNL, CODE.RET);
 	public static List<CODE> compareInstructions = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
@@ -36,6 +36,7 @@ public class Utils {
 	private static HashMap<Integer, HashSet<Integer>> interfearanceGraph = null;
 	private static HashMap<Integer, Integer> funcInfoTable = null;
 	private static HashMap<String, Integer> functionList = null;
+	private static HashMap<Integer, HashSet<Integer>> phiClusters = null;
 	private static LinkedHashMap<Integer, ArrayList<Boolean>> color_mapping = null;
 
 	public static void nullCheck() {
@@ -66,10 +67,17 @@ public class Utils {
 		
 		if (leftOverTrace == null)
 			leftOverTrace = new HashMap<Integer, BasicBlock>();
+
+		if (phiClusters == null)
+			phiClusters = new HashMap<Integer, HashSet<Integer>>();
 	}
 
 	public static String getFunctionForIdentifier(int id) throws Exception {
 		return address2IdentifierImpl(id, BasicBlock.getCurrentBasicBlock().getFunctionName())[1];
+	}
+
+	public static String getFunctionForIdentifier(int id, String func) throws Exception {
+		return address2IdentifierImpl(id, func)[1];
 	}
 
 	public static String address2Identifier(int id, String functionName) throws Exception {
@@ -711,7 +719,7 @@ public class Utils {
 			X.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + X.valueIfConstant);
 		} else if (X.kind == RESULT_KIND.VAR && !X.isArray) {
 			String FP = "#FP_"+getFunctionForIdentifier(X.addressIfVariable);
-			X.instruction = Instruction.getInstruction(CODE.load, "#"+FP, "&" + X.addressIfVariable);
+			X.instruction = Instruction.getInstruction(CODE.load, FP, "&" + X.addressIfVariable);
 		} else if (X.kind == RESULT_KIND.VAR && X.isArray) {
 			Result a = getOffsetForArray(X, ScannerUtils.getCurrentScanner().getCurrentFunction());
 			Result b = new Result();
@@ -720,7 +728,7 @@ public class Utils {
 			compute(ScannerUtils.plusToken, a, b);
 			load(a);
 			String FP = "#FP_"+getFunctionForIdentifier(X.addressIfVariable);
-			Instruction two = Instruction.getInstruction(CODE.ADDI, "#"+FP, "&" + X.addressIfVariable);
+			Instruction two = Instruction.getInstruction(CODE.ADDI, FP, "&" + X.addressIfVariable);
 			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
 			X.instruction = Instruction.getInstructionForArray(CODE.load, three, null).setLoadForArray()
 					.setAInsFor("&" + X.addressIfVariable);
@@ -732,11 +740,10 @@ public class Utils {
 
 		load(Y);
 		if (!X.isArray) {
-			Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction).setAInsFor(
-					"&" + X.addressIfVariable)/*
-												 * .setBInsFor("&" +
-												 * Y.addressIfVariable)
-												 */;
+			Utils.SOPln("MADHUR MOVE &" + X.addressIfVariable);
+			X.instruction = Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction);
+			X.instruction.setAInsFor("&" + X.addressIfVariable);
+
 		} else {
 
 			Result a = getOffsetForArray(X, ScannerUtils.getCurrentScanner().getCurrentFunction());
@@ -745,7 +752,8 @@ public class Utils {
 			b.valueIfConstant = Utils.MACHINE_BYTE_SIZE;
 			compute(ScannerUtils.plusToken, a, b);
 			load(a);
-			Instruction two = Instruction.getInstruction(CODE.ADDI, "#30", "&" + X.addressIfVariable);
+			String FP = "#FP_"+getFunctionForIdentifier(X.addressIfVariable);
+			Instruction two = Instruction.getInstruction(CODE.ADDI, FP, "&" + X.addressIfVariable);
 			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
 			Instruction.getInstructionForArray(CODE.store, Y.instruction, three).setStoreFor("&" + X.addressIfVariable);
 		}
@@ -814,36 +822,83 @@ public class Utils {
 	 * @author - SOHAM
 	 */
 	////////////////////////////////////////////////////////////////////////////
+	public static String colors[] = { "blue1", "darkorchid1", "chocolate", "darkgoldenrod3", "mediumslateblue",
+			"firebrick3", "gray73", "greenyellow", "white" };
+
 	public static void registerAllocation() throws Exception {
-		//
 		LinkedHashMap<Integer, HashSet<Integer>> sortedinterfearanceGraph = sort();
 		Utils.SOPln("");
 
-		color_mapping = new LinkedHashMap<Integer, ArrayList<Boolean>>(sortedinterfearanceGraph.size());
-
-		// mapping every ins with the register numbers
+		color_mapping = new LinkedHashMap<Integer, ArrayList<Boolean>>(/*sortedinterfearanceGraph.size()*/);
 		for (Integer i : sortedinterfearanceGraph.keySet()) {
-			Utils.SOP(i + " ");
-			Utils.SOPln(sortedinterfearanceGraph.get(i));
-			color_mapping.put(i, new ArrayList<Boolean>(Collections.nCopies(9, Boolean.TRUE)));
+			
+			/*Utils.SOP("Adding "+i + " to colormapping");
+			Utils.SOPln(sortedinterfearanceGraph.get(i));*/
+			color_mapping.put(i, new ArrayList<Boolean>(Collections.nCopies(colors.length, Boolean.TRUE)));
 		}
+
 		Utils.SOPln("");
 
 		for (Integer i : color_mapping.keySet()) {
+			if (isColored(i)) {
+				/* Already Colored cause of Phi Cluster */
+				/*Utils.SOPln("Instruction " + i + " Is already colored");*/
+				continue;
+			}
+
 			int j = findNextAvailableColor(i);
 			Instruction.getInstructionList().get(i).setColor(colors[j]);
-			Utils.SOPln("Instruction " + i + " Color "+colors[j]);
-			if (j != 8) {
+			/*Utils.SOPln("Instruction " + i + " Color " + colors[j]);*/
+			/* Do not follow-up if the color assigned is white = MEMORY */
+			if (j != colors.length - 1) {
 				followup(i, j);
+				ArrayList<Integer> visited = new ArrayList<Integer>();
+				if (phiClusters.containsKey(i)) {
+					visited.add(i);
+					for(int neighBor:phiClusters.get(i))
+						colorCluster(neighBor, j, visited);
+					visited.clear();
+				}
 			}
 		}
 	}
-	public static  String colors[] = { "blue1", "darkorchid1", "chocolate", "darkgoldenrod3", "mediumslateblue", "firebrick3", "gray73", "greenyellow", "white" };
-	public static void followup(int i, int j) {
 
-		ArrayList<Integer> neighbours = new ArrayList<Integer>(interfearanceGraph.get(i));
+	private static boolean isColored(int i) {
+		if (Instruction.getInstructionList().get(i).getColor() != ""
+				&& !Instruction.getInstructionList().get(i).getColor().equals(colors[8]))
+			return true;
 
-		for (Integer k : neighbours) {
+		return false;
+	}
+
+	private static void colorCluster(int k, int color, ArrayList<Integer> visited) {
+		/* SOPln("Asking to color "+k+" with "+color); */
+		if (isColored(k) || visited.contains(k)) {
+			return;
+		}
+
+		visited.add(k);
+		if (isColorable(k, color)) {
+			/* SOPln("Asking to color "+k+" with "+color+" succesfull"); */
+			Instruction.getInstructionList().get(k).setColor(colors[color]);
+			followup(k, color);
+			/* Utils.SOPln("Instruction " + k + " Color " + color); */
+		}
+
+		for (Integer l : phiClusters.get(k)) {
+			colorCluster(l, color, visited);
+		}
+	}
+
+	private static boolean isColorable(int k, int color) {
+		/*Utils.SOPln(color + " " + index);
+		Utils.SOPln(k);
+		Utils.SOPln(color_mapping.get(k));*/
+		return color_mapping.get(k).get(color);
+	}
+
+	private static void followup(int i, int j) {
+		for (Integer k : interfearanceGraph.get(i)) {
 			color_mapping.get(k).set(j, false);
 		}
 	}
@@ -883,8 +938,40 @@ public class Utils {
 		return interfearanceGraph1;
 	}
 
+	public static void addClusterEdge(int phiIndex, int phiparent) {
+		HashSet<Integer> parentedgeList = null;
+		if (!phiClusters.containsKey(phiIndex)) {
+			parentedgeList = new HashSet<Integer>();
+			phiClusters.put(phiIndex, parentedgeList);
+		} else
+			parentedgeList = phiClusters.get(phiIndex);
+		parentedgeList.add(phiparent);
+		// parentedgeList.remove(phiIndex);
+
+		parentedgeList = null;
+		if (!phiClusters.containsKey(phiparent)) {
+			parentedgeList = new HashSet<Integer>();
+			phiClusters.put(phiparent, parentedgeList);
+		} else
+			parentedgeList = phiClusters.get(phiparent);
+		parentedgeList.add(phiIndex);
+	}
+
+	public static void printPhiClusters() {
+		for (Integer key : phiClusters.keySet()) {
+			Utils.SOP("Phi ins " + key);
+			HashSet<Integer> edges = phiClusters.get(key);
+			for (int j : edges)
+				Utils.SOP(" " + j);
+			Utils.SOPln("");
+		}
+	}
+
+	public static HashMap<Integer, HashSet<Integer>> getPhiClusters() {
+		return phiClusters;
+	}
 	////////////////////////////////////////////////////////////////////////////
-	public static void traversefunc(BasicBlock current, HashSet<Integer> live) {
+	public static void traversefunc(BasicBlock current, HashSet<Integer> live) throws Exception {
 
 		if (current.isVisited()) {
 			/* Will be executed for LOOP_HEADER for 2nd time */
@@ -943,17 +1030,20 @@ public class Utils {
 				if (ins.getCode() != CODE.phi)
 					continue;
 
-				if (currentType != "LOOP_HEADER") {
+				/*if (currentType != "LOOP_HEADER") {*/
 					if (!current.isDeadInstruction(ins)) {
 						tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
 						addEdge(ins.getInstructionNumber(), tobeGivenAhead);
+						addClusterEdge(ins.getInstructionNumber(), ins.getLeftInstruction().getInstructionNumber());
+						addClusterEdge(ins.getInstructionNumber(), ins.getRightInstruction().getInstructionNumber());
+
 						leftOverTrace.remove((Integer) ins.getInstructionNumber());
 					} else {
 						Utils.SOPln("Removing Instruction " + ins.getInstructionNumber() + " from BB "
 								+ current.getIndex());
 						current.getInstructionList().remove(ins);
 					}
-				}
+				//}
 				tobeGivenAhead.add(ins.getRightInstruction().getInstructionNumber());
 			}
 
@@ -972,6 +1062,9 @@ public class Utils {
 				if (!current.isDeadInstruction(ins)) {
 					tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
 					addEdge(ins.getInstructionNumber(), tobeGivenAhead);
+					addClusterEdge(ins.getInstructionNumber(), ins.getLeftInstruction().getInstructionNumber());
+					addClusterEdge(ins.getInstructionNumber(), ins.getRightInstruction().getInstructionNumber());
+
 					leftOverTrace.remove((Integer) ins.getInstructionNumber());
 					if (ins.getLeftInstruction() == null)
 						SOPln("CHECK " + ins.getInstructionNumber());
@@ -1071,6 +1164,10 @@ public class Utils {
 			color_mapping.clear();
 		color_mapping = null;
 		
+		if (phiClusters != null)
+			phiClusters.clear();
+		phiClusters = null;
+
 		Instruction.shutDown();
 		BasicBlock.shutDown();
 	}

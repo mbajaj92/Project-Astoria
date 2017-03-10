@@ -186,6 +186,10 @@ public class Instruction {
 		return (referenceInstruction != null);
 	}
 
+	public ArrayList<Instruction> getFunctionParams() {
+		return funcParameters;
+	}
+
 	public boolean hasFunctionParameters() {
 		return funcParameters != null;
 	}
@@ -200,7 +204,11 @@ public class Instruction {
 
 		funcParameters = new ArrayList<Instruction>();
 		for (Result r : R)
-			funcParameters.add(r.instruction);
+			if (r.instruction != null)
+				funcParameters.add(r.instruction);
+
+		if (funcParameters.isEmpty())
+			funcParameters = null;
 
 		return this;
 	}
@@ -301,6 +309,41 @@ public class Instruction {
 	public Instruction setLoadForArray() {
 		isLoadForArray = true;
 		return this;
+	}
+
+	public boolean globalOrParameter() throws Exception {
+		if (!shouldPrint(aInsFor))
+			return false;
+
+		/* If the offset assigned is <0 => it is a parameter */
+		if (Integer.parseInt(aInsFor.substring(1)) < 0) {
+			Utils.SOPln("This is a parameter");
+			/* Even though this is parameter, I am returning false because I
+			 * need to decide if to throw this instruction away or not */
+			return false;
+		}
+
+		String funcName = myBasicBlock.getFunctionName();
+		if (funcName.equals(Utils.MAIN_FUNC))
+			return false;
+
+		/* If the function name is MAIN_FUNC then this is a global variable */
+		try {
+			if (funcName.equals(Utils.getFunctionForIdentifier(Integer.parseInt(aInsFor.substring(1)), funcName)))
+				return false;
+		} catch (Exception E) {
+			return false;
+		}
+
+		Utils.SOPln("not removing this BECAUSE it is global");
+		return true;
+	}
+
+	public void fixAnchorRoot(Instruction fix) {
+		if (previousInAnchor == null)
+			previousInAnchor = fix;
+		else
+			previousInAnchor.fixAnchorRoot(fix);
 	}
 
 	public void setPreviousInAnchor(Instruction prev) {

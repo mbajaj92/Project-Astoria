@@ -1,5 +1,0 @@
-strict graph {
-3[label="3" style=filled fillcolor="blue1"];
-6[label="6" style=filled fillcolor="blue1"];
-8[label="8" style=filled fillcolor="blue1"];
-}

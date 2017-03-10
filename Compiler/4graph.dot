@@ -1,0 +1,118 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+98: BRA (71) (null) null null
+"];
+0[shape=box];
+0 -> 8[color=blue]
+1[label="
+TAG: PROC_START(1)  func = max WD = 0
+10: load (null) (null) #FP_max &a1
+11: ADDI (null) (null) #0 #5 aFor = &size
+12: ADDI (null) (null) #FP_max &arg
+13: adda (11) (12) null null
+14: store (10) (13) null null STORE FOR= &arg
+15: load (null) (null) #FP_max &a2
+16: ADDI (null) (null) #0 #6
+18: adda (16) (12) null null
+19: store (15) (18) null null STORE FOR= &arg
+20: load (null) (null) #FP_max &a3
+21: ADDI (null) (null) #0 #7
+23: adda (21) (12) null null
+24: store (20) (23) null null STORE FOR= &arg
+25: load (null) (null) #FP_max &a4
+26: ADDI (null) (null) #0 #8
+28: adda (26) (12) null null
+29: store (25) (28) null null STORE FOR= &arg
+30: load (null) (null) #FP_max &a5
+31: ADDI (null) (null) #0 #4
+33: adda (31) (12) null null
+34: store (30) (33) null null STORE FOR= &arg
+37: ADDI (null) (null) #0 #2 aFor = &i
+41: adda (11) (12) null null
+42: load (41) (null) null null aFor = &temp
+"];
+1[shape=box];
+1 -> 2[color=blue]
+2[label="
+TAG: LOOP_HEADER_1(2)  func = max WD = 1
+68: phi (37) (64) null null  PHI FOR &i
+67: phi (42) (62) null null  PHI FOR &temp
+46: CMP (68) (11) null null aFor = &i bFor = &size
+47: BGT (46) (70) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 7[color=black]
+2 -> 1[color=red][style=dotted]
+2 -> 6[color=green][style=dotted]
+3[label="
+TAG: DO_BLOCK(3)  func = max WD = 1
+99: BRA (49) (null) null null
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: IF_HEADER(4)  func = max WD = 1
+49: ADDI (68) (null) null #4
+51: adda (49) (12) null null
+52: load (51) (null) null null aFor = &arg
+54: CMP (52) (67) null null aFor = &arg bFor = &temp
+55: BLE (54) (62) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 6[color=black]
+4 -> 3[color=red][style=dotted]
+5[label="
+TAG: THEN_BLOCK(5)  func = max WD = 1
+100: BRA (62) (null) null null
+"];
+5[shape=box];
+5 -> 6[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: FOLLOW_BLOCK(6)  func = max WD = 1
+62: phi (60) (67) null null  PHI FOR &temp
+64: ADDI (68) (null) null #1 aFor = &i
+66: BRA (68) (null) null null
+"];
+6[shape=box];
+6 -> 2[color=blue]
+6 -> 5[color=red][style=dotted]
+6 -> 4[color=green][style=dotted]
+7[label="
+TAG: LOOP_FOLLOW_1(7)  func = max WD = 1
+70: RET (67) (null) null null
+"];
+7[shape=box];
+7 -> 2[color=red][style=dotted]
+8[label="
+TAG: INIT_CONT(8)  func = MAIN_FUNC WD = 0
+71: ADDI (null) (null) #0 #22
+72: ADDI (null) (null) #0 #5
+73: ADDI (null) (null) #FP_MAIN_FUNC &input
+74: adda (72) (73) null null
+75: store (71) (74) null null STORE FOR= &input
+76: ADDI (null) (null) #0 #61
+77: ADDI (null) (null) #0 #6
+79: adda (77) (73) null null
+80: store (76) (79) null null STORE FOR= &input
+81: ADDI (null) (null) #0 #17
+82: ADDI (null) (null) #0 #7
+84: adda (82) (73) null null
+85: store (81) (84) null null STORE FOR= &input
+86: ADDI (null) (null) #0 #34
+87: ADDI (null) (null) #0 #8
+89: adda (87) (73) null null
+90: store (86) (89) null null STORE FOR= &input
+91: ADDI (null) (null) #0 #11
+92: ADDI (null) (null) #0 #4
+94: adda (92) (73) null null
+95: store (91) (94) null null STORE FOR= &input
+96: call (null) (null) &max null aFor = &maxnumber has func params
+"];
+8[shape=box];
+8 -> 0[color=red][style=dotted]
+}

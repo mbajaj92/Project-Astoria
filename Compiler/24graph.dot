@@ -1,0 +1,202 @@
+digraph {
+0[label="
+TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+142: BRA (11) (null) null null
+"];
+0[shape=box];
+0 -> 1[color=blue]
+1[label="
+TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
+11: ADDI (null) (null) #0 #2 aFor = &b
+13: ADDI (null) (null) #0 #3 aFor = &c
+"];
+1[shape=box];
+1 -> 2[color=blue]
+1 -> 0[color=red][style=dotted]
+2[label="
+TAG: LOOP_HEADER_1(2)  func = MAIN_FUNC WD = 1
+26: DIVI (11) (null) null #4 aFor = &b
+27: ADDI (26) (null) null #5 aFor = &b
+28: CMPI (27) (null) null #8 aFor = &b
+29: BGE (28) (null) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 21[color=black]
+2 -> 1[color=red][style=dotted]
+2 -> 20[color=green][style=dotted]
+3[label="
+TAG: DO_BLOCK(3)  func = MAIN_FUNC WD = 1
+31: MULI (124) (null) null #7 aFor = &a
+32: ADDI (31) (null) null #9 aFor = &a
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
+4[label="
+TAG: IF_HEADER(4)  func = MAIN_FUNC WD = 1
+36: CMP (13) (122) null null aFor = &c bFor = &d
+37: BGE (36) (143) null null
+"];
+4[shape=box];
+4 -> 5[color=blue]
+4 -> 9[color=black]
+4 -> 3[color=red][style=dotted]
+5[label="
+TAG: THEN_BLOCK(5)  func = MAIN_FUNC WD = 1
+39: SUBI (123) (null) null #5 aFor = &g
+41: MUL (39) (126) null null aFor = &g bFor = &h
+"];
+5[shape=box];
+5 -> 6[color=blue]
+5 -> 4[color=red][style=dotted]
+6[label="
+TAG: LOOP_HEADER_2(6)  func = MAIN_FUNC WD = 2
+51: phi (126) (48) null null  PHI FOR &h
+45: CMP (41) (51) null null aFor = &g bFor = &h
+46: BLE (45) (54) null null
+"];
+6[shape=box];
+6 -> 7[color=blue]
+6 -> 8[color=black]
+6 -> 5[color=red][style=dotted]
+6 -> 7[color=green][style=dotted]
+7[label="
+TAG: DO_BLOCK(7)  func = MAIN_FUNC WD = 2
+48: ADDI (51) (null) null #1 aFor = &h
+50: BRA (51) (null) null null
+"];
+7[shape=box];
+7 -> 6[color=blue]
+7 -> 6[color=red][style=dotted]
+8[label="
+TAG: LOOP_FOLLOW_2(8)  func = MAIN_FUNC WD = 2
+54: ADD (41) (51) null null aFor = &g bFor = &h
+56: BRA (119) (null) null null
+"];
+8[shape=box];
+8 -> 20[color=blue]
+8 -> 6[color=red][style=dotted]
+9[label="
+TAG: ELSE_BLOCK(9)  func = MAIN_FUNC WD = 1
+143: BRA (59) (null) null null
+"];
+9[shape=box];
+9 -> 10[color=blue]
+9 -> 4[color=red][style=dotted]
+10[label="
+TAG: IF_HEADER(10)  func = MAIN_FUNC WD = 1
+59: CMP (13) (122) null null aFor = &c bFor = &d
+60: BLT (59) (86) null null
+"];
+10[shape=box];
+10 -> 11[color=blue]
+10 -> 15[color=black]
+10 -> 9[color=red][style=dotted]
+11[label="
+TAG: THEN_BLOCK(11)  func = MAIN_FUNC WD = 1
+63: MUL (121) (121) null null aFor = &f bFor = &f
+64: MULI (63) (null) null #7
+65: SUBI (64) (null) null #2 aFor = &e
+"];
+11[shape=box];
+11 -> 12[color=blue]
+11 -> 10[color=red][style=dotted]
+12[label="
+TAG: LOOP_HEADER_2(12)  func = MAIN_FUNC WD = 2
+80: phi (122) (73) null null  PHI FOR &d
+79: phi (65) (76) null null  PHI FOR &e
+68: SUBI (80) (null) null #7 aFor = &d
+70: CMP (68) (79) null null aFor = &d bFor = &e
+71: BNE (70) (83) null null
+"];
+12[shape=box];
+12 -> 13[color=blue]
+12 -> 14[color=black]
+12 -> 11[color=red][style=dotted]
+12 -> 13[color=green][style=dotted]
+13[label="
+TAG: DO_BLOCK(13)  func = MAIN_FUNC WD = 2
+73: SUBI (80) (null) null #1 aFor = &d
+76: ADDI (79) (null) null #1 aFor = &e
+78: BRA (80) (null) null null
+"];
+13[shape=box];
+13 -> 12[color=blue]
+13 -> 12[color=red][style=dotted]
+14[label="
+TAG: LOOP_FOLLOW_2(14)  func = MAIN_FUNC WD = 2
+83: MUL (121) (79) null null aFor = &f bFor = &e
+85: BRA (110) (null) null null
+"];
+14[shape=box];
+14 -> 19[color=blue]
+14 -> 12[color=red][style=dotted]
+15[label="
+TAG: ELSE_BLOCK(15)  func = MAIN_FUNC WD = 1
+86: ADDI (null) (null) #0 #725 aFor = &g
+"];
+15[shape=box];
+15 -> 16[color=blue]
+15 -> 10[color=red][style=dotted]
+16[label="
+TAG: LOOP_HEADER_2(16)  func = MAIN_FUNC WD = 2
+101: phi (125) (97) null null  PHI FOR &e
+100: phi (122) (94) null null  PHI FOR &d
+89: SUBI (100) (null) null #8 aFor = &d
+91: CMP (89) (101) null null aFor = &d bFor = &e
+92: BNE (91) (104) null null
+"];
+16[shape=box];
+16 -> 17[color=blue]
+16 -> 18[color=black]
+16 -> 15[color=red][style=dotted]
+16 -> 17[color=green][style=dotted]
+17[label="
+TAG: DO_BLOCK(17)  func = MAIN_FUNC WD = 2
+94: SUBI (100) (null) null #1 aFor = &d
+97: ADDI (101) (null) null #1 aFor = &e
+99: BRA (101) (null) null null
+"];
+17[shape=box];
+17 -> 16[color=blue]
+17 -> 16[color=red][style=dotted]
+18[label="
+TAG: LOOP_FOLLOW_2(18)  func = MAIN_FUNC WD = 2
+104: MUL (86) (121) null null aFor = &g bFor = &f
+105: DIVI (104) (null) null #4 aFor = &f
+"];
+18[shape=box];
+18 -> 19[color=blue]
+18 -> 16[color=red][style=dotted]
+19[label="
+TAG: FOLLOW_BLOCK(19)  func = MAIN_FUNC WD = 1
+110: phi (123) (86) null null  PHI FOR &g
+109: phi (79) (101) null null  PHI FOR &e
+108: phi (80) (100) null null  PHI FOR &d
+107: phi (83) (105) null null  PHI FOR &f
+113: ADD (110) (126) null null aFor = &g bFor = &h
+"];
+19[shape=box];
+19 -> 20[color=blue]
+19 -> 14[color=red][style=dotted]
+19 -> 18[color=green][style=dotted]
+20[label="
+TAG: FOLLOW_BLOCK(20)  func = MAIN_FUNC WD = 1
+119: phi (125) (109) null null  PHI FOR &e
+118: phi (121) (107) null null  PHI FOR &f
+117: phi (51) (112) null null  PHI FOR &h
+116: phi (54) (113) null null  PHI FOR &g
+115: phi (122) (108) null null  PHI FOR &d
+120: BRA (26) (null) null null
+"];
+20[shape=box];
+20 -> 2[color=blue]
+20 -> 8[color=red][style=dotted]
+20 -> 19[color=green][style=dotted]
+21[label="
+TAG: LOOP_FOLLOW_1(21)  func = MAIN_FUNC
+"];
+21[shape=box];
+21 -> 2[color=red][style=dotted]
+}

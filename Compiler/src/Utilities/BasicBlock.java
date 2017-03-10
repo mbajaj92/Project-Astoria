@@ -497,42 +497,77 @@ public class BasicBlock {
 		liveRange.addAll(live);
 	}
 
-	public boolean isDeadInstruction(Instruction i) {
+	public boolean isDeadInstruction(Instruction i) throws Exception {
 		CODE code = i.getCode();
 		if (Utils.isNotDeadCode.contains(code))
 			return false;
 
+		if(i.globalOrParameter())
+			return false;
+		
 		if (!liveRange.contains((Integer) i.getInstructionNumber()))
 			return true;
 		return false;
 	}
 
-	public void visitAndUpdateLiveRange(HashSet<Integer> live) {
+	private void mergeAnchor(HashMap<CODE, Instruction> parentAnchor) {
+		nullCheck();
+		for(CODE key: parentAnchor.keySet()) {
+			if(!anchor.containsKey(key))
+				anchor.put(key, parentAnchor.get(key));
+			else {
+				anchor.get(key).fixAnchorRoot(parentAnchor.get(key));
+			}
+		}
+	}
+
+	private void mergeLastAccess(HashMap<String, Instruction> parentLastAccessTable) {
+		nullCheck();
+		for (String key : parentLastAccessTable.keySet()) {
+			if (!lastAccessTable.containsKey(key))
+				lastAccessTable.put(key, parentLastAccessTable.get(key));
+		}
+	}
+
+	public void merge(HashMap<String, Instruction> parentLastAccessTable, HashMap<CODE, Instruction> parentAnchor) {
+		mergeLastAccess(parentLastAccessTable);
+		mergeAnchor(parentAnchor);
+	}
+
+	public void visitAndUpdateLiveRange(HashSet<Integer> live) throws Exception {
 		addLiveRange(live);
 
 		for (int i = mInstructionSet.size() - 1; i >= 0; i--) {
 			Instruction current = mInstructionSet.get(i);
-			if (current.getCode() == CODE.phi || current.getCode() == CODE.BRA)
+			if (current.getCode() == CODE.BRA || current.getCode() == CODE.phi) {
 				continue;
-
-			int currentIndex = current.getInstructionNumber();
-			if (getTagtype() != "LOOP_HEADER" || isVisited()) {
-				if (isDeadInstruction(current)) {
-					mInstructionSet.remove(i);
-					Utils.leftOverTrace.remove((Integer) currentIndex);
-					Utils.SOPln("Removing Instruction " + currentIndex + " from BB " + index);
-					continue;
-				} else
-					liveRange.remove((Integer) currentIndex);
 			}
 
-			Utils.addEdge(currentIndex, liveRange);
+			int currentIndex = current.getInstructionNumber();
+			/* if (getTagtype() != "LOOP_HEADER" || isVisited()) { */
+			if (isDeadInstruction(current)) {
+				mInstructionSet.remove(i);
+				Utils.leftOverTrace.remove((Integer) currentIndex);
+				Utils.SOPln("Removing Instruction " + currentIndex + " from BB " + index);
+				continue;
+			} else
+				liveRange.remove((Integer) currentIndex);
+			// }
+
+			if (current.getCode() != CODE.write && current.getCode() != CODE.writeNL && current.getCode() != CODE.RET)
+				Utils.addEdge(currentIndex, liveRange);
 
 			if (current.getLeftInstruction() != null)
 				liveRange.add(current.getLeftInstruction().getInstructionNumber());
 
 			if (!Utils.compareInstructions.contains(current.getCode()) && current.getRightInstruction() != null)
 				liveRange.add(current.getRightInstruction().getInstructionNumber());
+
+			if (current.getCode() == CODE.call && current.hasFunctionParameters()) {
+				for (Instruction ins : current.getFunctionParams())
+					if (ins != null)
+						liveRange.add(ins.getInstructionNumber());
+			}
 		}
 		visited = true;
 	}
@@ -631,9 +666,9 @@ public class BasicBlock {
 				returnString += "\n" + i;
 			return returnString;
 		}
-		return "\nTAG: " + TAG + "(" + index + ")  THIS IS LAST BB, we have no Instructions because we are a sucks !!";
+		return "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName;
 	}
-	
+
 	public static void shutDown() {
 		if (fixList != null)
 			fixList.clear();

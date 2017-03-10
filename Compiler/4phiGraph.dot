@@ -1,0 +1,19 @@
+strict graph {
+64[label="64" style=filled fillcolor="chocolate"];
+64 -- 68
+67[label="67" style=filled fillcolor="darkgoldenrod3"];
+67 -- 42
+67 -- 62
+68[label="68" style=filled fillcolor="chocolate"];
+68 -- 64
+68 -- 37
+37[label="37" style=filled fillcolor="mediumslateblue"];
+37 -- 68
+42[label="42" style=filled fillcolor="darkgoldenrod3"];
+42 -- 67
+60[label="60" style=filled fillcolor="blue1"];
+60 -- 62
+62[label="62" style=filled fillcolor="blue1"];
+62 -- 67
+62 -- 60
+}

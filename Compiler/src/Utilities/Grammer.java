@@ -129,6 +129,8 @@ public class Grammer {
 			loopHeader.generetePhiAndUpdateTree(previousBlock.getLastAccessTable(), doBlock.getLastAccessTable(),
 					previousBlock.getAnchor());
 			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW_"+Utils.WHILE_DEPTH);
+			//fix loopheader access table and anchor.
+			loopHeader.merge(previousBlock.getLastAccessTable(), previousBlock.getAnchor());
 			loopHeader.setChild(followBlock, true);
 			if (sc.currentToken != ScannerUtils.odToken)
 				Utils.error("Expected od token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
@@ -281,6 +283,10 @@ public class Grammer {
 				Utils.error(
 						"Expected ), got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		}
+
+		for (Result r : X.expresssions)
+			Utils.load(r);
+
 		X.instruction = Instruction.getInstruction(CODE.call, "&" + X.addressIfVariable, null, true)
 				.setFunctionParameters(X.expresssions);
 		X.kind = RESULT_KIND.INSTRUCTION;
