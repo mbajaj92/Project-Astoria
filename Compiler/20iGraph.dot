@@ -46,6 +46,5 @@ strict graph {
 22 -- 21
 23[label="23" style=filled fillcolor="darkorchid1"];
 23 -- 17
-24[label="24" style=filled fillcolor="blue1"];
 25[label="25" style=filled fillcolor="blue1"];
 }

@@ -17,7 +17,7 @@ public class Testing {
 	public static void main(String args[]) throws Exception {
 		// 27
 		List<Integer> error = Arrays.asList(27, 34);
-		for (int fileNumber/* :error */ = 27; fileNumber <= 27; fileNumber++) {
+		for (int fileNumber/* :error */ = 0; fileNumber <= 34; fileNumber++) {
 			Utils.SOPln("FILENUMBER = " + fileNumber);
 
 			sc = ScannerUtils.getScanner(
@@ -27,6 +27,14 @@ public class Testing {
 			Utils.printArrayTable();
 			Utils.SOPln("Parsing Complete for Test" + fileNumber + ".txt\n\n\n");
 			Utils.SOPln("------");
+
+			
+			Utils.SOPln("");
+			Utils.SOPln("Basic Block Traversal");
+			for (BasicBlock b : BasicBlock.getBasicBlockList()) {
+				if (b.isLastBlock())
+					Utils.traversefunc(b, new HashSet<Integer>());
+			}
 
 			if (Instruction.getInstructionList() != null)
 				for (Instruction i : Instruction.getInstructionList())
@@ -65,13 +73,6 @@ public class Testing {
 			Runtime.getRuntime().exec("dot " + fileNumber + "graph.dot -Tpng -o " + fileNumber + "graph.png");
 
 			
-			Utils.SOPln("");
-			Utils.SOPln("Basic Block Traversal");
-			for (BasicBlock b : BasicBlock.getBasicBlockList()) {
-				if (b.isLastBlock())
-					Utils.traversefunc(b, new HashSet<Integer>());
-			}
-
 			/* Graph Coloring */
 			Utils.registerAllocation();
 

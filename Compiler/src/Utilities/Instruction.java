@@ -17,6 +17,7 @@ public class Instruction {
 	private CODE code;
 	private BasicBlock myBasicBlock;
 	private boolean isArray = false;
+	private ArrayList<String> moveFor = null;
 
 	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto) {
 		this(c, a1, b1, a2, b2, addAuto, false);
@@ -118,25 +119,22 @@ public class Instruction {
 		return "" + index;
 	}
 
-	public static String toStringConstant(String constant, String funcName) {
+	public static String toStringConstant(String constant) {
 		if (constant == null)
 			return "null";
 
 		if (constant.charAt(0) != '&')
 			return constant;
 
-		if (Integer.parseInt(constant.substring(1)) == Integer.MAX_VALUE)
-			return "null";
-
 		try {
-			return "&" + Utils.address2Identifier(Integer.parseInt(constant.substring(1)), funcName);
+			return "&" + Utils.address2Identifier(constant.substring(1));
 		} catch (Exception E) {
 			//Utils.SOPln(E);
 			return null;
 		}
 	}
 
-	public String toStringConstant(String constant) {
+/*	public String toStringConstant(String constant) {
 		String ans = toStringConstant(constant,
 				(hasFunctionParameters()) ? Utils.MAIN_FUNC : myBasicBlock.getFunctionName());
 		if (ans == null) {
@@ -145,7 +143,7 @@ public class Instruction {
 		}
 		return ans;
 	}
-
+*/
 	public String testToString() {
 
 		return index + ": " + code.toString() + " ("
@@ -158,7 +156,7 @@ public class Instruction {
 	}
 
 	private boolean shouldPrint(String toPrint) {
-		if (toPrint == null)
+		if (toPrint == null || toPrint.equals("null") || toPrint.equals("&null"))
 			return false;
 
 		if (toPrint.equals("&" + Integer.MAX_VALUE))
@@ -179,7 +177,17 @@ public class Instruction {
 				+ (shouldPrint(bInsFor) ? " bFor = " + toStringConstant(bInsFor) : "")
 				+ (phiFor != null ? "  PHI FOR " + toStringConstant(phiFor) : "")
 				+ (storeFor == null ? "" : " STORE FOR= " + toStringConstant(storeFor))
-				+ (hasFunctionParameters() ? " has func params" : "");
+				+ printFunctionParams()
+				+ printMoveFor();
+	}
+
+	public String printMoveFor() {
+		if (moveFor == null)
+			return "";
+		String val = " move for =";
+		for (String m : moveFor)
+			val += " " + toStringConstant(m);
+		return val;
 	}
 
 	public boolean hasReferenceInstruction() {
@@ -188,6 +196,15 @@ public class Instruction {
 
 	public ArrayList<Instruction> getFunctionParams() {
 		return funcParameters;
+	}
+
+	public String printFunctionParams() {
+		if (!hasFunctionParameters())
+			return "";
+		String val = "Func Params =";
+		for (Instruction p : getFunctionParams())
+			val += " " + p.getInstructionNumber();
+		return val;
 	}
 
 	public boolean hasFunctionParameters() {
@@ -266,12 +283,28 @@ public class Instruction {
 		referenceInstruction = null;
 	}
 
+	public ArrayList<String> getMoveFor() {
+		return moveFor;
+	}
+	
+	public boolean hasMoveFor() {
+		return (moveFor != null);
+	}
+	
 	public String getAInsFor() {
 		return aInsFor;
 	}
 
 	public String getBInsFor() {
 		return bInsFor;
+	}
+
+	public Instruction addMoveFor(String m) {
+		if (moveFor == null)
+			moveFor = new ArrayList<String>();
+		if (!moveFor.contains(m))
+			moveFor.add(m);
+		return this;
 	}
 
 	public Instruction setAInsFor(String abc) {
@@ -311,25 +344,25 @@ public class Instruction {
 		return this;
 	}
 
-	public boolean globalOrParameter() throws Exception {
-		if (!shouldPrint(aInsFor))
-			return false;
-
-		/* If the offset assigned is <0 => it is a parameter */
-		if (Integer.parseInt(aInsFor.substring(1)) < 0) {
-			Utils.SOPln("This is a parameter");
-			/* Even though this is parameter, I am returning false because I
-			 * need to decide if to throw this instruction away or not */
-			return false;
-		}
-
+	public boolean global() throws Exception {
 		String funcName = myBasicBlock.getFunctionName();
 		if (funcName.equals(Utils.MAIN_FUNC))
 			return false;
 
+		if (hasMoveFor())
+			for (String move : getMoveFor())
+				if (Utils.getFunctionForIdentifier(move).equals(Utils.MAIN_FUNC))
+					return true;
+
+		if (shouldPrint(aInsFor) && Utils.getFunctionForIdentifier(aInsFor).equals(Utils.MAIN_FUNC))
+			return true;
+
+		if (shouldPrint(bInsFor) && Utils.getFunctionForIdentifier(bInsFor).equals(Utils.MAIN_FUNC))
+			return true;
+
 		/* If the function name is MAIN_FUNC then this is a global variable */
 		try {
-			if (funcName.equals(Utils.getFunctionForIdentifier(Integer.parseInt(aInsFor.substring(1)), funcName)))
+			if (funcName.equals(Utils.getFunctionForIdentifier(aInsFor.substring(1)/*, funcName*/)))
 				return false;
 		} catch (Exception E) {
 			return false;

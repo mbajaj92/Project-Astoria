@@ -1,17 +1,17 @@
 digraph {
 0[label="
-TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
 63: BRA (62) (null) null null
 "];
 0[shape=box];
 0 -> 9[color=blue]
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
-0: ADDI (null) (null) #0 #0 aFor = &h
-11: ADD (0) (0) null null aFor = &d bFor = &b
-17: MUL (11) (11) null null aFor = &g bFor = &d
-21: ADD (0) (11) null null aFor = &f bFor = &c
-27: ADD (17) (11) null null aFor = &a bFor = &d
+0: ADDI (null) (null) #0 #0 move for = &a &b &c &d &e &f &g &h
+11: ADD (0) (0) null null aFor = &a bFor = &b move for = &c &d
+17: MUL (11) (11) null null aFor = &d bFor = &d move for = &e &g
+21: ADD (0) (11) null null aFor = &a bFor = &c move for = &f
+27: ADD (17) (11) null null aFor = &g bFor = &d move for = &a
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -26,7 +26,7 @@ TAG: IF_HEADER(2)  func = foo WD = 0
 2 -> 1[color=red][style=dotted]
 3[label="
 TAG: THEN_BLOCK(3)  func = foo WD = 0
-34: ADDI (17) (null) null #1 aFor = &h
+34: ADDI (17) (null) null #1 aFor = &g move for = &h
 36: BRA (50) (null) null null
 "];
 3[shape=box];
@@ -34,7 +34,7 @@ TAG: THEN_BLOCK(3)  func = foo WD = 0
 3 -> 2[color=red][style=dotted]
 4[label="
 TAG: ELSE_BLOCK(4)  func = foo WD = 0
-39: SUB (11) (17) null null aFor = &f bFor = &g
+39: SUB (11) (17) null null aFor = &d bFor = &g move for = &f
 "];
 4[shape=box];
 4 -> 5[color=blue]
@@ -50,7 +50,7 @@ TAG: IF_HEADER(5)  func = foo WD = 0
 5 -> 4[color=red][style=dotted]
 6[label="
 TAG: THEN_BLOCK(6)  func = foo WD = 0
-45: ADDI (null) (null) #0 #2 aFor = &c
+45: ADDI (null) (null) #0 #2 move for = &c
 "];
 6[shape=box];
 6 -> 7[color=blue]
@@ -65,23 +65,23 @@ TAG: FOLLOW_BLOCK(7)  func = foo WD = 0
 7 -> 5[color=green][style=dotted]
 8[label="
 TAG: FOLLOW_BLOCK(8)  func = foo WD = 0
-50: phi (34) (0) null null  PHI FOR &h
-49: phi (21) (39) null null  PHI FOR &f
+50: phi (21) (39) null null  PHI FOR &f
+49: phi (34) (0) null null  PHI FOR &h
 48: phi (11) (47) null null  PHI FOR &c
-53: MUL (17) (27) null null aFor = &b bFor = &a
+53: MUL (17) (27) null null aFor = &g bFor = &a move for = &b
 55: write (27) (null) null null
 56: write (53) (null) null null
 57: write (48) (null) null null
 58: write (11) (null) null null
-59: write (49) (null) null null
+59: write (50) (null) null null
 60: write (17) (null) null null
-61: write (50) (null) null null
+61: write (49) (null) null null
 "];
 8[shape=box];
 8 -> 3[color=red][style=dotted]
 8 -> 7[color=green][style=dotted]
 9[label="
-TAG: INIT_CONT(9)  func = MAIN_FUNC WD = 0
+TAG: INIT_CONT(9)  func = MAIN$FUNC WD = 0
 62: call (null) (null) &foo null
 "];
 9[shape=box];

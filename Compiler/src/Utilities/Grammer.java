@@ -189,8 +189,8 @@ public class Grammer {
 				if (i == null)
 					Utils.error(
 							"Trying to print garbage value for "
-									+ Utils.address2Identifier(parameter.addressIfVariable,
-											BasicBlock.getCurrentBasicBlock().getFunctionName())
+									+ Utils.address2Identifier(parameter.addressIfVariable/*,
+											BasicBlock.getCurrentBasicBlock().getFunctionName()*/)
 									+ " at line " + sc.getLineCount());
 			} else if (sc.currentToken == ScannerUtils.number) {
 				parameter = number();
@@ -260,11 +260,11 @@ public class Grammer {
 		sc.setCurrentFunction(BasicBlock.getCurrentBasicBlock().getFunctionName());
 
 		/* This is the implementation of the inbuilt functions */
-		if (Utils.address2Identifier(X.addressIfVariable, Utils.MAIN_FUNC).equals(Utils.INPUT_NUM)) {
+		if (Utils.address2Identifier(X.addressIfVariable/*, Utils.MAIN_FUNC*/).equals(Utils.INPUT_NUM)) {
 			return handleInputNum(X);
-		} else if (Utils.address2Identifier(X.addressIfVariable, Utils.MAIN_FUNC).equals(Utils.OUTPUT_NUM)) {
+		} else if (Utils.address2Identifier(X.addressIfVariable/*, Utils.MAIN_FUNC*/).equals(Utils.OUTPUT_NUM)) {
 			return handleOutputNum(X);
-		} else if (Utils.address2Identifier(X.addressIfVariable, Utils.MAIN_FUNC).equals(Utils.OUTPUT_NL)) {
+		} else if (Utils.address2Identifier(X.addressIfVariable/*, Utils.MAIN_FUNC*/).equals(Utils.OUTPUT_NL)) {
 			return handleOutputNl(X);
 		}
 
@@ -284,8 +284,9 @@ public class Grammer {
 						"Expected ), got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 		}
 
-		for (Result r : X.expresssions)
-			Utils.load(r);
+		if (X.expresssions != null)
+			for (Result r : X.expresssions)
+				Utils.load(r);
 
 		X.instruction = Instruction.getInstruction(CODE.call, "&" + X.addressIfVariable, null, true)
 				.setFunctionParameters(X.expresssions);
@@ -378,11 +379,11 @@ public class Grammer {
 			sc.setVarType(VARIABLE_TYPE.FUNC);
 			sc.next();
 			Result X = ident();
-			String funcName = Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC);
+			String funcName = Instruction.toStringConstant("&" + X.addressIfVariable/*, Utils.MAIN_FUNC*/);
 			if(!funcName.equals(Utils.MAIN_FUNC))
 				funcName = funcName.substring(1);
 			ScannerUtils.getCurrentScanner().setCurrentFunction(funcName);
-			funcName = Instruction.toStringConstant("&" + X.addressIfVariable, Utils.MAIN_FUNC);
+			funcName = Instruction.toStringConstant("&" + X.addressIfVariable/*, Utils.MAIN_FUNC*/);
 			if(!funcName.equals(Utils.MAIN_FUNC))
 				funcName = funcName.substring(1);
 			new BasicBlock("PROC_START", funcName);

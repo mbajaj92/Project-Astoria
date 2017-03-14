@@ -1,6 +1,6 @@
 digraph {
 0[label="
-TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
 39: BRA (8) (null) null null
 "];
 0[shape=box];
@@ -12,10 +12,10 @@ TAG: PROC_START(1)  func = foo WD = 0
 "];
 1[shape=box];
 2[label="
-TAG: INIT_CONT(2)  func = MAIN_FUNC WD = 0
-8: ADDI (null) (null) #0 #1 aFor = &b
-10: ADDI (null) (null) #0 #19 aFor = &c
-12: call (null) (null) &foo null has func params
+TAG: INIT_CONT(2)  func = MAIN$FUNC WD = 0
+8: ADDI (null) (null) #0 #1 move for = &b
+10: ADDI (null) (null) #0 #19 move for = &c
+12: call (null) (null) &foo null
 13: ADDI (12) (null) null #1 aFor = &foo
 16: MUL (8) (10) null null aFor = &b bFor = &c
 17: ADDI (null) (null) #0 #45
@@ -23,10 +23,10 @@ TAG: INIT_CONT(2)  func = MAIN_FUNC WD = 0
 19: ADDI (18) (null) null #14700
 20: ADD (19) (16) null null
 21: ADDI (20) (null) null #4
-22: ADDI (null) (null) #FP_MAIN_FUNC &a
+22: ADDI (null) (null) #FP_MAIN$FUNC &a
 23: adda (21) (22) null null
 24: store (17) (23) null null STORE FOR= &a
-25: call (null) (null) &foo null has func params
+25: call (null) (null) &foo null
 "];
 2[shape=box];
 2 -> 0[color=red][style=dotted]

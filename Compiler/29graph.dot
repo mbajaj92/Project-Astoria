@@ -1,19 +1,19 @@
 digraph {
 0[label="
-TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
-0: ADDI (null) (null) #0 #0 aFor = &q
+TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
+40: BRA (41) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
-TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
-40: BRA (7) (null) null null
+TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
+41: BRA (7) (null) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
 2[label="
-TAG: IF_HEADER(2)  func = MAIN_FUNC WD = 0
+TAG: IF_HEADER(2)  func = MAIN$FUNC WD = 0
 7: ADDI (null) (null) #0 #2
 9: CMPI (7) (8) null null
 10: BGE (9) (null) null null
@@ -23,17 +23,17 @@ TAG: IF_HEADER(2)  func = MAIN_FUNC WD = 0
 2 -> 7[color=black]
 2 -> 1[color=red][style=dotted]
 3[label="
-TAG: THEN_BLOCK(3)  func = MAIN_FUNC WD = 0
-41: BRA (11) (null) null null
+TAG: THEN_BLOCK(3)  func = MAIN$FUNC WD = 0
+42: BRA (11) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
-TAG: LOOP_HEADER_1(4)  func = MAIN_FUNC WD = 1
+TAG: LOOP_HEADER_1(4)  func = MAIN$FUNC WD = 1
 11: ADDI (null) (null) #0 #4
 13: CMPI (11) (12) null null
-14: BLE (13) (42) null null
+14: BLE (13) (43) null null
 "];
 4[shape=box];
 4 -> 5[color=blue]
@@ -41,23 +41,21 @@ TAG: LOOP_HEADER_1(4)  func = MAIN_FUNC WD = 1
 4 -> 3[color=red][style=dotted]
 4 -> 5[color=green][style=dotted]
 5[label="
-TAG: DO_BLOCK(5)  func = MAIN_FUNC WD = 1
-16: ADDI (26) (null) null #6 aFor = &af
-19: ADDI (25) (null) null #2 aFor = &q
+TAG: DO_BLOCK(5)  func = MAIN$FUNC WD = 1
 23: BRA (11) (null) null null
 "];
 5[shape=box];
 5 -> 4[color=blue]
 5 -> 4[color=red][style=dotted]
 6[label="
-TAG: LOOP_FOLLOW_1(6)  func = MAIN_FUNC WD = 1
-42: BRA (null) (null) null null
+TAG: LOOP_FOLLOW_1(6)  func = MAIN$FUNC WD = 1
+43: BRA (null) (null) null null
 "];
 6[shape=box];
 6 -> 7[color=blue]
 6 -> 4[color=red][style=dotted]
 7[label="
-TAG: FOLLOW_BLOCK(7)  func = MAIN_FUNC
+TAG: FOLLOW_BLOCK(7)  func = MAIN$FUNC
 "];
 7[shape=box];
 7 -> 6[color=red][style=dotted]

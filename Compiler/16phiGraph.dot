@@ -1,9 +1,9 @@
 strict graph {
-39[label="39" style=filled fillcolor="blue1"];
+39[label="39" style=filled fillcolor="darkorchid1"];
 39 -- 42
-42[label="42" style=filled fillcolor="blue1"];
+42[label="42" style=filled fillcolor="darkorchid1"];
 42 -- 39
-42 -- 29
-29[label="29" style=filled fillcolor="blue1"];
-29 -- 42
+42 -- 62
+62[label="62" style=filled fillcolor="darkorchid1"];
+62 -- 42
 }

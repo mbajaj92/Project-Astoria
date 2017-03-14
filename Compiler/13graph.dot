@@ -1,20 +1,19 @@
 digraph {
 0[label="
-TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
 110: BRA (109) (null) null null
 "];
 0[shape=box];
 0 -> 19[color=blue]
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
-9: ADDI (null) (null) #0 #1 aFor = &a
-11: ADDI (null) (null) #0 #2 aFor = &b
-13: ADDI (null) (null) #0 #3 aFor = &c
-15: ADDI (null) (null) #0 #4 aFor = &d
-17: ADDI (null) (null) #0 #5 aFor = &e
-19: ADDI (null) (null) #0 #6 aFor = &f
-21: ADDI (null) (null) #0 #7 aFor = &g
-23: ADDI (null) (null) #0 #8 aFor = &h
+9: ADDI (null) (null) #0 #1 move for = &a
+11: ADDI (null) (null) #0 #2 move for = &b
+13: ADDI (null) (null) #0 #3 move for = &c
+15: ADDI (null) (null) #0 #4 move for = &d
+17: ADDI (null) (null) #0 #5 move for = &e
+19: ADDI (null) (null) #0 #6 move for = &f
+23: ADDI (null) (null) #0 #8 move for = &h
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -29,8 +28,8 @@ TAG: IF_HEADER(2)  func = foo WD = 0
 2 -> 1[color=red][style=dotted]
 3[label="
 TAG: THEN_BLOCK(3)  func = foo WD = 0
-30: ADDI (9) (null) null #1 aFor = &a
-33: ADDI (17) (null) null #1 aFor = &e
+30: ADDI (9) (null) null #1 aFor = &a move for = &a
+33: ADDI (17) (null) null #1 aFor = &e move for = &e
 "];
 3[shape=box];
 3 -> 4[color=blue]
@@ -46,7 +45,7 @@ TAG: IF_HEADER(4)  func = foo WD = 0
 4 -> 3[color=red][style=dotted]
 5[label="
 TAG: THEN_BLOCK(5)  func = foo WD = 0
-40: MULI (13) (null) null #3 aFor = &c
+40: MULI (13) (null) null #3 aFor = &c move for = &c
 "];
 5[shape=box];
 5 -> 6[color=blue]
@@ -64,7 +63,7 @@ TAG: LOOP_HEADER_1(6)  func = foo WD = 1
 6 -> 7[color=green][style=dotted]
 7[label="
 TAG: DO_BLOCK(7)  func = foo WD = 1
-47: ADDI (50) (null) null #1 aFor = &a
+47: ADDI (50) (null) null #1 aFor = &a move for = &a
 49: BRA (50) (null) null null
 "];
 7[shape=box];
@@ -89,8 +88,8 @@ TAG: FOLLOW_BLOCK(9)  func = foo WD = 0
 9 -> 4[color=green][style=dotted]
 10[label="
 TAG: ELSE_BLOCK(10)  func = foo WD = 0
-57: SUBI (11) (null) null #1 aFor = &b
-60: ADDI (19) (null) null #1 aFor = &f
+57: SUBI (11) (null) null #1 aFor = &b move for = &b
+60: ADDI (19) (null) null #1 aFor = &f move for = &f
 "];
 10[shape=box];
 10 -> 11[color=blue]
@@ -106,7 +105,7 @@ TAG: IF_HEADER(11)  func = foo WD = 0
 11 -> 10[color=red][style=dotted]
 12[label="
 TAG: THEN_BLOCK(12)  func = foo WD = 0
-67: MULI (13) (null) null #3 aFor = &c
+67: MULI (13) (null) null #3 aFor = &c move for = &c
 "];
 12[shape=box];
 12 -> 13[color=blue]
@@ -125,8 +124,8 @@ TAG: LOOP_HEADER_1(13)  func = foo WD = 1
 13 -> 14[color=green][style=dotted]
 14[label="
 TAG: DO_BLOCK(14)  func = foo WD = 1
-74: ADDI (81) (null) null #1 aFor = &b
-77: SUBI (80) (null) null #1 aFor = &c
+74: ADDI (81) (null) null #1 aFor = &b move for = &b
+77: SUBI (80) (null) null #1 aFor = &c move for = &c
 79: BRA (81) (null) null null
 "];
 14[shape=box];
@@ -141,18 +140,18 @@ TAG: LOOP_FOLLOW_1(15)  func = foo WD = 1
 15 -> 13[color=red][style=dotted]
 16[label="
 TAG: ELSE_BLOCK(16)  func = foo WD = 0
-84: MULI (13) (null) null #4 aFor = &c
-87: ADDI (15) (null) null #1 aFor = &d
+84: MULI (13) (null) null #4 aFor = &c move for = &c
+87: ADDI (15) (null) null #1 aFor = &d move for = &d
 "];
 16[shape=box];
 16 -> 17[color=blue]
 16 -> 11[color=red][style=dotted]
 17[label="
 TAG: FOLLOW_BLOCK(17)  func = foo WD = 0
-91: phi (81) (57) null null  PHI FOR &b
-90: phi (15) (87) null null  PHI FOR &d
+91: phi (15) (87) null null  PHI FOR &d
+90: phi (81) (57) null null  PHI FOR &b
 89: phi (80) (84) null null  PHI FOR &c
-92: ADDI (null) (null) #0 #425 aFor = &h
+92: ADDI (null) (null) #0 #425 move for = &h
 "];
 17[shape=box];
 17 -> 18[color=blue]
@@ -160,26 +159,26 @@ TAG: FOLLOW_BLOCK(17)  func = foo WD = 0
 17 -> 16[color=green][style=dotted]
 18[label="
 TAG: FOLLOW_BLOCK(18)  func = foo WD = 0
-101: phi (11) (91) null null  PHI FOR &b
-100: phi (23) (92) null null  PHI FOR &h
-99: phi (33) (17) null null  PHI FOR &e
+101: phi (33) (17) null null  PHI FOR &e
+100: phi (19) (60) null null  PHI FOR &f
+99: phi (15) (91) null null  PHI FOR &d
 98: phi (52) (9) null null  PHI FOR &a
-96: phi (15) (90) null null  PHI FOR &d
-95: phi (19) (60) null null  PHI FOR &f
+96: phi (11) (90) null null  PHI FOR &b
+95: phi (23) (92) null null  PHI FOR &h
 94: phi (51) (89) null null  PHI FOR &c
 102: write (98) (null) null null
-103: write (101) (null) null null
+103: write (96) (null) null null
 104: write (94) (null) null null
-105: write (96) (null) null null
-106: write (99) (null) null null
-107: write (95) (null) null null
-108: write (100) (null) null null
+105: write (99) (null) null null
+106: write (101) (null) null null
+107: write (100) (null) null null
+108: write (95) (null) null null
 "];
 18[shape=box];
 18 -> 9[color=red][style=dotted]
 18 -> 17[color=green][style=dotted]
 19[label="
-TAG: INIT_CONT(19)  func = MAIN_FUNC WD = 0
+TAG: INIT_CONT(19)  func = MAIN$FUNC WD = 0
 109: call (null) (null) &foo null
 "];
 19[shape=box];

@@ -18,7 +18,7 @@ public class Utils {
 	public static final String OUTPUT_NUM = "OutputNum";
 	public static final String OUTPUT_NL = "OutputNewLine";
 	public static final String INPUT_NUM = "InputNum";
-	public static final String MAIN_FUNC = "MAIN_FUNC";
+	public static final String MAIN_FUNC = "MAIN$FUNC";
 	public static int WHILE_DEPTH = 0;
 	public static final boolean COM_SUBEX_ELIM = true;
 	public static final boolean COPY_PROP = true;
@@ -72,15 +72,55 @@ public class Utils {
 			phiClusters = new HashMap<Integer, HashSet<Integer>>();
 	}
 
-	public static String getFunctionForIdentifier(int id) throws Exception {
-		return address2IdentifierImpl(id, BasicBlock.getCurrentBasicBlock().getFunctionName())[1];
+	public static String getFunctionForIdentifier(String id/* , String func */) throws Exception {
+		Utils.SOPln("trying for "+id);
+		return id.split("_")[1];
 	}
 
-	public static String getFunctionForIdentifier(int id, String func) throws Exception {
-		return address2IdentifierImpl(id, func)[1];
+	public static String address2Identifier(String id) throws Exception {
+		return address2IdentifierImpl(id)[0];
+	}
+	
+	public static String[] address2IdentifierImpl(String in) throws Exception {
+		nullCheck();
+		String returnValue[] = new String[2];
+		int id = Integer.parseInt(in.split("_")[0]);
+		String functionName = in.split("_")[1];
+
+		/* Utils.SOPln("Asking to convert "+id+" in "+functionName); */
+		HashMap<String, Integer> idTable = metaIDTable.get(functionName);
+		if (idTable != null) {
+			for (String key : idTable.keySet()) {
+				if (id == idTable.get(key)) {
+					returnValue[0] = key;
+					returnValue[1] = functionName;
+					return returnValue;
+				}
+			}
+		} else
+			SOPln("ID TABLE FOR " + functionName + " not found");
+
+		/*
+		 * idTable = metaIDTable.get(MAIN_FUNC); for (String key :
+		 * idTable.keySet()) { if (id == idTable.get(key)) { returnValue[0] =
+		 * key; returnValue[1] = MAIN_FUNC; return returnValue; } }
+		 */
+
+		if (functionName.equals(MAIN_FUNC)) {
+			for (String key : functionList.keySet()) {
+				if (id == functionList.get(key)) {
+					returnValue[0] = key;
+					returnValue[1] = MAIN_FUNC;
+					return returnValue;
+				}
+			}
+		}
+		Utils.error("ID " + id + " NOT FOUND at " + ScannerUtils.getCurrentScanner().getLineCount() + " funName is "
+				+ functionName);
+		return null;
 	}
 
-	public static String address2Identifier(int id, String functionName) throws Exception {
+	/*public static String address2Identifier(int id, String functionName) throws Exception {
 		return address2IdentifierImpl(id, functionName)[0];
 	}
 
@@ -88,7 +128,7 @@ public class Utils {
 		nullCheck();
 		String returnValue[] = new String[2];
 
-		/* Utils.SOPln("Asking to convert "+id+" in "+functionName); */
+		 Utils.SOPln("Asking to convert "+id+" in "+functionName); 
 		HashMap<String, Integer> idTable = metaIDTable.get(functionName);
 		if (idTable != null) {
 			for (String key : idTable.keySet()) {
@@ -121,10 +161,10 @@ public class Utils {
 		}
 		Utils.error("ID " + id + " NOT FOUND at " + ScannerUtils.getCurrentScanner().getLineCount()+" funName is "+functionName);
 		return null;
-	}
+	}*/
 
-	public static void updateParamSize(int id, int paramSize) {
-		funcInfoTable.put(id, paramSize);
+	public static void updateParamSize(String id, int paramSize) {
+		funcInfoTable.put(Integer.parseInt(id.split("_")[0]), paramSize);
 	}
 
 	public static int getFramePointerFor(String func) throws Exception {
@@ -160,32 +200,117 @@ public class Utils {
 		values[1] = sp;
 	}
 
-	public static int identifier2Address(String name) throws Exception {
-		return identifier2Address(name, null, VARIABLE_TYPE.NONE);
+	public static String identifier2AddressNew(String name) throws Exception {
+		return identifier2AddressNew(name, null, VARIABLE_TYPE.NONE);
 	}
 
-	public static int identifier2Address(String name, ArrayList<Integer> arrayInfo, VARIABLE_TYPE mVarType)
+	public static String identifier2AddressNew(String name, ArrayList<Integer> arrayInfo, VARIABLE_TYPE mVarType)
 			throws Exception {
 		nullCheck();
 
 		String currentFunc = ScannerUtils.getCurrentScanner().getCurrentFunction();
 		HashMap<String, Integer> idTable = null;
 		if (!metaIDTable.containsKey(currentFunc)) {
-			/*SOPln("Creating ID Table for "+currentFunc);*/
+			/* SOPln("Creating ID Table for "+currentFunc); */
 			idTable = new HashMap<String, Integer>();
 			metaIDTable.put(currentFunc, idTable);
 		} else
 			idTable = metaIDTable.get(currentFunc);
 
 		if (mVarType == VARIABLE_TYPE.FUNC) {
-			/*SOPln("Looking for Function "+name);*/
+			/* SOPln("Looking for Function "+name); */
 			if (functionList.containsKey(name)) {
+				String returnVal = "";
 				/* function already defined */
-				/*SOPln("Function "+name+" already defined ");*/
-				return functionList.get(name);
+				/* SOPln("Function "+name+" already defined "); */
+				returnVal = "" + functionList.get(name);
+				returnVal += "_" + MAIN_FUNC;
+				return returnVal;
 			} else {
 				/* function needs to be defined */
-				/*SOPln("Function "+name+" is being defined ");*/
+				/* SOPln("Function "+name+" is being defined "); */
+				updateFramePointerFor(name, 0);
+				updateStackPointerFor(name, 0);
+				int value = getStackPointerFor(currentFunc);
+				updateStackPointerFor(currentFunc, value + MACHINE_BYTE_SIZE);
+				funcInfoTable.put(value, 0);
+				functionList.put(name, value);
+				SOPln(name + " - [" + value + "_" + MAIN_FUNC + "] | " + currentFunc);
+				return value + "_" + MAIN_FUNC;
+			}
+		} else if (mVarType == VARIABLE_TYPE.NONE) {
+			/* ACCESS OLD */
+			int returnValue = 0;
+			if (idTable.containsKey(name)) { 
+				return idTable.get(name)+ "_" + currentFunc;
+			} else {
+				
+				SOPln("Couldn't find " + name + " in the function " + currentFunc + " hence looking for " + MAIN_FUNC);
+
+				idTable = metaIDTable.get(MAIN_FUNC);
+				if (idTable.containsKey(name))
+					returnValue = idTable.get(name);
+				else
+					Utils.error("Undefined Identifier " + name + " at line "
+							+ ScannerUtils.getCurrentScanner().getLineCount());
+				return returnValue+ "_" + MAIN_FUNC;
+			}
+		} else {
+			int returnValue = 0;
+			switch (mVarType) {
+			case VAR:
+				returnValue = getStackPointerFor(currentFunc);
+				updateStackPointerFor(currentFunc, returnValue + MACHINE_BYTE_SIZE);
+				break;
+			case ARR:
+				returnValue = getStackPointerFor(currentFunc);
+				updateStackPointerFor(currentFunc, returnValue + MACHINE_BYTE_SIZE);
+				if (metaArrayTable.containsKey(currentFunc))
+					metaArrayTable.get(currentFunc).put(returnValue, arrayInfo);
+				else {
+					HashMap<Integer, ArrayList<Integer>> table = new HashMap<Integer, ArrayList<Integer>>();
+					table.put(returnValue, arrayInfo);
+					metaArrayTable.put(currentFunc, table);
+				}
+				break;
+			case FUNC_PARAMS:
+				returnValue = -8 + (-MACHINE_BYTE_SIZE * (idTable.size() + 1));
+				break;
+			default:
+				Utils.error("UNKNOWN CASE " + mVarType);
+			}
+			SOPln(name + " - [" + returnValue + "_" + currentFunc + "] | " + currentFunc);
+			idTable.put(name, returnValue);
+			return returnValue + "_" + currentFunc;
+		}
+	}
+
+	/*public static int identifier2Address(String name) throws Exception {
+		return identifier2Address(name, null, VARIABLE_TYPE.NONE);
+	}*/
+
+	/*public static int identifier2Address(String name, ArrayList<Integer> arrayInfo, VARIABLE_TYPE mVarType)
+			throws Exception {
+		nullCheck();
+
+		String currentFunc = ScannerUtils.getCurrentScanner().getCurrentFunction();
+		HashMap<String, Integer> idTable = null;
+		if (!metaIDTable.containsKey(currentFunc)) {
+			SOPln("Creating ID Table for "+currentFunc);
+			idTable = new HashMap<String, Integer>();
+			metaIDTable.put(currentFunc, idTable);
+		} else
+			idTable = metaIDTable.get(currentFunc);
+
+		if (mVarType == VARIABLE_TYPE.FUNC) {
+			SOPln("Looking for Function "+name);
+			if (functionList.containsKey(name)) {
+				 function already defined 
+				SOPln("Function "+name+" already defined ");
+				return functionList.get(name);
+			} else {
+				 function needs to be defined 
+				SOPln("Function "+name+" is being defined ");
 				updateFramePointerFor(name, 0);
 				updateStackPointerFor(name, 0);
 				int value = getStackPointerFor(currentFunc);
@@ -196,13 +321,13 @@ public class Utils {
 				return value;
 			}
 		} else if (mVarType == VARIABLE_TYPE.NONE) {
-			/* ACCESS OLD */
+			 ACCESS OLD 
 			int returnValue = 0;
 			if (idTable.containsKey(name))
 				returnValue = idTable.get(name);
 			else {
-				/* SOPln("Couldn't find " + name + " in the function " +
-				 * currentFunc + " hence looking for " + MAIN_FUNC); */
+				 SOPln("Couldn't find " + name + " in the function " +
+				 * currentFunc + " hence looking for " + MAIN_FUNC); 
 				idTable = metaIDTable.get(MAIN_FUNC);
 				if (idTable.containsKey(name))
 					returnValue = idTable.get(name);
@@ -239,7 +364,7 @@ public class Utils {
 			idTable.put(name, returnValue);
 			return returnValue;
 		}
-	}
+	}*/
 
 	public static void SOPln(Object toPrint) {
 		SOP(toPrint.toString() + "\n");
@@ -599,7 +724,7 @@ public class Utils {
 				load(Y);
 				X.instruction = Instruction.getInstruction(CODE.CMPI, X.instruction, Y.instruction)
 						.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
-				X.addressIfVariable = Integer.MAX_VALUE;
+				X.addressIfVariable = null;
 				handleCompare(opCode, X.instruction);
 				break;
 			}
@@ -679,7 +804,7 @@ public class Utils {
 
 					X.instruction = Instruction.getInstruction(command, X.instruction, Y.instruction)
 							.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
-					X.addressIfVariable = Integer.MAX_VALUE;
+					X.addressIfVariable = null;
 					if (command == CODE.CMP)
 						handleCompare(opCode, X.instruction);
 				}
@@ -714,6 +839,29 @@ public class Utils {
 		registers[regNo] = false;
 	}
 
+	public static void specialLoad(Result X) throws Exception {
+		if (X.kind == RESULT_KIND.CONST) {
+			X.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + X.valueIfConstant, false);
+		} else if (X.kind == RESULT_KIND.VAR && !X.isArray) {
+			String FP = "#FP_"+getFunctionForIdentifier(X.addressIfVariable);
+			X.instruction = Instruction.getInstruction(CODE.load, FP, /*"&" +*/ X.addressIfVariable, false);
+			//Utils.SOPln("Special Load for "+X.addressIfVariable+" "+X.instruction.getRightConstant());
+		} else if (X.kind == RESULT_KIND.VAR && X.isArray) {
+			Result a = getOffsetForArray(X/*, ScannerUtils.getCurrentScanner().getCurrentFunction()*/);
+			Result b = new Result();
+			b.kind = RESULT_KIND.CONST;
+			b.valueIfConstant = Utils.MACHINE_BYTE_SIZE;
+			compute(ScannerUtils.plusToken, a, b);
+			load(a);
+			String FP = "#FP_"+getFunctionForIdentifier(X.addressIfVariable);
+			Instruction two = Instruction.getInstruction(CODE.ADDI, FP, "&" + X.addressIfVariable);
+			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
+			X.instruction = Instruction.getInstructionForArray(CODE.load, three, null).setLoadForArray()
+					.setAInsFor("&" + X.addressIfVariable);
+		}
+		X.kind = RESULT_KIND.INSTRUCTION;
+	}
+
 	public static void load(Result X) throws Exception {
 		if (X.kind == RESULT_KIND.CONST) {
 			X.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + X.valueIfConstant);
@@ -721,7 +869,7 @@ public class Utils {
 			String FP = "#FP_"+getFunctionForIdentifier(X.addressIfVariable);
 			X.instruction = Instruction.getInstruction(CODE.load, FP, "&" + X.addressIfVariable);
 		} else if (X.kind == RESULT_KIND.VAR && X.isArray) {
-			Result a = getOffsetForArray(X, ScannerUtils.getCurrentScanner().getCurrentFunction());
+			Result a = getOffsetForArray(X/*, ScannerUtils.getCurrentScanner().getCurrentFunction()*/);
 			Result b = new Result();
 			b.kind = RESULT_KIND.CONST;
 			b.valueIfConstant = Utils.MACHINE_BYTE_SIZE;
@@ -742,11 +890,11 @@ public class Utils {
 		if (!X.isArray) {
 			Utils.SOPln("MADHUR MOVE &" + X.addressIfVariable);
 			X.instruction = Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction);
-			X.instruction.setAInsFor("&" + X.addressIfVariable);
+			X.instruction.addMoveFor("&" + X.addressIfVariable);
 
 		} else {
 
-			Result a = getOffsetForArray(X, ScannerUtils.getCurrentScanner().getCurrentFunction());
+			Result a = getOffsetForArray(X/*, ScannerUtils.getCurrentScanner().getCurrentFunction()*/);
 			Result b = new Result();
 			b.kind = RESULT_KIND.CONST;
 			b.valueIfConstant = Utils.MACHINE_BYTE_SIZE;
@@ -763,15 +911,15 @@ public class Utils {
 		return WHILE_DEPTH > 0;
 	}
 
-	public static Result getOffsetForArray(Result X, String funcName) throws Exception {
+	public static Result getOffsetForArray(Result X/*, String funcName*/) throws Exception {
+		String funcName = X.addressIfVariable.split("_")[1];
 		HashMap<Integer, ArrayList<Integer>> arrayInfoTable = metaArrayTable.get(funcName);
-		if (arrayInfoTable == null || !arrayInfoTable.containsKey(X.addressIfVariable))
-			arrayInfoTable = metaArrayTable.get(Utils.MAIN_FUNC);
+		int id = Integer.parseInt(X.addressIfVariable.split("_")[0]);
 
-		if (!arrayInfoTable.containsKey(X.addressIfVariable))
-			Utils.error("ARRAY " + X.addressIfVariable + " does not exist");
+		if (!arrayInfoTable.containsKey(id))
+			Utils.error("ARRAY " + Instruction.toStringConstant("&"+X.addressIfVariable) + " does not exist in "+funcName);
 
-		ArrayList<Integer> indices = arrayInfoTable.get(X.addressIfVariable);
+		ArrayList<Integer> indices = arrayInfoTable.get(id);
 		if (X.expresssions.size() != indices.size())
 			Utils.error("Array index mismatch");
 
@@ -1025,34 +1173,44 @@ public class Utils {
 
 		if (current.secondParentExists()) {
 			HashSet<Integer> tobeGivenAhead = new HashSet<Integer>(current.getLiveRange());
+			HashSet<Integer> weShallAddThis = new HashSet<Integer>();
 			for (int abc = current.getInstructionList().size() - 1; abc >= 0; abc--) {
 				Instruction ins = current.getInstructionList().get(abc);
 				if (ins.getCode() != CODE.phi)
 					continue;
 
-				/*if (currentType != "LOOP_HEADER") {*/
-					if (!current.isDeadInstruction(ins)) {
-						tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
-						addEdge(ins.getInstructionNumber(), tobeGivenAhead);
-						addClusterEdge(ins.getInstructionNumber(), ins.getLeftInstruction().getInstructionNumber());
-						addClusterEdge(ins.getInstructionNumber(), ins.getRightInstruction().getInstructionNumber());
-
-						leftOverTrace.remove((Integer) ins.getInstructionNumber());
-					} else {
-						Utils.SOPln("Removing Instruction " + ins.getInstructionNumber() + " from BB "
-								+ current.getIndex());
-						current.getInstructionList().remove(ins);
+				if (!current.isDeadInstruction(ins)) {
+					tobeGivenAhead.remove((Integer) ins.getInstructionNumber());
+					addEdge(ins.getInstructionNumber(), tobeGivenAhead);
+					if (ins.getLeftInstruction() == null) {
+						Utils.SOPln("Doing New Stuff");
+						Result X = new Result();
+						X.addressIfVariable = ins.getPhiFor();
+						X.kind = RESULT_KIND.VAR;
+						specialLoad(X);
+						X.instruction.setBasicBlock(current.getFirstParent());
+						current.getFirstParent().getInstructionList().add(X.instruction);
+						ins.setLeftInstruction(X.instruction);
 					}
-				//}
-				tobeGivenAhead.add(ins.getRightInstruction().getInstructionNumber());
-			}
+					addClusterEdge(ins.getInstructionNumber(), ins.getLeftInstruction().getInstructionNumber());
+					addClusterEdge(ins.getInstructionNumber(), ins.getRightInstruction().getInstructionNumber());
+					weShallAddThis.add(ins.getRightInstruction().getInstructionNumber());
+					leftOverTrace.remove((Integer) ins.getInstructionNumber());
+				} else {
+					Utils.SOPln(
+							"Removing Instruction " + ins.getInstructionNumber() + " from BB " + current.getIndex());
+					current.getInstructionList().remove(ins);
+				}
 
+			}
+			tobeGivenAhead.addAll(weShallAddThis);
 			current.getSecondParent().addLeftOver(current.getLeftOver());
 			traversefunc(current.getSecondParent(), tobeGivenAhead);
 		}
 
 		if (current.firstParentExists()) {
 			HashSet<Integer> tobeGivenAhead = new HashSet<Integer>(current.getLiveRange());
+			HashSet<Integer> weShallAddThis = new HashSet<Integer>();
 			for (int abc = current.getInstructionList().size() - 1; abc >= 0; abc--) {
 				Instruction ins = current.getInstructionList().get(abc);
 
@@ -1068,8 +1226,7 @@ public class Utils {
 					leftOverTrace.remove((Integer) ins.getInstructionNumber());
 					if (ins.getLeftInstruction() == null)
 						SOPln("CHECK " + ins.getInstructionNumber());
-
-					tobeGivenAhead.add(ins.getLeftInstruction().getInstructionNumber());
+					weShallAddThis.add(ins.getLeftInstruction().getInstructionNumber());
 				} else {
 					Utils.SOPln(
 							"Removing Instruction " + ins.getInstructionNumber() + " from BB " + current.getIndex());
@@ -1077,6 +1234,7 @@ public class Utils {
 				}
 			}
 
+			tobeGivenAhead.addAll(weShallAddThis);
 			current.getFirstParent().addLeftOver(current.getLeftOver());
 			traversefunc(current.getFirstParent(), tobeGivenAhead);
 		}

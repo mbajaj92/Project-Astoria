@@ -1,19 +1,19 @@
 digraph {
 0[label="
-TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
 40: BRA (6) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
-TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
-6: ADDI (null) (null) #0 #2 aFor = &b
+TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
+6: ADDI (null) (null) #0 #2 move for = &b
 "];
 1[shape=box];
 1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
 2[label="
-TAG: LOOP_HEADER_1(2)  func = MAIN_FUNC WD = 1
+TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 36: phi (6) (33) null null  PHI FOR &b
 12: CMP (36) (8) null null aFor = &b bFor = &c
 13: BGE (12) (null) null null
@@ -24,14 +24,14 @@ TAG: LOOP_HEADER_1(2)  func = MAIN_FUNC WD = 1
 2 -> 1[color=red][style=dotted]
 2 -> 9[color=green][style=dotted]
 3[label="
-TAG: DO_BLOCK(3)  func = MAIN_FUNC WD = 1
-15: ADDI (36) (null) null #1 aFor = &a
+TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
+41: BRA (33) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
-TAG: LOOP_HEADER_2(4)  func = MAIN_FUNC WD = 2
+TAG: LOOP_HEADER_2(4)  func = MAIN$FUNC WD = 2
 33: phi (36) (31) null null  PHI FOR &b
 18: ADDI (33) (null) null #1 aFor = &b
 20: CMP (18) (8) null null aFor = &b bFor = &c
@@ -43,14 +43,14 @@ TAG: LOOP_HEADER_2(4)  func = MAIN_FUNC WD = 2
 4 -> 3[color=red][style=dotted]
 4 -> 8[color=green][style=dotted]
 5[label="
-TAG: DO_BLOCK(5)  func = MAIN_FUNC WD = 2
-41: BRA (31) (null) null null
+TAG: DO_BLOCK(5)  func = MAIN$FUNC WD = 2
+42: BRA (31) (null) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]
 5 -> 4[color=red][style=dotted]
 6[label="
-TAG: LOOP_HEADER_3(6)  func = MAIN_FUNC WD = 3
+TAG: LOOP_HEADER_3(6)  func = MAIN$FUNC WD = 3
 31: phi (33) (28) null null  PHI FOR &b
 23: ADDI (31) (null) null #2 aFor = &b
 25: CMP (23) (8) null null aFor = &b bFor = &c
@@ -62,29 +62,29 @@ TAG: LOOP_HEADER_3(6)  func = MAIN_FUNC WD = 3
 6 -> 5[color=red][style=dotted]
 6 -> 7[color=green][style=dotted]
 7[label="
-TAG: DO_BLOCK(7)  func = MAIN_FUNC WD = 3
-28: ADDI (31) (null) null #1 aFor = &b
+TAG: DO_BLOCK(7)  func = MAIN$FUNC WD = 3
+28: ADDI (31) (null) null #1 aFor = &b move for = &b
 30: BRA (31) (null) null null
 "];
 7[shape=box];
 7 -> 6[color=blue]
 7 -> 6[color=red][style=dotted]
 8[label="
-TAG: LOOP_FOLLOW_3(8)  func = MAIN_FUNC WD = 3
+TAG: LOOP_FOLLOW_3(8)  func = MAIN$FUNC WD = 3
 32: BRA (33) (null) null null
 "];
 8[shape=box];
 8 -> 4[color=blue]
 8 -> 6[color=red][style=dotted]
 9[label="
-TAG: LOOP_FOLLOW_2(9)  func = MAIN_FUNC WD = 2
+TAG: LOOP_FOLLOW_2(9)  func = MAIN$FUNC WD = 2
 34: BRA (36) (null) null null
 "];
 9[shape=box];
 9 -> 2[color=blue]
 9 -> 4[color=red][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_1(10)  func = MAIN_FUNC
+TAG: LOOP_FOLLOW_1(10)  func = MAIN$FUNC
 "];
 10[shape=box];
 10 -> 2[color=red][style=dotted]

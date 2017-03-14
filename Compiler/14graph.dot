@@ -1,21 +1,21 @@
 digraph {
 0[label="
-TAG: INIT_BLOCK(0)  func = MAIN_FUNC WD = 0
+TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
 20: BRA (3) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
-TAG: INIT_CONT(1)  func = MAIN_FUNC WD = 0
-3: ADDI (null) (null) #0 #1 aFor = &a
+TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
+3: ADDI (null) (null) #0 #1 move for = &a
 "];
 1[shape=box];
 1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
 2[label="
-TAG: LOOP_HEADER_1(2)  func = MAIN_FUNC WD = 1
-16: phi (3) (13) null null aFor = &b  PHI FOR &a
-7: CMP (16) (17) null null aFor = &a bFor = &b
+TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
+17: phi (3) (13) null null  PHI FOR &a move for = &b
+7: CMP (17) (16) null null aFor = &a bFor = &b
 8: BNE (7) (null) null null
 "];
 2[shape=box];
@@ -24,16 +24,15 @@ TAG: LOOP_HEADER_1(2)  func = MAIN_FUNC WD = 1
 2 -> 1[color=red][style=dotted]
 2 -> 3[color=green][style=dotted]
 3[label="
-TAG: DO_BLOCK(3)  func = MAIN_FUNC WD = 1
-10: ADDI (16) (null) null #1 aFor = &b
-13: MULI (16) (null) null #2 aFor = &a
-15: BRA (16) (null) null null
+TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
+13: MULI (17) (null) null #2 aFor = &a move for = &a
+15: BRA (17) (null) null null
 "];
 3[shape=box];
 3 -> 2[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
-TAG: LOOP_FOLLOW_1(4)  func = MAIN_FUNC
+TAG: LOOP_FOLLOW_1(4)  func = MAIN$FUNC
 "];
 4[shape=box];
 4 -> 2[color=red][style=dotted]

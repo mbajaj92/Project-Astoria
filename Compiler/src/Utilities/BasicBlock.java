@@ -502,7 +502,7 @@ public class BasicBlock {
 		if (Utils.isNotDeadCode.contains(code))
 			return false;
 
-		if(i.globalOrParameter())
+		if(i.global())
 			return false;
 		
 		if (!liveRange.contains((Integer) i.getInstructionNumber()))
@@ -554,7 +554,8 @@ public class BasicBlock {
 				liveRange.remove((Integer) currentIndex);
 			// }
 
-			if (current.getCode() != CODE.write && current.getCode() != CODE.writeNL && current.getCode() != CODE.RET)
+			if (current.getCode() != CODE.write && current.getCode() != CODE.writeNL && current.getCode() != CODE.RET && current.getCode() != CODE.store
+					&& !Utils.compareInstructions.contains(current.getCode()))
 				Utils.addEdge(currentIndex, liveRange);
 
 			if (current.getLeftInstruction() != null)

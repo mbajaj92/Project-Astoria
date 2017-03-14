@@ -1,9 +1,9 @@
 strict graph {
-22[label="22" style=filled fillcolor="chocolate"];
-22 -- 27
-27[label="27" style=filled fillcolor="chocolate"];
-27 -- 22
-27 -- 15
-15[label="15" style=filled fillcolor="chocolate"];
-15 -- 27
+22[label="22" style=filled fillcolor="blue1"];
+22 -- 26
+26[label="26" style=filled fillcolor="blue1"];
+26 -- 22
+26 -- 15
+15[label="15" style=filled fillcolor="blue1"];
+15 -- 26
 }

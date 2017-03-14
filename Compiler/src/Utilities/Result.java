@@ -12,7 +12,7 @@ public class Result {
 	public boolean isFunc;
 	public ArrayList<Result> expresssions;
 	public int valueIfConstant;
-	public int addressIfVariable;
+	public String addressIfVariable;
 	public Instruction instruction;
 	public CODE cond;
 
@@ -22,7 +22,7 @@ public class Result {
 		isFunc = false;
 		expresssions = null;
 		valueIfConstant = -1;
-		addressIfVariable = Integer.MAX_VALUE;
+		addressIfVariable = null;
 		instruction = null;
 		cond = CODE.NONE;
 	}

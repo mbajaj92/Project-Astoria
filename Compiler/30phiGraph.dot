@@ -1,12 +1,12 @@
 strict graph {
-34[label="34" style=filled fillcolor="darkorchid1"];
+34[label="34" style=filled fillcolor="blue1"];
 34 -- 6
 34 -- 31
-6[label="6" style=filled fillcolor="darkorchid1"];
+6[label="6" style=filled fillcolor="blue1"];
 6 -- 34
-28[label="28" style=filled fillcolor="darkorchid1"];
+28[label="28" style=filled fillcolor="blue1"];
 28 -- 31
-31[label="31" style=filled fillcolor="darkorchid1"];
+31[label="31" style=filled fillcolor="blue1"];
 31 -- 34
 31 -- 28
 }

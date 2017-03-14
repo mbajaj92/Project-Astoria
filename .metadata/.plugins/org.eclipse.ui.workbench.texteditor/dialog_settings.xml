@@ -6,20 +6,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="BECAUSE it is " key="selection"/>
+		<item value="hasFun" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="hasFun"/>
+			<item value="doin"/>
+			<item value="doinf"/>
+			<item value="doing "/>
+			<item value="funcParameters ="/>
 			<item value="BECAUSE it is "/>
 			<item value="aFor"/>
 			<item value="follow`"/>
-			<item value="follow"/>
-			<item value="color_mapping.put"/>
-			<item value="Error"/>
-			<item value="looking for "/>
-			<item value="PEE LU"/>
 		</list>
 		<list key="replacehistory">
 			<item value="getFunctionForIdentifier"/>

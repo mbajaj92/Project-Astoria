@@ -17,7 +17,7 @@ public class MyScanner {
 	private Scanner sc;
 	public int currentToken; // The current token on the input, STILL NOT PROCESSED
 	public int val; // Value of the last no encountered
-	public int id; // ID of the last Identifier encountered, check ID_TABLE
+	public String id; // ID of the last Identifier encountered, check ID_TABLE
 	public String token = "";
 	private char residualChar = '\0';
 	private int linecount;
@@ -266,7 +266,7 @@ public class MyScanner {
 						handleKeyword(token);
 					} else {
 						currentToken = ScannerUtils.ident;
-						id = Utils.identifier2Address(token, valuesForArrays, mCurrentVarType);
+						id = Utils.identifier2AddressNew(token, valuesForArrays, mCurrentVarType);
 					}
 					break;
 				} else {

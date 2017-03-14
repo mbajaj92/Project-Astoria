@@ -1,6 +1,0 @@
-strict graph {
-53[label="53" style=filled fillcolor="blue1"];
-53 -- 55
-55[label="55" style=filled fillcolor="blue1"];
-55 -- 53
-}
