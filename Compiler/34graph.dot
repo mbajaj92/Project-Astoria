@@ -1,13 +1,14 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-46: BRA (36) (null) null null
+47: BRA (36) (null) null null
 "];
 0[shape=box];
 0 -> 9[color=blue]
 1[label="
 TAG: PROC_START(1)  func = factIter WD = 0
 5: ADDI (null) (null) #0 #1 move for = &i &f
+46: move (5) (22) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -40,7 +41,7 @@ TAG: LOOP_FOLLOW_1(4)  func = factIter WD = 1
 4 -> 2[color=red][style=dotted]
 5[label="
 TAG: PROC_START(5)  func = factRec WD = 0
-47: BRA (25) (null) null null
+48: BRA (25) (null) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]

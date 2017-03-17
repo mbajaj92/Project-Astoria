@@ -211,8 +211,9 @@ public class Instruction {
 		return funcParameters != null;
 	}
 
-	public void setColor(String c) {
+	public Instruction setColor(String c) {
 		Color = c;
+		return this;
 	}
 	
 	public Instruction setFunctionParameters(ArrayList<Result> R) {
@@ -287,6 +288,10 @@ public class Instruction {
 		return moveFor;
 	}
 	
+	public BasicBlock getMyBasicBlock() {
+		return myBasicBlock;
+	}
+
 	public boolean hasMoveFor() {
 		return (moveFor != null);
 	}

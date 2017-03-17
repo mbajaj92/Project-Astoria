@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import Utilities.MyScanner.VARIABLE_TYPE;
+import Utilities.Utils.BasicBlockType;
 
 public class Utils {
 	public static HashMap<Integer, BasicBlock> leftOverTrace = null;
@@ -373,7 +374,11 @@ public class Utils {
 	public static void SOP(Object toPrint) {
 		System.out.print(toPrint.toString());
 	}
-
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	public static enum BasicBlockType{
+		REGULAR, IF_HEADER, THEN_BLOCK, ELSE_BLOCK, LOOP_FOLLOW, LOOP_HEADER, DO_BLOCK, FOLLOW_BLOCK;
+	};
+	////////////////////////////////////////////////////////////////////////////////////////////
 	public static enum RESULT_KIND {
 		NONE, CONST, VAR, INSTRUCTION, CONDITION
 	};
@@ -969,7 +974,6 @@ public class Utils {
 	 * 
 	 * @author - SOHAM
 	 */
-	////////////////////////////////////////////////////////////////////////////
 	public static String colors[] = { "blue1", "darkorchid1", "chocolate", "darkgoldenrod3", "mediumslateblue",
 			"firebrick3", "gray73", "greenyellow", "white" };
 
@@ -1009,6 +1013,31 @@ public class Utils {
 				}
 			}
 		}
+
+		for (Integer i : phiClusters.keySet()) {
+			Instruction phi = Instruction.getInstructionList().get(i);
+			if (phi.getCode() != CODE.phi)
+				continue;
+
+			if (!phi.getColor().equals(phi.getLeftInstruction().getColor()))
+				handlePhiMissColor(phi, phi.getLeftInstruction(), true);
+
+			if (!phi.getColor().equals(phi.getRightInstruction().getColor()))
+				handlePhiMissColor(phi, phi.getRightInstruction(), false);
+		}
+	}
+
+	private static void handlePhiMissColor(Instruction phi, Instruction operand, boolean isLeftOp) {
+		BasicBlock parent = null;
+
+		if (isLeftOp)
+			parent = phi.getMyBasicBlock().getFirstParent();
+		else
+			parent = phi.getMyBasicBlock().getSecondParent();
+		Instruction i = Instruction.getInstruction(CODE.move, operand, phi, false).setBasicBlock(parent)
+				.setColor(phi.getColor());
+		Utils.SOPln("Adding Extra Move !! " + i+"  in BB "+parent.getIndex());
+		parent.getInstructionList().add(i);
 	}
 
 	private static boolean isColored(int i) {
@@ -1118,7 +1147,6 @@ public class Utils {
 	public static HashMap<Integer, HashSet<Integer>> getPhiClusters() {
 		return phiClusters;
 	}
-	////////////////////////////////////////////////////////////////////////////
 	public static void traversefunc(BasicBlock current, HashSet<Integer> live) throws Exception {
 
 		if (current.isVisited()) {
@@ -1239,7 +1267,44 @@ public class Utils {
 			traversefunc(current.getFirstParent(), tobeGivenAhead);
 		}
 	}
+	////////////////////////////////////////////////////////////////////////////
+	public static void BasicBlockTraversal(BasicBlock current) {
+		if (current.isbVisited()) {
+			return;
+		}
 
+		boolean shouldIVisist = false;
+
+		switch (current.getBlockType()) {
+		case LOOP_HEADER:
+		case IF_HEADER:
+		case THEN_BLOCK:
+		case ELSE_BLOCK:
+		case DO_BLOCK:
+		case LOOP_FOLLOW:
+		case REGULAR:
+			shouldIVisist = true;
+			break;
+		case FOLLOW_BLOCK:
+			shouldIVisist = current.areBothParentVisited();
+			break;
+		}
+
+		if (!shouldIVisist) {
+			return;
+		}
+
+		// call convert2Machine
+		current.setbVisited();
+		Utils.SOPln(current);
+
+		if (current.firstChildExists())
+			BasicBlockTraversal(current.getFirstChild());
+		if (current.secondChildExists())
+			BasicBlockTraversal(current.getSecondChild());
+	}
+	
+	////////////////////////////////////////////////////////////////////////////
 	public static void createTraceEdges(int index, ArrayList<Instruction> ins) {
 		HashSet<Integer> edgeList = null;
 		if (!interfearanceGraph.containsKey(index)) {

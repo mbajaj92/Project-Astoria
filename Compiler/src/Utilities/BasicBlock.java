@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import Utilities.Utils.BasicBlockType;
 import Utilities.Utils.CODE;
 
 public class BasicBlock {
@@ -16,8 +17,11 @@ public class BasicBlock {
 	private boolean ignore = false;
 	private static ArrayList<BasicBlock> mBasicBlockList;
 	private int index = -1;
-	private boolean visited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false,
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private boolean visited = false, bvisited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false,
 			twoParentON = false;
+	private BasicBlockType type;
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private BasicBlock oneChild, twoChild, oneParent, twoParent;
 	private ArrayList<Instruction> mInstructionSet = null;
 	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BRA);
@@ -32,6 +36,10 @@ public class BasicBlock {
 
 	BasicBlock(String tag, String name) {
 		TAG = tag;
+		Utils.SOPln("Tag is "+tag);
+		////////////
+		setType(TAG);
+		///////////
 		/*Utils.SOPln("setting function name to "+name);*/
 		mFunctionName = name;
 		nullCheck();
@@ -596,6 +604,42 @@ public class BasicBlock {
 			return "IF_HEADER";
 		return "REGULAR";
 	}
+
+	////////////////////////////////////////////////////////////////////
+	public void setType(String tag) {
+		type = BasicBlockType.REGULAR;
+		if (TAG.contains("LOOP_HEADER"))
+			type = BasicBlockType.LOOP_HEADER;
+		else if (TAG.contains("IF_HEADER"))
+			type = BasicBlockType.IF_HEADER;
+		else if (TAG.contains("THEN_BLOCK"))
+			type = BasicBlockType.THEN_BLOCK;
+		else if (TAG.contains("ELSE_BLOCK"))
+			type = BasicBlockType.ELSE_BLOCK;
+		else if (TAG.contains("FOLLOW_BLOCK"))
+			type = BasicBlockType.FOLLOW_BLOCK;
+		else if (TAG.contains("DO_BLOCK"))
+			type = BasicBlockType.DO_BLOCK;
+		else if (TAG.contains("LOOP_FOLLOW"))
+			type = BasicBlockType.LOOP_FOLLOW;
+	}
+
+	public boolean areBothParentVisited() {
+		return getFirstParent().isbVisited() && getSecondParent().isbVisited();
+	}
+
+	public void setbVisited() {
+		bvisited = true;
+	}
+
+	public boolean isbVisited() {
+		return bvisited;
+	}
+	
+	public BasicBlockType getBlockType() {
+		return type;
+	}
+	/////////////////////////////////////////////////////////////////////
 
 	public boolean areBothChildrenVisited() {
 		return isFirstChildVisited() && isSecondChildVisited();

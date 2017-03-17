@@ -1,7 +1,7 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-63: BRA (62) (null) null null
+65: BRA (62) (null) null null
 "];
 0[shape=box];
 0 -> 9[color=blue]
@@ -27,7 +27,8 @@ TAG: IF_HEADER(2)  func = foo WD = 0
 3[label="
 TAG: THEN_BLOCK(3)  func = foo WD = 0
 34: ADDI (17) (null) null #1 aFor = &g move for = &h
-36: BRA (50) (null) null null
+36: BRA (null) (null) null null
+63: move (11) (48) null null
 "];
 3[shape=box];
 3 -> 8[color=blue]
@@ -42,7 +43,8 @@ TAG: ELSE_BLOCK(4)  func = foo WD = 0
 5[label="
 TAG: IF_HEADER(5)  func = foo WD = 0
 43: CMP (39) (27) null null aFor = &f bFor = &a
-44: BLE (43) (47) null null
+44: BLE (43) (null) null null
+64: move (11) (47) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]

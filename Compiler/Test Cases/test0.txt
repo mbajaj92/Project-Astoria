@@ -4,12 +4,15 @@ var a,b,c,d;
 {
 	let d<-99;
 	let a<-d;
+	let b<-d;
 	while a<b do
 		let c<-a-09;
 		let a<-a+1;
 		let d<-98;
+		let b<-75-c;
 	od;
 	#let d<-99;
 	call OutputNum(a);
 	call OutputNum(d);
+	call OutputNum(b);
 }.

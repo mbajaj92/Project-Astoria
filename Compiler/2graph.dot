@@ -8,6 +8,7 @@ TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
 10: ADDI (null) (null) #0 #0 move for = &i &d
+90: move (10) (32) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -30,7 +31,8 @@ TAG: DO_BLOCK(3)  func = foo WD = 1
 22: ADDI (21) (null) null #2 aFor = &x move for = &z
 26: ADD (19) (22) null null aFor = &y bFor = &z move for = &d
 29: ADDI (33) (null) null #1 aFor = &i move for = &i
-31: BRA (33) (null) null null
+31: BRA (null) (null) null null
+91: move (26) (32) null null
 "];
 3[shape=box];
 3 -> 2[color=blue]
@@ -44,6 +46,7 @@ TAG: LOOP_FOLLOW_1(4)  func = foo WD = 1
 5[label="
 TAG: PROC_START(5)  func = bar WD = 0
 38: ADDI (null) (null) #0 #0 move for = &i &j &e
+92: move (38) (76) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]
@@ -60,7 +63,7 @@ TAG: LOOP_HEADER_1(6)  func = bar WD = 1
 6 -> 10[color=green][style=dotted]
 7[label="
 TAG: DO_BLOCK(7)  func = bar WD = 1
-90: BRA (65) (null) null null
+93: BRA (65) (null) null null
 "];
 7[shape=box];
 7 -> 8[color=blue]

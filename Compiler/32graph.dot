@@ -1,13 +1,14 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-2328: BRA (2327) (null) null null
+2501: BRA (2327) (null) null null
 "];
 0[shape=box];
 0 -> 500[color=blue]
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
 3: ADDI (null) (null) #0 #1 move for = &i
+2336: move (3) (16) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -15,7 +16,7 @@ TAG: PROC_START(1)  func = foo WD = 0
 TAG: LOOP_HEADER_1(2)  func = foo WD = 1
 16: phi (3) (12) null null  PHI FOR &i
 6: CMPI (16) (null) null #4 aFor = &i
-7: BGE (6) (2329) null null
+7: BGE (6) (2343) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -34,7 +35,7 @@ TAG: DO_BLOCK(3)  func = foo WD = 1
 3 -> 2[color=red][style=dotted]
 4[label="
 TAG: LOOP_FOLLOW_1(4)  func = foo WD = 1
-2329: BRA (30) (null) null null
+2343: move (3) (30) null null
 "];
 4[shape=box];
 4 -> 5[color=blue]
@@ -43,7 +44,7 @@ TAG: LOOP_FOLLOW_1(4)  func = foo WD = 1
 TAG: LOOP_HEADER_1(5)  func = foo WD = 1
 30: phi (3) (26) null null  PHI FOR &i
 20: CMPI (30) (null) null #4 aFor = &i
-21: BGE (20) (2330) null null
+21: BGE (20) (2350) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]
@@ -62,7 +63,7 @@ TAG: DO_BLOCK(6)  func = foo WD = 1
 6 -> 5[color=red][style=dotted]
 7[label="
 TAG: LOOP_FOLLOW_1(7)  func = foo WD = 1
-2330: BRA (44) (null) null null
+2350: move (3) (44) null null
 "];
 7[shape=box];
 7 -> 8[color=blue]
@@ -71,7 +72,7 @@ TAG: LOOP_FOLLOW_1(7)  func = foo WD = 1
 TAG: LOOP_HEADER_1(8)  func = foo WD = 1
 44: phi (3) (40) null null  PHI FOR &i
 34: CMPI (44) (null) null #4 aFor = &i
-35: BGE (34) (2331) null null
+35: BGE (34) (2355) null null
 "];
 8[shape=box];
 8 -> 9[color=blue]
@@ -90,7 +91,7 @@ TAG: DO_BLOCK(9)  func = foo WD = 1
 9 -> 8[color=red][style=dotted]
 10[label="
 TAG: LOOP_FOLLOW_1(10)  func = foo WD = 1
-2331: BRA (58) (null) null null
+2355: move (3) (58) null null
 "];
 10[shape=box];
 10 -> 11[color=blue]
@@ -99,7 +100,7 @@ TAG: LOOP_FOLLOW_1(10)  func = foo WD = 1
 TAG: LOOP_HEADER_1(11)  func = foo WD = 1
 58: phi (3) (54) null null  PHI FOR &i
 48: CMPI (58) (null) null #4 aFor = &i
-49: BGE (48) (2332) null null
+49: BGE (48) (2360) null null
 "];
 11[shape=box];
 11 -> 12[color=blue]
@@ -118,7 +119,7 @@ TAG: DO_BLOCK(12)  func = foo WD = 1
 12 -> 11[color=red][style=dotted]
 13[label="
 TAG: LOOP_FOLLOW_1(13)  func = foo WD = 1
-2332: BRA (72) (null) null null
+2360: move (3) (72) null null
 "];
 13[shape=box];
 13 -> 14[color=blue]
@@ -127,7 +128,7 @@ TAG: LOOP_FOLLOW_1(13)  func = foo WD = 1
 TAG: LOOP_HEADER_1(14)  func = foo WD = 1
 72: phi (3) (68) null null  PHI FOR &i
 62: CMPI (72) (null) null #4 aFor = &i
-63: BGE (62) (2333) null null
+63: BGE (62) (2365) null null
 "];
 14[shape=box];
 14 -> 15[color=blue]
@@ -146,7 +147,7 @@ TAG: DO_BLOCK(15)  func = foo WD = 1
 15 -> 14[color=red][style=dotted]
 16[label="
 TAG: LOOP_FOLLOW_1(16)  func = foo WD = 1
-2333: BRA (86) (null) null null
+2365: move (3) (86) null null
 "];
 16[shape=box];
 16 -> 17[color=blue]
@@ -155,7 +156,7 @@ TAG: LOOP_FOLLOW_1(16)  func = foo WD = 1
 TAG: LOOP_HEADER_1(17)  func = foo WD = 1
 86: phi (3) (82) null null  PHI FOR &i
 76: CMPI (86) (null) null #4 aFor = &i
-77: BGE (76) (2334) null null
+77: BGE (76) (2370) null null
 "];
 17[shape=box];
 17 -> 18[color=blue]
@@ -174,7 +175,7 @@ TAG: DO_BLOCK(18)  func = foo WD = 1
 18 -> 17[color=red][style=dotted]
 19[label="
 TAG: LOOP_FOLLOW_1(19)  func = foo WD = 1
-2334: BRA (100) (null) null null
+2370: move (3) (100) null null
 "];
 19[shape=box];
 19 -> 20[color=blue]
@@ -183,7 +184,7 @@ TAG: LOOP_FOLLOW_1(19)  func = foo WD = 1
 TAG: LOOP_HEADER_1(20)  func = foo WD = 1
 100: phi (3) (96) null null  PHI FOR &i
 90: CMPI (100) (null) null #4 aFor = &i
-91: BGE (90) (2335) null null
+91: BGE (90) (2375) null null
 "];
 20[shape=box];
 20 -> 21[color=blue]
@@ -202,7 +203,7 @@ TAG: DO_BLOCK(21)  func = foo WD = 1
 21 -> 20[color=red][style=dotted]
 22[label="
 TAG: LOOP_FOLLOW_1(22)  func = foo WD = 1
-2335: BRA (114) (null) null null
+2375: move (3) (114) null null
 "];
 22[shape=box];
 22 -> 23[color=blue]
@@ -211,7 +212,7 @@ TAG: LOOP_FOLLOW_1(22)  func = foo WD = 1
 TAG: LOOP_HEADER_1(23)  func = foo WD = 1
 114: phi (3) (110) null null  PHI FOR &i
 104: CMPI (114) (null) null #4 aFor = &i
-105: BGE (104) (2336) null null
+105: BGE (104) (2380) null null
 "];
 23[shape=box];
 23 -> 24[color=blue]
@@ -230,7 +231,7 @@ TAG: DO_BLOCK(24)  func = foo WD = 1
 24 -> 23[color=red][style=dotted]
 25[label="
 TAG: LOOP_FOLLOW_1(25)  func = foo WD = 1
-2336: BRA (128) (null) null null
+2380: move (3) (128) null null
 "];
 25[shape=box];
 25 -> 26[color=blue]
@@ -239,7 +240,7 @@ TAG: LOOP_FOLLOW_1(25)  func = foo WD = 1
 TAG: LOOP_HEADER_1(26)  func = foo WD = 1
 128: phi (3) (124) null null  PHI FOR &i
 118: CMPI (128) (null) null #4 aFor = &i
-119: BGE (118) (2337) null null
+119: BGE (118) (2385) null null
 "];
 26[shape=box];
 26 -> 27[color=blue]
@@ -258,7 +259,7 @@ TAG: DO_BLOCK(27)  func = foo WD = 1
 27 -> 26[color=red][style=dotted]
 28[label="
 TAG: LOOP_FOLLOW_1(28)  func = foo WD = 1
-2337: BRA (142) (null) null null
+2385: move (3) (142) null null
 "];
 28[shape=box];
 28 -> 29[color=blue]
@@ -267,7 +268,7 @@ TAG: LOOP_FOLLOW_1(28)  func = foo WD = 1
 TAG: LOOP_HEADER_1(29)  func = foo WD = 1
 142: phi (3) (138) null null  PHI FOR &i
 132: CMPI (142) (null) null #4 aFor = &i
-133: BGE (132) (2338) null null
+133: BGE (132) (2390) null null
 "];
 29[shape=box];
 29 -> 30[color=blue]
@@ -286,7 +287,7 @@ TAG: DO_BLOCK(30)  func = foo WD = 1
 30 -> 29[color=red][style=dotted]
 31[label="
 TAG: LOOP_FOLLOW_1(31)  func = foo WD = 1
-2338: BRA (156) (null) null null
+2390: move (3) (156) null null
 "];
 31[shape=box];
 31 -> 32[color=blue]
@@ -295,7 +296,7 @@ TAG: LOOP_FOLLOW_1(31)  func = foo WD = 1
 TAG: LOOP_HEADER_1(32)  func = foo WD = 1
 156: phi (3) (152) null null  PHI FOR &i
 146: CMPI (156) (null) null #4 aFor = &i
-147: BGE (146) (2339) null null
+147: BGE (146) (2395) null null
 "];
 32[shape=box];
 32 -> 33[color=blue]
@@ -314,7 +315,7 @@ TAG: DO_BLOCK(33)  func = foo WD = 1
 33 -> 32[color=red][style=dotted]
 34[label="
 TAG: LOOP_FOLLOW_1(34)  func = foo WD = 1
-2339: BRA (170) (null) null null
+2395: move (3) (170) null null
 "];
 34[shape=box];
 34 -> 35[color=blue]
@@ -323,7 +324,7 @@ TAG: LOOP_FOLLOW_1(34)  func = foo WD = 1
 TAG: LOOP_HEADER_1(35)  func = foo WD = 1
 170: phi (3) (166) null null  PHI FOR &i
 160: CMPI (170) (null) null #4 aFor = &i
-161: BGE (160) (2340) null null
+161: BGE (160) (2400) null null
 "];
 35[shape=box];
 35 -> 36[color=blue]
@@ -342,7 +343,7 @@ TAG: DO_BLOCK(36)  func = foo WD = 1
 36 -> 35[color=red][style=dotted]
 37[label="
 TAG: LOOP_FOLLOW_1(37)  func = foo WD = 1
-2340: BRA (184) (null) null null
+2400: move (3) (184) null null
 "];
 37[shape=box];
 37 -> 38[color=blue]
@@ -351,7 +352,7 @@ TAG: LOOP_FOLLOW_1(37)  func = foo WD = 1
 TAG: LOOP_HEADER_1(38)  func = foo WD = 1
 184: phi (3) (180) null null  PHI FOR &i
 174: CMPI (184) (null) null #4 aFor = &i
-175: BGE (174) (2341) null null
+175: BGE (174) (2405) null null
 "];
 38[shape=box];
 38 -> 39[color=blue]
@@ -370,7 +371,7 @@ TAG: DO_BLOCK(39)  func = foo WD = 1
 39 -> 38[color=red][style=dotted]
 40[label="
 TAG: LOOP_FOLLOW_1(40)  func = foo WD = 1
-2341: BRA (198) (null) null null
+2405: move (3) (198) null null
 "];
 40[shape=box];
 40 -> 41[color=blue]
@@ -379,7 +380,7 @@ TAG: LOOP_FOLLOW_1(40)  func = foo WD = 1
 TAG: LOOP_HEADER_1(41)  func = foo WD = 1
 198: phi (3) (194) null null  PHI FOR &i
 188: CMPI (198) (null) null #4 aFor = &i
-189: BGE (188) (2342) null null
+189: BGE (188) (2410) null null
 "];
 41[shape=box];
 41 -> 42[color=blue]
@@ -398,7 +399,7 @@ TAG: DO_BLOCK(42)  func = foo WD = 1
 42 -> 41[color=red][style=dotted]
 43[label="
 TAG: LOOP_FOLLOW_1(43)  func = foo WD = 1
-2342: BRA (212) (null) null null
+2410: move (3) (212) null null
 "];
 43[shape=box];
 43 -> 44[color=blue]
@@ -407,7 +408,7 @@ TAG: LOOP_FOLLOW_1(43)  func = foo WD = 1
 TAG: LOOP_HEADER_1(44)  func = foo WD = 1
 212: phi (3) (208) null null  PHI FOR &i
 202: CMPI (212) (null) null #4 aFor = &i
-203: BGE (202) (2343) null null
+203: BGE (202) (2415) null null
 "];
 44[shape=box];
 44 -> 45[color=blue]
@@ -426,7 +427,7 @@ TAG: DO_BLOCK(45)  func = foo WD = 1
 45 -> 44[color=red][style=dotted]
 46[label="
 TAG: LOOP_FOLLOW_1(46)  func = foo WD = 1
-2343: BRA (226) (null) null null
+2415: move (3) (226) null null
 "];
 46[shape=box];
 46 -> 47[color=blue]
@@ -435,7 +436,7 @@ TAG: LOOP_FOLLOW_1(46)  func = foo WD = 1
 TAG: LOOP_HEADER_1(47)  func = foo WD = 1
 226: phi (3) (222) null null  PHI FOR &i
 216: CMPI (226) (null) null #4 aFor = &i
-217: BGE (216) (2344) null null
+217: BGE (216) (2420) null null
 "];
 47[shape=box];
 47 -> 48[color=blue]
@@ -454,7 +455,7 @@ TAG: DO_BLOCK(48)  func = foo WD = 1
 48 -> 47[color=red][style=dotted]
 49[label="
 TAG: LOOP_FOLLOW_1(49)  func = foo WD = 1
-2344: BRA (240) (null) null null
+2420: move (3) (240) null null
 "];
 49[shape=box];
 49 -> 50[color=blue]
@@ -463,7 +464,7 @@ TAG: LOOP_FOLLOW_1(49)  func = foo WD = 1
 TAG: LOOP_HEADER_1(50)  func = foo WD = 1
 240: phi (3) (236) null null  PHI FOR &i
 230: CMPI (240) (null) null #4 aFor = &i
-231: BGE (230) (2345) null null
+231: BGE (230) (2425) null null
 "];
 50[shape=box];
 50 -> 51[color=blue]
@@ -482,7 +483,7 @@ TAG: DO_BLOCK(51)  func = foo WD = 1
 51 -> 50[color=red][style=dotted]
 52[label="
 TAG: LOOP_FOLLOW_1(52)  func = foo WD = 1
-2345: BRA (254) (null) null null
+2425: move (3) (254) null null
 "];
 52[shape=box];
 52 -> 53[color=blue]
@@ -491,7 +492,7 @@ TAG: LOOP_FOLLOW_1(52)  func = foo WD = 1
 TAG: LOOP_HEADER_1(53)  func = foo WD = 1
 254: phi (3) (250) null null  PHI FOR &i
 244: CMPI (254) (null) null #4 aFor = &i
-245: BGE (244) (2346) null null
+245: BGE (244) (2430) null null
 "];
 53[shape=box];
 53 -> 54[color=blue]
@@ -510,7 +511,7 @@ TAG: DO_BLOCK(54)  func = foo WD = 1
 54 -> 53[color=red][style=dotted]
 55[label="
 TAG: LOOP_FOLLOW_1(55)  func = foo WD = 1
-2346: BRA (268) (null) null null
+2430: move (3) (268) null null
 "];
 55[shape=box];
 55 -> 56[color=blue]
@@ -519,7 +520,7 @@ TAG: LOOP_FOLLOW_1(55)  func = foo WD = 1
 TAG: LOOP_HEADER_1(56)  func = foo WD = 1
 268: phi (3) (264) null null  PHI FOR &i
 258: CMPI (268) (null) null #4 aFor = &i
-259: BGE (258) (2347) null null
+259: BGE (258) (2435) null null
 "];
 56[shape=box];
 56 -> 57[color=blue]
@@ -538,7 +539,7 @@ TAG: DO_BLOCK(57)  func = foo WD = 1
 57 -> 56[color=red][style=dotted]
 58[label="
 TAG: LOOP_FOLLOW_1(58)  func = foo WD = 1
-2347: BRA (282) (null) null null
+2435: move (3) (282) null null
 "];
 58[shape=box];
 58 -> 59[color=blue]
@@ -547,7 +548,7 @@ TAG: LOOP_FOLLOW_1(58)  func = foo WD = 1
 TAG: LOOP_HEADER_1(59)  func = foo WD = 1
 282: phi (3) (278) null null  PHI FOR &i
 272: CMPI (282) (null) null #4 aFor = &i
-273: BGE (272) (2348) null null
+273: BGE (272) (2439) null null
 "];
 59[shape=box];
 59 -> 60[color=blue]
@@ -566,7 +567,7 @@ TAG: DO_BLOCK(60)  func = foo WD = 1
 60 -> 59[color=red][style=dotted]
 61[label="
 TAG: LOOP_FOLLOW_1(61)  func = foo WD = 1
-2348: BRA (296) (null) null null
+2439: move (3) (296) null null
 "];
 61[shape=box];
 61 -> 62[color=blue]
@@ -575,7 +576,7 @@ TAG: LOOP_FOLLOW_1(61)  func = foo WD = 1
 TAG: LOOP_HEADER_1(62)  func = foo WD = 1
 296: phi (3) (292) null null  PHI FOR &i
 286: CMPI (296) (null) null #4 aFor = &i
-287: BGE (286) (2349) null null
+287: BGE (286) (2443) null null
 "];
 62[shape=box];
 62 -> 63[color=blue]
@@ -594,7 +595,7 @@ TAG: DO_BLOCK(63)  func = foo WD = 1
 63 -> 62[color=red][style=dotted]
 64[label="
 TAG: LOOP_FOLLOW_1(64)  func = foo WD = 1
-2349: BRA (310) (null) null null
+2443: move (3) (310) null null
 "];
 64[shape=box];
 64 -> 65[color=blue]
@@ -603,7 +604,7 @@ TAG: LOOP_FOLLOW_1(64)  func = foo WD = 1
 TAG: LOOP_HEADER_1(65)  func = foo WD = 1
 310: phi (3) (306) null null  PHI FOR &i
 300: CMPI (310) (null) null #4 aFor = &i
-301: BGE (300) (2350) null null
+301: BGE (300) (2447) null null
 "];
 65[shape=box];
 65 -> 66[color=blue]
@@ -622,7 +623,7 @@ TAG: DO_BLOCK(66)  func = foo WD = 1
 66 -> 65[color=red][style=dotted]
 67[label="
 TAG: LOOP_FOLLOW_1(67)  func = foo WD = 1
-2350: BRA (324) (null) null null
+2447: move (3) (324) null null
 "];
 67[shape=box];
 67 -> 68[color=blue]
@@ -631,7 +632,7 @@ TAG: LOOP_FOLLOW_1(67)  func = foo WD = 1
 TAG: LOOP_HEADER_1(68)  func = foo WD = 1
 324: phi (3) (320) null null  PHI FOR &i
 314: CMPI (324) (null) null #4 aFor = &i
-315: BGE (314) (2351) null null
+315: BGE (314) (2451) null null
 "];
 68[shape=box];
 68 -> 69[color=blue]
@@ -650,7 +651,7 @@ TAG: DO_BLOCK(69)  func = foo WD = 1
 69 -> 68[color=red][style=dotted]
 70[label="
 TAG: LOOP_FOLLOW_1(70)  func = foo WD = 1
-2351: BRA (338) (null) null null
+2451: move (3) (338) null null
 "];
 70[shape=box];
 70 -> 71[color=blue]
@@ -659,7 +660,7 @@ TAG: LOOP_FOLLOW_1(70)  func = foo WD = 1
 TAG: LOOP_HEADER_1(71)  func = foo WD = 1
 338: phi (3) (334) null null  PHI FOR &i
 328: CMPI (338) (null) null #4 aFor = &i
-329: BGE (328) (2352) null null
+329: BGE (328) (2455) null null
 "];
 71[shape=box];
 71 -> 72[color=blue]
@@ -678,7 +679,7 @@ TAG: DO_BLOCK(72)  func = foo WD = 1
 72 -> 71[color=red][style=dotted]
 73[label="
 TAG: LOOP_FOLLOW_1(73)  func = foo WD = 1
-2352: BRA (352) (null) null null
+2455: move (3) (352) null null
 "];
 73[shape=box];
 73 -> 74[color=blue]
@@ -687,7 +688,7 @@ TAG: LOOP_FOLLOW_1(73)  func = foo WD = 1
 TAG: LOOP_HEADER_1(74)  func = foo WD = 1
 352: phi (3) (348) null null  PHI FOR &i
 342: CMPI (352) (null) null #4 aFor = &i
-343: BGE (342) (2353) null null
+343: BGE (342) (2459) null null
 "];
 74[shape=box];
 74 -> 75[color=blue]
@@ -706,7 +707,7 @@ TAG: DO_BLOCK(75)  func = foo WD = 1
 75 -> 74[color=red][style=dotted]
 76[label="
 TAG: LOOP_FOLLOW_1(76)  func = foo WD = 1
-2353: BRA (366) (null) null null
+2459: move (3) (366) null null
 "];
 76[shape=box];
 76 -> 77[color=blue]
@@ -715,7 +716,7 @@ TAG: LOOP_FOLLOW_1(76)  func = foo WD = 1
 TAG: LOOP_HEADER_1(77)  func = foo WD = 1
 366: phi (3) (362) null null  PHI FOR &i
 356: CMPI (366) (null) null #4 aFor = &i
-357: BGE (356) (2354) null null
+357: BGE (356) (2463) null null
 "];
 77[shape=box];
 77 -> 78[color=blue]
@@ -734,7 +735,7 @@ TAG: DO_BLOCK(78)  func = foo WD = 1
 78 -> 77[color=red][style=dotted]
 79[label="
 TAG: LOOP_FOLLOW_1(79)  func = foo WD = 1
-2354: BRA (380) (null) null null
+2463: move (3) (380) null null
 "];
 79[shape=box];
 79 -> 80[color=blue]
@@ -743,7 +744,7 @@ TAG: LOOP_FOLLOW_1(79)  func = foo WD = 1
 TAG: LOOP_HEADER_1(80)  func = foo WD = 1
 380: phi (3) (376) null null  PHI FOR &i
 370: CMPI (380) (null) null #4 aFor = &i
-371: BGE (370) (2355) null null
+371: BGE (370) (2467) null null
 "];
 80[shape=box];
 80 -> 81[color=blue]
@@ -762,7 +763,7 @@ TAG: DO_BLOCK(81)  func = foo WD = 1
 81 -> 80[color=red][style=dotted]
 82[label="
 TAG: LOOP_FOLLOW_1(82)  func = foo WD = 1
-2355: BRA (394) (null) null null
+2467: move (3) (394) null null
 "];
 82[shape=box];
 82 -> 83[color=blue]
@@ -771,7 +772,7 @@ TAG: LOOP_FOLLOW_1(82)  func = foo WD = 1
 TAG: LOOP_HEADER_1(83)  func = foo WD = 1
 394: phi (3) (390) null null  PHI FOR &i
 384: CMPI (394) (null) null #4 aFor = &i
-385: BGE (384) (2356) null null
+385: BGE (384) (2471) null null
 "];
 83[shape=box];
 83 -> 84[color=blue]
@@ -790,7 +791,7 @@ TAG: DO_BLOCK(84)  func = foo WD = 1
 84 -> 83[color=red][style=dotted]
 85[label="
 TAG: LOOP_FOLLOW_1(85)  func = foo WD = 1
-2356: BRA (408) (null) null null
+2471: move (3) (408) null null
 "];
 85[shape=box];
 85 -> 86[color=blue]
@@ -799,7 +800,7 @@ TAG: LOOP_FOLLOW_1(85)  func = foo WD = 1
 TAG: LOOP_HEADER_1(86)  func = foo WD = 1
 408: phi (3) (404) null null  PHI FOR &i
 398: CMPI (408) (null) null #4 aFor = &i
-399: BGE (398) (2357) null null
+399: BGE (398) (2475) null null
 "];
 86[shape=box];
 86 -> 87[color=blue]
@@ -818,7 +819,7 @@ TAG: DO_BLOCK(87)  func = foo WD = 1
 87 -> 86[color=red][style=dotted]
 88[label="
 TAG: LOOP_FOLLOW_1(88)  func = foo WD = 1
-2357: BRA (422) (null) null null
+2475: move (3) (422) null null
 "];
 88[shape=box];
 88 -> 89[color=blue]
@@ -827,7 +828,7 @@ TAG: LOOP_FOLLOW_1(88)  func = foo WD = 1
 TAG: LOOP_HEADER_1(89)  func = foo WD = 1
 422: phi (3) (418) null null  PHI FOR &i
 412: CMPI (422) (null) null #4 aFor = &i
-413: BGE (412) (2358) null null
+413: BGE (412) (2479) null null
 "];
 89[shape=box];
 89 -> 90[color=blue]
@@ -846,7 +847,7 @@ TAG: DO_BLOCK(90)  func = foo WD = 1
 90 -> 89[color=red][style=dotted]
 91[label="
 TAG: LOOP_FOLLOW_1(91)  func = foo WD = 1
-2358: BRA (436) (null) null null
+2479: move (3) (436) null null
 "];
 91[shape=box];
 91 -> 92[color=blue]
@@ -855,7 +856,7 @@ TAG: LOOP_FOLLOW_1(91)  func = foo WD = 1
 TAG: LOOP_HEADER_1(92)  func = foo WD = 1
 436: phi (3) (432) null null  PHI FOR &i
 426: CMPI (436) (null) null #4 aFor = &i
-427: BGE (426) (2359) null null
+427: BGE (426) (2483) null null
 "];
 92[shape=box];
 92 -> 93[color=blue]
@@ -874,7 +875,7 @@ TAG: DO_BLOCK(93)  func = foo WD = 1
 93 -> 92[color=red][style=dotted]
 94[label="
 TAG: LOOP_FOLLOW_1(94)  func = foo WD = 1
-2359: BRA (450) (null) null null
+2483: move (3) (450) null null
 "];
 94[shape=box];
 94 -> 95[color=blue]
@@ -883,7 +884,7 @@ TAG: LOOP_FOLLOW_1(94)  func = foo WD = 1
 TAG: LOOP_HEADER_1(95)  func = foo WD = 1
 450: phi (3) (446) null null  PHI FOR &i
 440: CMPI (450) (null) null #4 aFor = &i
-441: BGE (440) (2360) null null
+441: BGE (440) (2487) null null
 "];
 95[shape=box];
 95 -> 96[color=blue]
@@ -902,7 +903,7 @@ TAG: DO_BLOCK(96)  func = foo WD = 1
 96 -> 95[color=red][style=dotted]
 97[label="
 TAG: LOOP_FOLLOW_1(97)  func = foo WD = 1
-2360: BRA (464) (null) null null
+2487: move (3) (464) null null
 "];
 97[shape=box];
 97 -> 98[color=blue]
@@ -911,7 +912,7 @@ TAG: LOOP_FOLLOW_1(97)  func = foo WD = 1
 TAG: LOOP_HEADER_1(98)  func = foo WD = 1
 464: phi (3) (460) null null  PHI FOR &i
 454: CMPI (464) (null) null #4 aFor = &i
-455: BGE (454) (2361) null null
+455: BGE (454) (2491) null null
 "];
 98[shape=box];
 98 -> 99[color=blue]
@@ -930,7 +931,7 @@ TAG: DO_BLOCK(99)  func = foo WD = 1
 99 -> 98[color=red][style=dotted]
 100[label="
 TAG: LOOP_FOLLOW_1(100)  func = foo WD = 1
-2361: BRA (478) (null) null null
+2491: move (3) (478) null null
 "];
 100[shape=box];
 100 -> 101[color=blue]
@@ -939,7 +940,7 @@ TAG: LOOP_FOLLOW_1(100)  func = foo WD = 1
 TAG: LOOP_HEADER_1(101)  func = foo WD = 1
 478: phi (3) (474) null null  PHI FOR &i
 468: CMPI (478) (null) null #4 aFor = &i
-469: BGE (468) (2362) null null
+469: BGE (468) (2495) null null
 "];
 101[shape=box];
 101 -> 102[color=blue]
@@ -958,7 +959,7 @@ TAG: DO_BLOCK(102)  func = foo WD = 1
 102 -> 101[color=red][style=dotted]
 103[label="
 TAG: LOOP_FOLLOW_1(103)  func = foo WD = 1
-2362: BRA (492) (null) null null
+2495: move (3) (492) null null
 "];
 103[shape=box];
 103 -> 104[color=blue]
@@ -967,7 +968,7 @@ TAG: LOOP_FOLLOW_1(103)  func = foo WD = 1
 TAG: LOOP_HEADER_1(104)  func = foo WD = 1
 492: phi (3) (488) null null  PHI FOR &i
 482: CMPI (492) (null) null #4 aFor = &i
-483: BGE (482) (2363) null null
+483: BGE (482) (2499) null null
 "];
 104[shape=box];
 104 -> 105[color=blue]
@@ -986,7 +987,7 @@ TAG: DO_BLOCK(105)  func = foo WD = 1
 105 -> 104[color=red][style=dotted]
 106[label="
 TAG: LOOP_FOLLOW_1(106)  func = foo WD = 1
-2363: BRA (506) (null) null null
+2499: move (3) (506) null null
 "];
 106[shape=box];
 106 -> 107[color=blue]
@@ -995,7 +996,7 @@ TAG: LOOP_FOLLOW_1(106)  func = foo WD = 1
 TAG: LOOP_HEADER_1(107)  func = foo WD = 1
 506: phi (3) (502) null null  PHI FOR &i
 496: CMPI (506) (null) null #4 aFor = &i
-497: BGE (496) (2364) null null
+497: BGE (496) (2331) null null
 "];
 107[shape=box];
 107 -> 108[color=blue]
@@ -1014,7 +1015,7 @@ TAG: DO_BLOCK(108)  func = foo WD = 1
 108 -> 107[color=red][style=dotted]
 109[label="
 TAG: LOOP_FOLLOW_1(109)  func = foo WD = 1
-2364: BRA (520) (null) null null
+2331: move (3) (520) null null
 "];
 109[shape=box];
 109 -> 110[color=blue]
@@ -1023,7 +1024,7 @@ TAG: LOOP_FOLLOW_1(109)  func = foo WD = 1
 TAG: LOOP_HEADER_1(110)  func = foo WD = 1
 520: phi (3) (516) null null  PHI FOR &i
 510: CMPI (520) (null) null #4 aFor = &i
-511: BGE (510) (2365) null null
+511: BGE (510) (2338) null null
 "];
 110[shape=box];
 110 -> 111[color=blue]
@@ -1042,7 +1043,7 @@ TAG: DO_BLOCK(111)  func = foo WD = 1
 111 -> 110[color=red][style=dotted]
 112[label="
 TAG: LOOP_FOLLOW_1(112)  func = foo WD = 1
-2365: BRA (534) (null) null null
+2338: move (3) (534) null null
 "];
 112[shape=box];
 112 -> 113[color=blue]
@@ -1051,7 +1052,7 @@ TAG: LOOP_FOLLOW_1(112)  func = foo WD = 1
 TAG: LOOP_HEADER_1(113)  func = foo WD = 1
 534: phi (3) (530) null null  PHI FOR &i
 524: CMPI (534) (null) null #4 aFor = &i
-525: BGE (524) (2366) null null
+525: BGE (524) (2345) null null
 "];
 113[shape=box];
 113 -> 114[color=blue]
@@ -1070,7 +1071,7 @@ TAG: DO_BLOCK(114)  func = foo WD = 1
 114 -> 113[color=red][style=dotted]
 115[label="
 TAG: LOOP_FOLLOW_1(115)  func = foo WD = 1
-2366: BRA (548) (null) null null
+2345: move (3) (548) null null
 "];
 115[shape=box];
 115 -> 116[color=blue]
@@ -1079,7 +1080,7 @@ TAG: LOOP_FOLLOW_1(115)  func = foo WD = 1
 TAG: LOOP_HEADER_1(116)  func = foo WD = 1
 548: phi (3) (544) null null  PHI FOR &i
 538: CMPI (548) (null) null #4 aFor = &i
-539: BGE (538) (2367) null null
+539: BGE (538) (2352) null null
 "];
 116[shape=box];
 116 -> 117[color=blue]
@@ -1098,7 +1099,7 @@ TAG: DO_BLOCK(117)  func = foo WD = 1
 117 -> 116[color=red][style=dotted]
 118[label="
 TAG: LOOP_FOLLOW_1(118)  func = foo WD = 1
-2367: BRA (562) (null) null null
+2352: move (3) (562) null null
 "];
 118[shape=box];
 118 -> 119[color=blue]
@@ -1107,7 +1108,7 @@ TAG: LOOP_FOLLOW_1(118)  func = foo WD = 1
 TAG: LOOP_HEADER_1(119)  func = foo WD = 1
 562: phi (3) (558) null null  PHI FOR &i
 552: CMPI (562) (null) null #4 aFor = &i
-553: BGE (552) (2368) null null
+553: BGE (552) (2357) null null
 "];
 119[shape=box];
 119 -> 120[color=blue]
@@ -1126,7 +1127,7 @@ TAG: DO_BLOCK(120)  func = foo WD = 1
 120 -> 119[color=red][style=dotted]
 121[label="
 TAG: LOOP_FOLLOW_1(121)  func = foo WD = 1
-2368: BRA (576) (null) null null
+2357: move (3) (576) null null
 "];
 121[shape=box];
 121 -> 122[color=blue]
@@ -1135,7 +1136,7 @@ TAG: LOOP_FOLLOW_1(121)  func = foo WD = 1
 TAG: LOOP_HEADER_1(122)  func = foo WD = 1
 576: phi (3) (572) null null  PHI FOR &i
 566: CMPI (576) (null) null #4 aFor = &i
-567: BGE (566) (2369) null null
+567: BGE (566) (2362) null null
 "];
 122[shape=box];
 122 -> 123[color=blue]
@@ -1154,7 +1155,7 @@ TAG: DO_BLOCK(123)  func = foo WD = 1
 123 -> 122[color=red][style=dotted]
 124[label="
 TAG: LOOP_FOLLOW_1(124)  func = foo WD = 1
-2369: BRA (590) (null) null null
+2362: move (3) (590) null null
 "];
 124[shape=box];
 124 -> 125[color=blue]
@@ -1163,7 +1164,7 @@ TAG: LOOP_FOLLOW_1(124)  func = foo WD = 1
 TAG: LOOP_HEADER_1(125)  func = foo WD = 1
 590: phi (3) (586) null null  PHI FOR &i
 580: CMPI (590) (null) null #4 aFor = &i
-581: BGE (580) (2370) null null
+581: BGE (580) (2367) null null
 "];
 125[shape=box];
 125 -> 126[color=blue]
@@ -1182,7 +1183,7 @@ TAG: DO_BLOCK(126)  func = foo WD = 1
 126 -> 125[color=red][style=dotted]
 127[label="
 TAG: LOOP_FOLLOW_1(127)  func = foo WD = 1
-2370: BRA (604) (null) null null
+2367: move (3) (604) null null
 "];
 127[shape=box];
 127 -> 128[color=blue]
@@ -1191,7 +1192,7 @@ TAG: LOOP_FOLLOW_1(127)  func = foo WD = 1
 TAG: LOOP_HEADER_1(128)  func = foo WD = 1
 604: phi (3) (600) null null  PHI FOR &i
 594: CMPI (604) (null) null #4 aFor = &i
-595: BGE (594) (2371) null null
+595: BGE (594) (2372) null null
 "];
 128[shape=box];
 128 -> 129[color=blue]
@@ -1210,7 +1211,7 @@ TAG: DO_BLOCK(129)  func = foo WD = 1
 129 -> 128[color=red][style=dotted]
 130[label="
 TAG: LOOP_FOLLOW_1(130)  func = foo WD = 1
-2371: BRA (618) (null) null null
+2372: move (3) (618) null null
 "];
 130[shape=box];
 130 -> 131[color=blue]
@@ -1219,7 +1220,7 @@ TAG: LOOP_FOLLOW_1(130)  func = foo WD = 1
 TAG: LOOP_HEADER_1(131)  func = foo WD = 1
 618: phi (3) (614) null null  PHI FOR &i
 608: CMPI (618) (null) null #4 aFor = &i
-609: BGE (608) (2372) null null
+609: BGE (608) (2377) null null
 "];
 131[shape=box];
 131 -> 132[color=blue]
@@ -1238,7 +1239,7 @@ TAG: DO_BLOCK(132)  func = foo WD = 1
 132 -> 131[color=red][style=dotted]
 133[label="
 TAG: LOOP_FOLLOW_1(133)  func = foo WD = 1
-2372: BRA (632) (null) null null
+2377: move (3) (632) null null
 "];
 133[shape=box];
 133 -> 134[color=blue]
@@ -1247,7 +1248,7 @@ TAG: LOOP_FOLLOW_1(133)  func = foo WD = 1
 TAG: LOOP_HEADER_1(134)  func = foo WD = 1
 632: phi (3) (628) null null  PHI FOR &i
 622: CMPI (632) (null) null #4 aFor = &i
-623: BGE (622) (2373) null null
+623: BGE (622) (2382) null null
 "];
 134[shape=box];
 134 -> 135[color=blue]
@@ -1266,7 +1267,7 @@ TAG: DO_BLOCK(135)  func = foo WD = 1
 135 -> 134[color=red][style=dotted]
 136[label="
 TAG: LOOP_FOLLOW_1(136)  func = foo WD = 1
-2373: BRA (646) (null) null null
+2382: move (3) (646) null null
 "];
 136[shape=box];
 136 -> 137[color=blue]
@@ -1275,7 +1276,7 @@ TAG: LOOP_FOLLOW_1(136)  func = foo WD = 1
 TAG: LOOP_HEADER_1(137)  func = foo WD = 1
 646: phi (3) (642) null null  PHI FOR &i
 636: CMPI (646) (null) null #4 aFor = &i
-637: BGE (636) (2374) null null
+637: BGE (636) (2387) null null
 "];
 137[shape=box];
 137 -> 138[color=blue]
@@ -1294,7 +1295,7 @@ TAG: DO_BLOCK(138)  func = foo WD = 1
 138 -> 137[color=red][style=dotted]
 139[label="
 TAG: LOOP_FOLLOW_1(139)  func = foo WD = 1
-2374: BRA (660) (null) null null
+2387: move (3) (660) null null
 "];
 139[shape=box];
 139 -> 140[color=blue]
@@ -1303,7 +1304,7 @@ TAG: LOOP_FOLLOW_1(139)  func = foo WD = 1
 TAG: LOOP_HEADER_1(140)  func = foo WD = 1
 660: phi (3) (656) null null  PHI FOR &i
 650: CMPI (660) (null) null #4 aFor = &i
-651: BGE (650) (2375) null null
+651: BGE (650) (2392) null null
 "];
 140[shape=box];
 140 -> 141[color=blue]
@@ -1322,7 +1323,7 @@ TAG: DO_BLOCK(141)  func = foo WD = 1
 141 -> 140[color=red][style=dotted]
 142[label="
 TAG: LOOP_FOLLOW_1(142)  func = foo WD = 1
-2375: BRA (674) (null) null null
+2392: move (3) (674) null null
 "];
 142[shape=box];
 142 -> 143[color=blue]
@@ -1331,7 +1332,7 @@ TAG: LOOP_FOLLOW_1(142)  func = foo WD = 1
 TAG: LOOP_HEADER_1(143)  func = foo WD = 1
 674: phi (3) (670) null null  PHI FOR &i
 664: CMPI (674) (null) null #4 aFor = &i
-665: BGE (664) (2376) null null
+665: BGE (664) (2397) null null
 "];
 143[shape=box];
 143 -> 144[color=blue]
@@ -1350,7 +1351,7 @@ TAG: DO_BLOCK(144)  func = foo WD = 1
 144 -> 143[color=red][style=dotted]
 145[label="
 TAG: LOOP_FOLLOW_1(145)  func = foo WD = 1
-2376: BRA (688) (null) null null
+2397: move (3) (688) null null
 "];
 145[shape=box];
 145 -> 146[color=blue]
@@ -1359,7 +1360,7 @@ TAG: LOOP_FOLLOW_1(145)  func = foo WD = 1
 TAG: LOOP_HEADER_1(146)  func = foo WD = 1
 688: phi (3) (684) null null  PHI FOR &i
 678: CMPI (688) (null) null #4 aFor = &i
-679: BGE (678) (2377) null null
+679: BGE (678) (2402) null null
 "];
 146[shape=box];
 146 -> 147[color=blue]
@@ -1378,7 +1379,7 @@ TAG: DO_BLOCK(147)  func = foo WD = 1
 147 -> 146[color=red][style=dotted]
 148[label="
 TAG: LOOP_FOLLOW_1(148)  func = foo WD = 1
-2377: BRA (702) (null) null null
+2402: move (3) (702) null null
 "];
 148[shape=box];
 148 -> 149[color=blue]
@@ -1387,7 +1388,7 @@ TAG: LOOP_FOLLOW_1(148)  func = foo WD = 1
 TAG: LOOP_HEADER_1(149)  func = foo WD = 1
 702: phi (3) (698) null null  PHI FOR &i
 692: CMPI (702) (null) null #4 aFor = &i
-693: BGE (692) (2378) null null
+693: BGE (692) (2407) null null
 "];
 149[shape=box];
 149 -> 150[color=blue]
@@ -1406,7 +1407,7 @@ TAG: DO_BLOCK(150)  func = foo WD = 1
 150 -> 149[color=red][style=dotted]
 151[label="
 TAG: LOOP_FOLLOW_1(151)  func = foo WD = 1
-2378: BRA (716) (null) null null
+2407: move (3) (716) null null
 "];
 151[shape=box];
 151 -> 152[color=blue]
@@ -1415,7 +1416,7 @@ TAG: LOOP_FOLLOW_1(151)  func = foo WD = 1
 TAG: LOOP_HEADER_1(152)  func = foo WD = 1
 716: phi (3) (712) null null  PHI FOR &i
 706: CMPI (716) (null) null #4 aFor = &i
-707: BGE (706) (2379) null null
+707: BGE (706) (2412) null null
 "];
 152[shape=box];
 152 -> 153[color=blue]
@@ -1434,7 +1435,7 @@ TAG: DO_BLOCK(153)  func = foo WD = 1
 153 -> 152[color=red][style=dotted]
 154[label="
 TAG: LOOP_FOLLOW_1(154)  func = foo WD = 1
-2379: BRA (730) (null) null null
+2412: move (3) (730) null null
 "];
 154[shape=box];
 154 -> 155[color=blue]
@@ -1443,7 +1444,7 @@ TAG: LOOP_FOLLOW_1(154)  func = foo WD = 1
 TAG: LOOP_HEADER_1(155)  func = foo WD = 1
 730: phi (3) (726) null null  PHI FOR &i
 720: CMPI (730) (null) null #4 aFor = &i
-721: BGE (720) (2380) null null
+721: BGE (720) (2417) null null
 "];
 155[shape=box];
 155 -> 156[color=blue]
@@ -1462,7 +1463,7 @@ TAG: DO_BLOCK(156)  func = foo WD = 1
 156 -> 155[color=red][style=dotted]
 157[label="
 TAG: LOOP_FOLLOW_1(157)  func = foo WD = 1
-2380: BRA (744) (null) null null
+2417: move (3) (744) null null
 "];
 157[shape=box];
 157 -> 158[color=blue]
@@ -1471,7 +1472,7 @@ TAG: LOOP_FOLLOW_1(157)  func = foo WD = 1
 TAG: LOOP_HEADER_1(158)  func = foo WD = 1
 744: phi (3) (740) null null  PHI FOR &i
 734: CMPI (744) (null) null #4 aFor = &i
-735: BGE (734) (2381) null null
+735: BGE (734) (2422) null null
 "];
 158[shape=box];
 158 -> 159[color=blue]
@@ -1490,7 +1491,7 @@ TAG: DO_BLOCK(159)  func = foo WD = 1
 159 -> 158[color=red][style=dotted]
 160[label="
 TAG: LOOP_FOLLOW_1(160)  func = foo WD = 1
-2381: BRA (758) (null) null null
+2422: move (3) (758) null null
 "];
 160[shape=box];
 160 -> 161[color=blue]
@@ -1499,7 +1500,7 @@ TAG: LOOP_FOLLOW_1(160)  func = foo WD = 1
 TAG: LOOP_HEADER_1(161)  func = foo WD = 1
 758: phi (3) (754) null null  PHI FOR &i
 748: CMPI (758) (null) null #4 aFor = &i
-749: BGE (748) (2382) null null
+749: BGE (748) (2427) null null
 "];
 161[shape=box];
 161 -> 162[color=blue]
@@ -1518,7 +1519,7 @@ TAG: DO_BLOCK(162)  func = foo WD = 1
 162 -> 161[color=red][style=dotted]
 163[label="
 TAG: LOOP_FOLLOW_1(163)  func = foo WD = 1
-2382: BRA (772) (null) null null
+2427: move (3) (772) null null
 "];
 163[shape=box];
 163 -> 164[color=blue]
@@ -1527,7 +1528,7 @@ TAG: LOOP_FOLLOW_1(163)  func = foo WD = 1
 TAG: LOOP_HEADER_1(164)  func = foo WD = 1
 772: phi (3) (768) null null  PHI FOR &i
 762: CMPI (772) (null) null #4 aFor = &i
-763: BGE (762) (2383) null null
+763: BGE (762) (2432) null null
 "];
 164[shape=box];
 164 -> 165[color=blue]
@@ -1546,7 +1547,7 @@ TAG: DO_BLOCK(165)  func = foo WD = 1
 165 -> 164[color=red][style=dotted]
 166[label="
 TAG: LOOP_FOLLOW_1(166)  func = foo WD = 1
-2383: BRA (786) (null) null null
+2432: move (3) (786) null null
 "];
 166[shape=box];
 166 -> 167[color=blue]
@@ -1555,7 +1556,7 @@ TAG: LOOP_FOLLOW_1(166)  func = foo WD = 1
 TAG: LOOP_HEADER_1(167)  func = foo WD = 1
 786: phi (3) (782) null null  PHI FOR &i
 776: CMPI (786) (null) null #4 aFor = &i
-777: BGE (776) (2384) null null
+777: BGE (776) (2437) null null
 "];
 167[shape=box];
 167 -> 168[color=blue]
@@ -1574,7 +1575,7 @@ TAG: DO_BLOCK(168)  func = foo WD = 1
 168 -> 167[color=red][style=dotted]
 169[label="
 TAG: LOOP_FOLLOW_1(169)  func = foo WD = 1
-2384: BRA (800) (null) null null
+2437: move (3) (800) null null
 "];
 169[shape=box];
 169 -> 170[color=blue]
@@ -1583,7 +1584,7 @@ TAG: LOOP_FOLLOW_1(169)  func = foo WD = 1
 TAG: LOOP_HEADER_1(170)  func = foo WD = 1
 800: phi (3) (796) null null  PHI FOR &i
 790: CMPI (800) (null) null #4 aFor = &i
-791: BGE (790) (2385) null null
+791: BGE (790) (2441) null null
 "];
 170[shape=box];
 170 -> 171[color=blue]
@@ -1602,7 +1603,7 @@ TAG: DO_BLOCK(171)  func = foo WD = 1
 171 -> 170[color=red][style=dotted]
 172[label="
 TAG: LOOP_FOLLOW_1(172)  func = foo WD = 1
-2385: BRA (814) (null) null null
+2441: move (3) (814) null null
 "];
 172[shape=box];
 172 -> 173[color=blue]
@@ -1611,7 +1612,7 @@ TAG: LOOP_FOLLOW_1(172)  func = foo WD = 1
 TAG: LOOP_HEADER_1(173)  func = foo WD = 1
 814: phi (3) (810) null null  PHI FOR &i
 804: CMPI (814) (null) null #4 aFor = &i
-805: BGE (804) (2386) null null
+805: BGE (804) (2445) null null
 "];
 173[shape=box];
 173 -> 174[color=blue]
@@ -1630,7 +1631,7 @@ TAG: DO_BLOCK(174)  func = foo WD = 1
 174 -> 173[color=red][style=dotted]
 175[label="
 TAG: LOOP_FOLLOW_1(175)  func = foo WD = 1
-2386: BRA (828) (null) null null
+2445: move (3) (828) null null
 "];
 175[shape=box];
 175 -> 176[color=blue]
@@ -1639,7 +1640,7 @@ TAG: LOOP_FOLLOW_1(175)  func = foo WD = 1
 TAG: LOOP_HEADER_1(176)  func = foo WD = 1
 828: phi (3) (824) null null  PHI FOR &i
 818: CMPI (828) (null) null #4 aFor = &i
-819: BGE (818) (2387) null null
+819: BGE (818) (2449) null null
 "];
 176[shape=box];
 176 -> 177[color=blue]
@@ -1658,7 +1659,7 @@ TAG: DO_BLOCK(177)  func = foo WD = 1
 177 -> 176[color=red][style=dotted]
 178[label="
 TAG: LOOP_FOLLOW_1(178)  func = foo WD = 1
-2387: BRA (842) (null) null null
+2449: move (3) (842) null null
 "];
 178[shape=box];
 178 -> 179[color=blue]
@@ -1667,7 +1668,7 @@ TAG: LOOP_FOLLOW_1(178)  func = foo WD = 1
 TAG: LOOP_HEADER_1(179)  func = foo WD = 1
 842: phi (3) (838) null null  PHI FOR &i
 832: CMPI (842) (null) null #4 aFor = &i
-833: BGE (832) (2388) null null
+833: BGE (832) (2453) null null
 "];
 179[shape=box];
 179 -> 180[color=blue]
@@ -1686,7 +1687,7 @@ TAG: DO_BLOCK(180)  func = foo WD = 1
 180 -> 179[color=red][style=dotted]
 181[label="
 TAG: LOOP_FOLLOW_1(181)  func = foo WD = 1
-2388: BRA (856) (null) null null
+2453: move (3) (856) null null
 "];
 181[shape=box];
 181 -> 182[color=blue]
@@ -1695,7 +1696,7 @@ TAG: LOOP_FOLLOW_1(181)  func = foo WD = 1
 TAG: LOOP_HEADER_1(182)  func = foo WD = 1
 856: phi (3) (852) null null  PHI FOR &i
 846: CMPI (856) (null) null #4 aFor = &i
-847: BGE (846) (2389) null null
+847: BGE (846) (2457) null null
 "];
 182[shape=box];
 182 -> 183[color=blue]
@@ -1714,7 +1715,7 @@ TAG: DO_BLOCK(183)  func = foo WD = 1
 183 -> 182[color=red][style=dotted]
 184[label="
 TAG: LOOP_FOLLOW_1(184)  func = foo WD = 1
-2389: BRA (870) (null) null null
+2457: move (3) (870) null null
 "];
 184[shape=box];
 184 -> 185[color=blue]
@@ -1723,7 +1724,7 @@ TAG: LOOP_FOLLOW_1(184)  func = foo WD = 1
 TAG: LOOP_HEADER_1(185)  func = foo WD = 1
 870: phi (3) (866) null null  PHI FOR &i
 860: CMPI (870) (null) null #4 aFor = &i
-861: BGE (860) (2390) null null
+861: BGE (860) (2461) null null
 "];
 185[shape=box];
 185 -> 186[color=blue]
@@ -1742,7 +1743,7 @@ TAG: DO_BLOCK(186)  func = foo WD = 1
 186 -> 185[color=red][style=dotted]
 187[label="
 TAG: LOOP_FOLLOW_1(187)  func = foo WD = 1
-2390: BRA (884) (null) null null
+2461: move (3) (884) null null
 "];
 187[shape=box];
 187 -> 188[color=blue]
@@ -1751,7 +1752,7 @@ TAG: LOOP_FOLLOW_1(187)  func = foo WD = 1
 TAG: LOOP_HEADER_1(188)  func = foo WD = 1
 884: phi (3) (880) null null  PHI FOR &i
 874: CMPI (884) (null) null #4 aFor = &i
-875: BGE (874) (2391) null null
+875: BGE (874) (2465) null null
 "];
 188[shape=box];
 188 -> 189[color=blue]
@@ -1770,7 +1771,7 @@ TAG: DO_BLOCK(189)  func = foo WD = 1
 189 -> 188[color=red][style=dotted]
 190[label="
 TAG: LOOP_FOLLOW_1(190)  func = foo WD = 1
-2391: BRA (898) (null) null null
+2465: move (3) (898) null null
 "];
 190[shape=box];
 190 -> 191[color=blue]
@@ -1779,7 +1780,7 @@ TAG: LOOP_FOLLOW_1(190)  func = foo WD = 1
 TAG: LOOP_HEADER_1(191)  func = foo WD = 1
 898: phi (3) (894) null null  PHI FOR &i
 888: CMPI (898) (null) null #4 aFor = &i
-889: BGE (888) (2392) null null
+889: BGE (888) (2469) null null
 "];
 191[shape=box];
 191 -> 192[color=blue]
@@ -1798,7 +1799,7 @@ TAG: DO_BLOCK(192)  func = foo WD = 1
 192 -> 191[color=red][style=dotted]
 193[label="
 TAG: LOOP_FOLLOW_1(193)  func = foo WD = 1
-2392: BRA (912) (null) null null
+2469: move (3) (912) null null
 "];
 193[shape=box];
 193 -> 194[color=blue]
@@ -1807,7 +1808,7 @@ TAG: LOOP_FOLLOW_1(193)  func = foo WD = 1
 TAG: LOOP_HEADER_1(194)  func = foo WD = 1
 912: phi (3) (908) null null  PHI FOR &i
 902: CMPI (912) (null) null #4 aFor = &i
-903: BGE (902) (2393) null null
+903: BGE (902) (2473) null null
 "];
 194[shape=box];
 194 -> 195[color=blue]
@@ -1826,7 +1827,7 @@ TAG: DO_BLOCK(195)  func = foo WD = 1
 195 -> 194[color=red][style=dotted]
 196[label="
 TAG: LOOP_FOLLOW_1(196)  func = foo WD = 1
-2393: BRA (926) (null) null null
+2473: move (3) (926) null null
 "];
 196[shape=box];
 196 -> 197[color=blue]
@@ -1835,7 +1836,7 @@ TAG: LOOP_FOLLOW_1(196)  func = foo WD = 1
 TAG: LOOP_HEADER_1(197)  func = foo WD = 1
 926: phi (3) (922) null null  PHI FOR &i
 916: CMPI (926) (null) null #4 aFor = &i
-917: BGE (916) (2394) null null
+917: BGE (916) (2477) null null
 "];
 197[shape=box];
 197 -> 198[color=blue]
@@ -1854,7 +1855,7 @@ TAG: DO_BLOCK(198)  func = foo WD = 1
 198 -> 197[color=red][style=dotted]
 199[label="
 TAG: LOOP_FOLLOW_1(199)  func = foo WD = 1
-2394: BRA (940) (null) null null
+2477: move (3) (940) null null
 "];
 199[shape=box];
 199 -> 200[color=blue]
@@ -1863,7 +1864,7 @@ TAG: LOOP_FOLLOW_1(199)  func = foo WD = 1
 TAG: LOOP_HEADER_1(200)  func = foo WD = 1
 940: phi (3) (936) null null  PHI FOR &i
 930: CMPI (940) (null) null #4 aFor = &i
-931: BGE (930) (2395) null null
+931: BGE (930) (2481) null null
 "];
 200[shape=box];
 200 -> 201[color=blue]
@@ -1882,7 +1883,7 @@ TAG: DO_BLOCK(201)  func = foo WD = 1
 201 -> 200[color=red][style=dotted]
 202[label="
 TAG: LOOP_FOLLOW_1(202)  func = foo WD = 1
-2395: BRA (954) (null) null null
+2481: move (3) (954) null null
 "];
 202[shape=box];
 202 -> 203[color=blue]
@@ -1891,7 +1892,7 @@ TAG: LOOP_FOLLOW_1(202)  func = foo WD = 1
 TAG: LOOP_HEADER_1(203)  func = foo WD = 1
 954: phi (3) (950) null null  PHI FOR &i
 944: CMPI (954) (null) null #4 aFor = &i
-945: BGE (944) (2396) null null
+945: BGE (944) (2485) null null
 "];
 203[shape=box];
 203 -> 204[color=blue]
@@ -1910,7 +1911,7 @@ TAG: DO_BLOCK(204)  func = foo WD = 1
 204 -> 203[color=red][style=dotted]
 205[label="
 TAG: LOOP_FOLLOW_1(205)  func = foo WD = 1
-2396: BRA (968) (null) null null
+2485: move (3) (968) null null
 "];
 205[shape=box];
 205 -> 206[color=blue]
@@ -1919,7 +1920,7 @@ TAG: LOOP_FOLLOW_1(205)  func = foo WD = 1
 TAG: LOOP_HEADER_1(206)  func = foo WD = 1
 968: phi (3) (964) null null  PHI FOR &i
 958: CMPI (968) (null) null #4 aFor = &i
-959: BGE (958) (2397) null null
+959: BGE (958) (2489) null null
 "];
 206[shape=box];
 206 -> 207[color=blue]
@@ -1938,7 +1939,7 @@ TAG: DO_BLOCK(207)  func = foo WD = 1
 207 -> 206[color=red][style=dotted]
 208[label="
 TAG: LOOP_FOLLOW_1(208)  func = foo WD = 1
-2397: BRA (982) (null) null null
+2489: move (3) (982) null null
 "];
 208[shape=box];
 208 -> 209[color=blue]
@@ -1947,7 +1948,7 @@ TAG: LOOP_FOLLOW_1(208)  func = foo WD = 1
 TAG: LOOP_HEADER_1(209)  func = foo WD = 1
 982: phi (3) (978) null null  PHI FOR &i
 972: CMPI (982) (null) null #4 aFor = &i
-973: BGE (972) (2398) null null
+973: BGE (972) (2493) null null
 "];
 209[shape=box];
 209 -> 210[color=blue]
@@ -1966,7 +1967,7 @@ TAG: DO_BLOCK(210)  func = foo WD = 1
 210 -> 209[color=red][style=dotted]
 211[label="
 TAG: LOOP_FOLLOW_1(211)  func = foo WD = 1
-2398: BRA (996) (null) null null
+2493: move (3) (996) null null
 "];
 211[shape=box];
 211 -> 212[color=blue]
@@ -1975,7 +1976,7 @@ TAG: LOOP_FOLLOW_1(211)  func = foo WD = 1
 TAG: LOOP_HEADER_1(212)  func = foo WD = 1
 996: phi (3) (992) null null  PHI FOR &i
 986: CMPI (996) (null) null #4 aFor = &i
-987: BGE (986) (2399) null null
+987: BGE (986) (2497) null null
 "];
 212[shape=box];
 212 -> 213[color=blue]
@@ -1994,7 +1995,7 @@ TAG: DO_BLOCK(213)  func = foo WD = 1
 213 -> 212[color=red][style=dotted]
 214[label="
 TAG: LOOP_FOLLOW_1(214)  func = foo WD = 1
-2399: BRA (1010) (null) null null
+2497: move (3) (1010) null null
 "];
 214[shape=box];
 214 -> 215[color=blue]
@@ -2003,7 +2004,7 @@ TAG: LOOP_FOLLOW_1(214)  func = foo WD = 1
 TAG: LOOP_HEADER_1(215)  func = foo WD = 1
 1010: phi (3) (1006) null null  PHI FOR &i
 1000: CMPI (1010) (null) null #4 aFor = &i
-1001: BGE (1000) (2400) null null
+1001: BGE (1000) (2328) null null
 "];
 215[shape=box];
 215 -> 216[color=blue]
@@ -2022,7 +2023,7 @@ TAG: DO_BLOCK(216)  func = foo WD = 1
 216 -> 215[color=red][style=dotted]
 217[label="
 TAG: LOOP_FOLLOW_1(217)  func = foo WD = 1
-2400: BRA (1024) (null) null null
+2328: move (3) (1024) null null
 "];
 217[shape=box];
 217 -> 218[color=blue]
@@ -2031,7 +2032,7 @@ TAG: LOOP_FOLLOW_1(217)  func = foo WD = 1
 TAG: LOOP_HEADER_1(218)  func = foo WD = 1
 1024: phi (3) (1020) null null  PHI FOR &i
 1014: CMPI (1024) (null) null #4 aFor = &i
-1015: BGE (1014) (2401) null null
+1015: BGE (1014) (2334) null null
 "];
 218[shape=box];
 218 -> 219[color=blue]
@@ -2043,14 +2044,15 @@ TAG: DO_BLOCK(219)  func = foo WD = 1
 1016: read (null) (null) null null move for = &b
 1018: write (1016) (null) null null
 1020: ADDI (1024) (null) null #1 aFor = &i move for = &i
-1022: BRA (1024) (null) null null
+1022: BRA (null) (null) null null
+2329: move (1020) (1024) null null
 "];
 219[shape=box];
 219 -> 218[color=blue]
 219 -> 218[color=red][style=dotted]
 220[label="
 TAG: LOOP_FOLLOW_1(220)  func = foo WD = 1
-2401: BRA (1038) (null) null null
+2334: move (3) (1038) null null
 "];
 220[shape=box];
 220 -> 221[color=blue]
@@ -2059,7 +2061,7 @@ TAG: LOOP_FOLLOW_1(220)  func = foo WD = 1
 TAG: LOOP_HEADER_1(221)  func = foo WD = 1
 1038: phi (3) (1034) null null  PHI FOR &i
 1028: CMPI (1038) (null) null #4 aFor = &i
-1029: BGE (1028) (2402) null null
+1029: BGE (1028) (2341) null null
 "];
 221[shape=box];
 221 -> 222[color=blue]
@@ -2071,14 +2073,15 @@ TAG: DO_BLOCK(222)  func = foo WD = 1
 1030: read (null) (null) null null move for = &b
 1032: write (1030) (null) null null
 1034: ADDI (1038) (null) null #1 aFor = &i move for = &i
-1036: BRA (1038) (null) null null
+1036: BRA (null) (null) null null
+2335: move (1034) (1038) null null
 "];
 222[shape=box];
 222 -> 221[color=blue]
 222 -> 221[color=red][style=dotted]
 223[label="
 TAG: LOOP_FOLLOW_1(223)  func = foo WD = 1
-2402: BRA (1052) (null) null null
+2341: move (3) (1052) null null
 "];
 223[shape=box];
 223 -> 224[color=blue]
@@ -2087,7 +2090,7 @@ TAG: LOOP_FOLLOW_1(223)  func = foo WD = 1
 TAG: LOOP_HEADER_1(224)  func = foo WD = 1
 1052: phi (3) (1048) null null  PHI FOR &i
 1042: CMPI (1052) (null) null #4 aFor = &i
-1043: BGE (1042) (2403) null null
+1043: BGE (1042) (2348) null null
 "];
 224[shape=box];
 224 -> 225[color=blue]
@@ -2099,14 +2102,15 @@ TAG: DO_BLOCK(225)  func = foo WD = 1
 1044: read (null) (null) null null move for = &b
 1046: write (1044) (null) null null
 1048: ADDI (1052) (null) null #1 aFor = &i move for = &i
-1050: BRA (1052) (null) null null
+1050: BRA (null) (null) null null
+2342: move (1048) (1052) null null
 "];
 225[shape=box];
 225 -> 224[color=blue]
 225 -> 224[color=red][style=dotted]
 226[label="
 TAG: LOOP_FOLLOW_1(226)  func = foo WD = 1
-2403: BRA (1066) (null) null null
+2348: move (3) (1066) null null
 "];
 226[shape=box];
 226 -> 227[color=blue]
@@ -2115,7 +2119,7 @@ TAG: LOOP_FOLLOW_1(226)  func = foo WD = 1
 TAG: LOOP_HEADER_1(227)  func = foo WD = 1
 1066: phi (3) (1062) null null  PHI FOR &i
 1056: CMPI (1066) (null) null #4 aFor = &i
-1057: BGE (1056) (2404) null null
+1057: BGE (1056) (2354) null null
 "];
 227[shape=box];
 227 -> 228[color=blue]
@@ -2127,14 +2131,15 @@ TAG: DO_BLOCK(228)  func = foo WD = 1
 1058: read (null) (null) null null move for = &b
 1060: write (1058) (null) null null
 1062: ADDI (1066) (null) null #1 aFor = &i move for = &i
-1064: BRA (1066) (null) null null
+1064: BRA (null) (null) null null
+2349: move (1062) (1066) null null
 "];
 228[shape=box];
 228 -> 227[color=blue]
 228 -> 227[color=red][style=dotted]
 229[label="
 TAG: LOOP_FOLLOW_1(229)  func = foo WD = 1
-2404: BRA (1080) (null) null null
+2354: move (3) (1080) null null
 "];
 229[shape=box];
 229 -> 230[color=blue]
@@ -2143,7 +2148,7 @@ TAG: LOOP_FOLLOW_1(229)  func = foo WD = 1
 TAG: LOOP_HEADER_1(230)  func = foo WD = 1
 1080: phi (3) (1076) null null  PHI FOR &i
 1070: CMPI (1080) (null) null #4 aFor = &i
-1071: BGE (1070) (2405) null null
+1071: BGE (1070) (2359) null null
 "];
 230[shape=box];
 230 -> 231[color=blue]
@@ -2162,7 +2167,7 @@ TAG: DO_BLOCK(231)  func = foo WD = 1
 231 -> 230[color=red][style=dotted]
 232[label="
 TAG: LOOP_FOLLOW_1(232)  func = foo WD = 1
-2405: BRA (1094) (null) null null
+2359: move (3) (1094) null null
 "];
 232[shape=box];
 232 -> 233[color=blue]
@@ -2171,7 +2176,7 @@ TAG: LOOP_FOLLOW_1(232)  func = foo WD = 1
 TAG: LOOP_HEADER_1(233)  func = foo WD = 1
 1094: phi (3) (1090) null null  PHI FOR &i
 1084: CMPI (1094) (null) null #4 aFor = &i
-1085: BGE (1084) (2406) null null
+1085: BGE (1084) (2364) null null
 "];
 233[shape=box];
 233 -> 234[color=blue]
@@ -2190,7 +2195,7 @@ TAG: DO_BLOCK(234)  func = foo WD = 1
 234 -> 233[color=red][style=dotted]
 235[label="
 TAG: LOOP_FOLLOW_1(235)  func = foo WD = 1
-2406: BRA (1108) (null) null null
+2364: move (3) (1108) null null
 "];
 235[shape=box];
 235 -> 236[color=blue]
@@ -2199,7 +2204,7 @@ TAG: LOOP_FOLLOW_1(235)  func = foo WD = 1
 TAG: LOOP_HEADER_1(236)  func = foo WD = 1
 1108: phi (3) (1104) null null  PHI FOR &i
 1098: CMPI (1108) (null) null #4 aFor = &i
-1099: BGE (1098) (2407) null null
+1099: BGE (1098) (2369) null null
 "];
 236[shape=box];
 236 -> 237[color=blue]
@@ -2218,7 +2223,7 @@ TAG: DO_BLOCK(237)  func = foo WD = 1
 237 -> 236[color=red][style=dotted]
 238[label="
 TAG: LOOP_FOLLOW_1(238)  func = foo WD = 1
-2407: BRA (1122) (null) null null
+2369: move (3) (1122) null null
 "];
 238[shape=box];
 238 -> 239[color=blue]
@@ -2227,7 +2232,7 @@ TAG: LOOP_FOLLOW_1(238)  func = foo WD = 1
 TAG: LOOP_HEADER_1(239)  func = foo WD = 1
 1122: phi (3) (1118) null null  PHI FOR &i
 1112: CMPI (1122) (null) null #4 aFor = &i
-1113: BGE (1112) (2408) null null
+1113: BGE (1112) (2374) null null
 "];
 239[shape=box];
 239 -> 240[color=blue]
@@ -2246,7 +2251,7 @@ TAG: DO_BLOCK(240)  func = foo WD = 1
 240 -> 239[color=red][style=dotted]
 241[label="
 TAG: LOOP_FOLLOW_1(241)  func = foo WD = 1
-2408: BRA (1136) (null) null null
+2374: move (3) (1136) null null
 "];
 241[shape=box];
 241 -> 242[color=blue]
@@ -2255,7 +2260,7 @@ TAG: LOOP_FOLLOW_1(241)  func = foo WD = 1
 TAG: LOOP_HEADER_1(242)  func = foo WD = 1
 1136: phi (3) (1132) null null  PHI FOR &i
 1126: CMPI (1136) (null) null #4 aFor = &i
-1127: BGE (1126) (2409) null null
+1127: BGE (1126) (2379) null null
 "];
 242[shape=box];
 242 -> 243[color=blue]
@@ -2274,7 +2279,7 @@ TAG: DO_BLOCK(243)  func = foo WD = 1
 243 -> 242[color=red][style=dotted]
 244[label="
 TAG: LOOP_FOLLOW_1(244)  func = foo WD = 1
-2409: BRA (1150) (null) null null
+2379: move (3) (1150) null null
 "];
 244[shape=box];
 244 -> 245[color=blue]
@@ -2283,7 +2288,7 @@ TAG: LOOP_FOLLOW_1(244)  func = foo WD = 1
 TAG: LOOP_HEADER_1(245)  func = foo WD = 1
 1150: phi (3) (1146) null null  PHI FOR &i
 1140: CMPI (1150) (null) null #4 aFor = &i
-1141: BGE (1140) (2410) null null
+1141: BGE (1140) (2384) null null
 "];
 245[shape=box];
 245 -> 246[color=blue]
@@ -2302,7 +2307,7 @@ TAG: DO_BLOCK(246)  func = foo WD = 1
 246 -> 245[color=red][style=dotted]
 247[label="
 TAG: LOOP_FOLLOW_1(247)  func = foo WD = 1
-2410: BRA (1164) (null) null null
+2384: move (3) (1164) null null
 "];
 247[shape=box];
 247 -> 248[color=blue]
@@ -2311,7 +2316,7 @@ TAG: LOOP_FOLLOW_1(247)  func = foo WD = 1
 TAG: LOOP_HEADER_1(248)  func = foo WD = 1
 1164: phi (3) (1160) null null  PHI FOR &i
 1154: CMPI (1164) (null) null #4 aFor = &i
-1155: BGE (1154) (2411) null null
+1155: BGE (1154) (2389) null null
 "];
 248[shape=box];
 248 -> 249[color=blue]
@@ -2330,7 +2335,7 @@ TAG: DO_BLOCK(249)  func = foo WD = 1
 249 -> 248[color=red][style=dotted]
 250[label="
 TAG: LOOP_FOLLOW_1(250)  func = foo WD = 1
-2411: BRA (1178) (null) null null
+2389: move (3) (1178) null null
 "];
 250[shape=box];
 250 -> 251[color=blue]
@@ -2339,7 +2344,7 @@ TAG: LOOP_FOLLOW_1(250)  func = foo WD = 1
 TAG: LOOP_HEADER_1(251)  func = foo WD = 1
 1178: phi (3) (1174) null null  PHI FOR &i
 1168: CMPI (1178) (null) null #4 aFor = &i
-1169: BGE (1168) (2412) null null
+1169: BGE (1168) (2394) null null
 "];
 251[shape=box];
 251 -> 252[color=blue]
@@ -2358,7 +2363,7 @@ TAG: DO_BLOCK(252)  func = foo WD = 1
 252 -> 251[color=red][style=dotted]
 253[label="
 TAG: LOOP_FOLLOW_1(253)  func = foo WD = 1
-2412: BRA (1192) (null) null null
+2394: move (3) (1192) null null
 "];
 253[shape=box];
 253 -> 254[color=blue]
@@ -2367,7 +2372,7 @@ TAG: LOOP_FOLLOW_1(253)  func = foo WD = 1
 TAG: LOOP_HEADER_1(254)  func = foo WD = 1
 1192: phi (3) (1188) null null  PHI FOR &i
 1182: CMPI (1192) (null) null #4 aFor = &i
-1183: BGE (1182) (2413) null null
+1183: BGE (1182) (2399) null null
 "];
 254[shape=box];
 254 -> 255[color=blue]
@@ -2386,7 +2391,7 @@ TAG: DO_BLOCK(255)  func = foo WD = 1
 255 -> 254[color=red][style=dotted]
 256[label="
 TAG: LOOP_FOLLOW_1(256)  func = foo WD = 1
-2413: BRA (1206) (null) null null
+2399: move (3) (1206) null null
 "];
 256[shape=box];
 256 -> 257[color=blue]
@@ -2395,7 +2400,7 @@ TAG: LOOP_FOLLOW_1(256)  func = foo WD = 1
 TAG: LOOP_HEADER_1(257)  func = foo WD = 1
 1206: phi (3) (1202) null null  PHI FOR &i
 1196: CMPI (1206) (null) null #4 aFor = &i
-1197: BGE (1196) (2414) null null
+1197: BGE (1196) (2404) null null
 "];
 257[shape=box];
 257 -> 258[color=blue]
@@ -2414,7 +2419,7 @@ TAG: DO_BLOCK(258)  func = foo WD = 1
 258 -> 257[color=red][style=dotted]
 259[label="
 TAG: LOOP_FOLLOW_1(259)  func = foo WD = 1
-2414: BRA (1220) (null) null null
+2404: move (3) (1220) null null
 "];
 259[shape=box];
 259 -> 260[color=blue]
@@ -2423,7 +2428,7 @@ TAG: LOOP_FOLLOW_1(259)  func = foo WD = 1
 TAG: LOOP_HEADER_1(260)  func = foo WD = 1
 1220: phi (3) (1216) null null  PHI FOR &i
 1210: CMPI (1220) (null) null #4 aFor = &i
-1211: BGE (1210) (2415) null null
+1211: BGE (1210) (2409) null null
 "];
 260[shape=box];
 260 -> 261[color=blue]
@@ -2442,7 +2447,7 @@ TAG: DO_BLOCK(261)  func = foo WD = 1
 261 -> 260[color=red][style=dotted]
 262[label="
 TAG: LOOP_FOLLOW_1(262)  func = foo WD = 1
-2415: BRA (1234) (null) null null
+2409: move (3) (1234) null null
 "];
 262[shape=box];
 262 -> 263[color=blue]
@@ -2451,7 +2456,7 @@ TAG: LOOP_FOLLOW_1(262)  func = foo WD = 1
 TAG: LOOP_HEADER_1(263)  func = foo WD = 1
 1234: phi (3) (1230) null null  PHI FOR &i
 1224: CMPI (1234) (null) null #4 aFor = &i
-1225: BGE (1224) (2416) null null
+1225: BGE (1224) (2414) null null
 "];
 263[shape=box];
 263 -> 264[color=blue]
@@ -2470,7 +2475,7 @@ TAG: DO_BLOCK(264)  func = foo WD = 1
 264 -> 263[color=red][style=dotted]
 265[label="
 TAG: LOOP_FOLLOW_1(265)  func = foo WD = 1
-2416: BRA (1248) (null) null null
+2414: move (3) (1248) null null
 "];
 265[shape=box];
 265 -> 266[color=blue]
@@ -2479,7 +2484,7 @@ TAG: LOOP_FOLLOW_1(265)  func = foo WD = 1
 TAG: LOOP_HEADER_1(266)  func = foo WD = 1
 1248: phi (3) (1244) null null  PHI FOR &i
 1238: CMPI (1248) (null) null #4 aFor = &i
-1239: BGE (1238) (2417) null null
+1239: BGE (1238) (2419) null null
 "];
 266[shape=box];
 266 -> 267[color=blue]
@@ -2498,7 +2503,7 @@ TAG: DO_BLOCK(267)  func = foo WD = 1
 267 -> 266[color=red][style=dotted]
 268[label="
 TAG: LOOP_FOLLOW_1(268)  func = foo WD = 1
-2417: BRA (1262) (null) null null
+2419: move (3) (1262) null null
 "];
 268[shape=box];
 268 -> 269[color=blue]
@@ -2507,7 +2512,7 @@ TAG: LOOP_FOLLOW_1(268)  func = foo WD = 1
 TAG: LOOP_HEADER_1(269)  func = foo WD = 1
 1262: phi (3) (1258) null null  PHI FOR &i
 1252: CMPI (1262) (null) null #4 aFor = &i
-1253: BGE (1252) (2418) null null
+1253: BGE (1252) (2424) null null
 "];
 269[shape=box];
 269 -> 270[color=blue]
@@ -2526,7 +2531,7 @@ TAG: DO_BLOCK(270)  func = foo WD = 1
 270 -> 269[color=red][style=dotted]
 271[label="
 TAG: LOOP_FOLLOW_1(271)  func = foo WD = 1
-2418: BRA (1276) (null) null null
+2424: move (3) (1276) null null
 "];
 271[shape=box];
 271 -> 272[color=blue]
@@ -2535,7 +2540,7 @@ TAG: LOOP_FOLLOW_1(271)  func = foo WD = 1
 TAG: LOOP_HEADER_1(272)  func = foo WD = 1
 1276: phi (3) (1272) null null  PHI FOR &i
 1266: CMPI (1276) (null) null #4 aFor = &i
-1267: BGE (1266) (2419) null null
+1267: BGE (1266) (2429) null null
 "];
 272[shape=box];
 272 -> 273[color=blue]
@@ -2554,7 +2559,7 @@ TAG: DO_BLOCK(273)  func = foo WD = 1
 273 -> 272[color=red][style=dotted]
 274[label="
 TAG: LOOP_FOLLOW_1(274)  func = foo WD = 1
-2419: BRA (1290) (null) null null
+2429: move (3) (1290) null null
 "];
 274[shape=box];
 274 -> 275[color=blue]
@@ -2563,7 +2568,7 @@ TAG: LOOP_FOLLOW_1(274)  func = foo WD = 1
 TAG: LOOP_HEADER_1(275)  func = foo WD = 1
 1290: phi (3) (1286) null null  PHI FOR &i
 1280: CMPI (1290) (null) null #4 aFor = &i
-1281: BGE (1280) (2420) null null
+1281: BGE (1280) (2434) null null
 "];
 275[shape=box];
 275 -> 276[color=blue]
@@ -2582,7 +2587,7 @@ TAG: DO_BLOCK(276)  func = foo WD = 1
 276 -> 275[color=red][style=dotted]
 277[label="
 TAG: LOOP_FOLLOW_1(277)  func = foo WD = 1
-2420: BRA (1304) (null) null null
+2434: move (3) (1304) null null
 "];
 277[shape=box];
 277 -> 278[color=blue]
@@ -2591,7 +2596,7 @@ TAG: LOOP_FOLLOW_1(277)  func = foo WD = 1
 TAG: LOOP_HEADER_1(278)  func = foo WD = 1
 1304: phi (3) (1300) null null  PHI FOR &i
 1294: CMPI (1304) (null) null #4 aFor = &i
-1295: BGE (1294) (2421) null null
+1295: BGE (1294) (2438) null null
 "];
 278[shape=box];
 278 -> 279[color=blue]
@@ -2610,7 +2615,7 @@ TAG: DO_BLOCK(279)  func = foo WD = 1
 279 -> 278[color=red][style=dotted]
 280[label="
 TAG: LOOP_FOLLOW_1(280)  func = foo WD = 1
-2421: BRA (1318) (null) null null
+2438: move (3) (1318) null null
 "];
 280[shape=box];
 280 -> 281[color=blue]
@@ -2619,7 +2624,7 @@ TAG: LOOP_FOLLOW_1(280)  func = foo WD = 1
 TAG: LOOP_HEADER_1(281)  func = foo WD = 1
 1318: phi (3) (1314) null null  PHI FOR &i
 1308: CMPI (1318) (null) null #4 aFor = &i
-1309: BGE (1308) (2422) null null
+1309: BGE (1308) (2442) null null
 "];
 281[shape=box];
 281 -> 282[color=blue]
@@ -2638,7 +2643,7 @@ TAG: DO_BLOCK(282)  func = foo WD = 1
 282 -> 281[color=red][style=dotted]
 283[label="
 TAG: LOOP_FOLLOW_1(283)  func = foo WD = 1
-2422: BRA (1332) (null) null null
+2442: move (3) (1332) null null
 "];
 283[shape=box];
 283 -> 284[color=blue]
@@ -2647,7 +2652,7 @@ TAG: LOOP_FOLLOW_1(283)  func = foo WD = 1
 TAG: LOOP_HEADER_1(284)  func = foo WD = 1
 1332: phi (3) (1328) null null  PHI FOR &i
 1322: CMPI (1332) (null) null #4 aFor = &i
-1323: BGE (1322) (2423) null null
+1323: BGE (1322) (2446) null null
 "];
 284[shape=box];
 284 -> 285[color=blue]
@@ -2666,7 +2671,7 @@ TAG: DO_BLOCK(285)  func = foo WD = 1
 285 -> 284[color=red][style=dotted]
 286[label="
 TAG: LOOP_FOLLOW_1(286)  func = foo WD = 1
-2423: BRA (1346) (null) null null
+2446: move (3) (1346) null null
 "];
 286[shape=box];
 286 -> 287[color=blue]
@@ -2675,7 +2680,7 @@ TAG: LOOP_FOLLOW_1(286)  func = foo WD = 1
 TAG: LOOP_HEADER_1(287)  func = foo WD = 1
 1346: phi (3) (1342) null null  PHI FOR &i
 1336: CMPI (1346) (null) null #4 aFor = &i
-1337: BGE (1336) (2424) null null
+1337: BGE (1336) (2450) null null
 "];
 287[shape=box];
 287 -> 288[color=blue]
@@ -2694,7 +2699,7 @@ TAG: DO_BLOCK(288)  func = foo WD = 1
 288 -> 287[color=red][style=dotted]
 289[label="
 TAG: LOOP_FOLLOW_1(289)  func = foo WD = 1
-2424: BRA (1360) (null) null null
+2450: move (3) (1360) null null
 "];
 289[shape=box];
 289 -> 290[color=blue]
@@ -2703,7 +2708,7 @@ TAG: LOOP_FOLLOW_1(289)  func = foo WD = 1
 TAG: LOOP_HEADER_1(290)  func = foo WD = 1
 1360: phi (3) (1356) null null  PHI FOR &i
 1350: CMPI (1360) (null) null #4 aFor = &i
-1351: BGE (1350) (2425) null null
+1351: BGE (1350) (2454) null null
 "];
 290[shape=box];
 290 -> 291[color=blue]
@@ -2722,7 +2727,7 @@ TAG: DO_BLOCK(291)  func = foo WD = 1
 291 -> 290[color=red][style=dotted]
 292[label="
 TAG: LOOP_FOLLOW_1(292)  func = foo WD = 1
-2425: BRA (1374) (null) null null
+2454: move (3) (1374) null null
 "];
 292[shape=box];
 292 -> 293[color=blue]
@@ -2731,7 +2736,7 @@ TAG: LOOP_FOLLOW_1(292)  func = foo WD = 1
 TAG: LOOP_HEADER_1(293)  func = foo WD = 1
 1374: phi (3) (1370) null null  PHI FOR &i
 1364: CMPI (1374) (null) null #4 aFor = &i
-1365: BGE (1364) (2426) null null
+1365: BGE (1364) (2458) null null
 "];
 293[shape=box];
 293 -> 294[color=blue]
@@ -2750,7 +2755,7 @@ TAG: DO_BLOCK(294)  func = foo WD = 1
 294 -> 293[color=red][style=dotted]
 295[label="
 TAG: LOOP_FOLLOW_1(295)  func = foo WD = 1
-2426: BRA (1388) (null) null null
+2458: move (3) (1388) null null
 "];
 295[shape=box];
 295 -> 296[color=blue]
@@ -2759,7 +2764,7 @@ TAG: LOOP_FOLLOW_1(295)  func = foo WD = 1
 TAG: LOOP_HEADER_1(296)  func = foo WD = 1
 1388: phi (3) (1384) null null  PHI FOR &i
 1378: CMPI (1388) (null) null #4 aFor = &i
-1379: BGE (1378) (2427) null null
+1379: BGE (1378) (2462) null null
 "];
 296[shape=box];
 296 -> 297[color=blue]
@@ -2778,7 +2783,7 @@ TAG: DO_BLOCK(297)  func = foo WD = 1
 297 -> 296[color=red][style=dotted]
 298[label="
 TAG: LOOP_FOLLOW_1(298)  func = foo WD = 1
-2427: BRA (1402) (null) null null
+2462: move (3) (1402) null null
 "];
 298[shape=box];
 298 -> 299[color=blue]
@@ -2787,7 +2792,7 @@ TAG: LOOP_FOLLOW_1(298)  func = foo WD = 1
 TAG: LOOP_HEADER_1(299)  func = foo WD = 1
 1402: phi (3) (1398) null null  PHI FOR &i
 1392: CMPI (1402) (null) null #4 aFor = &i
-1393: BGE (1392) (2428) null null
+1393: BGE (1392) (2466) null null
 "];
 299[shape=box];
 299 -> 300[color=blue]
@@ -2806,7 +2811,7 @@ TAG: DO_BLOCK(300)  func = foo WD = 1
 300 -> 299[color=red][style=dotted]
 301[label="
 TAG: LOOP_FOLLOW_1(301)  func = foo WD = 1
-2428: BRA (1416) (null) null null
+2466: move (3) (1416) null null
 "];
 301[shape=box];
 301 -> 302[color=blue]
@@ -2815,7 +2820,7 @@ TAG: LOOP_FOLLOW_1(301)  func = foo WD = 1
 TAG: LOOP_HEADER_1(302)  func = foo WD = 1
 1416: phi (3) (1412) null null  PHI FOR &i
 1406: CMPI (1416) (null) null #4 aFor = &i
-1407: BGE (1406) (2429) null null
+1407: BGE (1406) (2470) null null
 "];
 302[shape=box];
 302 -> 303[color=blue]
@@ -2834,7 +2839,7 @@ TAG: DO_BLOCK(303)  func = foo WD = 1
 303 -> 302[color=red][style=dotted]
 304[label="
 TAG: LOOP_FOLLOW_1(304)  func = foo WD = 1
-2429: BRA (1430) (null) null null
+2470: move (3) (1430) null null
 "];
 304[shape=box];
 304 -> 305[color=blue]
@@ -2843,7 +2848,7 @@ TAG: LOOP_FOLLOW_1(304)  func = foo WD = 1
 TAG: LOOP_HEADER_1(305)  func = foo WD = 1
 1430: phi (3) (1426) null null  PHI FOR &i
 1420: CMPI (1430) (null) null #4 aFor = &i
-1421: BGE (1420) (2430) null null
+1421: BGE (1420) (2474) null null
 "];
 305[shape=box];
 305 -> 306[color=blue]
@@ -2862,7 +2867,7 @@ TAG: DO_BLOCK(306)  func = foo WD = 1
 306 -> 305[color=red][style=dotted]
 307[label="
 TAG: LOOP_FOLLOW_1(307)  func = foo WD = 1
-2430: BRA (1444) (null) null null
+2474: move (3) (1444) null null
 "];
 307[shape=box];
 307 -> 308[color=blue]
@@ -2871,7 +2876,7 @@ TAG: LOOP_FOLLOW_1(307)  func = foo WD = 1
 TAG: LOOP_HEADER_1(308)  func = foo WD = 1
 1444: phi (3) (1440) null null  PHI FOR &i
 1434: CMPI (1444) (null) null #4 aFor = &i
-1435: BGE (1434) (2431) null null
+1435: BGE (1434) (2478) null null
 "];
 308[shape=box];
 308 -> 309[color=blue]
@@ -2890,7 +2895,7 @@ TAG: DO_BLOCK(309)  func = foo WD = 1
 309 -> 308[color=red][style=dotted]
 310[label="
 TAG: LOOP_FOLLOW_1(310)  func = foo WD = 1
-2431: BRA (1458) (null) null null
+2478: move (3) (1458) null null
 "];
 310[shape=box];
 310 -> 311[color=blue]
@@ -2899,7 +2904,7 @@ TAG: LOOP_FOLLOW_1(310)  func = foo WD = 1
 TAG: LOOP_HEADER_1(311)  func = foo WD = 1
 1458: phi (3) (1454) null null  PHI FOR &i
 1448: CMPI (1458) (null) null #4 aFor = &i
-1449: BGE (1448) (2432) null null
+1449: BGE (1448) (2482) null null
 "];
 311[shape=box];
 311 -> 312[color=blue]
@@ -2918,7 +2923,7 @@ TAG: DO_BLOCK(312)  func = foo WD = 1
 312 -> 311[color=red][style=dotted]
 313[label="
 TAG: LOOP_FOLLOW_1(313)  func = foo WD = 1
-2432: BRA (1472) (null) null null
+2482: move (3) (1472) null null
 "];
 313[shape=box];
 313 -> 314[color=blue]
@@ -2927,7 +2932,7 @@ TAG: LOOP_FOLLOW_1(313)  func = foo WD = 1
 TAG: LOOP_HEADER_1(314)  func = foo WD = 1
 1472: phi (3) (1468) null null  PHI FOR &i
 1462: CMPI (1472) (null) null #4 aFor = &i
-1463: BGE (1462) (2433) null null
+1463: BGE (1462) (2486) null null
 "];
 314[shape=box];
 314 -> 315[color=blue]
@@ -2946,7 +2951,7 @@ TAG: DO_BLOCK(315)  func = foo WD = 1
 315 -> 314[color=red][style=dotted]
 316[label="
 TAG: LOOP_FOLLOW_1(316)  func = foo WD = 1
-2433: BRA (1486) (null) null null
+2486: move (3) (1486) null null
 "];
 316[shape=box];
 316 -> 317[color=blue]
@@ -2955,7 +2960,7 @@ TAG: LOOP_FOLLOW_1(316)  func = foo WD = 1
 TAG: LOOP_HEADER_1(317)  func = foo WD = 1
 1486: phi (3) (1482) null null  PHI FOR &i
 1476: CMPI (1486) (null) null #4 aFor = &i
-1477: BGE (1476) (2434) null null
+1477: BGE (1476) (2490) null null
 "];
 317[shape=box];
 317 -> 318[color=blue]
@@ -2974,7 +2979,7 @@ TAG: DO_BLOCK(318)  func = foo WD = 1
 318 -> 317[color=red][style=dotted]
 319[label="
 TAG: LOOP_FOLLOW_1(319)  func = foo WD = 1
-2434: BRA (1500) (null) null null
+2490: move (3) (1500) null null
 "];
 319[shape=box];
 319 -> 320[color=blue]
@@ -2983,7 +2988,7 @@ TAG: LOOP_FOLLOW_1(319)  func = foo WD = 1
 TAG: LOOP_HEADER_1(320)  func = foo WD = 1
 1500: phi (3) (1496) null null  PHI FOR &i
 1490: CMPI (1500) (null) null #4 aFor = &i
-1491: BGE (1490) (2435) null null
+1491: BGE (1490) (2494) null null
 "];
 320[shape=box];
 320 -> 321[color=blue]
@@ -3002,7 +3007,7 @@ TAG: DO_BLOCK(321)  func = foo WD = 1
 321 -> 320[color=red][style=dotted]
 322[label="
 TAG: LOOP_FOLLOW_1(322)  func = foo WD = 1
-2435: BRA (1514) (null) null null
+2494: move (3) (1514) null null
 "];
 322[shape=box];
 322 -> 323[color=blue]
@@ -3011,7 +3016,7 @@ TAG: LOOP_FOLLOW_1(322)  func = foo WD = 1
 TAG: LOOP_HEADER_1(323)  func = foo WD = 1
 1514: phi (3) (1510) null null  PHI FOR &i
 1504: CMPI (1514) (null) null #4 aFor = &i
-1505: BGE (1504) (2436) null null
+1505: BGE (1504) (2498) null null
 "];
 323[shape=box];
 323 -> 324[color=blue]
@@ -3030,7 +3035,7 @@ TAG: DO_BLOCK(324)  func = foo WD = 1
 324 -> 323[color=red][style=dotted]
 325[label="
 TAG: LOOP_FOLLOW_1(325)  func = foo WD = 1
-2436: BRA (1528) (null) null null
+2498: move (3) (1528) null null
 "];
 325[shape=box];
 325 -> 326[color=blue]
@@ -3039,7 +3044,7 @@ TAG: LOOP_FOLLOW_1(325)  func = foo WD = 1
 TAG: LOOP_HEADER_1(326)  func = foo WD = 1
 1528: phi (3) (1524) null null  PHI FOR &i
 1518: CMPI (1528) (null) null #4 aFor = &i
-1519: BGE (1518) (2437) null null
+1519: BGE (1518) (2330) null null
 "];
 326[shape=box];
 326 -> 327[color=blue]
@@ -3058,7 +3063,7 @@ TAG: DO_BLOCK(327)  func = foo WD = 1
 327 -> 326[color=red][style=dotted]
 328[label="
 TAG: LOOP_FOLLOW_1(328)  func = foo WD = 1
-2437: BRA (1542) (null) null null
+2330: move (3) (1542) null null
 "];
 328[shape=box];
 328 -> 329[color=blue]
@@ -3067,7 +3072,7 @@ TAG: LOOP_FOLLOW_1(328)  func = foo WD = 1
 TAG: LOOP_HEADER_1(329)  func = foo WD = 1
 1542: phi (3) (1538) null null  PHI FOR &i
 1532: CMPI (1542) (null) null #4 aFor = &i
-1533: BGE (1532) (2438) null null
+1533: BGE (1532) (2337) null null
 "];
 329[shape=box];
 329 -> 330[color=blue]
@@ -3086,7 +3091,7 @@ TAG: DO_BLOCK(330)  func = foo WD = 1
 330 -> 329[color=red][style=dotted]
 331[label="
 TAG: LOOP_FOLLOW_1(331)  func = foo WD = 1
-2438: BRA (1556) (null) null null
+2337: move (3) (1556) null null
 "];
 331[shape=box];
 331 -> 332[color=blue]
@@ -3095,7 +3100,7 @@ TAG: LOOP_FOLLOW_1(331)  func = foo WD = 1
 TAG: LOOP_HEADER_1(332)  func = foo WD = 1
 1556: phi (3) (1552) null null  PHI FOR &i
 1546: CMPI (1556) (null) null #4 aFor = &i
-1547: BGE (1546) (2439) null null
+1547: BGE (1546) (2344) null null
 "];
 332[shape=box];
 332 -> 333[color=blue]
@@ -3114,7 +3119,7 @@ TAG: DO_BLOCK(333)  func = foo WD = 1
 333 -> 332[color=red][style=dotted]
 334[label="
 TAG: LOOP_FOLLOW_1(334)  func = foo WD = 1
-2439: BRA (1570) (null) null null
+2344: move (3) (1570) null null
 "];
 334[shape=box];
 334 -> 335[color=blue]
@@ -3123,7 +3128,7 @@ TAG: LOOP_FOLLOW_1(334)  func = foo WD = 1
 TAG: LOOP_HEADER_1(335)  func = foo WD = 1
 1570: phi (3) (1566) null null  PHI FOR &i
 1560: CMPI (1570) (null) null #4 aFor = &i
-1561: BGE (1560) (2440) null null
+1561: BGE (1560) (2351) null null
 "];
 335[shape=box];
 335 -> 336[color=blue]
@@ -3142,7 +3147,7 @@ TAG: DO_BLOCK(336)  func = foo WD = 1
 336 -> 335[color=red][style=dotted]
 337[label="
 TAG: LOOP_FOLLOW_1(337)  func = foo WD = 1
-2440: BRA (1584) (null) null null
+2351: move (3) (1584) null null
 "];
 337[shape=box];
 337 -> 338[color=blue]
@@ -3151,7 +3156,7 @@ TAG: LOOP_FOLLOW_1(337)  func = foo WD = 1
 TAG: LOOP_HEADER_1(338)  func = foo WD = 1
 1584: phi (3) (1580) null null  PHI FOR &i
 1574: CMPI (1584) (null) null #4 aFor = &i
-1575: BGE (1574) (2441) null null
+1575: BGE (1574) (2356) null null
 "];
 338[shape=box];
 338 -> 339[color=blue]
@@ -3170,7 +3175,7 @@ TAG: DO_BLOCK(339)  func = foo WD = 1
 339 -> 338[color=red][style=dotted]
 340[label="
 TAG: LOOP_FOLLOW_1(340)  func = foo WD = 1
-2441: BRA (1598) (null) null null
+2356: move (3) (1598) null null
 "];
 340[shape=box];
 340 -> 341[color=blue]
@@ -3179,7 +3184,7 @@ TAG: LOOP_FOLLOW_1(340)  func = foo WD = 1
 TAG: LOOP_HEADER_1(341)  func = foo WD = 1
 1598: phi (3) (1594) null null  PHI FOR &i
 1588: CMPI (1598) (null) null #4 aFor = &i
-1589: BGE (1588) (2442) null null
+1589: BGE (1588) (2361) null null
 "];
 341[shape=box];
 341 -> 342[color=blue]
@@ -3198,7 +3203,7 @@ TAG: DO_BLOCK(342)  func = foo WD = 1
 342 -> 341[color=red][style=dotted]
 343[label="
 TAG: LOOP_FOLLOW_1(343)  func = foo WD = 1
-2442: BRA (1612) (null) null null
+2361: move (3) (1612) null null
 "];
 343[shape=box];
 343 -> 344[color=blue]
@@ -3207,7 +3212,7 @@ TAG: LOOP_FOLLOW_1(343)  func = foo WD = 1
 TAG: LOOP_HEADER_1(344)  func = foo WD = 1
 1612: phi (3) (1608) null null  PHI FOR &i
 1602: CMPI (1612) (null) null #4 aFor = &i
-1603: BGE (1602) (2443) null null
+1603: BGE (1602) (2366) null null
 "];
 344[shape=box];
 344 -> 345[color=blue]
@@ -3226,7 +3231,7 @@ TAG: DO_BLOCK(345)  func = foo WD = 1
 345 -> 344[color=red][style=dotted]
 346[label="
 TAG: LOOP_FOLLOW_1(346)  func = foo WD = 1
-2443: BRA (1626) (null) null null
+2366: move (3) (1626) null null
 "];
 346[shape=box];
 346 -> 347[color=blue]
@@ -3235,7 +3240,7 @@ TAG: LOOP_FOLLOW_1(346)  func = foo WD = 1
 TAG: LOOP_HEADER_1(347)  func = foo WD = 1
 1626: phi (3) (1622) null null  PHI FOR &i
 1616: CMPI (1626) (null) null #4 aFor = &i
-1617: BGE (1616) (2444) null null
+1617: BGE (1616) (2371) null null
 "];
 347[shape=box];
 347 -> 348[color=blue]
@@ -3254,7 +3259,7 @@ TAG: DO_BLOCK(348)  func = foo WD = 1
 348 -> 347[color=red][style=dotted]
 349[label="
 TAG: LOOP_FOLLOW_1(349)  func = foo WD = 1
-2444: BRA (1640) (null) null null
+2371: move (3) (1640) null null
 "];
 349[shape=box];
 349 -> 350[color=blue]
@@ -3263,7 +3268,7 @@ TAG: LOOP_FOLLOW_1(349)  func = foo WD = 1
 TAG: LOOP_HEADER_1(350)  func = foo WD = 1
 1640: phi (3) (1636) null null  PHI FOR &i
 1630: CMPI (1640) (null) null #4 aFor = &i
-1631: BGE (1630) (2445) null null
+1631: BGE (1630) (2376) null null
 "];
 350[shape=box];
 350 -> 351[color=blue]
@@ -3282,7 +3287,7 @@ TAG: DO_BLOCK(351)  func = foo WD = 1
 351 -> 350[color=red][style=dotted]
 352[label="
 TAG: LOOP_FOLLOW_1(352)  func = foo WD = 1
-2445: BRA (1654) (null) null null
+2376: move (3) (1654) null null
 "];
 352[shape=box];
 352 -> 353[color=blue]
@@ -3291,7 +3296,7 @@ TAG: LOOP_FOLLOW_1(352)  func = foo WD = 1
 TAG: LOOP_HEADER_1(353)  func = foo WD = 1
 1654: phi (3) (1650) null null  PHI FOR &i
 1644: CMPI (1654) (null) null #4 aFor = &i
-1645: BGE (1644) (2446) null null
+1645: BGE (1644) (2381) null null
 "];
 353[shape=box];
 353 -> 354[color=blue]
@@ -3310,7 +3315,7 @@ TAG: DO_BLOCK(354)  func = foo WD = 1
 354 -> 353[color=red][style=dotted]
 355[label="
 TAG: LOOP_FOLLOW_1(355)  func = foo WD = 1
-2446: BRA (1668) (null) null null
+2381: move (3) (1668) null null
 "];
 355[shape=box];
 355 -> 356[color=blue]
@@ -3319,7 +3324,7 @@ TAG: LOOP_FOLLOW_1(355)  func = foo WD = 1
 TAG: LOOP_HEADER_1(356)  func = foo WD = 1
 1668: phi (3) (1664) null null  PHI FOR &i
 1658: CMPI (1668) (null) null #4 aFor = &i
-1659: BGE (1658) (2447) null null
+1659: BGE (1658) (2386) null null
 "];
 356[shape=box];
 356 -> 357[color=blue]
@@ -3338,7 +3343,7 @@ TAG: DO_BLOCK(357)  func = foo WD = 1
 357 -> 356[color=red][style=dotted]
 358[label="
 TAG: LOOP_FOLLOW_1(358)  func = foo WD = 1
-2447: BRA (1682) (null) null null
+2386: move (3) (1682) null null
 "];
 358[shape=box];
 358 -> 359[color=blue]
@@ -3347,7 +3352,7 @@ TAG: LOOP_FOLLOW_1(358)  func = foo WD = 1
 TAG: LOOP_HEADER_1(359)  func = foo WD = 1
 1682: phi (3) (1678) null null  PHI FOR &i
 1672: CMPI (1682) (null) null #4 aFor = &i
-1673: BGE (1672) (2448) null null
+1673: BGE (1672) (2391) null null
 "];
 359[shape=box];
 359 -> 360[color=blue]
@@ -3366,7 +3371,7 @@ TAG: DO_BLOCK(360)  func = foo WD = 1
 360 -> 359[color=red][style=dotted]
 361[label="
 TAG: LOOP_FOLLOW_1(361)  func = foo WD = 1
-2448: BRA (1696) (null) null null
+2391: move (3) (1696) null null
 "];
 361[shape=box];
 361 -> 362[color=blue]
@@ -3375,7 +3380,7 @@ TAG: LOOP_FOLLOW_1(361)  func = foo WD = 1
 TAG: LOOP_HEADER_1(362)  func = foo WD = 1
 1696: phi (3) (1692) null null  PHI FOR &i
 1686: CMPI (1696) (null) null #4 aFor = &i
-1687: BGE (1686) (2449) null null
+1687: BGE (1686) (2396) null null
 "];
 362[shape=box];
 362 -> 363[color=blue]
@@ -3394,7 +3399,7 @@ TAG: DO_BLOCK(363)  func = foo WD = 1
 363 -> 362[color=red][style=dotted]
 364[label="
 TAG: LOOP_FOLLOW_1(364)  func = foo WD = 1
-2449: BRA (1710) (null) null null
+2396: move (3) (1710) null null
 "];
 364[shape=box];
 364 -> 365[color=blue]
@@ -3403,7 +3408,7 @@ TAG: LOOP_FOLLOW_1(364)  func = foo WD = 1
 TAG: LOOP_HEADER_1(365)  func = foo WD = 1
 1710: phi (3) (1706) null null  PHI FOR &i
 1700: CMPI (1710) (null) null #4 aFor = &i
-1701: BGE (1700) (2450) null null
+1701: BGE (1700) (2401) null null
 "];
 365[shape=box];
 365 -> 366[color=blue]
@@ -3422,7 +3427,7 @@ TAG: DO_BLOCK(366)  func = foo WD = 1
 366 -> 365[color=red][style=dotted]
 367[label="
 TAG: LOOP_FOLLOW_1(367)  func = foo WD = 1
-2450: BRA (1724) (null) null null
+2401: move (3) (1724) null null
 "];
 367[shape=box];
 367 -> 368[color=blue]
@@ -3431,7 +3436,7 @@ TAG: LOOP_FOLLOW_1(367)  func = foo WD = 1
 TAG: LOOP_HEADER_1(368)  func = foo WD = 1
 1724: phi (3) (1720) null null  PHI FOR &i
 1714: CMPI (1724) (null) null #4 aFor = &i
-1715: BGE (1714) (2451) null null
+1715: BGE (1714) (2406) null null
 "];
 368[shape=box];
 368 -> 369[color=blue]
@@ -3450,7 +3455,7 @@ TAG: DO_BLOCK(369)  func = foo WD = 1
 369 -> 368[color=red][style=dotted]
 370[label="
 TAG: LOOP_FOLLOW_1(370)  func = foo WD = 1
-2451: BRA (1738) (null) null null
+2406: move (3) (1738) null null
 "];
 370[shape=box];
 370 -> 371[color=blue]
@@ -3459,7 +3464,7 @@ TAG: LOOP_FOLLOW_1(370)  func = foo WD = 1
 TAG: LOOP_HEADER_1(371)  func = foo WD = 1
 1738: phi (3) (1734) null null  PHI FOR &i
 1728: CMPI (1738) (null) null #4 aFor = &i
-1729: BGE (1728) (2452) null null
+1729: BGE (1728) (2411) null null
 "];
 371[shape=box];
 371 -> 372[color=blue]
@@ -3478,7 +3483,7 @@ TAG: DO_BLOCK(372)  func = foo WD = 1
 372 -> 371[color=red][style=dotted]
 373[label="
 TAG: LOOP_FOLLOW_1(373)  func = foo WD = 1
-2452: BRA (1752) (null) null null
+2411: move (3) (1752) null null
 "];
 373[shape=box];
 373 -> 374[color=blue]
@@ -3487,7 +3492,7 @@ TAG: LOOP_FOLLOW_1(373)  func = foo WD = 1
 TAG: LOOP_HEADER_1(374)  func = foo WD = 1
 1752: phi (3) (1748) null null  PHI FOR &i
 1742: CMPI (1752) (null) null #4 aFor = &i
-1743: BGE (1742) (2453) null null
+1743: BGE (1742) (2416) null null
 "];
 374[shape=box];
 374 -> 375[color=blue]
@@ -3506,7 +3511,7 @@ TAG: DO_BLOCK(375)  func = foo WD = 1
 375 -> 374[color=red][style=dotted]
 376[label="
 TAG: LOOP_FOLLOW_1(376)  func = foo WD = 1
-2453: BRA (1766) (null) null null
+2416: move (3) (1766) null null
 "];
 376[shape=box];
 376 -> 377[color=blue]
@@ -3515,7 +3520,7 @@ TAG: LOOP_FOLLOW_1(376)  func = foo WD = 1
 TAG: LOOP_HEADER_1(377)  func = foo WD = 1
 1766: phi (3) (1762) null null  PHI FOR &i
 1756: CMPI (1766) (null) null #4 aFor = &i
-1757: BGE (1756) (2454) null null
+1757: BGE (1756) (2421) null null
 "];
 377[shape=box];
 377 -> 378[color=blue]
@@ -3534,7 +3539,7 @@ TAG: DO_BLOCK(378)  func = foo WD = 1
 378 -> 377[color=red][style=dotted]
 379[label="
 TAG: LOOP_FOLLOW_1(379)  func = foo WD = 1
-2454: BRA (1780) (null) null null
+2421: move (3) (1780) null null
 "];
 379[shape=box];
 379 -> 380[color=blue]
@@ -3543,7 +3548,7 @@ TAG: LOOP_FOLLOW_1(379)  func = foo WD = 1
 TAG: LOOP_HEADER_1(380)  func = foo WD = 1
 1780: phi (3) (1776) null null  PHI FOR &i
 1770: CMPI (1780) (null) null #4 aFor = &i
-1771: BGE (1770) (2455) null null
+1771: BGE (1770) (2426) null null
 "];
 380[shape=box];
 380 -> 381[color=blue]
@@ -3562,7 +3567,7 @@ TAG: DO_BLOCK(381)  func = foo WD = 1
 381 -> 380[color=red][style=dotted]
 382[label="
 TAG: LOOP_FOLLOW_1(382)  func = foo WD = 1
-2455: BRA (1794) (null) null null
+2426: move (3) (1794) null null
 "];
 382[shape=box];
 382 -> 383[color=blue]
@@ -3571,7 +3576,7 @@ TAG: LOOP_FOLLOW_1(382)  func = foo WD = 1
 TAG: LOOP_HEADER_1(383)  func = foo WD = 1
 1794: phi (3) (1790) null null  PHI FOR &i
 1784: CMPI (1794) (null) null #4 aFor = &i
-1785: BGE (1784) (2456) null null
+1785: BGE (1784) (2431) null null
 "];
 383[shape=box];
 383 -> 384[color=blue]
@@ -3590,7 +3595,7 @@ TAG: DO_BLOCK(384)  func = foo WD = 1
 384 -> 383[color=red][style=dotted]
 385[label="
 TAG: LOOP_FOLLOW_1(385)  func = foo WD = 1
-2456: BRA (1808) (null) null null
+2431: move (3) (1808) null null
 "];
 385[shape=box];
 385 -> 386[color=blue]
@@ -3599,7 +3604,7 @@ TAG: LOOP_FOLLOW_1(385)  func = foo WD = 1
 TAG: LOOP_HEADER_1(386)  func = foo WD = 1
 1808: phi (3) (1804) null null  PHI FOR &i
 1798: CMPI (1808) (null) null #4 aFor = &i
-1799: BGE (1798) (2457) null null
+1799: BGE (1798) (2436) null null
 "];
 386[shape=box];
 386 -> 387[color=blue]
@@ -3618,7 +3623,7 @@ TAG: DO_BLOCK(387)  func = foo WD = 1
 387 -> 386[color=red][style=dotted]
 388[label="
 TAG: LOOP_FOLLOW_1(388)  func = foo WD = 1
-2457: BRA (1822) (null) null null
+2436: move (3) (1822) null null
 "];
 388[shape=box];
 388 -> 389[color=blue]
@@ -3627,7 +3632,7 @@ TAG: LOOP_FOLLOW_1(388)  func = foo WD = 1
 TAG: LOOP_HEADER_1(389)  func = foo WD = 1
 1822: phi (3) (1818) null null  PHI FOR &i
 1812: CMPI (1822) (null) null #4 aFor = &i
-1813: BGE (1812) (2458) null null
+1813: BGE (1812) (2440) null null
 "];
 389[shape=box];
 389 -> 390[color=blue]
@@ -3646,7 +3651,7 @@ TAG: DO_BLOCK(390)  func = foo WD = 1
 390 -> 389[color=red][style=dotted]
 391[label="
 TAG: LOOP_FOLLOW_1(391)  func = foo WD = 1
-2458: BRA (1836) (null) null null
+2440: move (3) (1836) null null
 "];
 391[shape=box];
 391 -> 392[color=blue]
@@ -3655,7 +3660,7 @@ TAG: LOOP_FOLLOW_1(391)  func = foo WD = 1
 TAG: LOOP_HEADER_1(392)  func = foo WD = 1
 1836: phi (3) (1832) null null  PHI FOR &i
 1826: CMPI (1836) (null) null #4 aFor = &i
-1827: BGE (1826) (2459) null null
+1827: BGE (1826) (2444) null null
 "];
 392[shape=box];
 392 -> 393[color=blue]
@@ -3674,7 +3679,7 @@ TAG: DO_BLOCK(393)  func = foo WD = 1
 393 -> 392[color=red][style=dotted]
 394[label="
 TAG: LOOP_FOLLOW_1(394)  func = foo WD = 1
-2459: BRA (1850) (null) null null
+2444: move (3) (1850) null null
 "];
 394[shape=box];
 394 -> 395[color=blue]
@@ -3683,7 +3688,7 @@ TAG: LOOP_FOLLOW_1(394)  func = foo WD = 1
 TAG: LOOP_HEADER_1(395)  func = foo WD = 1
 1850: phi (3) (1846) null null  PHI FOR &i
 1840: CMPI (1850) (null) null #4 aFor = &i
-1841: BGE (1840) (2460) null null
+1841: BGE (1840) (2448) null null
 "];
 395[shape=box];
 395 -> 396[color=blue]
@@ -3702,7 +3707,7 @@ TAG: DO_BLOCK(396)  func = foo WD = 1
 396 -> 395[color=red][style=dotted]
 397[label="
 TAG: LOOP_FOLLOW_1(397)  func = foo WD = 1
-2460: BRA (1864) (null) null null
+2448: move (3) (1864) null null
 "];
 397[shape=box];
 397 -> 398[color=blue]
@@ -3711,7 +3716,7 @@ TAG: LOOP_FOLLOW_1(397)  func = foo WD = 1
 TAG: LOOP_HEADER_1(398)  func = foo WD = 1
 1864: phi (3) (1860) null null  PHI FOR &i
 1854: CMPI (1864) (null) null #4 aFor = &i
-1855: BGE (1854) (2461) null null
+1855: BGE (1854) (2452) null null
 "];
 398[shape=box];
 398 -> 399[color=blue]
@@ -3730,7 +3735,7 @@ TAG: DO_BLOCK(399)  func = foo WD = 1
 399 -> 398[color=red][style=dotted]
 400[label="
 TAG: LOOP_FOLLOW_1(400)  func = foo WD = 1
-2461: BRA (1878) (null) null null
+2452: move (3) (1878) null null
 "];
 400[shape=box];
 400 -> 401[color=blue]
@@ -3739,7 +3744,7 @@ TAG: LOOP_FOLLOW_1(400)  func = foo WD = 1
 TAG: LOOP_HEADER_1(401)  func = foo WD = 1
 1878: phi (3) (1874) null null  PHI FOR &i
 1868: CMPI (1878) (null) null #4 aFor = &i
-1869: BGE (1868) (2462) null null
+1869: BGE (1868) (2456) null null
 "];
 401[shape=box];
 401 -> 402[color=blue]
@@ -3758,7 +3763,7 @@ TAG: DO_BLOCK(402)  func = foo WD = 1
 402 -> 401[color=red][style=dotted]
 403[label="
 TAG: LOOP_FOLLOW_1(403)  func = foo WD = 1
-2462: BRA (1892) (null) null null
+2456: move (3) (1892) null null
 "];
 403[shape=box];
 403 -> 404[color=blue]
@@ -3767,7 +3772,7 @@ TAG: LOOP_FOLLOW_1(403)  func = foo WD = 1
 TAG: LOOP_HEADER_1(404)  func = foo WD = 1
 1892: phi (3) (1888) null null  PHI FOR &i
 1882: CMPI (1892) (null) null #4 aFor = &i
-1883: BGE (1882) (2463) null null
+1883: BGE (1882) (2460) null null
 "];
 404[shape=box];
 404 -> 405[color=blue]
@@ -3786,7 +3791,7 @@ TAG: DO_BLOCK(405)  func = foo WD = 1
 405 -> 404[color=red][style=dotted]
 406[label="
 TAG: LOOP_FOLLOW_1(406)  func = foo WD = 1
-2463: BRA (1906) (null) null null
+2460: move (3) (1906) null null
 "];
 406[shape=box];
 406 -> 407[color=blue]
@@ -3814,7 +3819,7 @@ TAG: DO_BLOCK(408)  func = foo WD = 1
 408 -> 407[color=red][style=dotted]
 409[label="
 TAG: LOOP_FOLLOW_1(409)  func = foo WD = 1
-2464: BRA (1920) (null) null null
+2464: move (3) (1920) null null
 "];
 409[shape=box];
 409 -> 410[color=blue]
@@ -3823,7 +3828,7 @@ TAG: LOOP_FOLLOW_1(409)  func = foo WD = 1
 TAG: LOOP_HEADER_1(410)  func = foo WD = 1
 1920: phi (3) (1916) null null  PHI FOR &i
 1910: CMPI (1920) (null) null #4 aFor = &i
-1911: BGE (1910) (2465) null null
+1911: BGE (1910) (2468) null null
 "];
 410[shape=box];
 410 -> 411[color=blue]
@@ -3842,7 +3847,7 @@ TAG: DO_BLOCK(411)  func = foo WD = 1
 411 -> 410[color=red][style=dotted]
 412[label="
 TAG: LOOP_FOLLOW_1(412)  func = foo WD = 1
-2465: BRA (1934) (null) null null
+2468: move (3) (1934) null null
 "];
 412[shape=box];
 412 -> 413[color=blue]
@@ -3851,7 +3856,7 @@ TAG: LOOP_FOLLOW_1(412)  func = foo WD = 1
 TAG: LOOP_HEADER_1(413)  func = foo WD = 1
 1934: phi (3) (1930) null null  PHI FOR &i
 1924: CMPI (1934) (null) null #4 aFor = &i
-1925: BGE (1924) (2466) null null
+1925: BGE (1924) (2472) null null
 "];
 413[shape=box];
 413 -> 414[color=blue]
@@ -3870,7 +3875,7 @@ TAG: DO_BLOCK(414)  func = foo WD = 1
 414 -> 413[color=red][style=dotted]
 415[label="
 TAG: LOOP_FOLLOW_1(415)  func = foo WD = 1
-2466: BRA (1948) (null) null null
+2472: move (3) (1948) null null
 "];
 415[shape=box];
 415 -> 416[color=blue]
@@ -3879,7 +3884,7 @@ TAG: LOOP_FOLLOW_1(415)  func = foo WD = 1
 TAG: LOOP_HEADER_1(416)  func = foo WD = 1
 1948: phi (3) (1944) null null  PHI FOR &i
 1938: CMPI (1948) (null) null #4 aFor = &i
-1939: BGE (1938) (2467) null null
+1939: BGE (1938) (2476) null null
 "];
 416[shape=box];
 416 -> 417[color=blue]
@@ -3898,7 +3903,7 @@ TAG: DO_BLOCK(417)  func = foo WD = 1
 417 -> 416[color=red][style=dotted]
 418[label="
 TAG: LOOP_FOLLOW_1(418)  func = foo WD = 1
-2467: BRA (1962) (null) null null
+2476: move (3) (1962) null null
 "];
 418[shape=box];
 418 -> 419[color=blue]
@@ -3907,7 +3912,7 @@ TAG: LOOP_FOLLOW_1(418)  func = foo WD = 1
 TAG: LOOP_HEADER_1(419)  func = foo WD = 1
 1962: phi (3) (1958) null null  PHI FOR &i
 1952: CMPI (1962) (null) null #4 aFor = &i
-1953: BGE (1952) (2468) null null
+1953: BGE (1952) (2480) null null
 "];
 419[shape=box];
 419 -> 420[color=blue]
@@ -3926,7 +3931,7 @@ TAG: DO_BLOCK(420)  func = foo WD = 1
 420 -> 419[color=red][style=dotted]
 421[label="
 TAG: LOOP_FOLLOW_1(421)  func = foo WD = 1
-2468: BRA (1976) (null) null null
+2480: move (3) (1976) null null
 "];
 421[shape=box];
 421 -> 422[color=blue]
@@ -3935,7 +3940,7 @@ TAG: LOOP_FOLLOW_1(421)  func = foo WD = 1
 TAG: LOOP_HEADER_1(422)  func = foo WD = 1
 1976: phi (3) (1972) null null  PHI FOR &i
 1966: CMPI (1976) (null) null #4 aFor = &i
-1967: BGE (1966) (2469) null null
+1967: BGE (1966) (2484) null null
 "];
 422[shape=box];
 422 -> 423[color=blue]
@@ -3954,7 +3959,7 @@ TAG: DO_BLOCK(423)  func = foo WD = 1
 423 -> 422[color=red][style=dotted]
 424[label="
 TAG: LOOP_FOLLOW_1(424)  func = foo WD = 1
-2469: BRA (1990) (null) null null
+2484: move (3) (1990) null null
 "];
 424[shape=box];
 424 -> 425[color=blue]
@@ -3963,7 +3968,7 @@ TAG: LOOP_FOLLOW_1(424)  func = foo WD = 1
 TAG: LOOP_HEADER_1(425)  func = foo WD = 1
 1990: phi (3) (1986) null null  PHI FOR &i
 1980: CMPI (1990) (null) null #4 aFor = &i
-1981: BGE (1980) (2470) null null
+1981: BGE (1980) (2488) null null
 "];
 425[shape=box];
 425 -> 426[color=blue]
@@ -3982,7 +3987,7 @@ TAG: DO_BLOCK(426)  func = foo WD = 1
 426 -> 425[color=red][style=dotted]
 427[label="
 TAG: LOOP_FOLLOW_1(427)  func = foo WD = 1
-2470: BRA (2004) (null) null null
+2488: move (3) (2004) null null
 "];
 427[shape=box];
 427 -> 428[color=blue]
@@ -3991,7 +3996,7 @@ TAG: LOOP_FOLLOW_1(427)  func = foo WD = 1
 TAG: LOOP_HEADER_1(428)  func = foo WD = 1
 2004: phi (3) (2000) null null  PHI FOR &i
 1994: CMPI (2004) (null) null #4 aFor = &i
-1995: BGE (1994) (2471) null null
+1995: BGE (1994) (2492) null null
 "];
 428[shape=box];
 428 -> 429[color=blue]
@@ -4010,7 +4015,7 @@ TAG: DO_BLOCK(429)  func = foo WD = 1
 429 -> 428[color=red][style=dotted]
 430[label="
 TAG: LOOP_FOLLOW_1(430)  func = foo WD = 1
-2471: BRA (2018) (null) null null
+2492: move (3) (2018) null null
 "];
 430[shape=box];
 430 -> 431[color=blue]
@@ -4019,7 +4024,7 @@ TAG: LOOP_FOLLOW_1(430)  func = foo WD = 1
 TAG: LOOP_HEADER_1(431)  func = foo WD = 1
 2018: phi (3) (2014) null null  PHI FOR &i
 2008: CMPI (2018) (null) null #4 aFor = &i
-2009: BGE (2008) (2472) null null
+2009: BGE (2008) (2496) null null
 "];
 431[shape=box];
 431 -> 432[color=blue]
@@ -4038,7 +4043,7 @@ TAG: DO_BLOCK(432)  func = foo WD = 1
 432 -> 431[color=red][style=dotted]
 433[label="
 TAG: LOOP_FOLLOW_1(433)  func = foo WD = 1
-2472: BRA (2032) (null) null null
+2496: move (3) (2032) null null
 "];
 433[shape=box];
 433 -> 434[color=blue]
@@ -4047,7 +4052,7 @@ TAG: LOOP_FOLLOW_1(433)  func = foo WD = 1
 TAG: LOOP_HEADER_1(434)  func = foo WD = 1
 2032: phi (3) (2028) null null  PHI FOR &i
 2022: CMPI (2032) (null) null #4 aFor = &i
-2023: BGE (2022) (2473) null null
+2023: BGE (2022) (2500) null null
 "];
 434[shape=box];
 434 -> 435[color=blue]
@@ -4066,7 +4071,7 @@ TAG: DO_BLOCK(435)  func = foo WD = 1
 435 -> 434[color=red][style=dotted]
 436[label="
 TAG: LOOP_FOLLOW_1(436)  func = foo WD = 1
-2473: BRA (2046) (null) null null
+2500: move (3) (2046) null null
 "];
 436[shape=box];
 436 -> 437[color=blue]
@@ -4075,7 +4080,7 @@ TAG: LOOP_FOLLOW_1(436)  func = foo WD = 1
 TAG: LOOP_HEADER_1(437)  func = foo WD = 1
 2046: phi (3) (2042) null null  PHI FOR &i
 2036: CMPI (2046) (null) null #4 aFor = &i
-2037: BGE (2036) (2474) null null
+2037: BGE (2036) (2332) null null
 "];
 437[shape=box];
 437 -> 438[color=blue]
@@ -4094,7 +4099,7 @@ TAG: DO_BLOCK(438)  func = foo WD = 1
 438 -> 437[color=red][style=dotted]
 439[label="
 TAG: LOOP_FOLLOW_1(439)  func = foo WD = 1
-2474: BRA (2060) (null) null null
+2332: move (3) (2060) null null
 "];
 439[shape=box];
 439 -> 440[color=blue]
@@ -4103,7 +4108,7 @@ TAG: LOOP_FOLLOW_1(439)  func = foo WD = 1
 TAG: LOOP_HEADER_1(440)  func = foo WD = 1
 2060: phi (3) (2056) null null  PHI FOR &i
 2050: CMPI (2060) (null) null #4 aFor = &i
-2051: BGE (2050) (2475) null null
+2051: BGE (2050) (2339) null null
 "];
 440[shape=box];
 440 -> 441[color=blue]
@@ -4115,14 +4120,15 @@ TAG: DO_BLOCK(441)  func = foo WD = 1
 2052: read (null) (null) null null move for = &b
 2054: write (2052) (null) null null
 2056: ADDI (2060) (null) null #1 aFor = &i move for = &i
-2058: BRA (2060) (null) null null
+2058: BRA (null) (null) null null
+2333: move (2056) (2060) null null
 "];
 441[shape=box];
 441 -> 440[color=blue]
 441 -> 440[color=red][style=dotted]
 442[label="
 TAG: LOOP_FOLLOW_1(442)  func = foo WD = 1
-2475: BRA (2074) (null) null null
+2339: move (3) (2074) null null
 "];
 442[shape=box];
 442 -> 443[color=blue]
@@ -4131,7 +4137,7 @@ TAG: LOOP_FOLLOW_1(442)  func = foo WD = 1
 TAG: LOOP_HEADER_1(443)  func = foo WD = 1
 2074: phi (3) (2070) null null  PHI FOR &i
 2064: CMPI (2074) (null) null #4 aFor = &i
-2065: BGE (2064) (2476) null null
+2065: BGE (2064) (2346) null null
 "];
 443[shape=box];
 443 -> 444[color=blue]
@@ -4143,14 +4149,15 @@ TAG: DO_BLOCK(444)  func = foo WD = 1
 2066: read (null) (null) null null move for = &b
 2068: write (2066) (null) null null
 2070: ADDI (2074) (null) null #1 aFor = &i move for = &i
-2072: BRA (2074) (null) null null
+2072: BRA (null) (null) null null
+2340: move (2070) (2074) null null
 "];
 444[shape=box];
 444 -> 443[color=blue]
 444 -> 443[color=red][style=dotted]
 445[label="
 TAG: LOOP_FOLLOW_1(445)  func = foo WD = 1
-2476: BRA (2088) (null) null null
+2346: move (3) (2088) null null
 "];
 445[shape=box];
 445 -> 446[color=blue]
@@ -4159,7 +4166,7 @@ TAG: LOOP_FOLLOW_1(445)  func = foo WD = 1
 TAG: LOOP_HEADER_1(446)  func = foo WD = 1
 2088: phi (3) (2084) null null  PHI FOR &i
 2078: CMPI (2088) (null) null #4 aFor = &i
-2079: BGE (2078) (2477) null null
+2079: BGE (2078) (2353) null null
 "];
 446[shape=box];
 446 -> 447[color=blue]
@@ -4171,14 +4178,15 @@ TAG: DO_BLOCK(447)  func = foo WD = 1
 2080: read (null) (null) null null move for = &b
 2082: write (2080) (null) null null
 2084: ADDI (2088) (null) null #1 aFor = &i move for = &i
-2086: BRA (2088) (null) null null
+2086: BRA (null) (null) null null
+2347: move (2084) (2088) null null
 "];
 447[shape=box];
 447 -> 446[color=blue]
 447 -> 446[color=red][style=dotted]
 448[label="
 TAG: LOOP_FOLLOW_1(448)  func = foo WD = 1
-2477: BRA (2102) (null) null null
+2353: move (3) (2102) null null
 "];
 448[shape=box];
 448 -> 449[color=blue]
@@ -4187,7 +4195,7 @@ TAG: LOOP_FOLLOW_1(448)  func = foo WD = 1
 TAG: LOOP_HEADER_1(449)  func = foo WD = 1
 2102: phi (3) (2098) null null  PHI FOR &i
 2092: CMPI (2102) (null) null #4 aFor = &i
-2093: BGE (2092) (2478) null null
+2093: BGE (2092) (2358) null null
 "];
 449[shape=box];
 449 -> 450[color=blue]
@@ -4206,7 +4214,7 @@ TAG: DO_BLOCK(450)  func = foo WD = 1
 450 -> 449[color=red][style=dotted]
 451[label="
 TAG: LOOP_FOLLOW_1(451)  func = foo WD = 1
-2478: BRA (2116) (null) null null
+2358: move (3) (2116) null null
 "];
 451[shape=box];
 451 -> 452[color=blue]
@@ -4215,7 +4223,7 @@ TAG: LOOP_FOLLOW_1(451)  func = foo WD = 1
 TAG: LOOP_HEADER_1(452)  func = foo WD = 1
 2116: phi (3) (2112) null null  PHI FOR &i
 2106: CMPI (2116) (null) null #4 aFor = &i
-2107: BGE (2106) (2479) null null
+2107: BGE (2106) (2363) null null
 "];
 452[shape=box];
 452 -> 453[color=blue]
@@ -4234,7 +4242,7 @@ TAG: DO_BLOCK(453)  func = foo WD = 1
 453 -> 452[color=red][style=dotted]
 454[label="
 TAG: LOOP_FOLLOW_1(454)  func = foo WD = 1
-2479: BRA (2130) (null) null null
+2363: move (3) (2130) null null
 "];
 454[shape=box];
 454 -> 455[color=blue]
@@ -4243,7 +4251,7 @@ TAG: LOOP_FOLLOW_1(454)  func = foo WD = 1
 TAG: LOOP_HEADER_1(455)  func = foo WD = 1
 2130: phi (3) (2126) null null  PHI FOR &i
 2120: CMPI (2130) (null) null #4 aFor = &i
-2121: BGE (2120) (2480) null null
+2121: BGE (2120) (2368) null null
 "];
 455[shape=box];
 455 -> 456[color=blue]
@@ -4262,7 +4270,7 @@ TAG: DO_BLOCK(456)  func = foo WD = 1
 456 -> 455[color=red][style=dotted]
 457[label="
 TAG: LOOP_FOLLOW_1(457)  func = foo WD = 1
-2480: BRA (2144) (null) null null
+2368: move (3) (2144) null null
 "];
 457[shape=box];
 457 -> 458[color=blue]
@@ -4271,7 +4279,7 @@ TAG: LOOP_FOLLOW_1(457)  func = foo WD = 1
 TAG: LOOP_HEADER_1(458)  func = foo WD = 1
 2144: phi (3) (2140) null null  PHI FOR &i
 2134: CMPI (2144) (null) null #4 aFor = &i
-2135: BGE (2134) (2481) null null
+2135: BGE (2134) (2373) null null
 "];
 458[shape=box];
 458 -> 459[color=blue]
@@ -4290,7 +4298,7 @@ TAG: DO_BLOCK(459)  func = foo WD = 1
 459 -> 458[color=red][style=dotted]
 460[label="
 TAG: LOOP_FOLLOW_1(460)  func = foo WD = 1
-2481: BRA (2158) (null) null null
+2373: move (3) (2158) null null
 "];
 460[shape=box];
 460 -> 461[color=blue]
@@ -4299,7 +4307,7 @@ TAG: LOOP_FOLLOW_1(460)  func = foo WD = 1
 TAG: LOOP_HEADER_1(461)  func = foo WD = 1
 2158: phi (3) (2154) null null  PHI FOR &i
 2148: CMPI (2158) (null) null #4 aFor = &i
-2149: BGE (2148) (2482) null null
+2149: BGE (2148) (2378) null null
 "];
 461[shape=box];
 461 -> 462[color=blue]
@@ -4318,7 +4326,7 @@ TAG: DO_BLOCK(462)  func = foo WD = 1
 462 -> 461[color=red][style=dotted]
 463[label="
 TAG: LOOP_FOLLOW_1(463)  func = foo WD = 1
-2482: BRA (2172) (null) null null
+2378: move (3) (2172) null null
 "];
 463[shape=box];
 463 -> 464[color=blue]
@@ -4327,7 +4335,7 @@ TAG: LOOP_FOLLOW_1(463)  func = foo WD = 1
 TAG: LOOP_HEADER_1(464)  func = foo WD = 1
 2172: phi (3) (2168) null null  PHI FOR &i
 2162: CMPI (2172) (null) null #4 aFor = &i
-2163: BGE (2162) (2483) null null
+2163: BGE (2162) (2383) null null
 "];
 464[shape=box];
 464 -> 465[color=blue]
@@ -4346,7 +4354,7 @@ TAG: DO_BLOCK(465)  func = foo WD = 1
 465 -> 464[color=red][style=dotted]
 466[label="
 TAG: LOOP_FOLLOW_1(466)  func = foo WD = 1
-2483: BRA (2186) (null) null null
+2383: move (3) (2186) null null
 "];
 466[shape=box];
 466 -> 467[color=blue]
@@ -4355,7 +4363,7 @@ TAG: LOOP_FOLLOW_1(466)  func = foo WD = 1
 TAG: LOOP_HEADER_1(467)  func = foo WD = 1
 2186: phi (3) (2182) null null  PHI FOR &i
 2176: CMPI (2186) (null) null #4 aFor = &i
-2177: BGE (2176) (2484) null null
+2177: BGE (2176) (2388) null null
 "];
 467[shape=box];
 467 -> 468[color=blue]
@@ -4374,7 +4382,7 @@ TAG: DO_BLOCK(468)  func = foo WD = 1
 468 -> 467[color=red][style=dotted]
 469[label="
 TAG: LOOP_FOLLOW_1(469)  func = foo WD = 1
-2484: BRA (2200) (null) null null
+2388: move (3) (2200) null null
 "];
 469[shape=box];
 469 -> 470[color=blue]
@@ -4383,7 +4391,7 @@ TAG: LOOP_FOLLOW_1(469)  func = foo WD = 1
 TAG: LOOP_HEADER_1(470)  func = foo WD = 1
 2200: phi (3) (2196) null null  PHI FOR &i
 2190: CMPI (2200) (null) null #4 aFor = &i
-2191: BGE (2190) (2485) null null
+2191: BGE (2190) (2393) null null
 "];
 470[shape=box];
 470 -> 471[color=blue]
@@ -4402,7 +4410,7 @@ TAG: DO_BLOCK(471)  func = foo WD = 1
 471 -> 470[color=red][style=dotted]
 472[label="
 TAG: LOOP_FOLLOW_1(472)  func = foo WD = 1
-2485: BRA (2214) (null) null null
+2393: move (3) (2214) null null
 "];
 472[shape=box];
 472 -> 473[color=blue]
@@ -4411,7 +4419,7 @@ TAG: LOOP_FOLLOW_1(472)  func = foo WD = 1
 TAG: LOOP_HEADER_1(473)  func = foo WD = 1
 2214: phi (3) (2210) null null  PHI FOR &i
 2204: CMPI (2214) (null) null #4 aFor = &i
-2205: BGE (2204) (2486) null null
+2205: BGE (2204) (2398) null null
 "];
 473[shape=box];
 473 -> 474[color=blue]
@@ -4430,7 +4438,7 @@ TAG: DO_BLOCK(474)  func = foo WD = 1
 474 -> 473[color=red][style=dotted]
 475[label="
 TAG: LOOP_FOLLOW_1(475)  func = foo WD = 1
-2486: BRA (2228) (null) null null
+2398: move (3) (2228) null null
 "];
 475[shape=box];
 475 -> 476[color=blue]
@@ -4439,7 +4447,7 @@ TAG: LOOP_FOLLOW_1(475)  func = foo WD = 1
 TAG: LOOP_HEADER_1(476)  func = foo WD = 1
 2228: phi (3) (2224) null null  PHI FOR &i
 2218: CMPI (2228) (null) null #4 aFor = &i
-2219: BGE (2218) (2487) null null
+2219: BGE (2218) (2403) null null
 "];
 476[shape=box];
 476 -> 477[color=blue]
@@ -4458,7 +4466,7 @@ TAG: DO_BLOCK(477)  func = foo WD = 1
 477 -> 476[color=red][style=dotted]
 478[label="
 TAG: LOOP_FOLLOW_1(478)  func = foo WD = 1
-2487: BRA (2242) (null) null null
+2403: move (3) (2242) null null
 "];
 478[shape=box];
 478 -> 479[color=blue]
@@ -4467,7 +4475,7 @@ TAG: LOOP_FOLLOW_1(478)  func = foo WD = 1
 TAG: LOOP_HEADER_1(479)  func = foo WD = 1
 2242: phi (3) (2238) null null  PHI FOR &i
 2232: CMPI (2242) (null) null #4 aFor = &i
-2233: BGE (2232) (2488) null null
+2233: BGE (2232) (2408) null null
 "];
 479[shape=box];
 479 -> 480[color=blue]
@@ -4486,7 +4494,7 @@ TAG: DO_BLOCK(480)  func = foo WD = 1
 480 -> 479[color=red][style=dotted]
 481[label="
 TAG: LOOP_FOLLOW_1(481)  func = foo WD = 1
-2488: BRA (2256) (null) null null
+2408: move (3) (2256) null null
 "];
 481[shape=box];
 481 -> 482[color=blue]
@@ -4495,7 +4503,7 @@ TAG: LOOP_FOLLOW_1(481)  func = foo WD = 1
 TAG: LOOP_HEADER_1(482)  func = foo WD = 1
 2256: phi (3) (2252) null null  PHI FOR &i
 2246: CMPI (2256) (null) null #4 aFor = &i
-2247: BGE (2246) (2489) null null
+2247: BGE (2246) (2413) null null
 "];
 482[shape=box];
 482 -> 483[color=blue]
@@ -4514,7 +4522,7 @@ TAG: DO_BLOCK(483)  func = foo WD = 1
 483 -> 482[color=red][style=dotted]
 484[label="
 TAG: LOOP_FOLLOW_1(484)  func = foo WD = 1
-2489: BRA (2270) (null) null null
+2413: move (3) (2270) null null
 "];
 484[shape=box];
 484 -> 485[color=blue]
@@ -4523,7 +4531,7 @@ TAG: LOOP_FOLLOW_1(484)  func = foo WD = 1
 TAG: LOOP_HEADER_1(485)  func = foo WD = 1
 2270: phi (3) (2266) null null  PHI FOR &i
 2260: CMPI (2270) (null) null #4 aFor = &i
-2261: BGE (2260) (2490) null null
+2261: BGE (2260) (2418) null null
 "];
 485[shape=box];
 485 -> 486[color=blue]
@@ -4542,7 +4550,7 @@ TAG: DO_BLOCK(486)  func = foo WD = 1
 486 -> 485[color=red][style=dotted]
 487[label="
 TAG: LOOP_FOLLOW_1(487)  func = foo WD = 1
-2490: BRA (2284) (null) null null
+2418: move (3) (2284) null null
 "];
 487[shape=box];
 487 -> 488[color=blue]
@@ -4551,7 +4559,7 @@ TAG: LOOP_FOLLOW_1(487)  func = foo WD = 1
 TAG: LOOP_HEADER_1(488)  func = foo WD = 1
 2284: phi (3) (2280) null null  PHI FOR &i
 2274: CMPI (2284) (null) null #4 aFor = &i
-2275: BGE (2274) (2491) null null
+2275: BGE (2274) (2423) null null
 "];
 488[shape=box];
 488 -> 489[color=blue]
@@ -4570,7 +4578,7 @@ TAG: DO_BLOCK(489)  func = foo WD = 1
 489 -> 488[color=red][style=dotted]
 490[label="
 TAG: LOOP_FOLLOW_1(490)  func = foo WD = 1
-2491: BRA (2298) (null) null null
+2423: move (3) (2298) null null
 "];
 490[shape=box];
 490 -> 491[color=blue]
@@ -4579,7 +4587,7 @@ TAG: LOOP_FOLLOW_1(490)  func = foo WD = 1
 TAG: LOOP_HEADER_1(491)  func = foo WD = 1
 2298: phi (3) (2294) null null  PHI FOR &i
 2288: CMPI (2298) (null) null #4 aFor = &i
-2289: BGE (2288) (2492) null null
+2289: BGE (2288) (2428) null null
 "];
 491[shape=box];
 491 -> 492[color=blue]
@@ -4598,7 +4606,7 @@ TAG: DO_BLOCK(492)  func = foo WD = 1
 492 -> 491[color=red][style=dotted]
 493[label="
 TAG: LOOP_FOLLOW_1(493)  func = foo WD = 1
-2492: BRA (2312) (null) null null
+2428: move (3) (2312) null null
 "];
 493[shape=box];
 493 -> 494[color=blue]
@@ -4607,7 +4615,7 @@ TAG: LOOP_FOLLOW_1(493)  func = foo WD = 1
 TAG: LOOP_HEADER_1(494)  func = foo WD = 1
 2312: phi (3) (2308) null null  PHI FOR &i
 2302: CMPI (2312) (null) null #4 aFor = &i
-2303: BGE (2302) (2493) null null
+2303: BGE (2302) (2502) null null
 "];
 494[shape=box];
 494 -> 495[color=blue]
@@ -4626,7 +4634,7 @@ TAG: DO_BLOCK(495)  func = foo WD = 1
 495 -> 494[color=red][style=dotted]
 496[label="
 TAG: LOOP_FOLLOW_1(496)  func = foo WD = 1
-2493: BRA (2326) (null) null null
+2502: BRA (2326) (null) null null
 "];
 496[shape=box];
 496 -> 497[color=blue]
@@ -4647,7 +4655,8 @@ TAG: DO_BLOCK(498)  func = foo WD = 1
 2318: read (null) (null) null null move for = &b
 2320: write (2318) (null) null null
 2322: ADDI (2326) (null) null #1 aFor = &i move for = &i
-2324: BRA (2326) (null) null null
+2324: BRA (null) (null) null null
+2433: move (2322) (2326) null null
 "];
 498[shape=box];
 498 -> 497[color=blue]

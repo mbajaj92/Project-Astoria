@@ -39,6 +39,9 @@ public class Testing {
 			if (Instruction.getInstructionList() != null)
 				for (Instruction i : Instruction.getInstructionList())
 					Utils.SOPln(i.testToString());
+			
+			/* Graph Coloring */
+			Utils.registerAllocation();
 
 			File f = new File(fileNumber + "graph.dot");
 			f.delete();
@@ -71,10 +74,6 @@ public class Testing {
 			randomAccessFile.writeBytes("}");
 			randomAccessFile.close();
 			Runtime.getRuntime().exec("dot " + fileNumber + "graph.dot -Tpng -o " + fileNumber + "graph.png");
-
-			
-			/* Graph Coloring */
-			Utils.registerAllocation();
 
 			f = new File(fileNumber + "iGraph.dot");
 			f.delete();
@@ -119,6 +118,14 @@ public class Testing {
 				randomAccessFile.close();
 				Runtime.getRuntime().exec("dot " + fileNumber + "phiGraph.dot -Tpng -o " + fileNumber + "phiGraph.png");
 			}
+
+			/* Still under development */
+			/*for (BasicBlock i : BasicBlock.getBasicBlockList()) {
+				Utils.BasicBlockTraversal(i);
+				// code to be inserted here . . .
+				break;
+			}*/
+
 			ScannerUtils.shutDown();
 			Utils.shutDown();
 		}

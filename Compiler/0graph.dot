@@ -1,23 +1,26 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-27: BRA (5) (null) null null
+37: BRA (5) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
 TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
-5: ADDI (null) (null) #0 #99 move for = &d &a
+5: ADDI (null) (null) #0 #99 move for = &d &a &b
+35: move (5) (28) null null
+36: move (5) (30) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
 2[label="
 TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
-23: phi (5) (17) null null  PHI FOR &a
-22: phi (5) (19) null null  PHI FOR &d
-11: CMP (23) (0) null null aFor = &a bFor = &b
-12: BGE (11) (25) null null
+30: phi (5) (25) null null  PHI FOR &b
+29: phi (5) (19) null null  PHI FOR &a
+28: phi (5) (21) null null  PHI FOR &d
+13: CMP (29) (30) null null aFor = &a bFor = &b
+14: BGE (13) (32) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -26,17 +29,21 @@ TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 2 -> 3[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
-17: ADDI (23) (null) null #1 aFor = &a move for = &a
-19: ADDI (null) (null) #0 #98 move for = &d
-21: BRA (23) (null) null null
+16: SUBI (29) (null) null #9 aFor = &a move for = &c
+19: ADDI (29) (null) null #1 aFor = &a move for = &a
+21: ADDI (null) (null) #0 #98 move for = &d
+23: ADDI (null) (null) #0 #75
+25: SUB (23) (16) null null bFor = &c move for = &b
+27: BRA (30) (null) null null
 "];
 3[shape=box];
 3 -> 2[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
 TAG: LOOP_FOLLOW_1(4)  func = MAIN$FUNC WD = 1
-25: write (23) (null) null null
-26: write (22) (null) null null
+32: write (29) (null) null null
+33: write (28) (null) null null
+34: write (30) (null) null null
 "];
 4[shape=box];
 4 -> 2[color=red][style=dotted]
