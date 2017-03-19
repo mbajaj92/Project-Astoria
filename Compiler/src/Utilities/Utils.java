@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import Utilities.MyScanner.VARIABLE_TYPE;
-import Utilities.Utils.BasicBlockType;
 
 public class Utils {
 	public static HashMap<Integer, BasicBlock> leftOverTrace = null;
@@ -387,11 +386,9 @@ public class Utils {
 		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BRA, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi, call, read, write, writeNL
 	};
 
-	final public static boolean BINARY = false;
 	public static int programCounter = 0;
 	public static int stackPointer = 0;
 	private static ArrayList<Integer> buffer = new ArrayList<Integer>();
-	private static ArrayList<String> tempResult = new ArrayList<String>();
 
 	/* TODO: need to fixup; later */
 	public static void fixup(int index) {
@@ -435,7 +432,7 @@ public class Utils {
 		return input;
 	}
 
-	private static void putF3(int code, int c, String operation) throws Exception {
+	private static void putF3(int code, int c/*, String operation*/) throws Exception {
 		String op = Integer.toBinaryString(code);
 		op = format(op, 6);
 		String cbits = Integer.toBinaryString(c);
@@ -443,16 +440,10 @@ public class Utils {
 			error("Length of Cbits is greater than 26 !! ");
 
 		cbits = format(cbits, 26);
-		if (BINARY) {
-			SOPln(op + "-" + cbits);
-		} else {
-			SOPln(operation + " " + c);
-		}
-		buffer.add(programCounter, Integer.parseInt(op + cbits));
-		tempResult.add(programCounter++, operation + " c = " + c);
+		buffer.add(programCounter++, Integer.parseInt(op + cbits));
 	}
 
-	private static void putF2(int code, int a, int b, int c, String operation) throws Exception {
+	private static void putF2(int code, int a, int b, int c/*, String operation*/) throws Exception {
 		if (a >= 32)
 			error("Length of abits is greater than 5 !! ");
 
@@ -461,10 +452,11 @@ public class Utils {
 
 		if (c >= 32)
 			error("Length of cbits is greater than 5 !! ");
-		implementF1F2(code, a, b, c, operation);
+		implementF1F2(code, a, b, c/*, operation*/);
 	}
 
-	private static void implementF1F2(int code, int a, int b, int c, String operation) {
+	private static void implementF1F2(int code, int a, int b,
+			int c/* , String operation */) {
 		String op = Integer.toBinaryString(code);
 		op = format(op, 6);
 		String abits = Integer.toBinaryString(a);
@@ -473,17 +465,10 @@ public class Utils {
 		bbits = format(bbits, 5);
 		String cbits = Integer.toBinaryString(c);
 		cbits = format(cbits, 16);
-		if (BINARY)
-			SOPln(op + "-" + abits + "-" + bbits + "-" + cbits);
-		else
-			SOPln(operation + " " + a + " " + b + " " + c);
-
-		// buffer.add(programCounter, Integer.parseInt(op + abits + bbits +
-		// cbits));
-		tempResult.add(programCounter++, operation + " a = " + a + " b = " + b + " c = " + c);
+		buffer.add(programCounter++, Integer.parseInt(op + abits + bbits + cbits));
 	}
 
-	private static void putF1(int code, int a, int b, int c, String operation) throws Exception {
+	private static void putF1(int code, int a, int b, int c/*, String operation*/) throws Exception {
 		if (a >= 32)
 			error("Length of abits is greater than 5 !! ");
 
@@ -493,7 +478,7 @@ public class Utils {
 		if (c >= 65536)
 			error("Length of cbits is greater than 16 !! ");
 
-		implementF1F2(code, a, b, c, operation);
+		implementF1F2(code, a, b, c/*, operation*/);
 	}
 
 	public static void emit(String command) {
@@ -508,197 +493,185 @@ public class Utils {
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF2(14, a, b, c, op.toString());
+			putF2(14, a, b, c/*, op.toString()*/);
 			break;
 		case ASH:
-			putF2(13, a, b, c, op.toString());
+			putF2(13, a, b, c/*, op.toString()*/);
 			break;
 		case LSH:
-			putF2(12, a, b, c, op.toString());
+			putF2(12, a, b, c/*, op.toString()*/);
 			break;
 		case XOR:
-			putF2(11, a, b, c, op.toString());
+			putF2(11, a, b, c/*, op.toString()*/);
 			break;
 		case BIC:
-			putF2(10, a, b, c, op.toString());
+			putF2(10, a, b, c/*, op.toString()*/);
 			break;
 		case AND:
-			putF2(9, a, b, c, op.toString());
+			putF2(9, a, b, c/*, op.toString()*/);
 			break;
 		case OR:
-			putF2(8, a, b, c, op.toString());
+			putF2(8, a, b, c/*, op.toString()*/);
 			break;
 		case CMP:
-			putF2(5, a, b, c, op.toString());
+			putF2(5, a, b, c/*, op.toString()*/);
 			break;
 		case MOD:
-			putF2(4, a, b, c, op.toString());
+			putF2(4, a, b, c/*, op.toString()*/);
 			break;
 		case DIV:
-			putF2(3, a, b, c, op.toString());
+			putF2(3, a, b, c/*, op.toString()*/);
 			break;
 		case MUL:
-			putF2(2, a, b, c, op.toString());
+			putF2(2, a, b, c/*, op.toString()*/);
 			break;
 		case SUB:
-			putF2(1, a, b, c, op.toString());
+			putF2(1, a, b, c/*, op.toString()*/);
 			break;
 		case ADD:
-			putF2(0, a, b, c, op.toString());
+			putF2(0, a, b, c/*, op.toString()*/);
 			break;
 		case CHKI:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(30, a, b, c, op.toString());
+			putF1(30, a, b, c/*, op.toString()*/);
 			break;
 		case ASHI:
-			putF1(29, a, b, c, op.toString());
+			putF1(29, a, b, c/*, op.toString()*/);
 			break;
 		case LSHI:
-			putF1(28, a, b, c, op.toString());
+			putF1(28, a, b, c/*, op.toString()*/);
 			break;
 		case XORI:
-			putF1(27, a, b, c, op.toString());
+			putF1(27, a, b, c/*, op.toString()*/);
 			break;
 		case BICI:
-			putF1(26, a, b, c, op.toString());
+			putF1(26, a, b, c/*, op.toString()*/);
 			break;
 		case ANDI:
-			putF1(25, a, b, c, op.toString());
+			putF1(25, a, b, c/*, op.toString()*/);
 			break;
 		case ORI:
-			putF1(24, a, b, c, op.toString());
+			putF1(24, a, b, c/*, op.toString()*/);
 			break;
 		case CMPI:
-			putF1(21, a, b, c, op.toString());
+			putF1(21, a, b, c/*, op.toString()*/);
 			break;
 		case MODI:
-			putF1(20, a, b, c, op.toString());
+			putF1(20, a, b, c/*, op.toString()*/);
 			break;
 		case DIVI:
-			putF1(19, a, b, c, op.toString());
+			putF1(19, a, b, c/*, op.toString()*/);
 			break;
 		case MULI:
-			putF1(18, a, b, c, op.toString());
+			putF1(18, a, b, c/*, op.toString()*/);
 			break;
 		case SUBI:
-			putF1(17, a, b, c, op.toString());
+			putF1(17, a, b, c/*, op.toString()*/);
 			break;
 		case ADDI:
-			putF1(16, a, b, c, op.toString());
+			putF1(16, a, b, c/*, op.toString()*/);
 			break;
 		case LDW:
-			putF1(32, a, b, c, op.toString());
+			putF1(32, a, b, c/*, op.toString()*/);
 			break;
 		case LDX:
-			putF1(33, a, b, c, op.toString());
+			putF1(33, a, b, c/*, op.toString()*/);
 			break;
 		case POP:
-			putF1(34, a, b, c, op.toString());
+			putF1(34, a, b, c/*, op.toString()*/);
 			break;
 		case STW:
-			putF1(36, a, b, c, op.toString());
+			putF1(36, a, b, c/*, op.toString()*/);
 			break;
 		case STX:
-			putF2(37, a, b, c, op.toString());
+			putF2(37, a, b, c/*, op.toString()*/);
 			break;
 		case PSH:
-			putF1(38, a, b, c, op.toString());
+			putF1(38, a, b, c/*, op.toString()*/);
 			break;
 		case BEQ:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(40, a, 0, c, op.toString());
+			putF1(40, a, 0, c/*, op.toString()*/);
 			break;
 		case BNE:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(41, a, 0, c, op.toString());
+			putF1(41, a, 0, c/*, op.toString()*/);
 			break;
 		case BLT:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(42, a, 0, c, op.toString());
+			putF1(42, a, 0, c/*, op.toString()*/);
 			break;
 		case BGE:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(43, a, 0, c, op.toString());
+			putF1(43, a, 0, c/*, op.toString()*/);
 			break;
 		case BLE:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(44, a, 0, c, op.toString());
+			putF1(44, a, 0, c/*, op.toString()*/);
 			break;
 		case BGT:
 			if (b != 0)
 				error("Invalid Operand, can't give b  ");
 
-			putF1(45, a, 0, c, op.toString());
+			putF1(45, a, 0, c/*, op.toString()*/);
 			break;
 		case BRA:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
-			putF1(46, 0, 0, c, op.toString());
+			putF1(46, 0, 0, c/*, op.toString()*/);
 			break;
 		case JSR:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
-			putF3(48, c, op.toString());
+			putF3(48, c/*, op.toString()*/);
 			break;
 		case RET:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
-			putF2(49, 0, 0, c, op.toString());
+			putF2(49, 0, 0, c/*, op.toString()*/);
 			break;
 		case RDD:
 			if (c != 0 || b != 0)
 				error("Invalid Operand, can't give c and b  ");
 
-			putF2(50, a, 0, 0, op.toString());
+			putF2(50, a, 0, 0/*, op.toString()*/);
 			break;
 		case WRD:
 			if (c != 0 || a != 0)
 				error("Invalid Operand, can't give a and c  ");
 
-			putF2(51, 0, b, 0, op.toString());
+			putF2(51, 0, b, 0/*, op.toString()*/);
 			break;
 		case WRH:
 			if (c != 0 || a != 0)
 				error("Invalid Operand, can't give a and c  ");
 
-			putF2(51, 0, b, 0, op.toString());
+			putF2(51, 0, b, 0/*, op.toString()*/);
 			break;
 		case WRL:
 			if (b != 0 || a != 0 || c != 0)
 				error("Invalid Operand, can't give operands");
 
-			putF1(53, 0, 0, 0, op.toString());
+			putF1(53, 0, 0, 0/*, op.toString()*/);
 			break;
 		default:
 			error("Invalid Operand code ");
 		}
-	}
-
-	private static boolean registers[] = new boolean[10];
-
-	private static int allocateRegister() {
-		for (int i = 1; i < registers.length; i++) {
-			if (!registers[i]) {
-				registers[i] = true;
-				return i;
-			}
-		}
-		return -1;
 	}
 
 	public static void compute(int opCode, Result X, Result Y) throws Exception {
@@ -840,10 +813,6 @@ public class Utils {
 		}
 	}
 
-	public static void deallocateRegister(int regNo) {
-		registers[regNo] = false;
-	}
-
 	public static void specialLoad(Result X) throws Exception {
 		if (X.kind == RESULT_KIND.CONST) {
 			X.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + X.valueIfConstant, false);
@@ -976,6 +945,13 @@ public class Utils {
 	 */
 	public static String colors[] = { "blue1", "darkorchid1", "chocolate", "darkgoldenrod3", "mediumslateblue",
 			"firebrick3", "gray73", "greenyellow", "white" };
+
+	public static int getRegisterForColor(String color) {
+		for (int i = 0; i < colors.length; i++)
+			if (colors[i].equals(color))
+				return i;
+		return colors.length;
+	}
 
 	public static void registerAllocation() throws Exception {
 		LinkedHashMap<Integer, HashSet<Integer>> sortedinterfearanceGraph = sort();
@@ -1267,11 +1243,10 @@ public class Utils {
 			traversefunc(current.getFirstParent(), tobeGivenAhead);
 		}
 	}
-	////////////////////////////////////////////////////////////////////////////
-	public static void BasicBlockTraversal(BasicBlock current) {
-		if (current.isbVisited()) {
+
+	public static void startLowering(BasicBlock current) throws Exception {
+		if (current.isbVisited())
 			return;
-		}
 
 		boolean shouldIVisist = false;
 
@@ -1290,18 +1265,18 @@ public class Utils {
 			break;
 		}
 
-		if (!shouldIVisist) {
+		if (!shouldIVisist)
 			return;
-		}
 
 		// call convert2Machine
-		current.setbVisited();
+		current.lowerToMachineCode();
 		Utils.SOPln(current);
 
 		if (current.firstChildExists())
-			BasicBlockTraversal(current.getFirstChild());
+			startLowering(current.getFirstChild());
+
 		if (current.secondChildExists())
-			BasicBlockTraversal(current.getSecondChild());
+			startLowering(current.getSecondChild());
 	}
 	
 	////////////////////////////////////////////////////////////////////////////

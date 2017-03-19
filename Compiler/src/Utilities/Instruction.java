@@ -134,16 +134,6 @@ public class Instruction {
 		}
 	}
 
-/*	public String toStringConstant(String constant) {
-		String ans = toStringConstant(constant,
-				(hasFunctionParameters()) ? Utils.MAIN_FUNC : myBasicBlock.getFunctionName());
-		if (ans == null) {
-			Utils.SOPln("WE FOUND AN EXCEPTION FOR " + index);
-			ans = toStringConstant(constant,Utils.MAIN_FUNC);
-		}
-		return ans;
-	}
-*/
 	public String testToString() {
 
 		return index + ": " + code.toString() + " ("

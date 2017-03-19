@@ -628,7 +628,16 @@ public class BasicBlock {
 		return getFirstParent().isbVisited() && getSecondParent().isbVisited();
 	}
 
-	public void setbVisited() {
+	public void lowerToMachineCode() throws Exception {
+		for (Instruction i : mInstructionSet) {
+			if (i.getCode() == CODE.phi)
+				continue;
+			/* fill a b and c */
+			int a = Utils.getRegisterForColor(i.getColor());
+			int b = 0;
+			int c = 0;
+			Utils.put(i.getCode(), a, b, c);
+		}
 		bvisited = true;
 	}
 

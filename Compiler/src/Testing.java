@@ -17,7 +17,7 @@ public class Testing {
 	public static void main(String args[]) throws Exception {
 		// 27
 		List<Integer> error = Arrays.asList(27, 34);
-		for (int fileNumber/* :error */ = 0; fileNumber <= 34; fileNumber++) {
+		for (int fileNumber/* :error */ = 0; fileNumber <= 0; fileNumber++) {
 			Utils.SOPln("FILENUMBER = " + fileNumber);
 
 			sc = ScannerUtils.getScanner(
@@ -120,11 +120,13 @@ public class Testing {
 			}
 
 			/* Still under development */
-			/*for (BasicBlock i : BasicBlock.getBasicBlockList()) {
-				Utils.BasicBlockTraversal(i);
-				// code to be inserted here . . .
-				break;
-			}*/
+			Utils.SOPln("WE ARE STARTING MACHINE CODE");
+			for (BasicBlock i : BasicBlock.getBasicBlockList()) {
+				if (i.firstParentExists() || i.secondParentExists())
+					continue;
+
+				Utils.startLowering(i);
+			}
 
 			ScannerUtils.shutDown();
 			Utils.shutDown();
