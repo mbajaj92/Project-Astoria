@@ -1,0 +1,9 @@
+strict graph {
+5[label="5" style=filled fillcolor="darkorchid1"];
+5 -- 14
+11[label="11" style=filled fillcolor="darkorchid1"];
+11 -- 14
+14[label="14" style=filled fillcolor="darkorchid1"];
+14 -- 5
+14 -- 11
+}

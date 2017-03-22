@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.RandomAccessFile;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 
 import Utilities.BasicBlock;
 import Utilities.Grammer;
@@ -15,9 +13,7 @@ public class Testing {
 	private static MyScanner sc;
 
 	public static void main(String args[]) throws Exception {
-		// 27
-		List<Integer> error = Arrays.asList(27, 34);
-		for (int fileNumber/* :error */ = 0; fileNumber <= 0; fileNumber++) {
+		for (int fileNumber/* :error */ = 0; fileNumber <= 34; fileNumber++) {
 			Utils.SOPln("FILENUMBER = " + fileNumber);
 
 			sc = ScannerUtils.getScanner(
@@ -50,8 +46,6 @@ public class Testing {
 			RandomAccessFile randomAccessFile = new RandomAccessFile(fileNumber + "graph.dot", "rw");
 			randomAccessFile.writeBytes("digraph {\n");
 			for (BasicBlock i : BasicBlock.getBasicBlockList()) {
-				if (i.shouldIgnore())
-					continue;
 
 				i.fixUp();
 				Utils.SOPln(i);
@@ -83,10 +77,10 @@ public class Testing {
 				randomAccessFile = new RandomAccessFile(fileNumber + "iGraph.dot", "rw");
 				randomAccessFile.writeBytes("strict graph {\n");
 				for (Integer key : Utils.getInterfearenceGraph().keySet()) {
-					// String write = key + "[label=\"" + key + "\" style=filled
-					// fillcolor=\"red\"];\n";
-					String write = key + "[label=\"" + key + "\" style=filled fillcolor=\""
-							+ Instruction.getInstructionList().get(key).getColor() + "\"];\n";
+					String write = key + "[label=\"" + key + " : "
+							+ Utils.getRegisterForColor(Instruction.getInstructionList().get(key).getColor())
+							+ "\" style=filled fillcolor=\"" + Instruction.getInstructionList().get(key).getColor()
+							+ "\"];\n";
 					HashSet<Integer> edges = Utils.getInterfearenceGraph().get(key);
 
 					for (int j : edges)
@@ -119,7 +113,7 @@ public class Testing {
 				Runtime.getRuntime().exec("dot " + fileNumber + "phiGraph.dot -Tpng -o " + fileNumber + "phiGraph.png");
 			}
 
-			/* Still under development */
+			/* Still under development 
 			Utils.SOPln("WE ARE STARTING MACHINE CODE");
 			for (BasicBlock i : BasicBlock.getBasicBlockList()) {
 				if (i.firstParentExists() || i.secondParentExists())
@@ -128,6 +122,18 @@ public class Testing {
 				Utils.startLowering(i);
 			}
 
+			Utils.SOPln("FINAL MACHINE CODE");
+			int[] buf = new int[Utils.buffer.size()];
+
+			for (int i = 0; i < Utils.buffer.size(); i++) {
+				int ins = Utils.buffer.get(i);
+				Utils.SOPln(i + ": " + Utils.format(Integer.toBinaryString(ins), 32));
+				Utils.SOPln(DLX.disassemble(ins));
+				buf[i] = ins;
+			}
+*/
+			/*DLX.load(buf);
+			DLX.execute();*/
 			ScannerUtils.shutDown();
 			Utils.shutDown();
 		}

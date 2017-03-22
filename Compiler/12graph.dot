@@ -1,13 +1,14 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-33: BRA (4) (null) null null
+34: BSR (4) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
 TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
-4: ADDI (null) (null) #0 #2 move for = &a &c
+4: ADDI (-1) (null) null #2 move for = &a &c
+6: ADDI (-1) (null) null #3 move for = &b
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -23,9 +24,9 @@ TAG: IF_HEADER(2)  func = MAIN$FUNC WD = 0
 2 -> 1[color=red][style=dotted]
 3[label="
 TAG: THEN_BLOCK(3)  func = MAIN$FUNC WD = 0
-12: ADDI (null) (null) #0 #1 move for = &a
+12: ADDI (-1) (null) null #1 move for = &a
 15: ADDI (12) (null) null #1 aFor = &a move for = &b &a
-20: BRA (26) (null) null null
+20: BSR (26) (null) null null
 "];
 3[shape=box];
 3 -> 5[color=blue]
@@ -42,6 +43,7 @@ TAG: FOLLOW_BLOCK(5)  func = MAIN$FUNC WD = 0
 26: phi (15) (22) null null  PHI FOR &a
 30: ADDI (26) (null) null #1 aFor = &a move for = &a
 32: write (30) (null) null null
+33: EOF (null) (null) null null
 "];
 5[shape=box];
 5 -> 3[color=red][style=dotted]

@@ -1,4 +1,7 @@
 strict graph {
-6[label="6" style=filled fillcolor="blue1"];
-11[label="11" style=filled fillcolor="blue1"];
+6[label="6 : 1" style=filled fillcolor="blue1"];
+6 -- 11
+11[label="11 : 2" style=filled fillcolor="darkorchid1"];
+11 -- 6
+15[label="15 : 1" style=filled fillcolor="blue1"];
 }

@@ -45,6 +45,16 @@ var a, b, c, d, e, f, g, h;
 	od;
 	let c <- a * d;
 	let h <- g + h - 7;
-	let e <- f + b * c
+	let e <- f + b * c;
+	
+	call OutputNum(a);
+	call OutputNum(b);
+	call OutputNum(c);
+	call OutputNum(d);
+	call OutputNum(e);
+	call OutputNum(f);
+	call OutputNum(g);
+	call OutputNum(h);
+	
 }
 .

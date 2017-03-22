@@ -71,7 +71,7 @@ public class MyScanner {
 			if (ch != '=')
 				Utils.error("Invalid token \"!" + ch + "\"");
 			token = "!=";
-			currentToken = ScannerUtils.eqlToken;
+			currentToken = ScannerUtils.neqToken;
 			break;
 		case '<':
 			ch = sc.next().charAt(0);

@@ -1,0 +1,15 @@
+strict graph {
+36[label="36" style=filled fillcolor="darkorchid1"];
+36 -- 43
+41[label="41" style=filled fillcolor="darkorchid1"];
+41 -- 43
+43[label="43" style=filled fillcolor="darkorchid1"];
+43 -- 36
+43 -- 41
+43 -- 46
+12[label="12" style=filled fillcolor="darkorchid1"];
+12 -- 46
+46[label="46" style=filled fillcolor="darkorchid1"];
+46 -- 43
+46 -- 12
+}

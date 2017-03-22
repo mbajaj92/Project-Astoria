@@ -1,23 +1,25 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-58: BRA (8) (null) null null
+59: BSR (8) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
 TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
-8: ADDI (null) (null) #0 #2 move for = &b
-10: ADDI (null) (null) #0 #3 move for = &c
+8: ADDI (-1) (null) null #2 move for = &b
+10: ADDI (-1) (null) null #3 move for = &c
+12: ADDI (-1) (null) null #4 move for = &d
 "];
 1[shape=box];
 1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
 2[label="
 TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
+46: phi (12) (43) null null  PHI FOR &d
 17: ADDI (10) (null) null #4 aFor = &c
 19: CMP (17) (46) null null aFor = &c bFor = &d
-20: BGE (19) (null) null null
+20: BGE (19) (58) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -26,7 +28,7 @@ TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 2 -> 7[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
-59: BRA (22) (null) null null
+60: BSR (22) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
@@ -35,8 +37,9 @@ TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
 TAG: IF_HEADER(4)  func = MAIN$FUNC WD = 1
 22: ADDI (47) (null) null #5 aFor = &a
 24: SUB (22) (8) null null aFor = &a bFor = &b
+26: MULI (8) (null) null #6 aFor = &b
 27: CMP (24) (26) null null bFor = &b
-28: BLE (27) (60) null null
+28: BLE (27) (41) null null
 "];
 4[shape=box];
 4 -> 5[color=blue]
@@ -44,28 +47,31 @@ TAG: IF_HEADER(4)  func = MAIN$FUNC WD = 1
 4 -> 3[color=red][style=dotted]
 5[label="
 TAG: THEN_BLOCK(5)  func = MAIN$FUNC WD = 1
-38: BRA (45) (null) null null
+36: SUBI (46) (null) null #1 aFor = &d move for = &d
+38: BSR (43) (null) null null
 "];
 5[shape=box];
 5 -> 7[color=blue]
 5 -> 4[color=red][style=dotted]
 6[label="
 TAG: ELSE_BLOCK(6)  func = MAIN$FUNC WD = 1
-60: BRA (45) (null) null null
+41: ADD (47) (8) null null aFor = &a bFor = &b move for = &d
 "];
 6[shape=box];
 6 -> 7[color=blue]
 6 -> 4[color=red][style=dotted]
 7[label="
 TAG: FOLLOW_BLOCK(7)  func = MAIN$FUNC WD = 1
-45: BRA (17) (null) null null
+43: phi (36) (41) null null  PHI FOR &d
+45: BSR (46) (null) null null
 "];
 7[shape=box];
 7 -> 2[color=blue]
 7 -> 5[color=red][style=dotted]
 7 -> 6[color=green][style=dotted]
 8[label="
-TAG: LOOP_FOLLOW_1(8)  func = MAIN$FUNC
+TAG: LOOP_FOLLOW_1(8)  func = MAIN$FUNC WD = 1
+58: EOF (null) (null) null null
 "];
 8[shape=box];
 8 -> 2[color=red][style=dotted]

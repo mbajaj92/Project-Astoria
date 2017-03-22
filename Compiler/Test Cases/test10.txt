@@ -12,7 +12,7 @@ var a, b, c;
 		while b < c do
 		    call OutputNum(c);
 			let b <- b + 1
-		od
+		od;
 	od;
 	call OutputNum(a);
 	call OutputNum(b);

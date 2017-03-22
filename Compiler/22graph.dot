@@ -1,13 +1,14 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-40: BRA (6) (null) null null
+41: BSR (6) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
 TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
-6: ADDI (null) (null) #0 #2 move for = &b
+6: ADDI (-1) (null) null #2 move for = &b
+8: ADDI (-1) (null) null #3 move for = &c
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -16,7 +17,7 @@ TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
 TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 36: phi (6) (33) null null  PHI FOR &b
 12: CMP (36) (8) null null aFor = &b bFor = &c
-13: BGE (12) (null) null null
+13: BGE (12) (40) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -25,7 +26,7 @@ TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 2 -> 9[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
-41: BRA (33) (null) null null
+42: BSR (33) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
@@ -44,7 +45,7 @@ TAG: LOOP_HEADER_2(4)  func = MAIN$FUNC WD = 2
 4 -> 8[color=green][style=dotted]
 5[label="
 TAG: DO_BLOCK(5)  func = MAIN$FUNC WD = 2
-42: BRA (31) (null) null null
+43: BSR (31) (null) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]
@@ -64,27 +65,28 @@ TAG: LOOP_HEADER_3(6)  func = MAIN$FUNC WD = 3
 7[label="
 TAG: DO_BLOCK(7)  func = MAIN$FUNC WD = 3
 28: ADDI (31) (null) null #1 aFor = &b move for = &b
-30: BRA (31) (null) null null
+30: BSR (31) (null) null null
 "];
 7[shape=box];
 7 -> 6[color=blue]
 7 -> 6[color=red][style=dotted]
 8[label="
 TAG: LOOP_FOLLOW_3(8)  func = MAIN$FUNC WD = 3
-32: BRA (33) (null) null null
+32: BSR (33) (null) null null
 "];
 8[shape=box];
 8 -> 4[color=blue]
 8 -> 6[color=red][style=dotted]
 9[label="
 TAG: LOOP_FOLLOW_2(9)  func = MAIN$FUNC WD = 2
-34: BRA (36) (null) null null
+34: BSR (36) (null) null null
 "];
 9[shape=box];
 9 -> 2[color=blue]
 9 -> 4[color=red][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_1(10)  func = MAIN$FUNC
+TAG: LOOP_FOLLOW_1(10)  func = MAIN$FUNC WD = 1
+40: EOF (null) (null) null null
 "];
 10[shape=box];
 10 -> 2[color=red][style=dotted]

@@ -1,19 +1,20 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-9: BRA (8) (null) null null
+10: BSR (8) (null) null null
 "];
 0[shape=box];
 0 -> 2[color=blue]
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
-2: ADDI (null) (null) #0 #0 move for = &i
+2: ADDI (-1) (null) null #0 move for = &i
 7: RET (2) (null) null null
 "];
 1[shape=box];
 2[label="
 TAG: INIT_CONT(2)  func = MAIN$FUNC WD = 0
 8: call (null) (null) &foo null
+9: EOF (null) (null) null null
 "];
 2[shape=box];
 2 -> 0[color=red][style=dotted]

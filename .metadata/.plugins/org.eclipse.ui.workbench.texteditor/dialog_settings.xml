@@ -6,30 +6,30 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="programCounter" key="selection"/>
+		<item value="execute" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="programCounter"/>
-			<item value=", op.toString()"/>
-			<item value="hasFun"/>
-			<item value="doin"/>
-			<item value="doinf"/>
-			<item value="doing "/>
-			<item value="funcParameters ="/>
-			<item value="BECAUSE it is "/>
+			<item value="R[29"/>
+			<item value="LDX"/>
+			<item value="od"/>
+			<item value="then"/>
+			<item value="do"/>
+			<item value="fi"/>
+			<item value="od;"/>
+			<item value="&lt;-"/>
 		</list>
 		<list key="replacehistory">
+			<item value="}"/>
+			<item value="{"/>
+			<item value="="/>
+			<item value=""/>
+			<item value="Utils.SOPln"/>
 			<item value="/*, op.toString()*/"/>
 			<item value="getFunctionForIdentifier"/>
 			<item value="ScannerUtils.getCurrentScanner().setCurrentFunction"/>
-			<item value="ScannerUtils.getCurrentScanner().getLineCount()"/>
-			<item value="ScannerUtils.getCurrentScanner.getLineCount()"/>
-			<item value="/*if (i.referenceInstruction != null)*/"/>
-			<item value="firstParentExists()"/>
-			<item value="firstChildExists()"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

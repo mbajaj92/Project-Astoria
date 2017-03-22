@@ -1,14 +1,14 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-0: ADDI (null) (null) #0 #0 move for = &x &y &z &a &b &c
+0: ADDI (-1) (null) null #0 move for = &x &y &z &a &b &c
 "];
 0[shape=box];
 0 -> 12[color=blue]
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
-10: ADDI (null) (null) #0 #0 move for = &i &d
-90: move (10) (32) null null
+10: ADDI (-1) (null) null #0 move for = &i &d
+91: move (10) (32) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -31,8 +31,7 @@ TAG: DO_BLOCK(3)  func = foo WD = 1
 22: ADDI (21) (null) null #2 aFor = &x move for = &z
 26: ADD (19) (22) null null aFor = &y bFor = &z move for = &d
 29: ADDI (33) (null) null #1 aFor = &i move for = &i
-31: BRA (null) (null) null null
-91: move (26) (32) null null
+31: BSR (33) (null) null null
 "];
 3[shape=box];
 3 -> 2[color=blue]
@@ -45,7 +44,7 @@ TAG: LOOP_FOLLOW_1(4)  func = foo WD = 1
 4 -> 2[color=red][style=dotted]
 5[label="
 TAG: PROC_START(5)  func = bar WD = 0
-38: ADDI (null) (null) #0 #0 move for = &i &j &e
+38: ADDI (-1) (null) null #0 move for = &i &j &e
 92: move (38) (76) null null
 "];
 5[shape=box];
@@ -63,7 +62,7 @@ TAG: LOOP_HEADER_1(6)  func = bar WD = 1
 6 -> 10[color=green][style=dotted]
 7[label="
 TAG: DO_BLOCK(7)  func = bar WD = 1
-93: BRA (65) (null) null null
+94: BSR (65) (null) null null
 "];
 7[shape=box];
 7 -> 8[color=blue]
@@ -88,7 +87,7 @@ TAG: DO_BLOCK(9)  func = bar WD = 2
 59: adda (57) (58) null null
 60: store (65) (59) null null STORE FOR= &b
 62: ADDI (65) (null) null #1 aFor = &j move for = &j
-64: BRA (65) (null) null null
+64: BSR (65) (null) null null
 "];
 9[shape=box];
 9 -> 8[color=blue]
@@ -100,7 +99,8 @@ TAG: LOOP_FOLLOW_2(10)  func = bar WD = 2
 70: adda (68) (69) null null
 71: store (77) (70) null null STORE FOR= &a
 73: ADDI (77) (null) null #1 aFor = &i move for = &i
-75: BRA (77) (null) null null
+93: move (73) (77) null null
+75: BSR (77) (null) null null
 "];
 10[shape=box];
 10 -> 6[color=blue]
@@ -115,6 +115,7 @@ TAG: INIT_CONT(12)  func = MAIN$FUNC WD = 0
 86: call (null) (null) &bar nullFunc Params = 0 0
 87: call (null) (null) &foo null move for = &c
 89: write (87) (null) null null
+90: EOF (null) (null) null null
 "];
 12[shape=box];
 12 -> 0[color=red][style=dotted]

@@ -1,4 +1,5 @@
 strict graph {
-0[label="0" style=filled fillcolor="blue1"];
-10[label="10" style=filled fillcolor="blue1"];
+0[label="0 : 1" style=filled fillcolor="blue1"];
+24[label="24 : 1" style=filled fillcolor="blue1"];
+10[label="10 : 1" style=filled fillcolor="blue1"];
 }

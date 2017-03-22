@@ -1,5 +1,21 @@
 strict graph {
-17[label="17" style=filled fillcolor="blue1"];
-3[label="3" style=filled fillcolor="blue1"];
-13[label="13" style=filled fillcolor="blue1"];
+16[label="16 : 2" style=filled fillcolor="darkorchid1"];
+16 -- 17
+16 -- 7
+0[label="0 : 2" style=filled fillcolor="darkorchid1"];
+0 -- 3
+17[label="17 : 1" style=filled fillcolor="blue1"];
+17 -- 16
+17 -- 7
+17 -- 10
+3[label="3 : 1" style=filled fillcolor="blue1"];
+3 -- 0
+7[label="7 : 3" style=filled fillcolor="chocolate"];
+7 -- 16
+7 -- 17
+10[label="10 : 2" style=filled fillcolor="darkorchid1"];
+10 -- 17
+10 -- 13
+13[label="13 : 1" style=filled fillcolor="blue1"];
+13 -- 10
 }

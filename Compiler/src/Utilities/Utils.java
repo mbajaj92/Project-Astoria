@@ -24,12 +24,17 @@ public class Utils {
 	public static final boolean COPY_PROP = true;
 	public static final int MACHINE_BYTE_SIZE = 4;
 	public static List<CODE> isNotDeadCode = Arrays.asList(CODE.write, CODE.writeNL, CODE.read, CODE.CMP, CODE.BLE,
-			CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLT, CODE.BNE, CODE.BRA, CODE.CMPI, CODE.store, CODE.RET, CODE.call);
-	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
+			CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLT, CODE.BNE, CODE.BSR, CODE.CMPI, CODE.store, CODE.RET, CODE.call, CODE.EOF);
+	public static List<CODE> doNotTestAnchor = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE,
 			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT, CODE.store, CODE.call, CODE.read, CODE.write, CODE.writeNL, CODE.RET);
-	public static List<CODE> compareInstructions = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BRA, CODE.BEQ, CODE.BNE,
+	public static List<CODE> compareInstructions = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.BSR, CODE.BEQ, CODE.BNE,
 			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT);
-	/* private static ArrayList<String> idTable = null; */
+	public static List<CODE> doNotCreateEdge = Arrays.asList(CODE.BSR, CODE.BEQ, CODE.BNE,
+			CODE.BLT, CODE.BGE, CODE.BLE, CODE.BGT);
+	private static List<CODE> F1Instructions = Arrays.asList(CODE.ADDI, CODE.SUBI, CODE.MULI, CODE.DIVI, CODE.MODI,
+			CODE.CMPI, CODE.ORI, CODE.ANDI, CODE.BICI, CODE.XORI, CODE.LSHI, CODE.ASHI, CODE.CHKI);
+	private static List<CODE> F2Instructions = Arrays.asList(CODE.ADD, CODE.SUB, CODE.MUL, CODE.DIV, CODE.MOD, CODE.CMP,
+			CODE.OR, CODE.AND, CODE.BIC, CODE.XOR, CODE.LSH, CODE.ASH, CODE.CHK);
 	private static HashMap<String, int[]> metaStackAndFramePointerData = null;
 	private static HashMap<String, HashMap<String, Integer>> metaIDTable = null;
 	private static HashMap<String, HashMap<Integer, ArrayList<Integer>>> metaArrayTable = null;
@@ -38,6 +43,7 @@ public class Utils {
 	private static HashMap<String, Integer> functionList = null;
 	private static HashMap<Integer, HashSet<Integer>> phiClusters = null;
 	private static LinkedHashMap<Integer, ArrayList<Boolean>> color_mapping = null;
+	private static HashMap<Integer, HashSet<Integer>> fixUpMap = null;
 
 	public static void nullCheck() {
 		if (metaIDTable == null)
@@ -70,10 +76,12 @@ public class Utils {
 
 		if (phiClusters == null)
 			phiClusters = new HashMap<Integer, HashSet<Integer>>();
+		
+		if (fixUpMap == null)
+			fixUpMap = new HashMap<Integer, HashSet<Integer>>();
 	}
 
 	public static String getFunctionForIdentifier(String id/* , String func */) throws Exception {
-		Utils.SOPln("trying for "+id);
 		return id.split("_")[1];
 	}
 
@@ -100,12 +108,6 @@ public class Utils {
 		} else
 			SOPln("ID TABLE FOR " + functionName + " not found");
 
-		/*
-		 * idTable = metaIDTable.get(MAIN_FUNC); for (String key :
-		 * idTable.keySet()) { if (id == idTable.get(key)) { returnValue[0] =
-		 * key; returnValue[1] = MAIN_FUNC; return returnValue; } }
-		 */
-
 		if (functionName.equals(MAIN_FUNC)) {
 			for (String key : functionList.keySet()) {
 				if (id == functionList.get(key)) {
@@ -119,49 +121,6 @@ public class Utils {
 				+ functionName);
 		return null;
 	}
-
-	/*public static String address2Identifier(int id, String functionName) throws Exception {
-		return address2IdentifierImpl(id, functionName)[0];
-	}
-
-	public static String[] address2IdentifierImpl(int id, String functionName) throws Exception {
-		nullCheck();
-		String returnValue[] = new String[2];
-
-		 Utils.SOPln("Asking to convert "+id+" in "+functionName); 
-		HashMap<String, Integer> idTable = metaIDTable.get(functionName);
-		if (idTable != null) {
-			for (String key : idTable.keySet()) {
-				if (id == idTable.get(key)) {
-					returnValue[0] = key;
-					returnValue[1] = functionName;
-					return returnValue;
-				}
-			}
-		} else 
-			SOPln("ID TABLE FOR "+functionName+" not found");
-
-		idTable = metaIDTable.get(MAIN_FUNC);
-		for (String key : idTable.keySet()) {
-			if (id == idTable.get(key)) {
-				returnValue[0] = key;
-				returnValue[1] = MAIN_FUNC;
-				return returnValue;
-			}
-		}
-
-		if(functionName.equals(MAIN_FUNC)) {
-			for (String key : functionList.keySet()) {
-				if (id == functionList.get(key)) {
-					returnValue[0] = key;
-					returnValue[1] = MAIN_FUNC;
-					return returnValue;
-				}
-			}
-		}
-		Utils.error("ID " + id + " NOT FOUND at " + ScannerUtils.getCurrentScanner().getLineCount()+" funName is "+functionName);
-		return null;
-	}*/
 
 	public static void updateParamSize(String id, int paramSize) {
 		funcInfoTable.put(Integer.parseInt(id.split("_")[0]), paramSize);
@@ -285,87 +244,6 @@ public class Utils {
 		}
 	}
 
-	/*public static int identifier2Address(String name) throws Exception {
-		return identifier2Address(name, null, VARIABLE_TYPE.NONE);
-	}*/
-
-	/*public static int identifier2Address(String name, ArrayList<Integer> arrayInfo, VARIABLE_TYPE mVarType)
-			throws Exception {
-		nullCheck();
-
-		String currentFunc = ScannerUtils.getCurrentScanner().getCurrentFunction();
-		HashMap<String, Integer> idTable = null;
-		if (!metaIDTable.containsKey(currentFunc)) {
-			SOPln("Creating ID Table for "+currentFunc);
-			idTable = new HashMap<String, Integer>();
-			metaIDTable.put(currentFunc, idTable);
-		} else
-			idTable = metaIDTable.get(currentFunc);
-
-		if (mVarType == VARIABLE_TYPE.FUNC) {
-			SOPln("Looking for Function "+name);
-			if (functionList.containsKey(name)) {
-				 function already defined 
-				SOPln("Function "+name+" already defined ");
-				return functionList.get(name);
-			} else {
-				 function needs to be defined 
-				SOPln("Function "+name+" is being defined ");
-				updateFramePointerFor(name, 0);
-				updateStackPointerFor(name, 0);
-				int value = getStackPointerFor(currentFunc);
-				updateStackPointerFor(currentFunc, value + MACHINE_BYTE_SIZE);;
-				funcInfoTable.put(value, 0);
-				functionList.put(name, value);
-				SOPln(name + " - [" + value + "] | " + currentFunc);
-				return value;
-			}
-		} else if (mVarType == VARIABLE_TYPE.NONE) {
-			 ACCESS OLD 
-			int returnValue = 0;
-			if (idTable.containsKey(name))
-				returnValue = idTable.get(name);
-			else {
-				 SOPln("Couldn't find " + name + " in the function " +
-				 * currentFunc + " hence looking for " + MAIN_FUNC); 
-				idTable = metaIDTable.get(MAIN_FUNC);
-				if (idTable.containsKey(name))
-					returnValue = idTable.get(name);
-				else
-					Utils.error("Undefined Identifier " + name + " at line "
-							+ ScannerUtils.getCurrentScanner().getLineCount());
-			}
-			return returnValue;
-		} else {
-			int returnValue = 0;
-			switch (mVarType) {
-			case VAR:
-				returnValue = getStackPointerFor(currentFunc);
-				updateStackPointerFor(currentFunc, returnValue + MACHINE_BYTE_SIZE);
-				break;
-			case ARR:
-				returnValue = getStackPointerFor(currentFunc);
-				updateStackPointerFor(currentFunc, returnValue + MACHINE_BYTE_SIZE);
-				if (metaArrayTable.containsKey(currentFunc))
-					metaArrayTable.get(currentFunc).put(returnValue, arrayInfo);
-				else {
-					HashMap<Integer, ArrayList<Integer>> table = new HashMap<Integer, ArrayList<Integer>>();
-					table.put(returnValue, arrayInfo);
-					metaArrayTable.put(currentFunc, table);
-				}
-				break;
-			case FUNC_PARAMS:
-				returnValue = -8 + (-MACHINE_BYTE_SIZE * (idTable.size() + 1));
-				break;
-			default:
-				Utils.error("UNKNOWN CASE " + mVarType);
-			}
-			SOPln(name + " - [" + returnValue + "] | " + currentFunc);
-			idTable.put(name, returnValue);
-			return returnValue;
-		}
-	}*/
-
 	public static void SOPln(Object toPrint) {
 		SOP(toPrint.toString() + "\n");
 	}
@@ -383,12 +261,12 @@ public class Utils {
 	};
 
 	public static enum CODE {
-		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BRA, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi, call, read, write, writeNL
+		NONE, ADD, SUB, MUL, DIV, MOD, CMP, OR, AND, BIC, XOR, LSH, ASH, CHK, ADDI, SUBI, MULI, DIVI, MODI, CMPI, ORI, ANDI, BICI, XORI, LSHI, ASHI, CHKI, LDW, LDX, POP, STW, STX, PSH, BEQ, BNE, BLT, BGE, BLE, BGT, BSR, JSR, RET, RDD, WRD, WRH, WRL, adda, move, store, load, phi, call, read, write, writeNL, EOF
 	};
 
 	public static int programCounter = 0;
 	public static int stackPointer = 0;
-	private static ArrayList<Integer> buffer = new ArrayList<Integer>();
+	public static ArrayList<Integer> buffer = new ArrayList<Integer>();
 
 	/* TODO: need to fixup; later */
 	public static void fixup(int index) {
@@ -400,10 +278,12 @@ public class Utils {
 		 */
 	}
 
+	public static void fixupOld(int index, int pc) {
+		buffer.add(index, (buffer.remove(index) & 0xffff0000) + ((pc - index) & 0x0000ffff));
+	}
+
 	public static void fixupOld(int index) {
-		int currentVal = buffer.remove(index);
-		currentVal = currentVal & 0xffff0000 + (programCounter - index);
-		buffer.add(index, currentVal);
+		fixupOld(index, programCounter);
 	}
 
 	public static CODE negateCondition(CODE cond) throws Exception {
@@ -426,7 +306,7 @@ public class Utils {
 		return null;
 	}
 
-	private static String format(String input, int length) {
+	public static String format(String input, int length) {
 		for (int i = input.length() + 1; i <= length; i++)
 			input = "0" + input;
 		return input;
@@ -440,7 +320,7 @@ public class Utils {
 			error("Length of Cbits is greater than 26 !! ");
 
 		cbits = format(cbits, 26);
-		buffer.add(programCounter++, Integer.parseInt(op + cbits));
+		buffer.add(programCounter++, Integer.parseInt(op + cbits,2));
 	}
 
 	private static void putF2(int code, int a, int b, int c/*, String operation*/) throws Exception {
@@ -457,15 +337,22 @@ public class Utils {
 
 	private static void implementF1F2(int code, int a, int b,
 			int c/* , String operation */) {
-		String op = Integer.toBinaryString(code);
+		int value = code<<26 | a<<21 | b<<16 | c & 0xffff;
+		buffer.add(programCounter++, value);
+		/*String op = Integer.toBinaryString(code);
 		op = format(op, 6);
+		SOPln("op = "+op);
 		String abits = Integer.toBinaryString(a);
 		abits = format(abits, 5);
+		SOPln("abits = "+abits);
 		String bbits = Integer.toBinaryString(b);
 		bbits = format(bbits, 5);
+		SOPln("bbits = "+bbits);
 		String cbits = Integer.toBinaryString(c);
 		cbits = format(cbits, 16);
-		buffer.add(programCounter++, Integer.parseInt(op + abits + bbits + cbits));
+		SOPln("cbits = "+cbits);
+		Utils.SOPln("LEN = "+(op + abits + bbits + cbits).length());*/
+		//
 	}
 
 	private static void putF1(int code, int a, int b, int c/*, String operation*/) throws Exception {
@@ -483,6 +370,28 @@ public class Utils {
 
 	public static void emit(String command) {
 		SOPln(command);
+	}
+
+	public static void handleF1(Instruction i) throws Exception {
+		int a = getRegisterForColor(i.getColor());
+		if (i.getLeftInstruction() == null)
+			error("LEFT INSTRUCTION UNVAILABLE for "+i.getInstructionNumber());
+		int b = getRegisterForColor(i.getLeftInstruction().getColor());
+		if (i.getRightConstant() == null)
+			error("RIGHT CONSTANT UNVAILABLE for "+i.getInstructionNumber());
+		int c = Integer.parseInt((i.getRightConstant().substring(1)));
+		put(i.getCode(), a, b, c);
+	}
+
+	public static void handleF2(Instruction i) throws Exception {
+		int a = getRegisterForColor(i.getColor());
+		if (i.getLeftInstruction() == null)
+			error("LEFT INSTRUCTION UNVAILABLE");
+		int b = getRegisterForColor(i.getLeftInstruction().getColor());
+		if (i.getRightInstruction() == null)
+			error("RIGHT INSTRUCTION UNVAILABLE");
+		int c = getRegisterForColor(i.getRightInstruction().getColor());
+		put(i.getCode(), a, b, c);
 	}
 
 	public static void put(CODE op, int a, int b, int c) throws Exception {
@@ -627,7 +536,7 @@ public class Utils {
 
 			putF1(45, a, 0, c/*, op.toString()*/);
 			break;
-		case BRA:
+		case BSR:
 			if (a != 0 || b != 0)
 				error("Invalid Operand, can't give a and b  ");
 
@@ -838,7 +747,7 @@ public class Utils {
 
 	public static void load(Result X) throws Exception {
 		if (X.kind == RESULT_KIND.CONST) {
-			X.instruction = Instruction.getInstruction(CODE.ADDI, "#0", "#" + X.valueIfConstant);
+			X.instruction = Instruction.getInstruction(CODE.ADDI, Instruction.getZeroInstruction(), "#" + X.valueIfConstant);
 		} else if (X.kind == RESULT_KIND.VAR && !X.isArray) {
 			String FP = "#FP_"+getFunctionForIdentifier(X.addressIfVariable);
 			X.instruction = Instruction.getInstruction(CODE.load, FP, "&" + X.addressIfVariable);
@@ -862,7 +771,6 @@ public class Utils {
 
 		load(Y);
 		if (!X.isArray) {
-			Utils.SOPln("MADHUR MOVE &" + X.addressIfVariable);
 			X.instruction = Instruction.getInstruction(CODE.move, "&" + X.addressIfVariable, Y.instruction);
 			X.instruction.addMoveFor("&" + X.addressIfVariable);
 
@@ -879,6 +787,14 @@ public class Utils {
 			Instruction three = Instruction.getInstruction(CODE.adda, a.instruction, two);
 			Instruction.getInstructionForArray(CODE.store, Y.instruction, three).setStoreFor("&" + X.addressIfVariable);
 		}
+	}
+
+	public static boolean isF1(CODE code) {
+		return F1Instructions.contains(code);
+	}
+	
+	public static boolean isF2(CODE code) {
+		return F2Instructions.contains(code);
 	}
 
 	public static boolean isInLoop() {
@@ -945,12 +861,16 @@ public class Utils {
 	 */
 	public static String colors[] = { "blue1", "darkorchid1", "chocolate", "darkgoldenrod3", "mediumslateblue",
 			"firebrick3", "gray73", "greenyellow", "white" };
+	public static String zero_color = "ZERO_COLOR";
 
 	public static int getRegisterForColor(String color) {
+		if(color.equals(zero_color))
+			return 0;
+
 		for (int i = 0; i < colors.length; i++)
 			if (colors[i].equals(color))
-				return i;
-		return colors.length;
+				return i+1;
+		return colors.length+1;
 	}
 
 	public static void registerAllocation() throws Exception {
@@ -1013,7 +933,7 @@ public class Utils {
 		Instruction i = Instruction.getInstruction(CODE.move, operand, phi, false).setBasicBlock(parent)
 				.setColor(phi.getColor());
 		Utils.SOPln("Adding Extra Move !! " + i+"  in BB "+parent.getIndex());
-		parent.getInstructionList().add(i);
+		parent.addLastInstruction(i);
 	}
 
 	private static boolean isColored(int i) {
@@ -1080,7 +1000,11 @@ public class Utils {
 		Collections.sort(aList, new Comparator<Map.Entry<Integer, HashSet<Integer>>>() {
 			@Override
 			public int compare(Entry<Integer, HashSet<Integer>> a, Entry<Integer, HashSet<Integer>> b) {
-				return b.getValue().size() - a.getValue().size();
+				int bDepth = Instruction.getInstructionList().get(b.getKey()).getWhileDepth();
+				int aDepth = Instruction.getInstructionList().get(a.getKey()).getWhileDepth();
+				if (bDepth == aDepth)
+					return b.getValue().size() - a.getValue().size();
+				return bDepth - aDepth;
 			}
 		});
 
@@ -1118,6 +1042,12 @@ public class Utils {
 				Utils.SOP(" " + j);
 			Utils.SOPln("");
 		}
+	}
+
+	public static HashMap<Integer, HashSet<Integer>> getFixUpMap() {
+		if (fixUpMap == null)
+			fixUpMap = new HashMap<Integer, HashSet<Integer>>();
+		return fixUpMap;
 	}
 
 	public static HashMap<Integer, HashSet<Integer>> getPhiClusters() {
@@ -1270,7 +1200,7 @@ public class Utils {
 
 		// call convert2Machine
 		current.lowerToMachineCode();
-		Utils.SOPln(current);
+		//Utils.SOPln(current);
 
 		if (current.firstChildExists())
 			startLowering(current.getFirstChild());
@@ -1365,6 +1295,10 @@ public class Utils {
 		if (phiClusters != null)
 			phiClusters.clear();
 		phiClusters = null;
+
+		if (fixUpMap != null)
+			fixUpMap.clear();
+		fixUpMap = null;
 
 		Instruction.shutDown();
 		BasicBlock.shutDown();

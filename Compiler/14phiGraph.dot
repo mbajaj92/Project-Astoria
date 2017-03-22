@@ -1,9 +1,16 @@
 strict graph {
+16[label="16" style=filled fillcolor="darkorchid1"];
+16 -- 0
+16 -- 10
+0[label="0" style=filled fillcolor="darkorchid1"];
+0 -- 16
 17[label="17" style=filled fillcolor="blue1"];
 17 -- 3
 17 -- 13
 3[label="3" style=filled fillcolor="blue1"];
 3 -- 17
+10[label="10" style=filled fillcolor="darkorchid1"];
+10 -- 16
 13[label="13" style=filled fillcolor="blue1"];
 13 -- 17
 }

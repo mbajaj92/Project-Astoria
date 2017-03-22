@@ -4,15 +4,20 @@
 main
 var a, b, c;
 {
-	let a <- 1;
+	let a <- 3;
 	let b <- 2;
 	let c <- 3;
+	call OutputNum(c);
 	if a > b then
 		let a <- a + 1;
-		if a < b then
+		if a > b then
 			let a <- a * 4;
+			call OutputNum(a);
+			call OutputNum(c);
 			if c != a then
-				let c <- a
+				call OutputNum(c);
+				let c <- a;
+				call OutputNum(c);
 			fi
 		fi
 	else
@@ -24,6 +29,7 @@ var a, b, c;
 		fi
 	fi;
 	let a <- a + 1;
-	call OutputNum(a)
+	call OutputNum(a);
+	call OutputNum(c);
 }
 .

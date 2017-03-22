@@ -1,22 +1,32 @@
 strict graph {
-16[label="16" style=filled fillcolor="blue1"];
+16[label="16 : 1" style=filled fillcolor="blue1"];
 16 -- 3
-18[label="18" style=filled fillcolor="blue1"];
+18[label="18 : 1" style=filled fillcolor="blue1"];
 18 -- 19
+18 -- 22
 18 -- 25
 18 -- 27
-19[label="19" style=filled fillcolor="darkorchid1"];
+19[label="19 : 2" style=filled fillcolor="darkorchid1"];
 19 -- 18
-3[label="3" style=filled fillcolor="darkorchid1"];
+19 -- 22
+3[label="3 : 2" style=filled fillcolor="darkorchid1"];
 3 -- 16
 3 -- 5
-5[label="5" style=filled fillcolor="blue1"];
+3 -- 9
+5[label="5 : 1" style=filled fillcolor="blue1"];
 5 -- 3
+5 -- 9
 5 -- 12
-25[label="25" style=filled fillcolor="darkorchid1"];
+22[label="22 : 3" style=filled fillcolor="chocolate"];
+22 -- 18
+22 -- 19
+25[label="25 : 2" style=filled fillcolor="darkorchid1"];
 25 -- 18
-27[label="27" style=filled fillcolor="darkorchid1"];
+9[label="9 : 3" style=filled fillcolor="chocolate"];
+9 -- 3
+9 -- 5
+27[label="27 : 2" style=filled fillcolor="darkorchid1"];
 27 -- 18
-12[label="12" style=filled fillcolor="darkorchid1"];
+12[label="12 : 2" style=filled fillcolor="darkorchid1"];
 12 -- 5
 }

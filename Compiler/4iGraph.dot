@@ -1,12 +1,13 @@
 strict graph {
-10[label="10" style=filled fillcolor="darkgoldenrod3"];
+10[label="10 : 2" style=filled fillcolor="darkorchid1"];
 10 -- 11
 10 -- 12
 10 -- 60
 10 -- 13
-11[label="11" style=filled fillcolor="chocolate"];
-11 -- 33
-11 -- 37
+11[label="11 : 5" style=filled fillcolor="mediumslateblue"];
+11 -- 64
+11 -- 67
+11 -- 68
 11 -- 10
 11 -- 12
 11 -- 13
@@ -19,10 +20,20 @@ strict graph {
 11 -- 25
 11 -- 26
 11 -- 28
-11 -- 60
 11 -- 30
 11 -- 31
-12[label="12" style=filled fillcolor="darkorchid1"];
+11 -- 33
+11 -- 37
+11 -- 41
+11 -- 42
+11 -- 46
+11 -- 49
+11 -- 51
+11 -- 52
+11 -- 54
+11 -- 60
+11 -- 62
+12[label="12 : 6" style=filled fillcolor="firebrick3"];
 12 -- 33
 12 -- 67
 12 -- 68
@@ -32,6 +43,7 @@ strict graph {
 12 -- 10
 12 -- 11
 12 -- 13
+12 -- 46
 12 -- 15
 12 -- 16
 12 -- 49
@@ -45,119 +57,128 @@ strict graph {
 12 -- 60
 12 -- 30
 12 -- 31
-13[label="13" style=filled fillcolor="mediumslateblue"];
+13[label="13 : 3" style=filled fillcolor="chocolate"];
 13 -- 10
 13 -- 11
 13 -- 60
 13 -- 12
-15[label="15" style=filled fillcolor="darkgoldenrod3"];
+15[label="15 : 2" style=filled fillcolor="darkorchid1"];
 15 -- 16
 15 -- 18
 15 -- 11
 15 -- 60
 15 -- 12
-16[label="16" style=filled fillcolor="mediumslateblue"];
+16[label="16 : 3" style=filled fillcolor="chocolate"];
 16 -- 11
 16 -- 60
 16 -- 12
 16 -- 15
-18[label="18" style=filled fillcolor="mediumslateblue"];
+18[label="18 : 3" style=filled fillcolor="chocolate"];
 18 -- 11
 18 -- 60
 18 -- 12
 18 -- 15
-20[label="20" style=filled fillcolor="darkgoldenrod3"];
+20[label="20 : 2" style=filled fillcolor="darkorchid1"];
 20 -- 21
 20 -- 23
 20 -- 11
 20 -- 60
 20 -- 12
-21[label="21" style=filled fillcolor="mediumslateblue"];
+21[label="21 : 3" style=filled fillcolor="chocolate"];
 21 -- 20
 21 -- 11
 21 -- 60
 21 -- 12
-23[label="23" style=filled fillcolor="mediumslateblue"];
+23[label="23 : 3" style=filled fillcolor="chocolate"];
 23 -- 20
 23 -- 11
 23 -- 60
 23 -- 12
-25[label="25" style=filled fillcolor="darkgoldenrod3"];
+25[label="25 : 2" style=filled fillcolor="darkorchid1"];
 25 -- 26
 25 -- 11
 25 -- 28
 25 -- 60
 25 -- 12
-26[label="26" style=filled fillcolor="mediumslateblue"];
+26[label="26 : 3" style=filled fillcolor="chocolate"];
 26 -- 25
 26 -- 11
 26 -- 60
 26 -- 12
-28[label="28" style=filled fillcolor="mediumslateblue"];
+28[label="28 : 3" style=filled fillcolor="chocolate"];
 28 -- 25
 28 -- 11
 28 -- 60
 28 -- 12
-30[label="30" style=filled fillcolor="darkgoldenrod3"];
+30[label="30 : 2" style=filled fillcolor="darkorchid1"];
 30 -- 33
 30 -- 11
 30 -- 60
 30 -- 12
 30 -- 31
-31[label="31" style=filled fillcolor="mediumslateblue"];
+31[label="31 : 3" style=filled fillcolor="chocolate"];
 31 -- 11
 31 -- 60
 31 -- 12
 31 -- 30
-33[label="33" style=filled fillcolor="mediumslateblue"];
+33[label="33 : 3" style=filled fillcolor="chocolate"];
 33 -- 11
 33 -- 60
 33 -- 12
 33 -- 30
-37[label="37" style=filled fillcolor="mediumslateblue"];
+37[label="37 : 2" style=filled fillcolor="darkorchid1"];
 37 -- 41
 37 -- 42
 37 -- 11
 37 -- 60
 37 -- 12
-41[label="41" style=filled fillcolor="chocolate"];
+41[label="41 : 3" style=filled fillcolor="chocolate"];
 41 -- 37
+41 -- 11
 41 -- 60
 41 -- 12
-42[label="42" style=filled fillcolor="darkgoldenrod3"];
+42[label="42 : 3" style=filled fillcolor="chocolate"];
 42 -- 37
+42 -- 11
 42 -- 60
 42 -- 12
-49[label="49" style=filled fillcolor="mediumslateblue"];
+46[label="46 : 4" style=filled fillcolor="darkgoldenrod3"];
+46 -- 67
+46 -- 68
+46 -- 11
+46 -- 60
+46 -- 12
+49[label="49 : 4" style=filled fillcolor="darkgoldenrod3"];
 49 -- 67
 49 -- 68
+49 -- 11
 49 -- 60
 49 -- 12
-51[label="51" style=filled fillcolor="darkorchid1"];
+51[label="51 : 4" style=filled fillcolor="darkgoldenrod3"];
 51 -- 67
 51 -- 68
+51 -- 11
 51 -- 60
-52[label="52" style=filled fillcolor="darkorchid1"];
+52[label="52 : 4" style=filled fillcolor="darkgoldenrod3"];
 52 -- 67
 52 -- 68
+52 -- 11
 52 -- 60
-60[label="60" style=filled fillcolor="blue1"];
-60 -- 33
+54[label="54 : 4" style=filled fillcolor="darkgoldenrod3"];
+54 -- 67
+54 -- 68
+54 -- 11
+54 -- 60
+60[label="60 : 1" style=filled fillcolor="blue1"];
 60 -- 67
 60 -- 68
-60 -- 37
-60 -- 41
-60 -- 42
 60 -- 10
 60 -- 11
 60 -- 12
 60 -- 13
 60 -- 15
 60 -- 16
-60 -- 49
 60 -- 18
-60 -- 51
-60 -- 52
 60 -- 20
 60 -- 21
 60 -- 23
@@ -166,34 +187,51 @@ strict graph {
 60 -- 28
 60 -- 30
 60 -- 31
-62[label="62" style=filled fillcolor="blue1"];
+60 -- 33
+60 -- 37
+60 -- 41
+60 -- 42
+60 -- 46
+60 -- 49
+60 -- 51
+60 -- 52
+60 -- 54
+62[label="62 : 1" style=filled fillcolor="blue1"];
 62 -- 64
 62 -- 67
-64[label="64" style=filled fillcolor="chocolate"];
+62 -- 11
+64[label="64 : 2" style=filled fillcolor="darkorchid1"];
+64 -- 11
 64 -- 62
-67[label="67" style=filled fillcolor="chocolate"];
+67[label="67 : 2" style=filled fillcolor="darkorchid1"];
 67 -- 49
 67 -- 51
 67 -- 68
 67 -- 52
+67 -- 54
+67 -- 11
 67 -- 60
 67 -- 12
 67 -- 62
-68[label="68" style=filled fillcolor="darkgoldenrod3"];
+67 -- 46
+68[label="68 : 3" style=filled fillcolor="chocolate"];
 68 -- 49
 68 -- 67
 68 -- 51
 68 -- 52
+68 -- 54
+68 -- 11
 68 -- 60
 68 -- 12
-71[label="71" style=filled fillcolor="darkgoldenrod3"];
+68 -- 46
+71[label="71 : 4" style=filled fillcolor="darkgoldenrod3"];
 71 -- 103
 71 -- 72
 71 -- 73
 71 -- 74
 71 -- 107
 71 -- 111
-72[label="72" style=filled fillcolor="blue1"];
+72[label="72 : 1" style=filled fillcolor="blue1"];
 72 -- 103
 72 -- 71
 72 -- 73
@@ -212,7 +250,7 @@ strict graph {
 72 -- 91
 72 -- 92
 72 -- 94
-73[label="73" style=filled fillcolor="darkorchid1"];
+73[label="73 : 2" style=filled fillcolor="darkorchid1"];
 73 -- 103
 73 -- 71
 73 -- 72
@@ -231,14 +269,14 @@ strict graph {
 73 -- 91
 73 -- 92
 73 -- 94
-74[label="74" style=filled fillcolor="mediumslateblue"];
+74[label="74 : 5" style=filled fillcolor="mediumslateblue"];
 74 -- 103
 74 -- 71
 74 -- 72
 74 -- 73
 74 -- 107
 74 -- 111
-76[label="76" style=filled fillcolor="darkgoldenrod3"];
+76[label="76 : 4" style=filled fillcolor="darkgoldenrod3"];
 76 -- 103
 76 -- 72
 76 -- 73
@@ -246,21 +284,21 @@ strict graph {
 76 -- 77
 76 -- 79
 76 -- 111
-77[label="77" style=filled fillcolor="mediumslateblue"];
+77[label="77 : 5" style=filled fillcolor="mediumslateblue"];
 77 -- 103
 77 -- 72
 77 -- 73
 77 -- 107
 77 -- 76
 77 -- 111
-79[label="79" style=filled fillcolor="mediumslateblue"];
+79[label="79 : 5" style=filled fillcolor="mediumslateblue"];
 79 -- 103
 79 -- 72
 79 -- 73
 79 -- 107
 79 -- 76
 79 -- 111
-81[label="81" style=filled fillcolor="darkgoldenrod3"];
+81[label="81 : 4" style=filled fillcolor="darkgoldenrod3"];
 81 -- 82
 81 -- 84
 81 -- 103
@@ -268,21 +306,21 @@ strict graph {
 81 -- 73
 81 -- 107
 81 -- 111
-82[label="82" style=filled fillcolor="mediumslateblue"];
+82[label="82 : 5" style=filled fillcolor="mediumslateblue"];
 82 -- 81
 82 -- 103
 82 -- 72
 82 -- 73
 82 -- 107
 82 -- 111
-84[label="84" style=filled fillcolor="mediumslateblue"];
+84[label="84 : 5" style=filled fillcolor="mediumslateblue"];
 84 -- 81
 84 -- 103
 84 -- 72
 84 -- 73
 84 -- 107
 84 -- 111
-86[label="86" style=filled fillcolor="darkgoldenrod3"];
+86[label="86 : 4" style=filled fillcolor="darkgoldenrod3"];
 86 -- 87
 86 -- 103
 86 -- 72
@@ -290,21 +328,21 @@ strict graph {
 86 -- 73
 86 -- 107
 86 -- 111
-87[label="87" style=filled fillcolor="mediumslateblue"];
+87[label="87 : 5" style=filled fillcolor="mediumslateblue"];
 87 -- 86
 87 -- 103
 87 -- 72
 87 -- 73
 87 -- 107
 87 -- 111
-89[label="89" style=filled fillcolor="mediumslateblue"];
+89[label="89 : 5" style=filled fillcolor="mediumslateblue"];
 89 -- 86
 89 -- 103
 89 -- 72
 89 -- 73
 89 -- 107
 89 -- 111
-91[label="91" style=filled fillcolor="darkgoldenrod3"];
+91[label="91 : 4" style=filled fillcolor="darkgoldenrod3"];
 91 -- 103
 91 -- 72
 91 -- 73
@@ -312,29 +350,29 @@ strict graph {
 91 -- 92
 91 -- 94
 91 -- 111
-92[label="92" style=filled fillcolor="mediumslateblue"];
+92[label="92 : 5" style=filled fillcolor="mediumslateblue"];
 92 -- 103
 92 -- 72
 92 -- 73
 92 -- 107
 92 -- 91
 92 -- 111
-94[label="94" style=filled fillcolor="mediumslateblue"];
+94[label="94 : 5" style=filled fillcolor="mediumslateblue"];
 94 -- 103
 94 -- 72
 94 -- 73
 94 -- 107
 94 -- 91
 94 -- 111
-98[label="98" style=filled fillcolor="blue1"];
+98[label="98 : 1" style=filled fillcolor="blue1"];
 98 -- 103
 98 -- 107
 98 -- 111
-99[label="99" style=filled fillcolor="blue1"];
+99[label="99 : 1" style=filled fillcolor="blue1"];
 99 -- 103
 99 -- 107
 99 -- 111
-103[label="103" style=filled fillcolor="chocolate"];
+103[label="103 : 3" style=filled fillcolor="chocolate"];
 103 -- 98
 103 -- 99
 103 -- 71
@@ -353,7 +391,7 @@ strict graph {
 103 -- 91
 103 -- 92
 103 -- 94
-107[label="107" style=filled fillcolor="chocolate"];
+107[label="107 : 3" style=filled fillcolor="chocolate"];
 107 -- 98
 107 -- 99
 107 -- 71
@@ -372,7 +410,7 @@ strict graph {
 107 -- 91
 107 -- 92
 107 -- 94
-111[label="111" style=filled fillcolor="chocolate"];
+111[label="111 : 3" style=filled fillcolor="chocolate"];
 111 -- 98
 111 -- 99
 111 -- 71
@@ -391,5 +429,5 @@ strict graph {
 111 -- 91
 111 -- 92
 111 -- 94
-112[label="112" style=filled fillcolor="blue1"];
+112[label="112 : 1" style=filled fillcolor="blue1"];
 }

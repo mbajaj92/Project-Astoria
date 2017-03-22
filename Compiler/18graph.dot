@@ -1,13 +1,13 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-65: BRA (62) (null) null null
+66: BSR (62) (null) null null
 "];
 0[shape=box];
 0 -> 9[color=blue]
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
-0: ADDI (null) (null) #0 #0 move for = &a &b &c &d &e &f &g &h
+0: ADDI (-1) (null) null #0 move for = &a &b &c &d &e &f &g &h
 11: ADD (0) (0) null null aFor = &a bFor = &b move for = &c &d
 17: MUL (11) (11) null null aFor = &d bFor = &d move for = &e &g
 21: ADD (0) (11) null null aFor = &a bFor = &c move for = &f
@@ -27,8 +27,8 @@ TAG: IF_HEADER(2)  func = foo WD = 0
 3[label="
 TAG: THEN_BLOCK(3)  func = foo WD = 0
 34: ADDI (17) (null) null #1 aFor = &g move for = &h
-36: BRA (null) (null) null null
-63: move (11) (48) null null
+64: move (11) (48) null null
+36: BSR (50) (null) null null
 "];
 3[shape=box];
 3 -> 8[color=blue]
@@ -43,8 +43,8 @@ TAG: ELSE_BLOCK(4)  func = foo WD = 0
 5[label="
 TAG: IF_HEADER(5)  func = foo WD = 0
 43: CMP (39) (27) null null aFor = &f bFor = &a
-44: BLE (43) (null) null null
-64: move (11) (47) null null
+65: move (11) (47) null null
+44: BLE (43) (47) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]
@@ -52,7 +52,7 @@ TAG: IF_HEADER(5)  func = foo WD = 0
 5 -> 4[color=red][style=dotted]
 6[label="
 TAG: THEN_BLOCK(6)  func = foo WD = 0
-45: ADDI (null) (null) #0 #2 move for = &c
+45: ADDI (-1) (null) null #2 move for = &c
 "];
 6[shape=box];
 6 -> 7[color=blue]
@@ -85,6 +85,7 @@ TAG: FOLLOW_BLOCK(8)  func = foo WD = 0
 9[label="
 TAG: INIT_CONT(9)  func = MAIN$FUNC WD = 0
 62: call (null) (null) &foo null
+63: EOF (null) (null) null null
 "];
 9[shape=box];
 9 -> 0[color=red][style=dotted]

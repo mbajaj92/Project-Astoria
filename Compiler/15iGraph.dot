@@ -1,93 +1,128 @@
 strict graph {
-64[label="64" style=filled fillcolor="darkgoldenrod3"];
+64[label="64 : 2" style=filled fillcolor="darkorchid1"];
 64 -- 54
 64 -- 73
 64 -- 79
-34[label="34" style=filled fillcolor="chocolate"];
+66[label="66 : 2" style=filled fillcolor="darkorchid1"];
+66 -- 54
+66 -- 73
+66 -- 79
+70[label="70 : 1" style=filled fillcolor="blue1"];
+70 -- 54
+8[label="8 : 1" style=filled fillcolor="blue1"];
+8 -- 10
+73[label="73 : 1" style=filled fillcolor="blue1"];
+73 -- 64
+73 -- 66
+73 -- 54
+73 -- 75
+73 -- 79
+10[label="10 : 4" style=filled fillcolor="darkgoldenrod3"];
+10 -- 34
+10 -- 36
+10 -- 39
+10 -- 40
+10 -- 8
+10 -- 14
+10 -- 16
+10 -- 18
+10 -- 22
+10 -- 24
+10 -- 25
+10 -- 27
+10 -- 31
+75[label="75 : 2" style=filled fillcolor="darkorchid1"];
+75 -- 54
+75 -- 73
+14[label="14 : 2" style=filled fillcolor="darkorchid1"];
+14 -- 39
+14 -- 40
+14 -- 10
+78[label="78 : 1" style=filled fillcolor="blue1"];
+78 -- 54
+78 -- 58
+78 -- 79
+79[label="79 : 3" style=filled fillcolor="chocolate"];
+79 -- 64
+79 -- 66
+79 -- 54
+79 -- 73
+79 -- 58
+79 -- 78
+79 -- 62
+16[label="16 : 2" style=filled fillcolor="darkorchid1"];
+16 -- 39
+16 -- 40
+16 -- 10
+18[label="18 : 2" style=filled fillcolor="darkorchid1"];
+18 -- 39
+18 -- 40
+18 -- 10
+82[label="82 : 1" style=filled fillcolor="blue1"];
+22[label="22 : 1" style=filled fillcolor="blue1"];
+22 -- 40
+22 -- 10
+24[label="24 : 1" style=filled fillcolor="blue1"];
+24 -- 40
+24 -- 10
+25[label="25 : 2" style=filled fillcolor="darkorchid1"];
+25 -- 34
+25 -- 40
+25 -- 10
+27[label="27 : 2" style=filled fillcolor="darkorchid1"];
+27 -- 34
+27 -- 40
+27 -- 10
+31[label="31 : 1" style=filled fillcolor="blue1"];
+31 -- 10
+34[label="34 : 1" style=filled fillcolor="blue1"];
 34 -- 36
 34 -- 40
 34 -- 25
 34 -- 10
-36[label="36" style=filled fillcolor="darkorchid1"];
+34 -- 27
+36[label="36 : 2" style=filled fillcolor="darkorchid1"];
 36 -- 34
 36 -- 10
-70[label="70" style=filled fillcolor="chocolate"];
-70 -- 54
-39[label="39" style=filled fillcolor="chocolate"];
+39[label="39 : 1" style=filled fillcolor="blue1"];
 39 -- 16
+39 -- 18
 39 -- 40
 39 -- 10
-40[label="40" style=filled fillcolor="darkorchid1"];
+39 -- 14
+40[label="40 : 3" style=filled fillcolor="chocolate"];
 40 -- 16
 40 -- 34
+40 -- 18
 40 -- 22
 40 -- 39
 40 -- 24
 40 -- 25
 40 -- 10
-8[label="8" style=filled fillcolor="chocolate"];
-8 -- 10
-73[label="73" style=filled fillcolor="chocolate"];
-73 -- 64
-73 -- 54
-73 -- 75
-73 -- 79
-10[label="10" style=filled fillcolor="blue1"];
-10 -- 16
-10 -- 34
-10 -- 36
-10 -- 22
-10 -- 39
-10 -- 40
-10 -- 24
-10 -- 8
-10 -- 25
-10 -- 31
-43[label="43" style=filled fillcolor="blue1"];
+40 -- 27
+40 -- 14
+43[label="43 : 1" style=filled fillcolor="blue1"];
 43 -- 45
-75[label="75" style=filled fillcolor="darkorchid1"];
-75 -- 54
-75 -- 73
-45[label="45" style=filled fillcolor="darkorchid1"];
+45[label="45 : 2" style=filled fillcolor="darkorchid1"];
 45 -- 43
-78[label="78" style=filled fillcolor="chocolate"];
-78 -- 54
-78 -- 79
-79[label="79" style=filled fillcolor="darkorchid1"];
-79 -- 64
-79 -- 54
-79 -- 73
-79 -- 78
-79 -- 62
-16[label="16" style=filled fillcolor="darkgoldenrod3"];
-16 -- 39
-16 -- 40
-16 -- 10
-82[label="82" style=filled fillcolor="blue1"];
-52[label="52" style=filled fillcolor="chocolate"];
+52[label="52 : 1" style=filled fillcolor="blue1"];
 52 -- 54
-22[label="22" style=filled fillcolor="chocolate"];
-22 -- 40
-22 -- 10
-54[label="54" style=filled fillcolor="blue1"];
+54[label="54 : 4" style=filled fillcolor="darkgoldenrod3"];
 54 -- 64
+54 -- 66
 54 -- 52
 54 -- 70
 54 -- 73
+54 -- 58
 54 -- 75
 54 -- 78
 54 -- 62
 54 -- 79
-24[label="24" style=filled fillcolor="chocolate"];
-24 -- 40
-24 -- 10
-25[label="25" style=filled fillcolor="darkgoldenrod3"];
-25 -- 34
-25 -- 40
-25 -- 10
-62[label="62" style=filled fillcolor="chocolate"];
+58[label="58 : 2" style=filled fillcolor="darkorchid1"];
+58 -- 54
+58 -- 78
+58 -- 79
+62[label="62 : 1" style=filled fillcolor="blue1"];
 62 -- 54
 62 -- 79
-31[label="31" style=filled fillcolor="chocolate"];
-31 -- 10
 }

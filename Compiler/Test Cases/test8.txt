@@ -4,8 +4,10 @@ main
 var i, j;
 {
 	let i <- 0;
-	let j <- 0;
-	while i < 1000 do
-		let j <- j + 1
-	od
+	let j <- 500;
+	while j < 1000 do
+		let j <- j + 1;
+		#call OutputNum(j);
+	od;
+	call OutputNum(j);
 }.

@@ -1,15 +1,15 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-94: BRA (null) (null) null null
+97: BSR (92) (null) null null
 "];
 0[shape=box];
 0 -> 18[color=blue]
 1[label="
 TAG: PROC_START(1)  func = bar WD = 0
-8: ADDI (null) (null) #0 #9 move for = &q
-10: ADDI (null) (null) #0 #3 move for = &par
-92: move (10) (40) null null
+8: ADDI (-1) (null) null #9 move for = &q
+10: ADDI (-1) (null) null #3 move for = &par
+93: move (10) (40) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
@@ -27,14 +27,14 @@ TAG: LOOP_HEADER_1(2)  func = bar WD = 1
 2 -> 9[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = bar WD = 1
-95: BRA (16) (null) null null
+98: BSR (16) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
 TAG: IF_HEADER(4)  func = bar WD = 1
-16: ADDI (null) (null) #0 #2
+16: ADDI (-1) (null) null #2
 18: CMPI (16) (10) null null
 19: BGE (18) (24) null null
 "];
@@ -60,7 +60,7 @@ TAG: FOLLOW_BLOCK(6)  func = bar WD = 1
 7[label="
 TAG: LOOP_HEADER_2(7)  func = bar WD = 2
 34: phi (24) (31) null null  PHI FOR &q
-25: ADDI (null) (null) #0 #4
+25: ADDI (-1) (null) null #4
 27: CMP (25) (34) null null bFor = &q
 28: BLT (27) (36) null null
 "];
@@ -72,7 +72,7 @@ TAG: LOOP_HEADER_2(7)  func = bar WD = 2
 8[label="
 TAG: DO_BLOCK(8)  func = bar WD = 2
 31: SUB (40) (34) null null aFor = &par bFor = &q move for = &q
-33: BRA (34) (null) null null
+33: BSR (34) (null) null null
 "];
 8[shape=box];
 8 -> 7[color=blue]
@@ -80,7 +80,8 @@ TAG: DO_BLOCK(8)  func = bar WD = 2
 9[label="
 TAG: LOOP_FOLLOW_2(9)  func = bar WD = 2
 36: SUBI (34) (null) null #3 aFor = &q move for = &par
-38: BRA (40) (null) null null
+94: move (36) (40) null null
+38: BSR (40) (null) null null
 "];
 9[shape=box];
 9 -> 2[color=blue]
@@ -88,16 +89,16 @@ TAG: LOOP_FOLLOW_2(9)  func = bar WD = 2
 10[label="
 TAG: LOOP_FOLLOW_1(10)  func = bar WD = 1
 43: ADD (40) (39) null null aFor = &par bFor = &q move for = &x
-45: ADDI (null) (null) #0 #4 move for = &af
+45: ADDI (-1) (null) null #4 move for = &af
 48: RET (43) (null) null null
 "];
 10[shape=box];
 10 -> 2[color=red][style=dotted]
 11[label="
 TAG: PROC_START(11)  func = foo WD = 0
-52: ADDI (null) (null) #0 #9 move for = &q
-54: ADDI (null) (null) #0 #3 move for = &par
-93: move (54) (79) null null
+52: ADDI (-1) (null) null #9 move for = &q
+54: ADDI (-1) (null) null #3 move for = &par
+95: move (54) (79) null null
 "];
 11[shape=box];
 11 -> 12[color=blue]
@@ -123,7 +124,7 @@ TAG: DO_BLOCK(13)  func = foo WD = 1
 14[label="
 TAG: LOOP_HEADER_2(14)  func = foo WD = 2
 73: phi (62) (70) null null  PHI FOR &q
-64: ADDI (null) (null) #0 #4
+64: ADDI (-1) (null) null #4
 66: CMP (64) (73) null null bFor = &q
 67: BLT (66) (75) null null
 "];
@@ -135,7 +136,7 @@ TAG: LOOP_HEADER_2(14)  func = foo WD = 2
 15[label="
 TAG: DO_BLOCK(15)  func = foo WD = 2
 70: SUB (79) (73) null null aFor = &par bFor = &q move for = &q
-72: BRA (73) (null) null null
+72: BSR (73) (null) null null
 "];
 15[shape=box];
 15 -> 14[color=blue]
@@ -143,7 +144,8 @@ TAG: DO_BLOCK(15)  func = foo WD = 2
 16[label="
 TAG: LOOP_FOLLOW_2(16)  func = foo WD = 2
 75: SUBI (73) (null) null #3 aFor = &q move for = &par
-77: BRA (79) (null) null null
+96: move (75) (79) null null
+77: BSR (79) (null) null null
 "];
 16[shape=box];
 16 -> 12[color=blue]
@@ -156,7 +158,8 @@ TAG: LOOP_FOLLOW_1(17)  func = foo WD = 1
 17[shape=box];
 17 -> 12[color=red][style=dotted]
 18[label="
-TAG: INIT_CONT(18)  func = MAIN$FUNC
+TAG: INIT_CONT(18)  func = MAIN$FUNC WD = 0
+92: EOF (null) (null) null null
 "];
 18[shape=box];
 18 -> 0[color=red][style=dotted]

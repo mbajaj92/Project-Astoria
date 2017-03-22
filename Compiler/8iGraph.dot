@@ -1,3 +1,8 @@
 strict graph {
-0[label="0" style=filled fillcolor="blue1"];
+5[label="5 : 2" style=filled fillcolor="darkorchid1"];
+8[label="8 : 1" style=filled fillcolor="blue1"];
+8 -- 14
+11[label="11 : 2" style=filled fillcolor="darkorchid1"];
+14[label="14 : 2" style=filled fillcolor="darkorchid1"];
+14 -- 8
 }

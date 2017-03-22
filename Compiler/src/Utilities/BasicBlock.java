@@ -10,21 +10,18 @@ import Utilities.Utils.BasicBlockType;
 import Utilities.Utils.CODE;
 
 public class BasicBlock {
-	private int myWhileDepth = 0;
+	public int myWhileDepth = 0;
 	private HashSet<Integer> liveRange = null, leftOver = null;
 	private static ArrayList<BasicBlock> fixList;
 	private String TAG, mFunctionName;
-	private boolean ignore = false;
 	private static ArrayList<BasicBlock> mBasicBlockList;
 	private int index = -1;
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private boolean visited = false, bvisited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false,
 			twoParentON = false;
 	private BasicBlockType type;
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private BasicBlock oneChild, twoChild, oneParent, twoParent;
 	private ArrayList<Instruction> mInstructionSet = null;
-	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BRA);
+	private List<CODE> toBeFixed = Arrays.asList(CODE.BGE, CODE.BEQ, CODE.BGT, CODE.BLE, CODE.BLT, CODE.BNE, CODE.BSR);
 	private static List<CODE> notToBeAnchored = Arrays.asList(CODE.CMP, CODE.CMPI, CODE.phi, CODE.BEQ, CODE.BGE,
 			CODE.BLE, CODE.BGT, CODE.BLT, CODE.BNE, CODE.read, CODE.write, CODE.writeNL, CODE.RET);
 	private HashMap<CODE, Instruction> anchor = null;
@@ -36,11 +33,7 @@ public class BasicBlock {
 
 	BasicBlock(String tag, String name) {
 		TAG = tag;
-		Utils.SOPln("Tag is "+tag);
-		////////////
 		setType(TAG);
-		///////////
-		/*Utils.SOPln("setting function name to "+name);*/
 		mFunctionName = name;
 		nullCheck();
 		mInstructionSet = new ArrayList<Instruction>();
@@ -413,7 +406,8 @@ public class BasicBlock {
 
 	public void fixUp() {
 		if (mInstructionSet.isEmpty() && (oneChildON || twoChildON))
-			mInstructionSet.add(Instruction.getInstruction(CODE.BRA, false).setBasicBlock(this));
+			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false).setBasicBlock(this));
+
 		else if (mInstructionSet.isEmpty())
 			return;
 
@@ -421,7 +415,7 @@ public class BasicBlock {
 		if (!toBeFixed.contains(lastInstruction.getCode()))
 			return;
 
-		if (lastInstruction.getCode() == CODE.BRA)
+		if (lastInstruction.getCode() == CODE.BSR)
 			lastInstruction.setLeftInstruction(oneChild.getFirstInstruction());
 		else
 			lastInstruction.setRightInstruction(twoChild.getFirstInstruction());
@@ -511,10 +505,11 @@ public class BasicBlock {
 			return false;
 
 		if(i.global())
-			return false;
-		
+			return false;	
+
 		if (!liveRange.contains((Integer) i.getInstructionNumber()))
 			return true;
+		
 		return false;
 	}
 
@@ -547,7 +542,7 @@ public class BasicBlock {
 
 		for (int i = mInstructionSet.size() - 1; i >= 0; i--) {
 			Instruction current = mInstructionSet.get(i);
-			if (current.getCode() == CODE.BRA || current.getCode() == CODE.phi) {
+			if (current.getCode() == CODE.BSR || current.getCode() == CODE.phi || current.getCode() == CODE.EOF) {
 				continue;
 			}
 
@@ -560,16 +555,16 @@ public class BasicBlock {
 				continue;
 			} else
 				liveRange.remove((Integer) currentIndex);
-			// }
 
-			if (current.getCode() != CODE.write && current.getCode() != CODE.writeNL && current.getCode() != CODE.RET && current.getCode() != CODE.store
-					&& !Utils.compareInstructions.contains(current.getCode()))
+
+			if (current.getCode() != CODE.write && current.getCode() != CODE.writeNL && current.getCode() != CODE.RET
+					&& current.getCode() != CODE.store && !Utils.doNotCreateEdge.contains(current.getCode()))
 				Utils.addEdge(currentIndex, liveRange);
 
-			if (current.getLeftInstruction() != null)
+			if (current.getLeftInstruction() != null && current.getLeftInstruction().getInstructionNumber() != -1)
 				liveRange.add(current.getLeftInstruction().getInstructionNumber());
 
-			if (!Utils.compareInstructions.contains(current.getCode()) && current.getRightInstruction() != null)
+			if (current.getRightInstruction() != null)
 				liveRange.add(current.getRightInstruction().getInstructionNumber());
 
 			if (current.getCode() == CODE.call && current.hasFunctionParameters()) {
@@ -585,6 +580,19 @@ public class BasicBlock {
 		return visited;
 	}
 
+	public void addLastInstruction(Instruction ins) {
+		if (mInstructionSet.isEmpty()) {
+			mInstructionSet.add(ins);
+			return;
+		}
+
+		Instruction last = mInstructionSet.get(mInstructionSet.size() - 1);
+		if (Utils.compareInstructions.contains(last.getCode()))
+			mInstructionSet.add(mInstructionSet.size() - 1, ins);
+		else
+			mInstructionSet.add(ins);
+	}
+	
 	public void setLast() {
 		isLast = true;
 	}
@@ -605,7 +613,6 @@ public class BasicBlock {
 		return "REGULAR";
 	}
 
-	////////////////////////////////////////////////////////////////////
 	public void setType(String tag) {
 		type = BasicBlockType.REGULAR;
 		if (TAG.contains("LOOP_HEADER"))
@@ -630,13 +637,94 @@ public class BasicBlock {
 
 	public void lowerToMachineCode() throws Exception {
 		for (Instruction i : mInstructionSet) {
-			if (i.getCode() == CODE.phi)
+			boolean shouldICheckForFix = true;
+			if (i.getCode() == CODE.BSR && Utils.getFixUpMap().containsKey(i.getInstructionNumber())) {
+				shouldICheckForFix = false;
+				HashSet<Integer> arr = Utils.getFixUpMap().remove(i.getInstructionNumber());
+				Instruction jumpTo = i.getLeftInstruction();
+				if (jumpTo.myProgramCounter == -1) {
+					if (Utils.getFixUpMap().containsKey(jumpTo.getInstructionNumber()))
+						Utils.getFixUpMap().get(jumpTo.getInstructionNumber()).addAll(arr);
+					else
+						Utils.getFixUpMap().put(jumpTo.getInstructionNumber(), arr);
+				} else
+					for (int index : arr)
+						Utils.fixupOld(index, jumpTo.myProgramCounter);
+
+			} else if (i.getCode() == CODE.phi && Utils.getFixUpMap().containsKey(i.getInstructionNumber())) {
+				int currentIndex = mInstructionSet.indexOf(i);
+				if (currentIndex < mInstructionSet.size() - 1) {
+					shouldICheckForFix = false;
+					HashSet<Integer> arr = Utils.getFixUpMap().remove(i.getInstructionNumber());
+					Instruction jumpTo = mInstructionSet.get(currentIndex + 1);
+					if (Utils.getFixUpMap().containsKey(jumpTo.getInstructionNumber()))
+						Utils.getFixUpMap().get(jumpTo.getInstructionNumber()).addAll(arr);
+					else
+						Utils.getFixUpMap().put(jumpTo.getInstructionNumber(), arr);
+				}
+			}
+
+			if (shouldICheckForFix && Utils.getFixUpMap().containsKey(i.getInstructionNumber())) {
+				HashSet<Integer> arr = Utils.getFixUpMap().remove(i.getInstructionNumber());
+				for (int index : arr)
+					Utils.fixupOld(index);
+			}
+
+			if (i.getCode() == CODE.phi) {
+				i.myProgramCounter = Utils.programCounter;
+				Utils.SOPln("Assign "+i.getInstructionNumber()+" PC = "+i.myProgramCounter);
 				continue;
-			/* fill a b and c */
-			int a = Utils.getRegisterForColor(i.getColor());
-			int b = 0;
-			int c = 0;
-			Utils.put(i.getCode(), a, b, c);
+			}
+
+			if (i.getCode() == CODE.EOF) {
+				Utils.put(CODE.RET, 0, 0, 0);
+			} else if (Utils.isF1(i.getCode()))
+				Utils.handleF1(i);
+			else if (Utils.isF2(i.getCode()))
+				Utils.handleF2(i);
+			else if (i.getCode() == CODE.read)
+				Utils.put(CODE.RDD, Utils.getRegisterForColor(i.getColor()), 0, 0);
+			else if (i.getCode() == CODE.writeNL)
+				Utils.put(CODE.WRL, 0, 0, 0);
+			else if (i.getCode() == CODE.writeNL)
+				Utils.put(CODE.WRL, 0, 0, 0);
+			else if (i.getCode() == CODE.write)
+				Utils.put(CODE.WRD, 0, Utils.getRegisterForColor(i.getLeftInstruction().getColor()), 0);
+			else if (i.getCode() == CODE.BSR) {
+				int pc = Utils.programCounter;
+				Utils.put(CODE.BSR, 0, 0, 0);
+				if (i.getLeftInstruction().myProgramCounter == -1) {
+					if (Utils.getFixUpMap().containsKey(i.getLeftInstruction().getInstructionNumber()))
+						Utils.getFixUpMap().get(i.getLeftInstruction().getInstructionNumber()).add(pc);
+					else {
+						HashSet<Integer> arr = new HashSet<Integer>();
+						arr.add(pc);
+						Utils.getFixUpMap().put(i.getLeftInstruction().getInstructionNumber(), arr);
+					}
+				} else
+					Utils.fixupOld(pc, i.getLeftInstruction().myProgramCounter);
+			} else if (Utils.compareInstructions.contains(i.getCode())) {
+				int pc = Utils.programCounter;
+				Utils.put(i.getCode(), Utils.getRegisterForColor(i.getLeftInstruction().getColor()), 0, 0);
+				if (Utils.getFixUpMap().containsKey(i.getRightInstruction().getInstructionNumber()))
+					Utils.getFixUpMap().get(i.getRightInstruction().getInstructionNumber()).add(pc);
+				else {
+					HashSet<Integer> arr = new HashSet<Integer>();
+					arr.add(pc);
+					Utils.getFixUpMap().put(i.getRightInstruction().getInstructionNumber(), arr);
+				}
+
+			} else if (i.getCode() == CODE.move) {
+				Utils.put(CODE.ADD, Utils.getRegisterForColor(i.getRightInstruction().getColor()),
+						Utils.getRegisterForColor(Instruction.getZeroInstruction().getColor()),
+						Utils.getRegisterForColor(i.getLeftInstruction().getColor()));
+			} else {
+				Utils.SOPln("Ignoring " + i.getInstructionNumber());
+			}
+
+			i.myProgramCounter = Utils.programCounter - 1;
+			Utils.SOPln("Assign "+i.getInstructionNumber()+" PC = "+i.myProgramCounter);
+			/* Special case instructions need to process further */
 		}
 		bvisited = true;
 	}
@@ -648,7 +736,6 @@ public class BasicBlock {
 	public BasicBlockType getBlockType() {
 		return type;
 	}
-	/////////////////////////////////////////////////////////////////////
 
 	public boolean areBothChildrenVisited() {
 		return isFirstChildVisited() && isSecondChildVisited();
@@ -696,19 +783,11 @@ public class BasicBlock {
 
 	public Instruction getFirstInstruction() {
 		if (mInstructionSet.isEmpty() && (oneChildON || twoChildON))
-			mInstructionSet.add(Instruction.getInstruction(CODE.BRA, false).setBasicBlock(this));
+			mInstructionSet.add(Instruction.getInstruction(CODE.BSR, false).setBasicBlock(this));
 
 		if (!mInstructionSet.isEmpty())
 			return mInstructionSet.get(0);
 		return null;
-	}
-
-	public boolean shouldIgnore() {
-		return ignore;
-	}
-
-	public void ignore() {
-		ignore = true;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-0: ADDI (null) (null) #0 #0 move for = &a &b &c &d &e &f &g
+0: ADDI (-1) (null) null #0 move for = &a &b &c &d &e &f &g
 "];
 0[shape=box];
 0 -> 1[color=blue]
@@ -15,7 +15,7 @@ TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
 2[label="
 TAG: IF_HEADER(2)  func = MAIN$FUNC WD = 0
 24: CMP (10) (10) null null aFor = &a bFor = &d
-25: BNE (24) (70) null null
+25: BEQ (24) (71) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -23,20 +23,21 @@ TAG: IF_HEADER(2)  func = MAIN$FUNC WD = 0
 2 -> 1[color=red][style=dotted]
 3[label="
 TAG: THEN_BLOCK(3)  func = MAIN$FUNC WD = 0
-49: BRA (null) (null) null null
+49: BSR (70) (null) null null
 "];
 3[shape=box];
 3 -> 5[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
 TAG: ELSE_BLOCK(4)  func = MAIN$FUNC WD = 0
-70: BRA (null) (null) null null
+71: BSR (70) (null) null null
 "];
 4[shape=box];
 4 -> 5[color=blue]
 4 -> 2[color=red][style=dotted]
 5[label="
-TAG: FOLLOW_BLOCK(5)  func = MAIN$FUNC
+TAG: FOLLOW_BLOCK(5)  func = MAIN$FUNC WD = 0
+70: EOF (null) (null) null null
 "];
 5[shape=box];
 5 -> 3[color=red][style=dotted]

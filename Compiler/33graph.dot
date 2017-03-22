@@ -1,7 +1,7 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-264: BRA (229) (null) null null
+264: BSR (229) (null) null null
 "];
 0[shape=box];
 0 -> 27[color=blue]
@@ -27,10 +27,10 @@ TAG: PROC_START(1)  func = SetNextBit WD = 0
 1[shape=box];
 2[label="
 TAG: PROC_START(2)  func = InitRuleBin WD = 0
-29: ADDI (null) (null) #0 #0 move for = &Bits
+29: ADDI (-1) (null) null #0 move for = &Bits
 31: load (null) (null) #FP_MAIN$FUNC &Rule move for = &Bits
 37: call (null) (null) &SetNextBit nullFunc Params = 29 29 29 31 move for = &Bits
-41: ADDI (null) (null) #0 #1
+41: ADDI (-1) (null) null #1
 43: call (null) (null) &SetNextBit nullFunc Params = 29 29 41 37 move for = &Bits
 49: call (null) (null) &SetNextBit nullFunc Params = 29 41 29 43 move for = &Bits
 55: call (null) (null) &SetNextBit nullFunc Params = 29 41 41 49 move for = &Bits
@@ -42,8 +42,8 @@ TAG: PROC_START(2)  func = InitRuleBin WD = 0
 2[shape=box];
 3[label="
 TAG: PROC_START(3)  func = ClearData WD = 0
-81: ADDI (null) (null) #0 #0 move for = &i
-261: move (81) (100) null null
+81: ADDI (-1) (null) null #0 move for = &i
+262: move (81) (100) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
@@ -67,8 +67,7 @@ TAG: DO_BLOCK(5)  func = ClearData WD = 1
 94: adda (92) (93) null null
 95: store (81) (94) null null STORE FOR= &Data
 97: ADDI (100) (null) null #1 aFor = &i move for = &i
-99: BRA (null) (null) null null
-262: move (97) (100) null null
+99: BSR (100) (null) null null
 "];
 5[shape=box];
 5 -> 4[color=blue]
@@ -80,8 +79,8 @@ TAG: LOOP_FOLLOW_1(6)  func = ClearData
 6 -> 4[color=red][style=dotted]
 7[label="
 TAG: PROC_START(7)  func = Output WD = 0
-101: ADDI (null) (null) #0 #0 move for = &i
-103: ADDI (null) (null) #0 #1 move for = &i
+101: ADDI (-1) (null) null #0 move for = &i
+103: ADDI (-1) (null) null #1 move for = &i
 263: move (103) (135) null null
 "];
 7[shape=box];
@@ -89,6 +88,7 @@ TAG: PROC_START(7)  func = Output WD = 0
 8[label="
 TAG: LOOP_HEADER_1(8)  func = Output WD = 1
 135: phi (103) (132) null null  PHI FOR &i
+106: load (null) (null) #FP_MAIN$FUNC &ColCount
 107: CMP (135) (106) null null aFor = &i bFor = &ColCount
 108: BGT (107) (136) null null
 "];
@@ -99,7 +99,7 @@ TAG: LOOP_HEADER_1(8)  func = Output WD = 1
 8 -> 17[color=green][style=dotted]
 9[label="
 TAG: DO_BLOCK(9)  func = Output WD = 1
-265: BRA (110) (null) null null
+265: BSR (110) (null) null null
 "];
 9[shape=box];
 9 -> 10[color=blue]
@@ -120,14 +120,14 @@ TAG: IF_HEADER(10)  func = Output WD = 1
 11[label="
 TAG: THEN_BLOCK(11)  func = Output WD = 1
 117: write (103) (null) null null
-118: BRA (132) (null) null null
+118: BSR (132) (null) null null
 "];
 11[shape=box];
 11 -> 17[color=blue]
 11 -> 10[color=red][style=dotted]
 12[label="
 TAG: ELSE_BLOCK(12)  func = Output WD = 1
-266: BRA (124) (null) null null
+266: BSR (124) (null) null null
 "];
 12[shape=box];
 12 -> 13[color=blue]
@@ -143,9 +143,9 @@ TAG: IF_HEADER(13)  func = Output WD = 1
 13 -> 12[color=red][style=dotted]
 14[label="
 TAG: THEN_BLOCK(14)  func = Output WD = 1
-126: ADDI (null) (null) #0 #8
+126: ADDI (-1) (null) null #8
 127: write (126) (null) null null
-128: BRA (267) (null) null null
+128: BSR (267) (null) null null
 "];
 14[shape=box];
 14 -> 16[color=blue]
@@ -159,7 +159,7 @@ TAG: ELSE_BLOCK(15)  func = Output WD = 1
 15 -> 13[color=red][style=dotted]
 16[label="
 TAG: FOLLOW_BLOCK(16)  func = Output WD = 1
-267: BRA (132) (null) null null
+267: BSR (132) (null) null null
 "];
 16[shape=box];
 16 -> 17[color=blue]
@@ -168,7 +168,7 @@ TAG: FOLLOW_BLOCK(16)  func = Output WD = 1
 17[label="
 TAG: FOLLOW_BLOCK(17)  func = Output WD = 1
 132: ADDI (135) (null) null #1 aFor = &i move for = &i
-134: BRA (135) (null) null null
+134: BSR (135) (null) null null
 "];
 17[shape=box];
 17 -> 8[color=blue]
@@ -182,11 +182,11 @@ TAG: LOOP_FOLLOW_1(18)  func = Output WD = 1
 18 -> 8[color=red][style=dotted]
 19[label="
 TAG: PROC_START(19)  func = CalcNext WD = 0
-143: ADDI (null) (null) #0 #5
+143: ADDI (-1) (null) null #5
 144: ADDI (null) (null) #FP_MAIN$FUNC &Data
 145: adda (143) (144) null null
 146: load (145) (null) null null aFor = &Data
-147: ADDI (null) (null) #0 #4
+147: ADDI (-1) (null) null #4
 149: adda (147) (144) null null
 150: store (146) (149) null null STORE FOR= &Data
 151: load (null) (null) #FP_MAIN$FUNC &ColCount
@@ -194,8 +194,8 @@ TAG: PROC_START(19)  func = CalcNext WD = 0
 158: ADDI (152) (null) null #4
 160: adda (158) (144) null null
 161: store (157) (160) null null STORE FOR= &Data
-172: ADDI (null) (null) #0 #1 move for = &i
-259: move (172) (209) null null
+172: ADDI (-1) (null) null #1 move for = &i
+260: move (172) (209) null null
 "];
 19[shape=box];
 19 -> 20[color=blue]
@@ -219,8 +219,8 @@ TAG: DO_BLOCK(21)  func = CalcNext WD = 1
 197: ADDI (209) (null) null #4
 199: adda (197) (144) null null
 200: store (195) (199) null null STORE FOR= &Data
-208: BRA (null) (null) null null
-260: move (179) (209) null null
+261: move (179) (209) null null
+208: BSR (209) (null) null null
 "];
 21[shape=box];
 21 -> 20[color=blue]
@@ -232,13 +232,14 @@ TAG: LOOP_FOLLOW_1(22)  func = CalcNext
 22 -> 20[color=red][style=dotted]
 23[label="
 TAG: PROC_START(23)  func = Run WD = 0
-210: ADDI (null) (null) #0 #0 move for = &i
+210: ADDI (-1) (null) null #0 move for = &i
 "];
 23[shape=box];
 23 -> 24[color=blue]
 24[label="
 TAG: LOOP_HEADER_1(24)  func = Run WD = 1
 224: phi (210) (221) null null  PHI FOR &i
+215: load (null) (null) #FP_MAIN$FUNC &RowCount
 216: CMP (224) (215) null null aFor = &i bFor = &RowCount
 217: BGE (216) (null) null null
 "];
@@ -252,7 +253,7 @@ TAG: DO_BLOCK(25)  func = Run WD = 1
 218: call (null) (null) &Output null
 219: call (null) (null) &CalcNext null
 221: ADDI (224) (null) null #1 aFor = &i move for = &i
-223: BRA (224) (null) null null
+223: BSR (224) (null) null null
 "];
 25[shape=box];
 25 -> 24[color=blue]
@@ -265,25 +266,26 @@ TAG: LOOP_FOLLOW_1(26)  func = Run
 27[label="
 TAG: INIT_CONT(27)  func = MAIN$FUNC WD = 0
 229: call (null) (null) &ClearData null
-230: ADDI (null) (null) #0 #1
-231: ADDI (null) (null) #0 #5
+230: ADDI (-1) (null) null #1
+231: ADDI (-1) (null) null #5
 232: ADDI (null) (null) #FP_MAIN$FUNC &Data
 233: adda (231) (232) null null
 234: store (230) (233) null null STORE FOR= &Data
-236: ADDI (null) (null) #0 #84
+236: ADDI (-1) (null) null #84
 238: adda (236) (232) null null
 239: store (230) (238) null null STORE FOR= &Data
-241: ADDI (null) (null) #0 #104
+241: ADDI (-1) (null) null #104
 243: adda (241) (232) null null
 244: store (230) (243) null null STORE FOR= &Data
-246: ADDI (null) (null) #0 #124
+246: ADDI (-1) (null) null #124
 248: adda (246) (232) null null
 249: store (230) (248) null null STORE FOR= &Data
-251: ADDI (null) (null) #0 #204
+251: ADDI (-1) (null) null #204
 253: adda (251) (232) null null
 254: store (230) (253) null null STORE FOR= &Data
 257: call (null) (null) &InitRuleBin null
 258: call (null) (null) &Run null
+259: EOF (null) (null) null null
 "];
 27[shape=box];
 27 -> 0[color=red][style=dotted]

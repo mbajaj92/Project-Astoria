@@ -6,6 +6,7 @@ import java.util.HashMap;
 import Utilities.Utils.CODE;
 
 public class Instruction {
+	private static Instruction zero;
 	private String Color = "";
 	private ArrayList<Instruction> funcParameters = null;
 	private boolean isLoadForArray = false;
@@ -15,9 +16,20 @@ public class Instruction {
 	private String aConstant, bConstant, phiFor = null, storeFor = null, aInsFor = null, bInsFor = null;
 	private int index = -1;
 	private CODE code;
+	public int myProgramCounter = -1;
 	private BasicBlock myBasicBlock;
 	private boolean isArray = false;
 	private ArrayList<String> moveFor = null;
+
+	public static Instruction getZeroInstruction() {
+		if (zero == null)
+			zero = new Instruction();
+		return zero;
+	}
+
+	private Instruction() {
+		Color = Utils.zero_color;
+	}
 
 	private Instruction(CODE c, String a1, String b1, Instruction a2, Instruction b2, boolean addAuto) {
 		this(c, a1, b1, a2, b2, addAuto, false);
@@ -232,6 +244,12 @@ public class Instruction {
 
 	public void setLeftInstruction(Instruction i) {
 		aInstruction = i;
+	}
+
+	public int getWhileDepth() {
+		if (myBasicBlock == null)
+			return 0;
+		return myBasicBlock.myWhileDepth;
 	}
 
 	public Instruction getRightInstruction() {

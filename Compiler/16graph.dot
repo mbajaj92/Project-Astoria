@@ -1,20 +1,20 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-63: BRA (46) (null) null null
+64: BSR (46) (null) null null
 "];
 0[shape=box];
 0 -> 8[color=blue]
 1[label="
 TAG: PROC_START(1)  func = foo WD = 0
-6: ADDI (null) (null) #0 #1 move for = &a &x
-8: ADDI (null) (null) #0 #2 move for = &b &y
+6: ADDI (-1) (null) null #1 move for = &a &x
+8: ADDI (-1) (null) null #2 move for = &b &y
 14: write (6) (null) null null
 "];
 1[shape=box];
 2[label="
 TAG: PROC_START(2)  func = bar WD = 0
-18: ADDI (null) (null) #0 #1 move for = &b &c &y
+18: ADDI (-1) (null) null #1 move for = &b &c &y
 "];
 2[shape=box];
 3[label="
@@ -23,14 +23,15 @@ TAG: PROC_START(3)  func = baz
 3[shape=box];
 4[label="
 TAG: PROC_START(4)  func = boo WD = 0
-29: ADDI (null) (null) #0 #0 move for = &i
-62: load (null) (null) #FP_MAIN$FUNC &x
+29: ADDI (-1) (null) null #0 move for = &i
+63: load (null) (null) #FP_MAIN$FUNC &x
 "];
 4[shape=box];
 4 -> 5[color=blue]
 5[label="
 TAG: LOOP_HEADER_1(5)  func = boo WD = 1
-42: phi (62) (39) null null  PHI FOR &x
+42: phi (63) (39) null null  PHI FOR &x
+34: load (null) (null) #FP_MAIN$FUNC &y
 35: CMP (29) (34) null null aFor = &i bFor = &y
 36: BGE (35) (44) null null
 "];
@@ -42,7 +43,7 @@ TAG: LOOP_HEADER_1(5)  func = boo WD = 1
 6[label="
 TAG: DO_BLOCK(6)  func = boo WD = 1
 39: MUL (42) (42) null null aFor = &x bFor = &x move for = &x
-41: BRA (42) (null) null null
+41: BSR (42) (null) null null
 "];
 6[shape=box];
 6 -> 5[color=blue]
@@ -57,14 +58,15 @@ TAG: LOOP_FOLLOW_1(7)  func = boo WD = 1
 8[label="
 TAG: INIT_CONT(8)  func = MAIN$FUNC WD = 0
 46: call (null) (null) &foo null
-47: ADDI (null) (null) #0 #1
+47: ADDI (-1) (null) null #1
 48: call (null) (null) &bar nullFunc Params = 47
-49: ADDI (null) (null) #0 #8 move for = &x
-51: ADDI (null) (null) #0 #1790 move for = &y
+49: ADDI (-1) (null) null #8 move for = &x
+51: ADDI (-1) (null) null #1790 move for = &y
 55: call (null) (null) &baz nullFunc Params = 49 51
-56: ADDI (null) (null) #0 #2
-57: ADDI (null) (null) #0 #4
+56: ADDI (-1) (null) null #2
+57: ADDI (-1) (null) null #4
 58: call (null) (null) &boo nullFunc Params = 56 57
+62: EOF (null) (null) null null
 "];
 8[shape=box];
 8 -> 0[color=red][style=dotted]

@@ -1,22 +1,28 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-73: BRA (11) (null) null null
+0: ADDI (-1) (null) null #0 move for = &foo &boo &a &b &c
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
 TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
+8: MULI (0) (null) null #2 aFor = &a
+9: SUBI (8) (null) null #6
+10: ADDI (9) (null) null #4
 11: ADDI (null) (null) #FP_MAIN$FUNC &foo
+12: adda (10) (11) null null
+13: load (12) (null) null null aFor = &foo move for = &c
 "];
 1[shape=box];
 1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
 2[label="
 TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
-15: ADDI (null) (null) #0 #2
+15: ADDI (-1) (null) null #2
+16: ADDI (-1) (null) null #3
 17: CMPI (15) (16) null null
-18: BGE (17) (null) null null
+18: BGE (17) (73) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -25,14 +31,14 @@ TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 2 -> 10[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
-74: BRA (30) (null) null null
+74: BSR (30) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
 TAG: LOOP_HEADER_2(4)  func = MAIN$FUNC WD = 2
-30: ADDI (null) (null) #0 #4
+30: ADDI (-1) (null) null #4
 35: CMP (30) (13) null null bFor = &foo
 36: BGE (35) (64) null null
 "];
@@ -43,7 +49,7 @@ TAG: LOOP_HEADER_2(4)  func = MAIN$FUNC WD = 2
 4 -> 9[color=green][style=dotted]
 5[label="
 TAG: DO_BLOCK(5)  func = MAIN$FUNC WD = 2
-75: BRA (39) (null) null null
+75: BSR (39) (null) null null
 "];
 5[shape=box];
 5 -> 6[color=blue]
@@ -63,15 +69,15 @@ TAG: THEN_BLOCK(7)  func = MAIN$FUNC WD = 2
 44: ADDI (null) (null) #FP_MAIN$FUNC &boo
 45: adda (43) (44) null null
 46: store (16) (45) null null STORE FOR= &boo
-47: BRA (54) (null) null null
+47: BSR (54) (null) null null
 "];
 7[shape=box];
 7 -> 9[color=blue]
 7 -> 6[color=red][style=dotted]
 8[label="
 TAG: ELSE_BLOCK(8)  func = MAIN$FUNC WD = 2
-48: ADDI (null) (null) #0 #5
-49: ADDI (null) (null) #0 #6
+48: ADDI (-1) (null) null #5
+49: ADDI (-1) (null) null #6
 51: adda (49) (11) null null
 52: store (48) (51) null null STORE FOR= &foo
 "];
@@ -80,7 +86,7 @@ TAG: ELSE_BLOCK(8)  func = MAIN$FUNC WD = 2
 8 -> 6[color=red][style=dotted]
 9[label="
 TAG: FOLLOW_BLOCK(9)  func = MAIN$FUNC WD = 2
-54: BRA (30) (null) null null
+54: BSR (30) (null) null null
 "];
 9[shape=box];
 9 -> 4[color=blue]
@@ -88,13 +94,14 @@ TAG: FOLLOW_BLOCK(9)  func = MAIN$FUNC WD = 2
 9 -> 8[color=green][style=dotted]
 10[label="
 TAG: LOOP_FOLLOW_2(10)  func = MAIN$FUNC WD = 2
-64: BRA (15) (null) null null
+64: BSR (15) (null) null null
 "];
 10[shape=box];
 10 -> 2[color=blue]
 10 -> 4[color=red][style=dotted]
 11[label="
-TAG: LOOP_FOLLOW_1(11)  func = MAIN$FUNC
+TAG: LOOP_FOLLOW_1(11)  func = MAIN$FUNC WD = 1
+73: EOF (null) (null) null null
 "];
 11[shape=box];
 11 -> 2[color=red][style=dotted]
