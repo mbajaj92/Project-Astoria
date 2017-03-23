@@ -19,10 +19,7 @@ TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
 1 -> 0[color=red][style=dotted]
 2[label="
 TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
-15: ADDI (-1) (null) null #2
-16: ADDI (-1) (null) null #3
-17: CMPI (15) (16) null null
-18: BGE (17) (73) null null
+64: BSR (65) (null) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -31,16 +28,16 @@ TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 2 -> 10[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
-74: BSR (30) (null) null null
+65: BSR (26) (null) null null
 "];
 3[shape=box];
 3 -> 4[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
 TAG: LOOP_HEADER_2(4)  func = MAIN$FUNC WD = 2
-30: ADDI (-1) (null) null #4
-35: CMP (30) (13) null null bFor = &foo
-36: BGE (35) (64) null null
+26: ADDI (-1) (null) null #4
+31: CMP (26) (13) null null bFor = &foo
+32: BGE (31) (54) null null
 "];
 4[shape=box];
 4 -> 5[color=blue]
@@ -49,59 +46,40 @@ TAG: LOOP_HEADER_2(4)  func = MAIN$FUNC WD = 2
 4 -> 9[color=green][style=dotted]
 5[label="
 TAG: DO_BLOCK(5)  func = MAIN$FUNC WD = 2
-75: BSR (39) (null) null null
+66: BSR (33) (null) null null
 "];
 5[shape=box];
-5 -> 6[color=blue]
+5 -> 7[color=blue]
 5 -> 4[color=red][style=dotted]
-6[label="
-TAG: IF_HEADER(6)  func = MAIN$FUNC WD = 2
-39: CMPI (16) (30) null null
-40: BGE (39) (48) null null
-"];
-6[shape=box];
-6 -> 7[color=blue]
-6 -> 8[color=black]
-6 -> 5[color=red][style=dotted]
 7[label="
-TAG: THEN_BLOCK(7)  func = MAIN$FUNC WD = 2
-43: ADDI (55) (null) null #4
-44: ADDI (null) (null) #FP_MAIN$FUNC &boo
-45: adda (43) (44) null null
-46: store (16) (45) null null STORE FOR= &boo
-47: BSR (54) (null) null null
+TAG: CONT(7)  func = MAIN$FUNC WD = 2
+33: ADDI (-1) (null) null #3
+35: ADDI (13) (null) null #4
+36: ADDI (null) (null) #FP_MAIN$FUNC &boo
+37: adda (35) (36) null null
+38: store (33) (37) null null STORE FOR= &boo
+39: BSR (45) (null) null null
 "];
 7[shape=box];
 7 -> 9[color=blue]
-7 -> 6[color=red][style=dotted]
-8[label="
-TAG: ELSE_BLOCK(8)  func = MAIN$FUNC WD = 2
-48: ADDI (-1) (null) null #5
-49: ADDI (-1) (null) null #6
-51: adda (49) (11) null null
-52: store (48) (51) null null STORE FOR= &foo
-"];
-8[shape=box];
-8 -> 9[color=blue]
-8 -> 6[color=red][style=dotted]
+7 -> 5[color=red][style=dotted]
 9[label="
-TAG: FOLLOW_BLOCK(9)  func = MAIN$FUNC WD = 2
-54: BSR (30) (null) null null
+TAG: CONT(9)  func = MAIN$FUNC WD = 2
+45: BSR (26) (null) null null
 "];
 9[shape=box];
 9 -> 4[color=blue]
 9 -> 7[color=red][style=dotted]
-9 -> 8[color=green][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_2(10)  func = MAIN$FUNC WD = 2
-64: BSR (15) (null) null null
+TAG: LOOP_FOLLOW_1(10)  func = MAIN$FUNC WD = 2
+54: BSR (64) (null) null null
 "];
 10[shape=box];
 10 -> 2[color=blue]
 10 -> 4[color=red][style=dotted]
 11[label="
-TAG: LOOP_FOLLOW_1(11)  func = MAIN$FUNC WD = 1
-73: EOF (null) (null) null null
+TAG: LOOP_FOLLOW_0(11)  func = MAIN$FUNC WD = 1
+63: EOF (null) (null) null null
 "];
 11[shape=box];
 11 -> 2[color=red][style=dotted]

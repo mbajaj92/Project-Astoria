@@ -115,8 +115,19 @@ public class Grammer {
 
 		BasicBlock previousBlock = BasicBlock.getCurrentBasicBlock();
 		BasicBlock loopHeader = new BasicBlock("LOOP_HEADER_"+Utils.WHILE_DEPTH);
-		previousBlock.setChild(loopHeader, false);
-		relation();
+		Result X = relation();
+		boolean shouldSkipDo = false;
+		if (X.booleanIfCondition != null && X.booleanIfCondition.equals("TRUE")) {
+			/* Infinite Loop */
+			Utils.SOPln("WARNING !! Infinite Loop at " + ScannerUtils.getCurrentScanner().getLineCount());
+			previousBlock.setChild(loopHeader, false);
+		} else if (X.booleanIfCondition != null && X.booleanIfCondition.equals("FALSE")) {
+			/* Skip the do block */
+			shouldSkipDo = true;
+			loopHeader.setIgnore();
+		} else {
+			previousBlock.setChild(loopHeader, false);
+		}
 
 		if (sc.currentToken == ScannerUtils.doToken) {
 			sc.next();
@@ -128,10 +139,16 @@ public class Grammer {
 			doBlock.setChild(loopHeader, false);
 			loopHeader.generetePhiAndUpdateTree(previousBlock.getLastAccessTable(), doBlock.getLastAccessTable(),
 					previousBlock.getAnchor());
-			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW_"+Utils.WHILE_DEPTH);
-			//fix loopheader access table and anchor.
-			loopHeader.merge(previousBlock.getLastAccessTable(), previousBlock.getAnchor());
-			loopHeader.setChild(followBlock, true);
+			BasicBlock followBlock = new BasicBlock("LOOP_FOLLOW_" + (Utils.WHILE_DEPTH - 1));
+
+			if (shouldSkipDo) {
+				previousBlock.setChild(followBlock, true);
+				followBlock.setTag("CONT");
+			} else {
+				loopHeader.merge(previousBlock.getLastAccessTable(), previousBlock.getAnchor());
+				loopHeader.setChild(followBlock, true);
+			}
+
 			if (sc.currentToken != ScannerUtils.odToken)
 				Utils.error("Expected od token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 			Utils.WHILE_DEPTH--;
@@ -148,10 +165,27 @@ public class Grammer {
 		BasicBlock prevBlock = BasicBlock.getCurrentBasicBlock();
 		BasicBlock ifHeader = new BasicBlock("IF_HEADER");
 		prevBlock.setChild(ifHeader, true);
-		relation();
-
+		Result X = relation();
 		BasicBlock thenBlock = new BasicBlock("THEN_BLOCK");
-		ifHeader.setChild(thenBlock, true);
+		boolean regular = true, thenB = false, elseB = false;
+
+		if (X.booleanIfCondition != null && X.booleanIfCondition.equals("TRUE")) {
+			/* always then will execute */
+			ifHeader.setIgnore();
+			regular = false;
+			thenB = true;
+			thenBlock.setTag("CONT");
+			prevBlock.setChild(thenBlock, true, true);
+		} else if (X.booleanIfCondition != null && X.booleanIfCondition.equals("FALSE")) {
+			/* always else will execute */
+			ifHeader.setIgnore();
+			regular = false;
+			elseB = true;
+			thenBlock.setIgnore();
+		} else {
+			/* regular shit */
+			ifHeader.setChild(thenBlock, true);
+		}
 
 		if (sc.currentToken == ScannerUtils.thenToken) {
 			sc.next();
@@ -163,12 +197,30 @@ public class Grammer {
 				Instruction.getInstruction(CODE.BSR);
 				sc.next();
 				elseBlock = new BasicBlock("ELSE_BLOCK");
-				ifHeader.setChild(elseBlock, true);
+
+				if (thenB) {
+					elseBlock.setIgnore();
+				} else if (elseB) {
+					elseBlock.setTag("CONT");
+					prevBlock.setChild(elseBlock, true, true);
+				} else {
+					ifHeader.setChild(elseBlock, true);
+				}
 				statSequence();
 				elseBlock = BasicBlock.getCurrentBasicBlock();
 			}
 
-			handleFollowBlockForIf(prevBlock, ifHeader, thenBlock, elseBlock);
+			if (thenB) {
+				BasicBlock followBlock = new BasicBlock("CONT");
+				thenBlock.setChild(followBlock, true);
+			} else if (elseB && elseBlock != null) {
+				BasicBlock followBlock = new BasicBlock("CONT");
+				elseBlock.setChild(followBlock, true);
+			} else if (elseB && elseBlock == null) {
+				BasicBlock followBlock = new BasicBlock("CONT");
+				prevBlock.setChild(followBlock, true, true);
+			} else
+				handleFollowBlockForIf(prevBlock, ifHeader, thenBlock, elseBlock);
 
 			if (sc.currentToken == ScannerUtils.fiToken)
 				sc.next();

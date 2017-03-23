@@ -17,7 +17,7 @@ public class BasicBlock {
 	private static ArrayList<BasicBlock> mBasicBlockList;
 	private int index = -1;
 	private boolean visited = false, bvisited = false, isLast = false, oneChildON = false, twoChildON = false, oneParentON = false,
-			twoParentON = false;
+			twoParentON = false, ignore = false;
 	private BasicBlockType type;
 	private BasicBlock oneChild, twoChild, oneParent, twoParent;
 	private ArrayList<Instruction> mInstructionSet = null;
@@ -189,9 +189,18 @@ public class BasicBlock {
 		} else
 			Utils.error("Adding 3rd Parent is not allowed");
 	}
+	
+	public void setTag(String tag) {
+		TAG = tag;
+		setType(TAG);
+	}
 
 	public void setChild(BasicBlock child, boolean sameChildInDominotorAndCFG) throws Exception {
-		if (!oneChildON) {
+		setChild(child, sameChildInDominotorAndCFG, false);
+	}
+
+	public void setChild(BasicBlock child, boolean sameChildInDominotorAndCFG, boolean firstReplace) throws Exception {
+		if (!oneChildON || firstReplace) {
 			oneChild = child;
 			oneChildON = true;
 		} else if (!twoChildON) {
@@ -202,6 +211,9 @@ public class BasicBlock {
 
 		if (sameChildInDominotorAndCFG)
 			child.updateAnchorLastAccessAndPhi(this);
+
+		if (ignore)
+			child.setIgnore();
 
 		child.setParent(this);
 	}
@@ -597,6 +609,14 @@ public class BasicBlock {
 		isLast = true;
 	}
 
+	public boolean isIgnored() {
+		return ignore;
+	}
+
+	public void setIgnore() {
+		ignore = true;
+	}
+
 	public boolean isLastBlock() {
 		return isLast;
 	}
@@ -635,8 +655,20 @@ public class BasicBlock {
 		return getFirstParent().isbVisited() && getSecondParent().isbVisited();
 	}
 
+	private static boolean waitingForFallThrough = false;
+	private static HashSet<Integer> waitList = null;
+
 	public void lowerToMachineCode() throws Exception {
 		for (Instruction i : mInstructionSet) {
+			if (waitingForFallThrough) {
+				waitingForFallThrough = false;
+				if (Utils.getFixUpMap().containsKey(i.getInstructionNumber()))
+					Utils.getFixUpMap().get(i.getInstructionNumber()).addAll(waitList);
+				else
+					Utils.getFixUpMap().put(i.getInstructionNumber(), waitList);
+				waitList = null;
+			}
+
 			boolean shouldICheckForFix = true;
 			if (i.getCode() == CODE.BSR && Utils.getFixUpMap().containsKey(i.getInstructionNumber())) {
 				shouldICheckForFix = false;
@@ -653,14 +685,17 @@ public class BasicBlock {
 
 			} else if (i.getCode() == CODE.phi && Utils.getFixUpMap().containsKey(i.getInstructionNumber())) {
 				int currentIndex = mInstructionSet.indexOf(i);
+				shouldICheckForFix = false;
+				HashSet<Integer> arr = Utils.getFixUpMap().remove(i.getInstructionNumber());
 				if (currentIndex < mInstructionSet.size() - 1) {
-					shouldICheckForFix = false;
-					HashSet<Integer> arr = Utils.getFixUpMap().remove(i.getInstructionNumber());
 					Instruction jumpTo = mInstructionSet.get(currentIndex + 1);
 					if (Utils.getFixUpMap().containsKey(jumpTo.getInstructionNumber()))
 						Utils.getFixUpMap().get(jumpTo.getInstructionNumber()).addAll(arr);
 					else
 						Utils.getFixUpMap().put(jumpTo.getInstructionNumber(), arr);
+				} else {
+					waitingForFallThrough = true;
+					waitList = arr;
 				}
 			}
 
@@ -794,12 +829,13 @@ public class BasicBlock {
 	public String toString() {
 		String returnString = "";
 		if (!mInstructionSet.isEmpty()) {
-			returnString = "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName + " WD = " + myWhileDepth;
+			returnString = "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName + " WD = " + myWhileDepth
+					+ (ignore ? "  IGNORED" : "");
 			for (Instruction i : mInstructionSet)
 				returnString += "\n" + i;
 			return returnString;
 		}
-		return "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName;
+		return "\nTAG: " + TAG + "(" + index + ") " + " func = " + mFunctionName + (ignore ? "  IGNORED" : "");
 	}
 
 	public static void shutDown() {

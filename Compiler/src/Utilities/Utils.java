@@ -602,18 +602,30 @@ public class Utils {
 				X.valueIfConstant /= Y.valueIfConstant;
 				break;
 			case ScannerUtils.leqToken:
+				X.booleanIfCondition = X.valueIfConstant <= Y.valueIfConstant?"TRUE":"FALSE";
+				break;
 			case ScannerUtils.neqToken:
+				X.booleanIfCondition = X.valueIfConstant != Y.valueIfConstant?"TRUE":"FALSE";
+				break;
 			case ScannerUtils.eqlToken:
+				X.booleanIfCondition = X.valueIfConstant == Y.valueIfConstant?"TRUE":"FALSE";
+				break;
 			case ScannerUtils.geqToken:
+				X.booleanIfCondition = X.valueIfConstant >= Y.valueIfConstant?"TRUE":"FALSE";
+				break;
 			case ScannerUtils.gtrToken:
+				X.booleanIfCondition = X.valueIfConstant > Y.valueIfConstant?"TRUE":"FALSE";
+				break;
 			case ScannerUtils.lssToken:
-				load(X);
+				X.booleanIfCondition = X.valueIfConstant < Y.valueIfConstant?"TRUE":"FALSE";
+				break;
+				/*load(X);
 				load(Y);
 				X.instruction = Instruction.getInstruction(CODE.CMPI, X.instruction, Y.instruction)
 						.setAInsFor("&" + X.addressIfVariable).setBInsFor("&" + Y.addressIfVariable);
 				X.addressIfVariable = null;
 				handleCompare(opCode, X.instruction);
-				break;
+				break;*/
 			}
 		} else {
 			if ((opCode == ScannerUtils.plusToken || opCode == ScannerUtils.timesToken) && X.kind == RESULT_KIND.CONST
@@ -1175,7 +1187,7 @@ public class Utils {
 	}
 
 	public static void startLowering(BasicBlock current) throws Exception {
-		if (current.isbVisited())
+		if (current.isbVisited() || current.isIgnored())
 			return;
 
 		boolean shouldIVisist = false;

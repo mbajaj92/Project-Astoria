@@ -34,7 +34,7 @@ TAG: DO_BLOCK(3)  func = foo WD = 1
 3 -> 2[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
-TAG: LOOP_FOLLOW_1(4)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(4)  func = foo WD = 1
 2340: move (3) (30) null null
 "];
 4[shape=box];
@@ -62,7 +62,7 @@ TAG: DO_BLOCK(6)  func = foo WD = 1
 6 -> 5[color=blue]
 6 -> 5[color=red][style=dotted]
 7[label="
-TAG: LOOP_FOLLOW_1(7)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(7)  func = foo WD = 1
 2345: move (3) (44) null null
 "];
 7[shape=box];
@@ -91,7 +91,7 @@ TAG: DO_BLOCK(9)  func = foo WD = 1
 9 -> 8[color=blue]
 9 -> 8[color=red][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_1(10)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(10)  func = foo WD = 1
 2348: BSR (58) (null) null null
 "];
 10[shape=box];
@@ -119,7 +119,7 @@ TAG: DO_BLOCK(12)  func = foo WD = 1
 12 -> 11[color=blue]
 12 -> 11[color=red][style=dotted]
 13[label="
-TAG: LOOP_FOLLOW_1(13)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(13)  func = foo WD = 1
 2349: BSR (72) (null) null null
 "];
 13[shape=box];
@@ -147,7 +147,7 @@ TAG: DO_BLOCK(15)  func = foo WD = 1
 15 -> 14[color=blue]
 15 -> 14[color=red][style=dotted]
 16[label="
-TAG: LOOP_FOLLOW_1(16)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(16)  func = foo WD = 1
 2350: BSR (86) (null) null null
 "];
 16[shape=box];
@@ -175,7 +175,7 @@ TAG: DO_BLOCK(18)  func = foo WD = 1
 18 -> 17[color=blue]
 18 -> 17[color=red][style=dotted]
 19[label="
-TAG: LOOP_FOLLOW_1(19)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(19)  func = foo WD = 1
 2351: BSR (100) (null) null null
 "];
 19[shape=box];
@@ -203,7 +203,7 @@ TAG: DO_BLOCK(21)  func = foo WD = 1
 21 -> 20[color=blue]
 21 -> 20[color=red][style=dotted]
 22[label="
-TAG: LOOP_FOLLOW_1(22)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(22)  func = foo WD = 1
 2352: BSR (114) (null) null null
 "];
 22[shape=box];
@@ -231,7 +231,7 @@ TAG: DO_BLOCK(24)  func = foo WD = 1
 24 -> 23[color=blue]
 24 -> 23[color=red][style=dotted]
 25[label="
-TAG: LOOP_FOLLOW_1(25)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(25)  func = foo WD = 1
 2353: BSR (128) (null) null null
 "];
 25[shape=box];
@@ -259,7 +259,7 @@ TAG: DO_BLOCK(27)  func = foo WD = 1
 27 -> 26[color=blue]
 27 -> 26[color=red][style=dotted]
 28[label="
-TAG: LOOP_FOLLOW_1(28)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(28)  func = foo WD = 1
 2354: BSR (142) (null) null null
 "];
 28[shape=box];
@@ -287,7 +287,7 @@ TAG: DO_BLOCK(30)  func = foo WD = 1
 30 -> 29[color=blue]
 30 -> 29[color=red][style=dotted]
 31[label="
-TAG: LOOP_FOLLOW_1(31)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(31)  func = foo WD = 1
 2355: BSR (156) (null) null null
 "];
 31[shape=box];
@@ -315,7 +315,7 @@ TAG: DO_BLOCK(33)  func = foo WD = 1
 33 -> 32[color=blue]
 33 -> 32[color=red][style=dotted]
 34[label="
-TAG: LOOP_FOLLOW_1(34)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(34)  func = foo WD = 1
 2356: BSR (170) (null) null null
 "];
 34[shape=box];
@@ -343,7 +343,7 @@ TAG: DO_BLOCK(36)  func = foo WD = 1
 36 -> 35[color=blue]
 36 -> 35[color=red][style=dotted]
 37[label="
-TAG: LOOP_FOLLOW_1(37)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(37)  func = foo WD = 1
 2357: BSR (184) (null) null null
 "];
 37[shape=box];
@@ -371,7 +371,7 @@ TAG: DO_BLOCK(39)  func = foo WD = 1
 39 -> 38[color=blue]
 39 -> 38[color=red][style=dotted]
 40[label="
-TAG: LOOP_FOLLOW_1(40)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(40)  func = foo WD = 1
 2358: BSR (198) (null) null null
 "];
 40[shape=box];
@@ -399,7 +399,7 @@ TAG: DO_BLOCK(42)  func = foo WD = 1
 42 -> 41[color=blue]
 42 -> 41[color=red][style=dotted]
 43[label="
-TAG: LOOP_FOLLOW_1(43)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(43)  func = foo WD = 1
 2359: BSR (212) (null) null null
 "];
 43[shape=box];
@@ -427,7 +427,7 @@ TAG: DO_BLOCK(45)  func = foo WD = 1
 45 -> 44[color=blue]
 45 -> 44[color=red][style=dotted]
 46[label="
-TAG: LOOP_FOLLOW_1(46)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(46)  func = foo WD = 1
 2360: BSR (226) (null) null null
 "];
 46[shape=box];
@@ -455,7 +455,7 @@ TAG: DO_BLOCK(48)  func = foo WD = 1
 48 -> 47[color=blue]
 48 -> 47[color=red][style=dotted]
 49[label="
-TAG: LOOP_FOLLOW_1(49)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(49)  func = foo WD = 1
 2361: BSR (240) (null) null null
 "];
 49[shape=box];
@@ -483,7 +483,7 @@ TAG: DO_BLOCK(51)  func = foo WD = 1
 51 -> 50[color=blue]
 51 -> 50[color=red][style=dotted]
 52[label="
-TAG: LOOP_FOLLOW_1(52)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(52)  func = foo WD = 1
 2362: BSR (254) (null) null null
 "];
 52[shape=box];
@@ -511,7 +511,7 @@ TAG: DO_BLOCK(54)  func = foo WD = 1
 54 -> 53[color=blue]
 54 -> 53[color=red][style=dotted]
 55[label="
-TAG: LOOP_FOLLOW_1(55)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(55)  func = foo WD = 1
 2363: BSR (268) (null) null null
 "];
 55[shape=box];
@@ -539,7 +539,7 @@ TAG: DO_BLOCK(57)  func = foo WD = 1
 57 -> 56[color=blue]
 57 -> 56[color=red][style=dotted]
 58[label="
-TAG: LOOP_FOLLOW_1(58)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(58)  func = foo WD = 1
 2364: BSR (282) (null) null null
 "];
 58[shape=box];
@@ -567,7 +567,7 @@ TAG: DO_BLOCK(60)  func = foo WD = 1
 60 -> 59[color=blue]
 60 -> 59[color=red][style=dotted]
 61[label="
-TAG: LOOP_FOLLOW_1(61)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(61)  func = foo WD = 1
 2365: BSR (296) (null) null null
 "];
 61[shape=box];
@@ -595,7 +595,7 @@ TAG: DO_BLOCK(63)  func = foo WD = 1
 63 -> 62[color=blue]
 63 -> 62[color=red][style=dotted]
 64[label="
-TAG: LOOP_FOLLOW_1(64)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(64)  func = foo WD = 1
 2366: BSR (310) (null) null null
 "];
 64[shape=box];
@@ -623,7 +623,7 @@ TAG: DO_BLOCK(66)  func = foo WD = 1
 66 -> 65[color=blue]
 66 -> 65[color=red][style=dotted]
 67[label="
-TAG: LOOP_FOLLOW_1(67)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(67)  func = foo WD = 1
 2367: BSR (324) (null) null null
 "];
 67[shape=box];
@@ -651,7 +651,7 @@ TAG: DO_BLOCK(69)  func = foo WD = 1
 69 -> 68[color=blue]
 69 -> 68[color=red][style=dotted]
 70[label="
-TAG: LOOP_FOLLOW_1(70)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(70)  func = foo WD = 1
 2368: BSR (338) (null) null null
 "];
 70[shape=box];
@@ -679,7 +679,7 @@ TAG: DO_BLOCK(72)  func = foo WD = 1
 72 -> 71[color=blue]
 72 -> 71[color=red][style=dotted]
 73[label="
-TAG: LOOP_FOLLOW_1(73)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(73)  func = foo WD = 1
 2369: BSR (352) (null) null null
 "];
 73[shape=box];
@@ -707,7 +707,7 @@ TAG: DO_BLOCK(75)  func = foo WD = 1
 75 -> 74[color=blue]
 75 -> 74[color=red][style=dotted]
 76[label="
-TAG: LOOP_FOLLOW_1(76)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(76)  func = foo WD = 1
 2370: BSR (366) (null) null null
 "];
 76[shape=box];
@@ -735,7 +735,7 @@ TAG: DO_BLOCK(78)  func = foo WD = 1
 78 -> 77[color=blue]
 78 -> 77[color=red][style=dotted]
 79[label="
-TAG: LOOP_FOLLOW_1(79)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(79)  func = foo WD = 1
 2371: BSR (380) (null) null null
 "];
 79[shape=box];
@@ -763,7 +763,7 @@ TAG: DO_BLOCK(81)  func = foo WD = 1
 81 -> 80[color=blue]
 81 -> 80[color=red][style=dotted]
 82[label="
-TAG: LOOP_FOLLOW_1(82)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(82)  func = foo WD = 1
 2372: BSR (394) (null) null null
 "];
 82[shape=box];
@@ -791,7 +791,7 @@ TAG: DO_BLOCK(84)  func = foo WD = 1
 84 -> 83[color=blue]
 84 -> 83[color=red][style=dotted]
 85[label="
-TAG: LOOP_FOLLOW_1(85)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(85)  func = foo WD = 1
 2373: BSR (408) (null) null null
 "];
 85[shape=box];
@@ -819,7 +819,7 @@ TAG: DO_BLOCK(87)  func = foo WD = 1
 87 -> 86[color=blue]
 87 -> 86[color=red][style=dotted]
 88[label="
-TAG: LOOP_FOLLOW_1(88)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(88)  func = foo WD = 1
 2374: BSR (422) (null) null null
 "];
 88[shape=box];
@@ -847,7 +847,7 @@ TAG: DO_BLOCK(90)  func = foo WD = 1
 90 -> 89[color=blue]
 90 -> 89[color=red][style=dotted]
 91[label="
-TAG: LOOP_FOLLOW_1(91)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(91)  func = foo WD = 1
 2375: BSR (436) (null) null null
 "];
 91[shape=box];
@@ -875,7 +875,7 @@ TAG: DO_BLOCK(93)  func = foo WD = 1
 93 -> 92[color=blue]
 93 -> 92[color=red][style=dotted]
 94[label="
-TAG: LOOP_FOLLOW_1(94)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(94)  func = foo WD = 1
 2376: BSR (450) (null) null null
 "];
 94[shape=box];
@@ -903,7 +903,7 @@ TAG: DO_BLOCK(96)  func = foo WD = 1
 96 -> 95[color=blue]
 96 -> 95[color=red][style=dotted]
 97[label="
-TAG: LOOP_FOLLOW_1(97)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(97)  func = foo WD = 1
 2377: BSR (464) (null) null null
 "];
 97[shape=box];
@@ -931,7 +931,7 @@ TAG: DO_BLOCK(99)  func = foo WD = 1
 99 -> 98[color=blue]
 99 -> 98[color=red][style=dotted]
 100[label="
-TAG: LOOP_FOLLOW_1(100)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(100)  func = foo WD = 1
 2378: BSR (478) (null) null null
 "];
 100[shape=box];
@@ -959,7 +959,7 @@ TAG: DO_BLOCK(102)  func = foo WD = 1
 102 -> 101[color=blue]
 102 -> 101[color=red][style=dotted]
 103[label="
-TAG: LOOP_FOLLOW_1(103)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(103)  func = foo WD = 1
 2379: BSR (492) (null) null null
 "];
 103[shape=box];
@@ -987,7 +987,7 @@ TAG: DO_BLOCK(105)  func = foo WD = 1
 105 -> 104[color=blue]
 105 -> 104[color=red][style=dotted]
 106[label="
-TAG: LOOP_FOLLOW_1(106)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(106)  func = foo WD = 1
 2380: BSR (506) (null) null null
 "];
 106[shape=box];
@@ -1015,7 +1015,7 @@ TAG: DO_BLOCK(108)  func = foo WD = 1
 108 -> 107[color=blue]
 108 -> 107[color=red][style=dotted]
 109[label="
-TAG: LOOP_FOLLOW_1(109)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(109)  func = foo WD = 1
 2381: BSR (520) (null) null null
 "];
 109[shape=box];
@@ -1043,7 +1043,7 @@ TAG: DO_BLOCK(111)  func = foo WD = 1
 111 -> 110[color=blue]
 111 -> 110[color=red][style=dotted]
 112[label="
-TAG: LOOP_FOLLOW_1(112)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(112)  func = foo WD = 1
 2382: BSR (534) (null) null null
 "];
 112[shape=box];
@@ -1071,7 +1071,7 @@ TAG: DO_BLOCK(114)  func = foo WD = 1
 114 -> 113[color=blue]
 114 -> 113[color=red][style=dotted]
 115[label="
-TAG: LOOP_FOLLOW_1(115)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(115)  func = foo WD = 1
 2383: BSR (548) (null) null null
 "];
 115[shape=box];
@@ -1099,7 +1099,7 @@ TAG: DO_BLOCK(117)  func = foo WD = 1
 117 -> 116[color=blue]
 117 -> 116[color=red][style=dotted]
 118[label="
-TAG: LOOP_FOLLOW_1(118)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(118)  func = foo WD = 1
 2384: BSR (562) (null) null null
 "];
 118[shape=box];
@@ -1127,7 +1127,7 @@ TAG: DO_BLOCK(120)  func = foo WD = 1
 120 -> 119[color=blue]
 120 -> 119[color=red][style=dotted]
 121[label="
-TAG: LOOP_FOLLOW_1(121)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(121)  func = foo WD = 1
 2385: BSR (576) (null) null null
 "];
 121[shape=box];
@@ -1155,7 +1155,7 @@ TAG: DO_BLOCK(123)  func = foo WD = 1
 123 -> 122[color=blue]
 123 -> 122[color=red][style=dotted]
 124[label="
-TAG: LOOP_FOLLOW_1(124)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(124)  func = foo WD = 1
 2386: BSR (590) (null) null null
 "];
 124[shape=box];
@@ -1183,7 +1183,7 @@ TAG: DO_BLOCK(126)  func = foo WD = 1
 126 -> 125[color=blue]
 126 -> 125[color=red][style=dotted]
 127[label="
-TAG: LOOP_FOLLOW_1(127)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(127)  func = foo WD = 1
 2387: BSR (604) (null) null null
 "];
 127[shape=box];
@@ -1211,7 +1211,7 @@ TAG: DO_BLOCK(129)  func = foo WD = 1
 129 -> 128[color=blue]
 129 -> 128[color=red][style=dotted]
 130[label="
-TAG: LOOP_FOLLOW_1(130)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(130)  func = foo WD = 1
 2388: BSR (618) (null) null null
 "];
 130[shape=box];
@@ -1239,7 +1239,7 @@ TAG: DO_BLOCK(132)  func = foo WD = 1
 132 -> 131[color=blue]
 132 -> 131[color=red][style=dotted]
 133[label="
-TAG: LOOP_FOLLOW_1(133)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(133)  func = foo WD = 1
 2389: BSR (632) (null) null null
 "];
 133[shape=box];
@@ -1267,7 +1267,7 @@ TAG: DO_BLOCK(135)  func = foo WD = 1
 135 -> 134[color=blue]
 135 -> 134[color=red][style=dotted]
 136[label="
-TAG: LOOP_FOLLOW_1(136)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(136)  func = foo WD = 1
 2390: BSR (646) (null) null null
 "];
 136[shape=box];
@@ -1295,7 +1295,7 @@ TAG: DO_BLOCK(138)  func = foo WD = 1
 138 -> 137[color=blue]
 138 -> 137[color=red][style=dotted]
 139[label="
-TAG: LOOP_FOLLOW_1(139)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(139)  func = foo WD = 1
 2391: BSR (660) (null) null null
 "];
 139[shape=box];
@@ -1323,7 +1323,7 @@ TAG: DO_BLOCK(141)  func = foo WD = 1
 141 -> 140[color=blue]
 141 -> 140[color=red][style=dotted]
 142[label="
-TAG: LOOP_FOLLOW_1(142)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(142)  func = foo WD = 1
 2392: BSR (674) (null) null null
 "];
 142[shape=box];
@@ -1351,7 +1351,7 @@ TAG: DO_BLOCK(144)  func = foo WD = 1
 144 -> 143[color=blue]
 144 -> 143[color=red][style=dotted]
 145[label="
-TAG: LOOP_FOLLOW_1(145)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(145)  func = foo WD = 1
 2393: BSR (688) (null) null null
 "];
 145[shape=box];
@@ -1379,7 +1379,7 @@ TAG: DO_BLOCK(147)  func = foo WD = 1
 147 -> 146[color=blue]
 147 -> 146[color=red][style=dotted]
 148[label="
-TAG: LOOP_FOLLOW_1(148)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(148)  func = foo WD = 1
 2394: BSR (702) (null) null null
 "];
 148[shape=box];
@@ -1407,7 +1407,7 @@ TAG: DO_BLOCK(150)  func = foo WD = 1
 150 -> 149[color=blue]
 150 -> 149[color=red][style=dotted]
 151[label="
-TAG: LOOP_FOLLOW_1(151)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(151)  func = foo WD = 1
 2395: BSR (716) (null) null null
 "];
 151[shape=box];
@@ -1435,7 +1435,7 @@ TAG: DO_BLOCK(153)  func = foo WD = 1
 153 -> 152[color=blue]
 153 -> 152[color=red][style=dotted]
 154[label="
-TAG: LOOP_FOLLOW_1(154)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(154)  func = foo WD = 1
 2396: BSR (730) (null) null null
 "];
 154[shape=box];
@@ -1463,7 +1463,7 @@ TAG: DO_BLOCK(156)  func = foo WD = 1
 156 -> 155[color=blue]
 156 -> 155[color=red][style=dotted]
 157[label="
-TAG: LOOP_FOLLOW_1(157)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(157)  func = foo WD = 1
 2397: BSR (744) (null) null null
 "];
 157[shape=box];
@@ -1491,7 +1491,7 @@ TAG: DO_BLOCK(159)  func = foo WD = 1
 159 -> 158[color=blue]
 159 -> 158[color=red][style=dotted]
 160[label="
-TAG: LOOP_FOLLOW_1(160)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(160)  func = foo WD = 1
 2398: BSR (758) (null) null null
 "];
 160[shape=box];
@@ -1519,7 +1519,7 @@ TAG: DO_BLOCK(162)  func = foo WD = 1
 162 -> 161[color=blue]
 162 -> 161[color=red][style=dotted]
 163[label="
-TAG: LOOP_FOLLOW_1(163)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(163)  func = foo WD = 1
 2399: BSR (772) (null) null null
 "];
 163[shape=box];
@@ -1547,7 +1547,7 @@ TAG: DO_BLOCK(165)  func = foo WD = 1
 165 -> 164[color=blue]
 165 -> 164[color=red][style=dotted]
 166[label="
-TAG: LOOP_FOLLOW_1(166)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(166)  func = foo WD = 1
 2400: BSR (786) (null) null null
 "];
 166[shape=box];
@@ -1575,7 +1575,7 @@ TAG: DO_BLOCK(168)  func = foo WD = 1
 168 -> 167[color=blue]
 168 -> 167[color=red][style=dotted]
 169[label="
-TAG: LOOP_FOLLOW_1(169)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(169)  func = foo WD = 1
 2401: BSR (800) (null) null null
 "];
 169[shape=box];
@@ -1603,7 +1603,7 @@ TAG: DO_BLOCK(171)  func = foo WD = 1
 171 -> 170[color=blue]
 171 -> 170[color=red][style=dotted]
 172[label="
-TAG: LOOP_FOLLOW_1(172)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(172)  func = foo WD = 1
 2402: BSR (814) (null) null null
 "];
 172[shape=box];
@@ -1631,7 +1631,7 @@ TAG: DO_BLOCK(174)  func = foo WD = 1
 174 -> 173[color=blue]
 174 -> 173[color=red][style=dotted]
 175[label="
-TAG: LOOP_FOLLOW_1(175)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(175)  func = foo WD = 1
 2403: BSR (828) (null) null null
 "];
 175[shape=box];
@@ -1659,7 +1659,7 @@ TAG: DO_BLOCK(177)  func = foo WD = 1
 177 -> 176[color=blue]
 177 -> 176[color=red][style=dotted]
 178[label="
-TAG: LOOP_FOLLOW_1(178)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(178)  func = foo WD = 1
 2404: BSR (842) (null) null null
 "];
 178[shape=box];
@@ -1687,7 +1687,7 @@ TAG: DO_BLOCK(180)  func = foo WD = 1
 180 -> 179[color=blue]
 180 -> 179[color=red][style=dotted]
 181[label="
-TAG: LOOP_FOLLOW_1(181)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(181)  func = foo WD = 1
 2405: BSR (856) (null) null null
 "];
 181[shape=box];
@@ -1715,7 +1715,7 @@ TAG: DO_BLOCK(183)  func = foo WD = 1
 183 -> 182[color=blue]
 183 -> 182[color=red][style=dotted]
 184[label="
-TAG: LOOP_FOLLOW_1(184)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(184)  func = foo WD = 1
 2406: BSR (870) (null) null null
 "];
 184[shape=box];
@@ -1743,7 +1743,7 @@ TAG: DO_BLOCK(186)  func = foo WD = 1
 186 -> 185[color=blue]
 186 -> 185[color=red][style=dotted]
 187[label="
-TAG: LOOP_FOLLOW_1(187)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(187)  func = foo WD = 1
 2407: BSR (884) (null) null null
 "];
 187[shape=box];
@@ -1771,7 +1771,7 @@ TAG: DO_BLOCK(189)  func = foo WD = 1
 189 -> 188[color=blue]
 189 -> 188[color=red][style=dotted]
 190[label="
-TAG: LOOP_FOLLOW_1(190)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(190)  func = foo WD = 1
 2408: BSR (898) (null) null null
 "];
 190[shape=box];
@@ -1799,7 +1799,7 @@ TAG: DO_BLOCK(192)  func = foo WD = 1
 192 -> 191[color=blue]
 192 -> 191[color=red][style=dotted]
 193[label="
-TAG: LOOP_FOLLOW_1(193)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(193)  func = foo WD = 1
 2409: BSR (912) (null) null null
 "];
 193[shape=box];
@@ -1827,7 +1827,7 @@ TAG: DO_BLOCK(195)  func = foo WD = 1
 195 -> 194[color=blue]
 195 -> 194[color=red][style=dotted]
 196[label="
-TAG: LOOP_FOLLOW_1(196)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(196)  func = foo WD = 1
 2410: BSR (926) (null) null null
 "];
 196[shape=box];
@@ -1855,7 +1855,7 @@ TAG: DO_BLOCK(198)  func = foo WD = 1
 198 -> 197[color=blue]
 198 -> 197[color=red][style=dotted]
 199[label="
-TAG: LOOP_FOLLOW_1(199)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(199)  func = foo WD = 1
 2411: BSR (940) (null) null null
 "];
 199[shape=box];
@@ -1883,7 +1883,7 @@ TAG: DO_BLOCK(201)  func = foo WD = 1
 201 -> 200[color=blue]
 201 -> 200[color=red][style=dotted]
 202[label="
-TAG: LOOP_FOLLOW_1(202)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(202)  func = foo WD = 1
 2412: BSR (954) (null) null null
 "];
 202[shape=box];
@@ -1911,7 +1911,7 @@ TAG: DO_BLOCK(204)  func = foo WD = 1
 204 -> 203[color=blue]
 204 -> 203[color=red][style=dotted]
 205[label="
-TAG: LOOP_FOLLOW_1(205)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(205)  func = foo WD = 1
 2413: BSR (968) (null) null null
 "];
 205[shape=box];
@@ -1939,7 +1939,7 @@ TAG: DO_BLOCK(207)  func = foo WD = 1
 207 -> 206[color=blue]
 207 -> 206[color=red][style=dotted]
 208[label="
-TAG: LOOP_FOLLOW_1(208)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(208)  func = foo WD = 1
 2414: BSR (982) (null) null null
 "];
 208[shape=box];
@@ -1967,7 +1967,7 @@ TAG: DO_BLOCK(210)  func = foo WD = 1
 210 -> 209[color=blue]
 210 -> 209[color=red][style=dotted]
 211[label="
-TAG: LOOP_FOLLOW_1(211)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(211)  func = foo WD = 1
 2415: BSR (996) (null) null null
 "];
 211[shape=box];
@@ -1995,7 +1995,7 @@ TAG: DO_BLOCK(213)  func = foo WD = 1
 213 -> 212[color=blue]
 213 -> 212[color=red][style=dotted]
 214[label="
-TAG: LOOP_FOLLOW_1(214)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(214)  func = foo WD = 1
 2416: BSR (1010) (null) null null
 "];
 214[shape=box];
@@ -2023,7 +2023,7 @@ TAG: DO_BLOCK(216)  func = foo WD = 1
 216 -> 215[color=blue]
 216 -> 215[color=red][style=dotted]
 217[label="
-TAG: LOOP_FOLLOW_1(217)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(217)  func = foo WD = 1
 2329: move (3) (1024) null null
 "];
 217[shape=box];
@@ -2052,7 +2052,7 @@ TAG: DO_BLOCK(219)  func = foo WD = 1
 219 -> 218[color=blue]
 219 -> 218[color=red][style=dotted]
 220[label="
-TAG: LOOP_FOLLOW_1(220)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(220)  func = foo WD = 1
 2333: move (3) (1038) null null
 "];
 220[shape=box];
@@ -2081,7 +2081,7 @@ TAG: DO_BLOCK(222)  func = foo WD = 1
 222 -> 221[color=blue]
 222 -> 221[color=red][style=dotted]
 223[label="
-TAG: LOOP_FOLLOW_1(223)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(223)  func = foo WD = 1
 2338: move (3) (1052) null null
 "];
 223[shape=box];
@@ -2110,7 +2110,7 @@ TAG: DO_BLOCK(225)  func = foo WD = 1
 225 -> 224[color=blue]
 225 -> 224[color=red][style=dotted]
 226[label="
-TAG: LOOP_FOLLOW_1(226)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(226)  func = foo WD = 1
 2343: move (3) (1066) null null
 "];
 226[shape=box];
@@ -2139,7 +2139,7 @@ TAG: DO_BLOCK(228)  func = foo WD = 1
 228 -> 227[color=blue]
 228 -> 227[color=red][style=dotted]
 229[label="
-TAG: LOOP_FOLLOW_1(229)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(229)  func = foo WD = 1
 2417: BSR (1080) (null) null null
 "];
 229[shape=box];
@@ -2167,7 +2167,7 @@ TAG: DO_BLOCK(231)  func = foo WD = 1
 231 -> 230[color=blue]
 231 -> 230[color=red][style=dotted]
 232[label="
-TAG: LOOP_FOLLOW_1(232)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(232)  func = foo WD = 1
 2418: BSR (1094) (null) null null
 "];
 232[shape=box];
@@ -2195,7 +2195,7 @@ TAG: DO_BLOCK(234)  func = foo WD = 1
 234 -> 233[color=blue]
 234 -> 233[color=red][style=dotted]
 235[label="
-TAG: LOOP_FOLLOW_1(235)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(235)  func = foo WD = 1
 2419: BSR (1108) (null) null null
 "];
 235[shape=box];
@@ -2223,7 +2223,7 @@ TAG: DO_BLOCK(237)  func = foo WD = 1
 237 -> 236[color=blue]
 237 -> 236[color=red][style=dotted]
 238[label="
-TAG: LOOP_FOLLOW_1(238)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(238)  func = foo WD = 1
 2420: BSR (1122) (null) null null
 "];
 238[shape=box];
@@ -2251,7 +2251,7 @@ TAG: DO_BLOCK(240)  func = foo WD = 1
 240 -> 239[color=blue]
 240 -> 239[color=red][style=dotted]
 241[label="
-TAG: LOOP_FOLLOW_1(241)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(241)  func = foo WD = 1
 2421: BSR (1136) (null) null null
 "];
 241[shape=box];
@@ -2279,7 +2279,7 @@ TAG: DO_BLOCK(243)  func = foo WD = 1
 243 -> 242[color=blue]
 243 -> 242[color=red][style=dotted]
 244[label="
-TAG: LOOP_FOLLOW_1(244)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(244)  func = foo WD = 1
 2422: BSR (1150) (null) null null
 "];
 244[shape=box];
@@ -2307,7 +2307,7 @@ TAG: DO_BLOCK(246)  func = foo WD = 1
 246 -> 245[color=blue]
 246 -> 245[color=red][style=dotted]
 247[label="
-TAG: LOOP_FOLLOW_1(247)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(247)  func = foo WD = 1
 2423: BSR (1164) (null) null null
 "];
 247[shape=box];
@@ -2335,7 +2335,7 @@ TAG: DO_BLOCK(249)  func = foo WD = 1
 249 -> 248[color=blue]
 249 -> 248[color=red][style=dotted]
 250[label="
-TAG: LOOP_FOLLOW_1(250)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(250)  func = foo WD = 1
 2424: BSR (1178) (null) null null
 "];
 250[shape=box];
@@ -2363,7 +2363,7 @@ TAG: DO_BLOCK(252)  func = foo WD = 1
 252 -> 251[color=blue]
 252 -> 251[color=red][style=dotted]
 253[label="
-TAG: LOOP_FOLLOW_1(253)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(253)  func = foo WD = 1
 2425: BSR (1192) (null) null null
 "];
 253[shape=box];
@@ -2391,7 +2391,7 @@ TAG: DO_BLOCK(255)  func = foo WD = 1
 255 -> 254[color=blue]
 255 -> 254[color=red][style=dotted]
 256[label="
-TAG: LOOP_FOLLOW_1(256)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(256)  func = foo WD = 1
 2426: BSR (1206) (null) null null
 "];
 256[shape=box];
@@ -2419,7 +2419,7 @@ TAG: DO_BLOCK(258)  func = foo WD = 1
 258 -> 257[color=blue]
 258 -> 257[color=red][style=dotted]
 259[label="
-TAG: LOOP_FOLLOW_1(259)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(259)  func = foo WD = 1
 2427: BSR (1220) (null) null null
 "];
 259[shape=box];
@@ -2447,7 +2447,7 @@ TAG: DO_BLOCK(261)  func = foo WD = 1
 261 -> 260[color=blue]
 261 -> 260[color=red][style=dotted]
 262[label="
-TAG: LOOP_FOLLOW_1(262)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(262)  func = foo WD = 1
 2428: BSR (1234) (null) null null
 "];
 262[shape=box];
@@ -2475,7 +2475,7 @@ TAG: DO_BLOCK(264)  func = foo WD = 1
 264 -> 263[color=blue]
 264 -> 263[color=red][style=dotted]
 265[label="
-TAG: LOOP_FOLLOW_1(265)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(265)  func = foo WD = 1
 2429: BSR (1248) (null) null null
 "];
 265[shape=box];
@@ -2503,7 +2503,7 @@ TAG: DO_BLOCK(267)  func = foo WD = 1
 267 -> 266[color=blue]
 267 -> 266[color=red][style=dotted]
 268[label="
-TAG: LOOP_FOLLOW_1(268)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(268)  func = foo WD = 1
 2430: BSR (1262) (null) null null
 "];
 268[shape=box];
@@ -2531,7 +2531,7 @@ TAG: DO_BLOCK(270)  func = foo WD = 1
 270 -> 269[color=blue]
 270 -> 269[color=red][style=dotted]
 271[label="
-TAG: LOOP_FOLLOW_1(271)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(271)  func = foo WD = 1
 2431: BSR (1276) (null) null null
 "];
 271[shape=box];
@@ -2559,7 +2559,7 @@ TAG: DO_BLOCK(273)  func = foo WD = 1
 273 -> 272[color=blue]
 273 -> 272[color=red][style=dotted]
 274[label="
-TAG: LOOP_FOLLOW_1(274)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(274)  func = foo WD = 1
 2432: BSR (1290) (null) null null
 "];
 274[shape=box];
@@ -2587,7 +2587,7 @@ TAG: DO_BLOCK(276)  func = foo WD = 1
 276 -> 275[color=blue]
 276 -> 275[color=red][style=dotted]
 277[label="
-TAG: LOOP_FOLLOW_1(277)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(277)  func = foo WD = 1
 2433: BSR (1304) (null) null null
 "];
 277[shape=box];
@@ -2615,7 +2615,7 @@ TAG: DO_BLOCK(279)  func = foo WD = 1
 279 -> 278[color=blue]
 279 -> 278[color=red][style=dotted]
 280[label="
-TAG: LOOP_FOLLOW_1(280)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(280)  func = foo WD = 1
 2434: BSR (1318) (null) null null
 "];
 280[shape=box];
@@ -2643,7 +2643,7 @@ TAG: DO_BLOCK(282)  func = foo WD = 1
 282 -> 281[color=blue]
 282 -> 281[color=red][style=dotted]
 283[label="
-TAG: LOOP_FOLLOW_1(283)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(283)  func = foo WD = 1
 2435: BSR (1332) (null) null null
 "];
 283[shape=box];
@@ -2671,7 +2671,7 @@ TAG: DO_BLOCK(285)  func = foo WD = 1
 285 -> 284[color=blue]
 285 -> 284[color=red][style=dotted]
 286[label="
-TAG: LOOP_FOLLOW_1(286)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(286)  func = foo WD = 1
 2436: BSR (1346) (null) null null
 "];
 286[shape=box];
@@ -2699,7 +2699,7 @@ TAG: DO_BLOCK(288)  func = foo WD = 1
 288 -> 287[color=blue]
 288 -> 287[color=red][style=dotted]
 289[label="
-TAG: LOOP_FOLLOW_1(289)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(289)  func = foo WD = 1
 2437: BSR (1360) (null) null null
 "];
 289[shape=box];
@@ -2727,7 +2727,7 @@ TAG: DO_BLOCK(291)  func = foo WD = 1
 291 -> 290[color=blue]
 291 -> 290[color=red][style=dotted]
 292[label="
-TAG: LOOP_FOLLOW_1(292)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(292)  func = foo WD = 1
 2438: BSR (1374) (null) null null
 "];
 292[shape=box];
@@ -2755,7 +2755,7 @@ TAG: DO_BLOCK(294)  func = foo WD = 1
 294 -> 293[color=blue]
 294 -> 293[color=red][style=dotted]
 295[label="
-TAG: LOOP_FOLLOW_1(295)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(295)  func = foo WD = 1
 2439: BSR (1388) (null) null null
 "];
 295[shape=box];
@@ -2783,7 +2783,7 @@ TAG: DO_BLOCK(297)  func = foo WD = 1
 297 -> 296[color=blue]
 297 -> 296[color=red][style=dotted]
 298[label="
-TAG: LOOP_FOLLOW_1(298)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(298)  func = foo WD = 1
 2440: BSR (1402) (null) null null
 "];
 298[shape=box];
@@ -2811,7 +2811,7 @@ TAG: DO_BLOCK(300)  func = foo WD = 1
 300 -> 299[color=blue]
 300 -> 299[color=red][style=dotted]
 301[label="
-TAG: LOOP_FOLLOW_1(301)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(301)  func = foo WD = 1
 2441: BSR (1416) (null) null null
 "];
 301[shape=box];
@@ -2839,7 +2839,7 @@ TAG: DO_BLOCK(303)  func = foo WD = 1
 303 -> 302[color=blue]
 303 -> 302[color=red][style=dotted]
 304[label="
-TAG: LOOP_FOLLOW_1(304)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(304)  func = foo WD = 1
 2442: BSR (1430) (null) null null
 "];
 304[shape=box];
@@ -2867,7 +2867,7 @@ TAG: DO_BLOCK(306)  func = foo WD = 1
 306 -> 305[color=blue]
 306 -> 305[color=red][style=dotted]
 307[label="
-TAG: LOOP_FOLLOW_1(307)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(307)  func = foo WD = 1
 2443: BSR (1444) (null) null null
 "];
 307[shape=box];
@@ -2895,7 +2895,7 @@ TAG: DO_BLOCK(309)  func = foo WD = 1
 309 -> 308[color=blue]
 309 -> 308[color=red][style=dotted]
 310[label="
-TAG: LOOP_FOLLOW_1(310)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(310)  func = foo WD = 1
 2444: BSR (1458) (null) null null
 "];
 310[shape=box];
@@ -2923,7 +2923,7 @@ TAG: DO_BLOCK(312)  func = foo WD = 1
 312 -> 311[color=blue]
 312 -> 311[color=red][style=dotted]
 313[label="
-TAG: LOOP_FOLLOW_1(313)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(313)  func = foo WD = 1
 2445: BSR (1472) (null) null null
 "];
 313[shape=box];
@@ -2951,7 +2951,7 @@ TAG: DO_BLOCK(315)  func = foo WD = 1
 315 -> 314[color=blue]
 315 -> 314[color=red][style=dotted]
 316[label="
-TAG: LOOP_FOLLOW_1(316)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(316)  func = foo WD = 1
 2446: BSR (1486) (null) null null
 "];
 316[shape=box];
@@ -2979,7 +2979,7 @@ TAG: DO_BLOCK(318)  func = foo WD = 1
 318 -> 317[color=blue]
 318 -> 317[color=red][style=dotted]
 319[label="
-TAG: LOOP_FOLLOW_1(319)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(319)  func = foo WD = 1
 2447: BSR (1500) (null) null null
 "];
 319[shape=box];
@@ -3007,7 +3007,7 @@ TAG: DO_BLOCK(321)  func = foo WD = 1
 321 -> 320[color=blue]
 321 -> 320[color=red][style=dotted]
 322[label="
-TAG: LOOP_FOLLOW_1(322)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(322)  func = foo WD = 1
 2448: BSR (1514) (null) null null
 "];
 322[shape=box];
@@ -3035,7 +3035,7 @@ TAG: DO_BLOCK(324)  func = foo WD = 1
 324 -> 323[color=blue]
 324 -> 323[color=red][style=dotted]
 325[label="
-TAG: LOOP_FOLLOW_1(325)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(325)  func = foo WD = 1
 2449: BSR (1528) (null) null null
 "];
 325[shape=box];
@@ -3063,7 +3063,7 @@ TAG: DO_BLOCK(327)  func = foo WD = 1
 327 -> 326[color=blue]
 327 -> 326[color=red][style=dotted]
 328[label="
-TAG: LOOP_FOLLOW_1(328)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(328)  func = foo WD = 1
 2450: BSR (1542) (null) null null
 "];
 328[shape=box];
@@ -3091,7 +3091,7 @@ TAG: DO_BLOCK(330)  func = foo WD = 1
 330 -> 329[color=blue]
 330 -> 329[color=red][style=dotted]
 331[label="
-TAG: LOOP_FOLLOW_1(331)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(331)  func = foo WD = 1
 2451: BSR (1556) (null) null null
 "];
 331[shape=box];
@@ -3119,7 +3119,7 @@ TAG: DO_BLOCK(333)  func = foo WD = 1
 333 -> 332[color=blue]
 333 -> 332[color=red][style=dotted]
 334[label="
-TAG: LOOP_FOLLOW_1(334)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(334)  func = foo WD = 1
 2452: BSR (1570) (null) null null
 "];
 334[shape=box];
@@ -3147,7 +3147,7 @@ TAG: DO_BLOCK(336)  func = foo WD = 1
 336 -> 335[color=blue]
 336 -> 335[color=red][style=dotted]
 337[label="
-TAG: LOOP_FOLLOW_1(337)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(337)  func = foo WD = 1
 2453: BSR (1584) (null) null null
 "];
 337[shape=box];
@@ -3175,7 +3175,7 @@ TAG: DO_BLOCK(339)  func = foo WD = 1
 339 -> 338[color=blue]
 339 -> 338[color=red][style=dotted]
 340[label="
-TAG: LOOP_FOLLOW_1(340)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(340)  func = foo WD = 1
 2454: BSR (1598) (null) null null
 "];
 340[shape=box];
@@ -3203,7 +3203,7 @@ TAG: DO_BLOCK(342)  func = foo WD = 1
 342 -> 341[color=blue]
 342 -> 341[color=red][style=dotted]
 343[label="
-TAG: LOOP_FOLLOW_1(343)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(343)  func = foo WD = 1
 2455: BSR (1612) (null) null null
 "];
 343[shape=box];
@@ -3231,7 +3231,7 @@ TAG: DO_BLOCK(345)  func = foo WD = 1
 345 -> 344[color=blue]
 345 -> 344[color=red][style=dotted]
 346[label="
-TAG: LOOP_FOLLOW_1(346)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(346)  func = foo WD = 1
 2456: BSR (1626) (null) null null
 "];
 346[shape=box];
@@ -3259,7 +3259,7 @@ TAG: DO_BLOCK(348)  func = foo WD = 1
 348 -> 347[color=blue]
 348 -> 347[color=red][style=dotted]
 349[label="
-TAG: LOOP_FOLLOW_1(349)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(349)  func = foo WD = 1
 2457: BSR (1640) (null) null null
 "];
 349[shape=box];
@@ -3287,7 +3287,7 @@ TAG: DO_BLOCK(351)  func = foo WD = 1
 351 -> 350[color=blue]
 351 -> 350[color=red][style=dotted]
 352[label="
-TAG: LOOP_FOLLOW_1(352)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(352)  func = foo WD = 1
 2458: BSR (1654) (null) null null
 "];
 352[shape=box];
@@ -3315,7 +3315,7 @@ TAG: DO_BLOCK(354)  func = foo WD = 1
 354 -> 353[color=blue]
 354 -> 353[color=red][style=dotted]
 355[label="
-TAG: LOOP_FOLLOW_1(355)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(355)  func = foo WD = 1
 2459: BSR (1668) (null) null null
 "];
 355[shape=box];
@@ -3343,7 +3343,7 @@ TAG: DO_BLOCK(357)  func = foo WD = 1
 357 -> 356[color=blue]
 357 -> 356[color=red][style=dotted]
 358[label="
-TAG: LOOP_FOLLOW_1(358)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(358)  func = foo WD = 1
 2460: BSR (1682) (null) null null
 "];
 358[shape=box];
@@ -3371,7 +3371,7 @@ TAG: DO_BLOCK(360)  func = foo WD = 1
 360 -> 359[color=blue]
 360 -> 359[color=red][style=dotted]
 361[label="
-TAG: LOOP_FOLLOW_1(361)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(361)  func = foo WD = 1
 2461: BSR (1696) (null) null null
 "];
 361[shape=box];
@@ -3399,7 +3399,7 @@ TAG: DO_BLOCK(363)  func = foo WD = 1
 363 -> 362[color=blue]
 363 -> 362[color=red][style=dotted]
 364[label="
-TAG: LOOP_FOLLOW_1(364)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(364)  func = foo WD = 1
 2462: BSR (1710) (null) null null
 "];
 364[shape=box];
@@ -3427,7 +3427,7 @@ TAG: DO_BLOCK(366)  func = foo WD = 1
 366 -> 365[color=blue]
 366 -> 365[color=red][style=dotted]
 367[label="
-TAG: LOOP_FOLLOW_1(367)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(367)  func = foo WD = 1
 2463: BSR (1724) (null) null null
 "];
 367[shape=box];
@@ -3455,7 +3455,7 @@ TAG: DO_BLOCK(369)  func = foo WD = 1
 369 -> 368[color=blue]
 369 -> 368[color=red][style=dotted]
 370[label="
-TAG: LOOP_FOLLOW_1(370)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(370)  func = foo WD = 1
 2464: BSR (1738) (null) null null
 "];
 370[shape=box];
@@ -3483,7 +3483,7 @@ TAG: DO_BLOCK(372)  func = foo WD = 1
 372 -> 371[color=blue]
 372 -> 371[color=red][style=dotted]
 373[label="
-TAG: LOOP_FOLLOW_1(373)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(373)  func = foo WD = 1
 2465: BSR (1752) (null) null null
 "];
 373[shape=box];
@@ -3511,7 +3511,7 @@ TAG: DO_BLOCK(375)  func = foo WD = 1
 375 -> 374[color=blue]
 375 -> 374[color=red][style=dotted]
 376[label="
-TAG: LOOP_FOLLOW_1(376)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(376)  func = foo WD = 1
 2466: BSR (1766) (null) null null
 "];
 376[shape=box];
@@ -3539,7 +3539,7 @@ TAG: DO_BLOCK(378)  func = foo WD = 1
 378 -> 377[color=blue]
 378 -> 377[color=red][style=dotted]
 379[label="
-TAG: LOOP_FOLLOW_1(379)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(379)  func = foo WD = 1
 2467: BSR (1780) (null) null null
 "];
 379[shape=box];
@@ -3567,7 +3567,7 @@ TAG: DO_BLOCK(381)  func = foo WD = 1
 381 -> 380[color=blue]
 381 -> 380[color=red][style=dotted]
 382[label="
-TAG: LOOP_FOLLOW_1(382)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(382)  func = foo WD = 1
 2468: BSR (1794) (null) null null
 "];
 382[shape=box];
@@ -3595,7 +3595,7 @@ TAG: DO_BLOCK(384)  func = foo WD = 1
 384 -> 383[color=blue]
 384 -> 383[color=red][style=dotted]
 385[label="
-TAG: LOOP_FOLLOW_1(385)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(385)  func = foo WD = 1
 2469: BSR (1808) (null) null null
 "];
 385[shape=box];
@@ -3623,7 +3623,7 @@ TAG: DO_BLOCK(387)  func = foo WD = 1
 387 -> 386[color=blue]
 387 -> 386[color=red][style=dotted]
 388[label="
-TAG: LOOP_FOLLOW_1(388)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(388)  func = foo WD = 1
 2470: BSR (1822) (null) null null
 "];
 388[shape=box];
@@ -3651,7 +3651,7 @@ TAG: DO_BLOCK(390)  func = foo WD = 1
 390 -> 389[color=blue]
 390 -> 389[color=red][style=dotted]
 391[label="
-TAG: LOOP_FOLLOW_1(391)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(391)  func = foo WD = 1
 2471: BSR (1836) (null) null null
 "];
 391[shape=box];
@@ -3679,7 +3679,7 @@ TAG: DO_BLOCK(393)  func = foo WD = 1
 393 -> 392[color=blue]
 393 -> 392[color=red][style=dotted]
 394[label="
-TAG: LOOP_FOLLOW_1(394)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(394)  func = foo WD = 1
 2472: BSR (1850) (null) null null
 "];
 394[shape=box];
@@ -3707,7 +3707,7 @@ TAG: DO_BLOCK(396)  func = foo WD = 1
 396 -> 395[color=blue]
 396 -> 395[color=red][style=dotted]
 397[label="
-TAG: LOOP_FOLLOW_1(397)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(397)  func = foo WD = 1
 2473: BSR (1864) (null) null null
 "];
 397[shape=box];
@@ -3735,7 +3735,7 @@ TAG: DO_BLOCK(399)  func = foo WD = 1
 399 -> 398[color=blue]
 399 -> 398[color=red][style=dotted]
 400[label="
-TAG: LOOP_FOLLOW_1(400)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(400)  func = foo WD = 1
 2474: BSR (1878) (null) null null
 "];
 400[shape=box];
@@ -3763,7 +3763,7 @@ TAG: DO_BLOCK(402)  func = foo WD = 1
 402 -> 401[color=blue]
 402 -> 401[color=red][style=dotted]
 403[label="
-TAG: LOOP_FOLLOW_1(403)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(403)  func = foo WD = 1
 2475: BSR (1892) (null) null null
 "];
 403[shape=box];
@@ -3791,7 +3791,7 @@ TAG: DO_BLOCK(405)  func = foo WD = 1
 405 -> 404[color=blue]
 405 -> 404[color=red][style=dotted]
 406[label="
-TAG: LOOP_FOLLOW_1(406)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(406)  func = foo WD = 1
 2476: BSR (1906) (null) null null
 "];
 406[shape=box];
@@ -3819,7 +3819,7 @@ TAG: DO_BLOCK(408)  func = foo WD = 1
 408 -> 407[color=blue]
 408 -> 407[color=red][style=dotted]
 409[label="
-TAG: LOOP_FOLLOW_1(409)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(409)  func = foo WD = 1
 2477: BSR (1920) (null) null null
 "];
 409[shape=box];
@@ -3847,7 +3847,7 @@ TAG: DO_BLOCK(411)  func = foo WD = 1
 411 -> 410[color=blue]
 411 -> 410[color=red][style=dotted]
 412[label="
-TAG: LOOP_FOLLOW_1(412)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(412)  func = foo WD = 1
 2478: BSR (1934) (null) null null
 "];
 412[shape=box];
@@ -3875,7 +3875,7 @@ TAG: DO_BLOCK(414)  func = foo WD = 1
 414 -> 413[color=blue]
 414 -> 413[color=red][style=dotted]
 415[label="
-TAG: LOOP_FOLLOW_1(415)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(415)  func = foo WD = 1
 2479: BSR (1948) (null) null null
 "];
 415[shape=box];
@@ -3903,7 +3903,7 @@ TAG: DO_BLOCK(417)  func = foo WD = 1
 417 -> 416[color=blue]
 417 -> 416[color=red][style=dotted]
 418[label="
-TAG: LOOP_FOLLOW_1(418)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(418)  func = foo WD = 1
 2480: BSR (1962) (null) null null
 "];
 418[shape=box];
@@ -3931,7 +3931,7 @@ TAG: DO_BLOCK(420)  func = foo WD = 1
 420 -> 419[color=blue]
 420 -> 419[color=red][style=dotted]
 421[label="
-TAG: LOOP_FOLLOW_1(421)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(421)  func = foo WD = 1
 2481: BSR (1976) (null) null null
 "];
 421[shape=box];
@@ -3959,7 +3959,7 @@ TAG: DO_BLOCK(423)  func = foo WD = 1
 423 -> 422[color=blue]
 423 -> 422[color=red][style=dotted]
 424[label="
-TAG: LOOP_FOLLOW_1(424)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(424)  func = foo WD = 1
 2482: BSR (1990) (null) null null
 "];
 424[shape=box];
@@ -3987,7 +3987,7 @@ TAG: DO_BLOCK(426)  func = foo WD = 1
 426 -> 425[color=blue]
 426 -> 425[color=red][style=dotted]
 427[label="
-TAG: LOOP_FOLLOW_1(427)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(427)  func = foo WD = 1
 2483: BSR (2004) (null) null null
 "];
 427[shape=box];
@@ -4015,7 +4015,7 @@ TAG: DO_BLOCK(429)  func = foo WD = 1
 429 -> 428[color=blue]
 429 -> 428[color=red][style=dotted]
 430[label="
-TAG: LOOP_FOLLOW_1(430)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(430)  func = foo WD = 1
 2484: BSR (2018) (null) null null
 "];
 430[shape=box];
@@ -4043,7 +4043,7 @@ TAG: DO_BLOCK(432)  func = foo WD = 1
 432 -> 431[color=blue]
 432 -> 431[color=red][style=dotted]
 433[label="
-TAG: LOOP_FOLLOW_1(433)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(433)  func = foo WD = 1
 2485: BSR (2032) (null) null null
 "];
 433[shape=box];
@@ -4071,7 +4071,7 @@ TAG: DO_BLOCK(435)  func = foo WD = 1
 435 -> 434[color=blue]
 435 -> 434[color=red][style=dotted]
 436[label="
-TAG: LOOP_FOLLOW_1(436)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(436)  func = foo WD = 1
 2486: BSR (2046) (null) null null
 "];
 436[shape=box];
@@ -4099,7 +4099,7 @@ TAG: DO_BLOCK(438)  func = foo WD = 1
 438 -> 437[color=blue]
 438 -> 437[color=red][style=dotted]
 439[label="
-TAG: LOOP_FOLLOW_1(439)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(439)  func = foo WD = 1
 2331: move (3) (2060) null null
 "];
 439[shape=box];
@@ -4128,7 +4128,7 @@ TAG: DO_BLOCK(441)  func = foo WD = 1
 441 -> 440[color=blue]
 441 -> 440[color=red][style=dotted]
 442[label="
-TAG: LOOP_FOLLOW_1(442)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(442)  func = foo WD = 1
 2336: move (3) (2074) null null
 "];
 442[shape=box];
@@ -4157,7 +4157,7 @@ TAG: DO_BLOCK(444)  func = foo WD = 1
 444 -> 443[color=blue]
 444 -> 443[color=red][style=dotted]
 445[label="
-TAG: LOOP_FOLLOW_1(445)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(445)  func = foo WD = 1
 2341: move (3) (2088) null null
 "];
 445[shape=box];
@@ -4186,7 +4186,7 @@ TAG: DO_BLOCK(447)  func = foo WD = 1
 447 -> 446[color=blue]
 447 -> 446[color=red][style=dotted]
 448[label="
-TAG: LOOP_FOLLOW_1(448)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(448)  func = foo WD = 1
 2487: BSR (2102) (null) null null
 "];
 448[shape=box];
@@ -4214,7 +4214,7 @@ TAG: DO_BLOCK(450)  func = foo WD = 1
 450 -> 449[color=blue]
 450 -> 449[color=red][style=dotted]
 451[label="
-TAG: LOOP_FOLLOW_1(451)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(451)  func = foo WD = 1
 2488: BSR (2116) (null) null null
 "];
 451[shape=box];
@@ -4242,7 +4242,7 @@ TAG: DO_BLOCK(453)  func = foo WD = 1
 453 -> 452[color=blue]
 453 -> 452[color=red][style=dotted]
 454[label="
-TAG: LOOP_FOLLOW_1(454)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(454)  func = foo WD = 1
 2489: BSR (2130) (null) null null
 "];
 454[shape=box];
@@ -4270,7 +4270,7 @@ TAG: DO_BLOCK(456)  func = foo WD = 1
 456 -> 455[color=blue]
 456 -> 455[color=red][style=dotted]
 457[label="
-TAG: LOOP_FOLLOW_1(457)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(457)  func = foo WD = 1
 2490: BSR (2144) (null) null null
 "];
 457[shape=box];
@@ -4298,7 +4298,7 @@ TAG: DO_BLOCK(459)  func = foo WD = 1
 459 -> 458[color=blue]
 459 -> 458[color=red][style=dotted]
 460[label="
-TAG: LOOP_FOLLOW_1(460)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(460)  func = foo WD = 1
 2491: BSR (2158) (null) null null
 "];
 460[shape=box];
@@ -4326,7 +4326,7 @@ TAG: DO_BLOCK(462)  func = foo WD = 1
 462 -> 461[color=blue]
 462 -> 461[color=red][style=dotted]
 463[label="
-TAG: LOOP_FOLLOW_1(463)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(463)  func = foo WD = 1
 2492: BSR (2172) (null) null null
 "];
 463[shape=box];
@@ -4354,7 +4354,7 @@ TAG: DO_BLOCK(465)  func = foo WD = 1
 465 -> 464[color=blue]
 465 -> 464[color=red][style=dotted]
 466[label="
-TAG: LOOP_FOLLOW_1(466)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(466)  func = foo WD = 1
 2493: BSR (2186) (null) null null
 "];
 466[shape=box];
@@ -4382,7 +4382,7 @@ TAG: DO_BLOCK(468)  func = foo WD = 1
 468 -> 467[color=blue]
 468 -> 467[color=red][style=dotted]
 469[label="
-TAG: LOOP_FOLLOW_1(469)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(469)  func = foo WD = 1
 2494: BSR (2200) (null) null null
 "];
 469[shape=box];
@@ -4410,7 +4410,7 @@ TAG: DO_BLOCK(471)  func = foo WD = 1
 471 -> 470[color=blue]
 471 -> 470[color=red][style=dotted]
 472[label="
-TAG: LOOP_FOLLOW_1(472)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(472)  func = foo WD = 1
 2495: BSR (2214) (null) null null
 "];
 472[shape=box];
@@ -4438,7 +4438,7 @@ TAG: DO_BLOCK(474)  func = foo WD = 1
 474 -> 473[color=blue]
 474 -> 473[color=red][style=dotted]
 475[label="
-TAG: LOOP_FOLLOW_1(475)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(475)  func = foo WD = 1
 2496: BSR (2228) (null) null null
 "];
 475[shape=box];
@@ -4466,7 +4466,7 @@ TAG: DO_BLOCK(477)  func = foo WD = 1
 477 -> 476[color=blue]
 477 -> 476[color=red][style=dotted]
 478[label="
-TAG: LOOP_FOLLOW_1(478)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(478)  func = foo WD = 1
 2497: BSR (2242) (null) null null
 "];
 478[shape=box];
@@ -4494,7 +4494,7 @@ TAG: DO_BLOCK(480)  func = foo WD = 1
 480 -> 479[color=blue]
 480 -> 479[color=red][style=dotted]
 481[label="
-TAG: LOOP_FOLLOW_1(481)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(481)  func = foo WD = 1
 2498: BSR (2256) (null) null null
 "];
 481[shape=box];
@@ -4522,7 +4522,7 @@ TAG: DO_BLOCK(483)  func = foo WD = 1
 483 -> 482[color=blue]
 483 -> 482[color=red][style=dotted]
 484[label="
-TAG: LOOP_FOLLOW_1(484)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(484)  func = foo WD = 1
 2499: BSR (2270) (null) null null
 "];
 484[shape=box];
@@ -4550,7 +4550,7 @@ TAG: DO_BLOCK(486)  func = foo WD = 1
 486 -> 485[color=blue]
 486 -> 485[color=red][style=dotted]
 487[label="
-TAG: LOOP_FOLLOW_1(487)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(487)  func = foo WD = 1
 2500: BSR (2284) (null) null null
 "];
 487[shape=box];
@@ -4578,7 +4578,7 @@ TAG: DO_BLOCK(489)  func = foo WD = 1
 489 -> 488[color=blue]
 489 -> 488[color=red][style=dotted]
 490[label="
-TAG: LOOP_FOLLOW_1(490)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(490)  func = foo WD = 1
 2501: BSR (2298) (null) null null
 "];
 490[shape=box];
@@ -4606,7 +4606,7 @@ TAG: DO_BLOCK(492)  func = foo WD = 1
 492 -> 491[color=blue]
 492 -> 491[color=red][style=dotted]
 493[label="
-TAG: LOOP_FOLLOW_1(493)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(493)  func = foo WD = 1
 2502: BSR (2312) (null) null null
 "];
 493[shape=box];
@@ -4634,7 +4634,7 @@ TAG: DO_BLOCK(495)  func = foo WD = 1
 495 -> 494[color=blue]
 495 -> 494[color=red][style=dotted]
 496[label="
-TAG: LOOP_FOLLOW_1(496)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(496)  func = foo WD = 1
 2503: BSR (2326) (null) null null
 "];
 496[shape=box];
@@ -4662,7 +4662,7 @@ TAG: DO_BLOCK(498)  func = foo WD = 1
 498 -> 497[color=blue]
 498 -> 497[color=red][style=dotted]
 499[label="
-TAG: LOOP_FOLLOW_1(499)  func = foo
+TAG: LOOP_FOLLOW_0(499)  func = foo
 "];
 499[shape=box];
 499 -> 497[color=red][style=dotted]

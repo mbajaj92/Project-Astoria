@@ -1,7 +1,7 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-97: BSR (92) (null) null null
+92: BSR (87) (null) null null
 "];
 0[shape=box];
 0 -> 18[color=blue]
@@ -9,16 +9,16 @@ TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
 TAG: PROC_START(1)  func = bar WD = 0
 8: ADDI (-1) (null) null #9 move for = &q
 10: ADDI (-1) (null) null #3 move for = &par
-93: move (10) (40) null null
+88: move (10) (35) null null
 "];
 1[shape=box];
 1 -> 2[color=blue]
 2[label="
 TAG: LOOP_HEADER_1(2)  func = bar WD = 1
-40: phi (10) (36) null null  PHI FOR &par
-39: phi (8) (34) null null  PHI FOR &q
-14: CMP (10) (40) null null bFor = &par
-15: BGE (14) (43) null null
+35: phi (10) (31) null null  PHI FOR &par
+34: phi (8) (29) null null  PHI FOR &q
+14: CMP (10) (35) null null bFor = &par
+15: BGE (14) (38) null null
 "];
 2[shape=box];
 2 -> 3[color=blue]
@@ -27,42 +27,31 @@ TAG: LOOP_HEADER_1(2)  func = bar WD = 1
 2 -> 9[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = bar WD = 1
-98: BSR (16) (null) null null
+93: BSR (18) (null) null null
 "];
 3[shape=box];
-3 -> 4[color=blue]
+3 -> 5[color=blue]
 3 -> 2[color=red][style=dotted]
-4[label="
-TAG: IF_HEADER(4)  func = bar WD = 1
-16: ADDI (-1) (null) null #2
-18: CMPI (16) (10) null null
-19: BGE (18) (24) null null
-"];
-4[shape=box];
-4 -> 5[color=blue]
-4 -> 6[color=black]
-4 -> 3[color=red][style=dotted]
 5[label="
-TAG: THEN_BLOCK(5)  func = bar WD = 1
-22: ADD (40) (39) null null aFor = &par bFor = &q move for = &q
+TAG: CONT(5)  func = bar WD = 1
+18: ADD (35) (34) null null aFor = &par bFor = &q move for = &q
 "];
 5[shape=box];
 5 -> 6[color=blue]
-5 -> 4[color=red][style=dotted]
+5 -> 3[color=red][style=dotted]
 6[label="
-TAG: FOLLOW_BLOCK(6)  func = bar WD = 1
-24: phi (22) (39) null null  PHI FOR &q
+TAG: CONT(6)  func = bar WD = 1
+94: BSR (29) (null) null null
 "];
 6[shape=box];
 6 -> 7[color=blue]
 6 -> 5[color=red][style=dotted]
-6 -> 4[color=green][style=dotted]
 7[label="
 TAG: LOOP_HEADER_2(7)  func = bar WD = 2
-34: phi (24) (31) null null  PHI FOR &q
-25: ADDI (-1) (null) null #4
-27: CMP (25) (34) null null bFor = &q
-28: BLT (27) (36) null null
+29: phi (18) (26) null null  PHI FOR &q
+20: ADDI (-1) (null) null #4
+22: CMP (20) (29) null null bFor = &q
+23: BLT (22) (31) null null
 "];
 7[shape=box];
 7 -> 8[color=blue]
@@ -71,43 +60,43 @@ TAG: LOOP_HEADER_2(7)  func = bar WD = 2
 7 -> 8[color=green][style=dotted]
 8[label="
 TAG: DO_BLOCK(8)  func = bar WD = 2
-31: SUB (40) (34) null null aFor = &par bFor = &q move for = &q
-33: BSR (34) (null) null null
+26: SUB (35) (29) null null aFor = &par bFor = &q move for = &q
+28: BSR (29) (null) null null
 "];
 8[shape=box];
 8 -> 7[color=blue]
 8 -> 7[color=red][style=dotted]
 9[label="
-TAG: LOOP_FOLLOW_2(9)  func = bar WD = 2
-36: SUBI (34) (null) null #3 aFor = &q move for = &par
-94: move (36) (40) null null
-38: BSR (40) (null) null null
+TAG: LOOP_FOLLOW_1(9)  func = bar WD = 2
+31: SUBI (29) (null) null #3 aFor = &q move for = &par
+89: move (31) (35) null null
+33: BSR (35) (null) null null
 "];
 9[shape=box];
 9 -> 2[color=blue]
 9 -> 7[color=red][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_1(10)  func = bar WD = 1
-43: ADD (40) (39) null null aFor = &par bFor = &q move for = &x
-45: ADDI (-1) (null) null #4 move for = &af
-48: RET (43) (null) null null
+TAG: LOOP_FOLLOW_0(10)  func = bar WD = 1
+38: ADD (35) (34) null null aFor = &par bFor = &q move for = &x
+40: ADDI (-1) (null) null #4 move for = &af
+43: RET (38) (null) null null
 "];
 10[shape=box];
 10 -> 2[color=red][style=dotted]
 11[label="
 TAG: PROC_START(11)  func = foo WD = 0
-52: ADDI (-1) (null) null #9 move for = &q
-54: ADDI (-1) (null) null #3 move for = &par
-95: move (54) (79) null null
+47: ADDI (-1) (null) null #9 move for = &q
+49: ADDI (-1) (null) null #3 move for = &par
+90: move (49) (74) null null
 "];
 11[shape=box];
 11 -> 12[color=blue]
 12[label="
 TAG: LOOP_HEADER_1(12)  func = foo WD = 1
-79: phi (54) (75) null null  PHI FOR &par
-78: phi (52) (73) null null  PHI FOR &q
-58: CMP (54) (79) null null bFor = &par
-59: BGE (58) (82) null null
+74: phi (49) (70) null null  PHI FOR &par
+73: phi (47) (68) null null  PHI FOR &q
+53: CMP (49) (74) null null bFor = &par
+54: BGE (53) (77) null null
 "];
 12[shape=box];
 12 -> 13[color=blue]
@@ -116,17 +105,17 @@ TAG: LOOP_HEADER_1(12)  func = foo WD = 1
 12 -> 16[color=green][style=dotted]
 13[label="
 TAG: DO_BLOCK(13)  func = foo WD = 1
-62: ADD (79) (78) null null aFor = &par bFor = &q move for = &q
+57: ADD (74) (73) null null aFor = &par bFor = &q move for = &q
 "];
 13[shape=box];
 13 -> 14[color=blue]
 13 -> 12[color=red][style=dotted]
 14[label="
 TAG: LOOP_HEADER_2(14)  func = foo WD = 2
-73: phi (62) (70) null null  PHI FOR &q
-64: ADDI (-1) (null) null #4
-66: CMP (64) (73) null null bFor = &q
-67: BLT (66) (75) null null
+68: phi (57) (65) null null  PHI FOR &q
+59: ADDI (-1) (null) null #4
+61: CMP (59) (68) null null bFor = &q
+62: BLT (61) (70) null null
 "];
 14[shape=box];
 14 -> 15[color=blue]
@@ -135,31 +124,31 @@ TAG: LOOP_HEADER_2(14)  func = foo WD = 2
 14 -> 15[color=green][style=dotted]
 15[label="
 TAG: DO_BLOCK(15)  func = foo WD = 2
-70: SUB (79) (73) null null aFor = &par bFor = &q move for = &q
-72: BSR (73) (null) null null
+65: SUB (74) (68) null null aFor = &par bFor = &q move for = &q
+67: BSR (68) (null) null null
 "];
 15[shape=box];
 15 -> 14[color=blue]
 15 -> 14[color=red][style=dotted]
 16[label="
-TAG: LOOP_FOLLOW_2(16)  func = foo WD = 2
-75: SUBI (73) (null) null #3 aFor = &q move for = &par
-96: move (75) (79) null null
-77: BSR (79) (null) null null
+TAG: LOOP_FOLLOW_1(16)  func = foo WD = 2
+70: SUBI (68) (null) null #3 aFor = &q move for = &par
+91: move (70) (74) null null
+72: BSR (74) (null) null null
 "];
 16[shape=box];
 16 -> 12[color=blue]
 16 -> 14[color=red][style=dotted]
 17[label="
-TAG: LOOP_FOLLOW_1(17)  func = foo WD = 1
-82: ADD (79) (78) null null aFor = &par bFor = &q move for = &x
-85: RET (82) (null) null null
+TAG: LOOP_FOLLOW_0(17)  func = foo WD = 1
+77: ADD (74) (73) null null aFor = &par bFor = &q move for = &x
+80: RET (77) (null) null null
 "];
 17[shape=box];
 17 -> 12[color=red][style=dotted]
 18[label="
 TAG: INIT_CONT(18)  func = MAIN$FUNC WD = 0
-92: EOF (null) (null) null null
+87: EOF (null) (null) null null
 "];
 18[shape=box];
 18 -> 0[color=red][style=dotted]

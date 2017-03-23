@@ -6,22 +6,23 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="execute" key="selection"/>
+		<item value="PSH" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="R[29"/>
+			<item value="PSH"/>
 			<item value="LDX"/>
+			<item value="////"/>
+			<item value="fixUpMap"/>
+			<item value="R[29"/>
 			<item value="od"/>
 			<item value="then"/>
 			<item value="do"/>
-			<item value="fi"/>
-			<item value="od;"/>
-			<item value="&lt;-"/>
 		</list>
 		<list key="replacehistory">
+			<item value="getFixUpMap()"/>
 			<item value="}"/>
 			<item value="{"/>
 			<item value="="/>
@@ -29,7 +30,6 @@
 			<item value="Utils.SOPln"/>
 			<item value="/*, op.toString()*/"/>
 			<item value="getFunctionForIdentifier"/>
-			<item value="ScannerUtils.getCurrentScanner().setCurrentFunction"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

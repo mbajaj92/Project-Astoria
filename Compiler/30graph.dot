@@ -69,14 +69,14 @@ TAG: DO_BLOCK(7)  func = MAIN$FUNC WD = 2
 7 -> 6[color=blue]
 7 -> 6[color=red][style=dotted]
 8[label="
-TAG: LOOP_FOLLOW_2(8)  func = MAIN$FUNC WD = 2
+TAG: LOOP_FOLLOW_1(8)  func = MAIN$FUNC WD = 2
 32: BSR (34) (null) null null
 "];
 8[shape=box];
 8 -> 4[color=blue]
 8 -> 6[color=red][style=dotted]
 9[label="
-TAG: LOOP_FOLLOW_1(9)  func = MAIN$FUNC WD = 1
+TAG: LOOP_FOLLOW_0(9)  func = MAIN$FUNC WD = 1
 43: BSR (40) (null) null null
 "];
 9[shape=box];

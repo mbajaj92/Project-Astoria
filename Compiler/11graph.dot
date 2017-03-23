@@ -52,7 +52,7 @@ TAG: DO_BLOCK(5)  func = MAIN$FUNC WD = 1
 5 -> 4[color=blue]
 5 -> 4[color=red][style=dotted]
 6[label="
-TAG: LOOP_FOLLOW_1(6)  func = MAIN$FUNC WD = 1
+TAG: LOOP_FOLLOW_0(6)  func = MAIN$FUNC WD = 1
 33: BSR (51) (null) null null
 "];
 6[shape=box];
@@ -90,7 +90,7 @@ TAG: DO_BLOCK(9)  func = MAIN$FUNC WD = 1
 9 -> 8[color=blue]
 9 -> 8[color=red][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_1(10)  func = MAIN$FUNC WD = 1
+TAG: LOOP_FOLLOW_0(10)  func = MAIN$FUNC WD = 1
 82: BSR (51) (null) null null
 "];
 10[shape=box];
@@ -159,7 +159,7 @@ TAG: FOLLOW_BLOCK(17)  func = MAIN$FUNC WD = 1
 17 -> 15[color=red][style=dotted]
 17 -> 16[color=green][style=dotted]
 18[label="
-TAG: LOOP_FOLLOW_1(18)  func = MAIN$FUNC WD = 1
+TAG: LOOP_FOLLOW_0(18)  func = MAIN$FUNC WD = 1
 71: EOF (null) (null) null null
 "];
 18[shape=box];

@@ -27,15 +27,15 @@ public class Testing {
 			
 			Utils.SOPln("");
 			Utils.SOPln("Basic Block Traversal");
-			for (BasicBlock b : BasicBlock.getBasicBlockList()) {
-				if (b.isLastBlock())
+			for (BasicBlock b : BasicBlock.getBasicBlockList())
+				if (!b.isIgnored() && b.isLastBlock())
 					Utils.traversefunc(b, new HashSet<Integer>());
-			}
 
 			if (Instruction.getInstructionList() != null)
 				for (Instruction i : Instruction.getInstructionList())
-					Utils.SOPln(i.testToString());
-			
+					if (!i.getMyBasicBlock().isIgnored())
+						Utils.SOPln(i.testToString());
+
 			/* Graph Coloring */
 			Utils.registerAllocation();
 
@@ -46,8 +46,12 @@ public class Testing {
 			RandomAccessFile randomAccessFile = new RandomAccessFile(fileNumber + "graph.dot", "rw");
 			randomAccessFile.writeBytes("digraph {\n");
 			for (BasicBlock i : BasicBlock.getBasicBlockList()) {
+				
+				if(i.isIgnored())
+					continue;
 
 				i.fixUp();
+
 				Utils.SOPln(i);
 
 				String write = i.getIndex() + "[label=\"" + i + "\n\"];\n" + i.getIndex() + "[shape=box];\n";
@@ -113,8 +117,7 @@ public class Testing {
 				Runtime.getRuntime().exec("dot " + fileNumber + "phiGraph.dot -Tpng -o " + fileNumber + "phiGraph.png");
 			}
 
-			/* Still under development 
-			Utils.SOPln("WE ARE STARTING MACHINE CODE");
+			/*Utils.SOPln("WE ARE STARTING MACHINE CODE");
 			for (BasicBlock i : BasicBlock.getBasicBlockList()) {
 				if (i.firstParentExists() || i.secondParentExists())
 					continue;
@@ -131,7 +134,7 @@ public class Testing {
 				Utils.SOPln(DLX.disassemble(ins));
 				buf[i] = ins;
 			}
-*/
+
 			/*DLX.load(buf);
 			DLX.execute();*/
 			ScannerUtils.shutDown();

@@ -73,7 +73,7 @@ TAG: DO_BLOCK(5)  func = ClearData WD = 1
 5 -> 4[color=blue]
 5 -> 4[color=red][style=dotted]
 6[label="
-TAG: LOOP_FOLLOW_1(6)  func = ClearData
+TAG: LOOP_FOLLOW_0(6)  func = ClearData
 "];
 6[shape=box];
 6 -> 4[color=red][style=dotted]
@@ -175,7 +175,7 @@ TAG: FOLLOW_BLOCK(17)  func = Output WD = 1
 17 -> 11[color=red][style=dotted]
 17 -> 16[color=green][style=dotted]
 18[label="
-TAG: LOOP_FOLLOW_1(18)  func = Output WD = 1
+TAG: LOOP_FOLLOW_0(18)  func = Output WD = 1
 136: writeNL (null) (null) null null
 "];
 18[shape=box];
@@ -226,7 +226,7 @@ TAG: DO_BLOCK(21)  func = CalcNext WD = 1
 21 -> 20[color=blue]
 21 -> 20[color=red][style=dotted]
 22[label="
-TAG: LOOP_FOLLOW_1(22)  func = CalcNext
+TAG: LOOP_FOLLOW_0(22)  func = CalcNext
 "];
 22[shape=box];
 22 -> 20[color=red][style=dotted]
@@ -259,7 +259,7 @@ TAG: DO_BLOCK(25)  func = Run WD = 1
 25 -> 24[color=blue]
 25 -> 24[color=red][style=dotted]
 26[label="
-TAG: LOOP_FOLLOW_1(26)  func = Run
+TAG: LOOP_FOLLOW_0(26)  func = Run
 "];
 26[shape=box];
 26 -> 24[color=red][style=dotted]

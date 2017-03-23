@@ -70,7 +70,7 @@ TAG: FOLLOW_BLOCK(7)  func = MAIN$FUNC WD = 1
 7 -> 5[color=red][style=dotted]
 7 -> 6[color=green][style=dotted]
 8[label="
-TAG: LOOP_FOLLOW_1(8)  func = MAIN$FUNC WD = 1
+TAG: LOOP_FOLLOW_0(8)  func = MAIN$FUNC WD = 1
 58: EOF (null) (null) null null
 "];
 8[shape=box];

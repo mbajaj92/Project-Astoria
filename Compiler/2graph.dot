@@ -37,7 +37,7 @@ TAG: DO_BLOCK(3)  func = foo WD = 1
 3 -> 2[color=blue]
 3 -> 2[color=red][style=dotted]
 4[label="
-TAG: LOOP_FOLLOW_1(4)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(4)  func = foo WD = 1
 37: RET (32) (null) null null
 "];
 4[shape=box];
@@ -93,7 +93,7 @@ TAG: DO_BLOCK(9)  func = bar WD = 2
 9 -> 8[color=blue]
 9 -> 8[color=red][style=dotted]
 10[label="
-TAG: LOOP_FOLLOW_2(10)  func = bar WD = 2
+TAG: LOOP_FOLLOW_1(10)  func = bar WD = 2
 68: ADDI (77) (null) null #4
 69: ADDI (null) (null) #FP_MAIN$FUNC &a
 70: adda (68) (69) null null
@@ -106,7 +106,7 @@ TAG: LOOP_FOLLOW_2(10)  func = bar WD = 2
 10 -> 6[color=blue]
 10 -> 8[color=red][style=dotted]
 11[label="
-TAG: LOOP_FOLLOW_1(11)  func = bar
+TAG: LOOP_FOLLOW_0(11)  func = bar
 "];
 11[shape=box];
 11 -> 6[color=red][style=dotted]

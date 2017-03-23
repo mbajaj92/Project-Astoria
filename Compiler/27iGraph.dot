@@ -1,118 +1,37 @@
 strict graph {
-0[label="0 : 2" style=filled fillcolor="darkorchid1"];
-0 -- 55
+0[label="0 : 1" style=filled fillcolor="blue1"];
+33[label="33 : 1" style=filled fillcolor="blue1"];
+33 -- 35
+33 -- 36
+33 -- 37
+33 -- 13
 35[label="35 : 2" style=filled fillcolor="darkorchid1"];
-35 -- 16
-35 -- 55
-35 -- 11
+35 -- 33
+35 -- 36
 35 -- 13
-35 -- 30
-39[label="39 : 2" style=filled fillcolor="darkorchid1"];
-39 -- 16
-39 -- 55
-39 -- 11
-39 -- 13
-8[label="8 : 2" style=filled fillcolor="darkorchid1"];
-8 -- 55
-9[label="9 : 2" style=filled fillcolor="darkorchid1"];
-9 -- 55
-10[label="10 : 2" style=filled fillcolor="darkorchid1"];
-10 -- 55
+36[label="36 : 3" style=filled fillcolor="chocolate"];
+36 -- 33
+36 -- 35
+36 -- 13
+37[label="37 : 2" style=filled fillcolor="darkorchid1"];
+37 -- 33
+37 -- 13
+8[label="8 : 1" style=filled fillcolor="blue1"];
+9[label="9 : 1" style=filled fillcolor="blue1"];
+10[label="10 : 1" style=filled fillcolor="blue1"];
 10 -- 11
-11[label="11 : 6" style=filled fillcolor="firebrick3"];
-11 -- 48
-11 -- 16
-11 -- 49
-11 -- 17
-11 -- 35
-11 -- 39
-11 -- 55
+11[label="11 : 2" style=filled fillcolor="darkorchid1"];
 11 -- 10
-11 -- 12
-11 -- 13
-11 -- 30
-11 -- 15
-43[label="43 : 1" style=filled fillcolor="blue1"];
-43 -- 16
-43 -- 44
-43 -- 13
-44[label="44 : 2" style=filled fillcolor="darkorchid1"];
-44 -- 16
-44 -- 43
-44 -- 13
-12[label="12 : 2" style=filled fillcolor="darkorchid1"];
-12 -- 55
-12 -- 11
-13[label="13 : 5" style=filled fillcolor="mediumslateblue"];
+12[label="12 : 1" style=filled fillcolor="blue1"];
+13[label="13 : 4" style=filled fillcolor="darkgoldenrod3"];
+13 -- 33
 13 -- 35
-13 -- 39
-13 -- 43
-13 -- 11
-13 -- 44
-13 -- 45
-13 -- 15
-13 -- 48
-13 -- 16
-13 -- 49
-13 -- 17
-13 -- 51
-13 -- 55
-13 -- 30
-45[label="45 : 1" style=filled fillcolor="blue1"];
-45 -- 16
-45 -- 13
-15[label="15 : 2" style=filled fillcolor="darkorchid1"];
-15 -- 16
-15 -- 55
-15 -- 11
-15 -- 13
-16[label="16 : 4" style=filled fillcolor="darkgoldenrod3"];
-16 -- 17
-16 -- 35
-16 -- 39
-16 -- 55
-16 -- 43
-16 -- 11
-16 -- 44
-16 -- 45
-16 -- 13
-16 -- 30
-16 -- 15
-48[label="48 : 1" style=filled fillcolor="blue1"];
-48 -- 49
-48 -- 51
-48 -- 11
-48 -- 13
-17[label="17 : 2" style=filled fillcolor="darkorchid1"];
-17 -- 16
-17 -- 55
-17 -- 11
-17 -- 13
-49[label="49 : 2" style=filled fillcolor="darkorchid1"];
-49 -- 48
-49 -- 11
-49 -- 13
-51[label="51 : 2" style=filled fillcolor="darkorchid1"];
-51 -- 48
-51 -- 13
-55[label="55 : 1" style=filled fillcolor="blue1"];
-55 -- 0
-55 -- 35
-55 -- 39
-55 -- 8
-55 -- 9
-55 -- 10
-55 -- 11
-55 -- 12
-55 -- 13
-55 -- 15
-55 -- 16
-55 -- 17
-55 -- 30
-30[label="30 : 3" style=filled fillcolor="chocolate"];
-30 -- 16
-30 -- 35
-30 -- 55
-30 -- 11
-30 -- 13
+13 -- 36
+13 -- 37
+13 -- 26
+13 -- 31
+26[label="26 : 1" style=filled fillcolor="blue1"];
+26 -- 13
+31[label="31 : 1" style=filled fillcolor="blue1"];
+31 -- 13
 }

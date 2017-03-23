@@ -15,7 +15,7 @@ public class Result {
 	public String addressIfVariable;
 	public Instruction instruction;
 	public CODE cond;
-
+	public String booleanIfCondition;
 	public Result() {
 		kind = RESULT_KIND.NONE;
 		isArray = false;
@@ -25,5 +25,6 @@ public class Result {
 		addressIfVariable = null;
 		instruction = null;
 		cond = CODE.NONE;
+		booleanIfCondition = null;
 	}
 }

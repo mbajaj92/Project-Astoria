@@ -49,7 +49,7 @@ TAG: DO_BLOCK(6)  func = boo WD = 1
 6 -> 5[color=blue]
 6 -> 5[color=red][style=dotted]
 7[label="
-TAG: LOOP_FOLLOW_1(7)  func = boo WD = 1
+TAG: LOOP_FOLLOW_0(7)  func = boo WD = 1
 44: ADDI (42) (null) null #4 aFor = &x
 45: RET (44) (null) null null
 "];

@@ -83,7 +83,7 @@ TAG: DO_BLOCK(7)  func = MAIN$FUNC WD = 2
 7 -> 6[color=blue]
 7 -> 6[color=red][style=dotted]
 8[label="
-TAG: LOOP_FOLLOW_2(8)  func = MAIN$FUNC WD = 2
+TAG: LOOP_FOLLOW_1(8)  func = MAIN$FUNC WD = 2
 54: ADD (41) (51) null null aFor = &g bFor = &h move for = &g
 56: BSR (118) (null) null null
 "];
@@ -138,7 +138,7 @@ TAG: DO_BLOCK(13)  func = MAIN$FUNC WD = 2
 13 -> 12[color=blue]
 13 -> 12[color=red][style=dotted]
 14[label="
-TAG: LOOP_FOLLOW_2(14)  func = MAIN$FUNC WD = 2
+TAG: LOOP_FOLLOW_1(14)  func = MAIN$FUNC WD = 2
 83: MUL (123) (80) null null aFor = &f bFor = &e move for = &f
 151: move (122) (110) null null
 85: BSR (110) (null) null null
@@ -176,7 +176,7 @@ TAG: DO_BLOCK(17)  func = MAIN$FUNC WD = 2
 17 -> 16[color=blue]
 17 -> 16[color=red][style=dotted]
 18[label="
-TAG: LOOP_FOLLOW_2(18)  func = MAIN$FUNC WD = 2
+TAG: LOOP_FOLLOW_1(18)  func = MAIN$FUNC WD = 2
 104: MUL (86) (123) null null aFor = &g bFor = &f
 105: DIVI (104) (null) null #4 move for = &f
 152: move (86) (110) null null
@@ -213,7 +213,7 @@ TAG: FOLLOW_BLOCK(20)  func = MAIN$FUNC WD = 1
 20 -> 8[color=red][style=dotted]
 20 -> 19[color=green][style=dotted]
 21[label="
-TAG: LOOP_FOLLOW_1(21)  func = MAIN$FUNC WD = 1
+TAG: LOOP_FOLLOW_0(21)  func = MAIN$FUNC WD = 1
 129: MUL (125) (124) null null aFor = &a bFor = &d move for = &c
 133: ADD (122) (121) null null aFor = &g bFor = &h
 134: SUBI (133) (null) null #7 move for = &h

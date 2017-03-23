@@ -16,10 +16,10 @@
 #handle Function name stupidity - DONE
 #handle constant Compare instructions - URGENT
 #write/output/writeNL - DONE
-#update last access when sending to followblock
-#generate png for clusters
-#given an id, differentiate between global and local variables
-
+#update last access when sending to followblock - DONE
+#generate png for clusters - DONE
+#given an id, differentiate between global and local variables - DONE
+#constant block folding, reducing unnecesary jumps - DONE
 Parser -> IR/DT -> SSA (CSE(Anchor), CP(eliminate move)) -> Do arrays and procedures -> RA -> Lowering to machine code.
 
 What about uninitialized variables?

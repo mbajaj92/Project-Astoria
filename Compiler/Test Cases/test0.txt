@@ -5,9 +5,9 @@ var a,b,c,d;
 	let d<-45;
 	let a<-d;
 	let b<-100;
-	while a<b do
-		let a<-a+1;
-	od;
+	if 3<2 then
+		let b<-78;	
+	fi;
 	#let d<-99;
 	call OutputNum(a);
 	call OutputNewLine();

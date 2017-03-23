@@ -85,7 +85,7 @@ TAG: FOLLOW_BLOCK(6)  func = max WD = 1
 6 -> 5[color=red][style=dotted]
 6 -> 4[color=green][style=dotted]
 7[label="
-TAG: LOOP_FOLLOW_1(7)  func = max WD = 1
+TAG: LOOP_FOLLOW_0(7)  func = max WD = 1
 70: RET (68) (null) null null
 "];
 7[shape=box];

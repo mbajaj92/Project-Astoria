@@ -70,7 +70,7 @@ TAG: DO_BLOCK(7)  func = foo WD = 1
 7 -> 6[color=blue]
 7 -> 6[color=red][style=dotted]
 8[label="
-TAG: LOOP_FOLLOW_1(8)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(8)  func = foo WD = 1
 116: BSR (52) (null) null null
 "];
 8[shape=box];
@@ -135,7 +135,7 @@ TAG: DO_BLOCK(14)  func = foo WD = 1
 14 -> 13[color=blue]
 14 -> 13[color=red][style=dotted]
 15[label="
-TAG: LOOP_FOLLOW_1(15)  func = foo WD = 1
+TAG: LOOP_FOLLOW_0(15)  func = foo WD = 1
 113: move (81) (90) null null
 82: BSR (91) (null) null null
 "];
