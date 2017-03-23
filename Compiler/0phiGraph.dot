@@ -1,0 +1,9 @@
+strict graph {
+32[label="32" style=filled fillcolor="mediumslateblue"];
+32 -- 40
+40[label="40" style=filled fillcolor="mediumslateblue"];
+40 -- 32
+40 -- 26
+26[label="26" style=filled fillcolor="mediumslateblue"];
+26 -- 40
+}

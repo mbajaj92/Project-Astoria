@@ -13,7 +13,7 @@ public class Testing {
 	private static MyScanner sc;
 
 	public static void main(String args[]) throws Exception {
-		for (int fileNumber/* :error */ = 0; fileNumber <= 34; fileNumber++) {
+		for (int fileNumber/* :error */ = 0; fileNumber <= 0; fileNumber++) {
 			Utils.SOPln("FILENUMBER = " + fileNumber);
 
 			sc = ScannerUtils.getScanner(

@@ -53,7 +53,7 @@ public class Instruction {
 			return;
 
 		myBasicBlock = BasicBlock.getCurrentBasicBlock();
-		if (Utils.COPY_PROP)
+		if (Utils.COPY_PROP && allowNextAnchorTest)
 			lastAccessTest();
 
 		if (allowNextAnchorTest && Utils.COM_SUBEX_ELIM && !hasReferenceInstruction())
@@ -111,7 +111,10 @@ public class Instruction {
 	}
 
 	public static Instruction getInstructionForArray(CODE c, Instruction a1, Instruction b1) {
-		return new Instruction(c, null, null, a1, b1, true, true);
+		Instruction i = new Instruction(c, null, null, a1, b1, true, true);
+		if (i.hasReferenceInstruction())
+			return i.referenceInstruction;
+		return i;
 	}
 
 	public static Instruction getInstruction(CODE c, Instruction a1, Instruction b1) {
@@ -417,10 +420,14 @@ public class Instruction {
 	}
 
 	public boolean isDuplicate(Instruction i) {
-		if(i == null)
+		if (i == null)
 			return false;
 
-		return (code != CODE.phi && code == i.code) && isAEqual(i) && (isArray && code == CODE.load ? true : isBEqual(i));
+		if (i.isLoadForArray || isLoadForArray)
+			return i.index == index;
+
+		return (code != CODE.phi && code == i.code) && isAEqual(i)
+				&& (isArray && code == CODE.load ? true : isBEqual(i));
 	}
 
 	private void lastAccessTest() {

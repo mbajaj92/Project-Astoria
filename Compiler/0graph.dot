@@ -1,26 +1,59 @@
 digraph {
 0[label="
 TAG: INIT_BLOCK(0)  func = MAIN$FUNC WD = 0
-18: BSR (5) (null) null null
+60: BSR (7) (null) null null
 "];
 0[shape=box];
 0 -> 1[color=blue]
 1[label="
 TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
-5: ADDI (-1) (null) null #45 move for = &d &a
-9: ADDI (-1) (null) null #100 move for = &b
+7: read (null) (null) null null move for = &i
+9: read (null) (null) null null move for = &j
+11: read (null) (null) null null
+13: ADDI (7) (null) null #4
+14: ADDI (null) (null) #FP_MAIN$FUNC &x
+15: adda (13) (14) null null
+16: store (11) (15) null null STORE FOR= &x
+18: ADDI (7) (null) null #1 aFor = &i move for = &a
+24: adda (13) (14) null null
+25: load (24) (null) null null aFor = &x
+26: ADD (18) (25) null null aFor = &a bFor = &x move for = &b
 "];
 1[shape=box];
-1 -> 4[color=blue]
+1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
+2[label="
+TAG: IF_HEADER(2)  func = MAIN$FUNC WD = 0
+29: CMPI (18) (null) null #0 aFor = &a
+30: BLE (29) (40) null null
+"];
+2[shape=box];
+2 -> 3[color=blue]
+2 -> 4[color=black]
+2 -> 1[color=red][style=dotted]
+3[label="
+TAG: THEN_BLOCK(3)  func = MAIN$FUNC WD = 0
+32: ADDI (26) (null) null #1 aFor = &b move for = &b
+36: ADDI (9) (null) null #4
+38: adda (36) (14) null null
+39: store (18) (38) null null STORE FOR= &x
+"];
+3[shape=box];
+3 -> 4[color=blue]
+3 -> 2[color=red][style=dotted]
 4[label="
-TAG: CONT(4)  func = MAIN$FUNC WD = 0
-13: write (5) (null) null null
-14: writeNL (null) (null) null null
-15: write (5) (null) null null
-16: write (9) (null) null null
-17: EOF (null) (null) null null
+TAG: FOLLOW_BLOCK(4)  func = MAIN$FUNC WD = 0
+40: phi (32) (26) null null  PHI FOR &b
+45: adda (13) (14) null null
+46: load (45) (null) null null aFor = &x
+47: ADD (40) (46) null null aFor = &b bFor = &x move for = &b
+54: load (45) (null) null null aFor = &x
+55: ADD (18) (54) null null aFor = &a bFor = &x move for = &a
+57: write (47) (null) null null
+58: write (55) (null) null null
+59: EOF (null) (null) null null
 "];
 4[shape=box];
-4 -> 1[color=red][style=dotted]
+4 -> 3[color=red][style=dotted]
+4 -> 2[color=green][style=dotted]
 }

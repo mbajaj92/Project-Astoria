@@ -168,6 +168,8 @@ public class BasicBlock {
 	public void updateAnchorLastAccessAndPhi(BasicBlock parent, HashMap<String, Instruction> leftParent,
 			HashMap<String, Instruction> rightParent) throws Exception {
 		anchor = new HashMap<CODE, Instruction>(parent.anchor);
+		if (anchor.containsKey(CODE.adda) && getBlockType() == BasicBlockType.FOLLOW_BLOCK)
+			anchor.remove(CODE.adda);
 
 		if (leftParent != null && rightParent != null)
 			takeCareOfPhi(leftParent, rightParent, false);
@@ -435,12 +437,6 @@ public class BasicBlock {
 
 	public boolean hasInstructions() {
 		return true;
-		/*
-		 * if (mInstructionSet.isEmpty()) return false;
-		 * 
-		 * if (mInstructionSet.size() == 1) return
-		 * !(mInstructionSet.get(0).getCode() == CODE.BSR); return true;
-		 */
 	}
 
 	public boolean secondParentExists() {

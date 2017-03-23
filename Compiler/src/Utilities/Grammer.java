@@ -167,19 +167,17 @@ public class Grammer {
 		prevBlock.setChild(ifHeader, true);
 		Result X = relation();
 		BasicBlock thenBlock = new BasicBlock("THEN_BLOCK");
-		boolean regular = true, thenB = false, elseB = false;
+		boolean thenB = false, elseB = false;
 
 		if (X.booleanIfCondition != null && X.booleanIfCondition.equals("TRUE")) {
 			/* always then will execute */
 			ifHeader.setIgnore();
-			regular = false;
 			thenB = true;
 			thenBlock.setTag("CONT");
 			prevBlock.setChild(thenBlock, true, true);
 		} else if (X.booleanIfCondition != null && X.booleanIfCondition.equals("FALSE")) {
 			/* always else will execute */
 			ifHeader.setIgnore();
-			regular = false;
 			elseB = true;
 			thenBlock.setIgnore();
 		} else {
@@ -198,6 +196,7 @@ public class Grammer {
 				sc.next();
 				elseBlock = new BasicBlock("ELSE_BLOCK");
 
+				
 				if (thenB) {
 					elseBlock.setIgnore();
 				} else if (elseB) {
