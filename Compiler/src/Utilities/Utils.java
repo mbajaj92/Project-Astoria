@@ -812,6 +812,17 @@ public class Utils {
 	public static boolean isInLoop() {
 		return WHILE_DEPTH > 0;
 	}
+	
+	public static boolean isArray(String key) {
+		if(key == null)
+			return false;
+
+		key = key.substring(1);
+		if (!metaArrayTable.containsKey(key.split("_")[1]))
+			return false;
+
+		return metaArrayTable.get(key.split("_")[1]).containsKey(key.split("_")[0]);
+	}
 
 	public static Result getOffsetForArray(Result X/*, String funcName*/) throws Exception {
 		String funcName = X.addressIfVariable.split("_")[1];

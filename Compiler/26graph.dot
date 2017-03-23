@@ -10,14 +10,18 @@ TAG: INIT_CONT(1)  func = MAIN$FUNC WD = 0
 12: ADDI (0) (null) null #4
 13: ADDI (null) (null) #FP_MAIN$FUNC &a
 14: adda (12) (13) null null
-15: load (14) (null) null null aFor = &a move for = &x
+15: load (14) (null) null null aFor = &a move for = &x &k
 "];
 1[shape=box];
 1 -> 2[color=blue]
 1 -> 0[color=red][style=dotted]
 2[label="
 TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
-33: CMP (15) (32) null null aFor = &a bFor = &b
+27: load (14) (null) null null aFor = &a move for = &x
+30: ADDI (null) (null) #FP_MAIN$FUNC &b
+31: adda (12) (30) null null
+32: load (31) (null) null null aFor = &b
+33: CMP (27) (32) null null aFor = &a bFor = &b
 34: BGE (33) (72) null null
 "];
 2[shape=box];
@@ -27,10 +31,10 @@ TAG: LOOP_HEADER_1(2)  func = MAIN$FUNC WD = 1
 2 -> 3[color=green][style=dotted]
 3[label="
 TAG: DO_BLOCK(3)  func = MAIN$FUNC WD = 1
-49: ADDI (21) (null) null #4
+49: ADDI (15) (null) null #4
 51: adda (49) (13) null null
 52: store (0) (51) null null STORE FOR= &a
-65: BSR (33) (null) null null
+65: BSR (27) (null) null null
 "];
 3[shape=box];
 3 -> 2[color=blue]

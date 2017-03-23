@@ -44,6 +44,8 @@ TAG: INIT_CONT(3)  func = MAIN$FUNC WD = 0
 TAG: IF_HEADER(4)  func = MAIN$FUNC WD = 0
 38: adda (27) (28) null null
 39: load (38) (null) null null aFor = &a
+42: adda (32) (28) null null
+43: load (42) (null) null null aFor = &a
 44: CMP (39) (43) null null aFor = &a bFor = &a
 45: BLE (44) (52) null null
 "];
@@ -57,7 +59,7 @@ TAG: THEN_BLOCK(5)  func = MAIN$FUNC WD = 0
 47: ADDI (-1) (null) null #13
 49: adda (47) (28) null null
 50: store (46) (49) null null STORE FOR= &a
-51: BSR (62) (null) null null
+51: BSR (57) (null) null null
 "];
 5[shape=box];
 5 -> 7[color=blue]
@@ -74,6 +76,9 @@ TAG: ELSE_BLOCK(6)  func = MAIN$FUNC WD = 0
 6 -> 4[color=red][style=dotted]
 7[label="
 TAG: FOLLOW_BLOCK(7)  func = MAIN$FUNC WD = 0
+57: ADDI (-1) (null) null #13
+59: adda (57) (28) null null
+60: load (59) (null) null null aFor = &a move for = &b
 62: write (60) (null) null null
 63: EOF (null) (null) null null
 "];

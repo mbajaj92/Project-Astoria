@@ -4,34 +4,49 @@ strict graph {
 33 -- 35
 33 -- 36
 33 -- 37
+33 -- 12
 33 -- 13
 35[label="35 : 2" style=filled fillcolor="darkorchid1"];
 35 -- 33
 35 -- 36
-35 -- 13
+35 -- 12
 36[label="36 : 3" style=filled fillcolor="chocolate"];
 36 -- 33
 36 -- 35
-36 -- 13
+36 -- 12
 37[label="37 : 2" style=filled fillcolor="darkorchid1"];
 37 -- 33
-37 -- 13
+37 -- 12
 8[label="8 : 1" style=filled fillcolor="blue1"];
 9[label="9 : 1" style=filled fillcolor="blue1"];
 10[label="10 : 1" style=filled fillcolor="blue1"];
 10 -- 11
 11[label="11 : 2" style=filled fillcolor="darkorchid1"];
 11 -- 10
-12[label="12 : 1" style=filled fillcolor="blue1"];
-13[label="13 : 4" style=filled fillcolor="darkgoldenrod3"];
+12[label="12 : 4" style=filled fillcolor="darkgoldenrod3"];
+12 -- 33
+12 -- 35
+12 -- 36
+12 -- 37
+12 -- 26
+12 -- 13
+12 -- 30
+12 -- 31
+13[label="13 : 3" style=filled fillcolor="chocolate"];
 13 -- 33
-13 -- 35
-13 -- 36
-13 -- 37
 13 -- 26
+13 -- 12
+13 -- 30
 13 -- 31
 26[label="26 : 1" style=filled fillcolor="blue1"];
+26 -- 12
 26 -- 13
+26 -- 30
+30[label="30 : 2" style=filled fillcolor="darkorchid1"];
+30 -- 26
+30 -- 12
+30 -- 13
 31[label="31 : 1" style=filled fillcolor="blue1"];
+31 -- 12
 31 -- 13
 }

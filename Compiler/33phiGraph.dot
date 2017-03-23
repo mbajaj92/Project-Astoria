@@ -6,12 +6,12 @@ strict graph {
 81 -- 100
 97[label="97" style=filled fillcolor="blue1"];
 97 -- 100
-209[label="209" style=filled fillcolor="chocolate"];
+209[label="209" style=filled fillcolor="darkorchid1"];
 209 -- 179
 209 -- 172
 210[label="210" style=filled fillcolor="blue1"];
 210 -- 224
-179[label="179" style=filled fillcolor="darkorchid1"];
+179[label="179" style=filled fillcolor="blue1"];
 179 -- 209
 100[label="100" style=filled fillcolor="blue1"];
 100 -- 81
@@ -21,9 +21,9 @@ strict graph {
 135[label="135" style=filled fillcolor="blue1"];
 135 -- 132
 135 -- 103
-103[label="103" style=filled fillcolor="firebrick3"];
+103[label="103" style=filled fillcolor="mediumslateblue"];
 103 -- 135
-172[label="172" style=filled fillcolor="darkorchid1"];
+172[label="172" style=filled fillcolor="blue1"];
 172 -- 209
 221[label="221" style=filled fillcolor="blue1"];
 221 -- 224

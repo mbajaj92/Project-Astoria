@@ -149,6 +149,7 @@ public class Grammer {
 				loopHeader.setChild(followBlock, true);
 			}
 
+			followBlock.getAnchor().remove(CODE.adda);
 			if (sc.currentToken != ScannerUtils.odToken)
 				Utils.error("Expected od token, got " + sc.token + " at line " + ScannerUtils.getCurrentScanner().getLineCount());
 			Utils.WHILE_DEPTH--;

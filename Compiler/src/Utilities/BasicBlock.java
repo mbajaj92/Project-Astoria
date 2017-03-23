@@ -89,6 +89,9 @@ public class BasicBlock {
 	private void takeCareOfPhi(HashMap<String, Instruction> leftTable, HashMap<String, Instruction> rightTable,
 			boolean isWhile) throws Exception {
 		for (String key : leftTable.keySet()) {
+			if(key == null || Utils.isArray(key))
+				continue;
+
 			Instruction left = leftTable.get(key);
 			Instruction right = rightTable.get(key);
 			/*if (!isWhile && left == null)
@@ -112,6 +115,9 @@ public class BasicBlock {
 		}
 
 		for (String key : rightTable.keySet()) {
+			if(key == null || Utils.isArray(key))
+				continue;
+
 			Instruction left = leftTable.get(key);
 			Instruction right = rightTable.get(key);
 			/*if (left == null && !isWhile)

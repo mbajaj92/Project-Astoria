@@ -344,6 +344,9 @@ public class Instruction {
 	}
 
 	public String getPhiFor() {
+		if (phiFor == null)
+			Utils.SOPln("WARNING !!");
+
 		return phiFor;
 	}
 
@@ -423,7 +426,7 @@ public class Instruction {
 		if (i == null)
 			return false;
 
-		if (i.isLoadForArray || isLoadForArray)
+		if (i.isLoadForArray && isLoadForArray)
 			return i.index == index;
 
 		return (code != CODE.phi && code == i.code) && isAEqual(i)

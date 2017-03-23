@@ -134,7 +134,7 @@ TAG: ELSE_BLOCK(12)  func = Output WD = 1
 12 -> 10[color=red][style=dotted]
 13[label="
 TAG: IF_HEADER(13)  func = Output WD = 1
-124: CMPI (123) (null) null #1 aFor = &Data
+124: CMPI (113) (null) null #1 aFor = &Data
 125: BNE (124) (130) null null
 "];
 13[shape=box];
@@ -191,9 +191,16 @@ TAG: PROC_START(19)  func = CalcNext WD = 0
 150: store (146) (149) null null STORE FOR= &Data
 151: load (null) (null) #FP_MAIN$FUNC &ColCount
 152: ADDI (151) (null) null #1 aFor = &ColCount
+154: ADDI (151) (null) null #4
+156: adda (154) (144) null null
+157: load (156) (null) null null aFor = &Data
 158: ADDI (152) (null) null #4
 160: adda (158) (144) null null
 161: store (157) (160) null null STORE FOR= &Data
+164: adda (147) (144) null null
+165: load (164) (null) null null aFor = &Data move for = &Last
+169: adda (143) (144) null null
+170: load (169) (null) null null aFor = &Data move for = &Akt
 172: ADDI (-1) (null) null #1 move for = &i
 260: move (172) (209) null null
 "];
@@ -216,6 +223,14 @@ TAG: DO_BLOCK(21)  func = CalcNext WD = 1
 180: ADDI (179) (null) null #4
 182: adda (180) (144) null null
 183: load (182) (null) null null aFor = &Data move for = &Next &Akt
+186: MULI (165) (null) null #4 aFor = &Last
+188: MULI (170) (null) null #2 aFor = &Akt
+189: ADD (186) (188) null null bFor = &Akt
+191: ADD (189) (183) null null bFor = &Next
+192: ADDI (191) (null) null #4
+193: ADDI (null) (null) #FP_MAIN$FUNC &RuleBin
+194: adda (192) (193) null null
+195: load (194) (null) null null aFor = &RuleBin
 197: ADDI (209) (null) null #4
 199: adda (197) (144) null null
 200: store (195) (199) null null STORE FOR= &Data

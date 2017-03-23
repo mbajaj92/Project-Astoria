@@ -47,8 +47,7 @@ TAG: FOLLOW_BLOCK(4)  func = MAIN$FUNC WD = 0
 45: adda (13) (14) null null
 46: load (45) (null) null null aFor = &x
 47: ADD (40) (46) null null aFor = &b bFor = &x move for = &b
-54: load (45) (null) null null aFor = &x
-55: ADD (18) (54) null null aFor = &a bFor = &x move for = &a
+55: ADD (18) (46) null null aFor = &a bFor = &x move for = &a
 57: write (47) (null) null null
 58: write (55) (null) null null
 59: EOF (null) (null) null null

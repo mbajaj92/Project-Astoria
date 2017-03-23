@@ -16,7 +16,7 @@ strict graph {
 38 -- 18
 38 -- 13
 38 -- 14
-7[label="7 : 1" style=filled fillcolor="blue1"];
+7[label="7 : 3" style=filled fillcolor="chocolate"];
 7 -- 9
 7 -- 11
 7 -- 13
@@ -46,12 +46,10 @@ strict graph {
 11 -- 13
 11 -- 14
 11 -- 15
-45[label="45 : 2" style=filled fillcolor="darkorchid1"];
+45[label="45 : 1" style=filled fillcolor="blue1"];
 45 -- 18
 45 -- 40
-45 -- 46
-45 -- 47
-13[label="13 : 2" style=filled fillcolor="darkorchid1"];
+13[label="13 : 1" style=filled fillcolor="blue1"];
 13 -- 32
 13 -- 36
 13 -- 38
@@ -66,11 +64,11 @@ strict graph {
 13 -- 25
 13 -- 26
 13 -- 29
-46[label="46 : 3" style=filled fillcolor="chocolate"];
+46[label="46 : 1" style=filled fillcolor="blue1"];
 46 -- 18
 46 -- 40
-46 -- 45
-14[label="14 : 3" style=filled fillcolor="chocolate"];
+46 -- 47
+14[label="14 : 2" style=filled fillcolor="darkorchid1"];
 14 -- 32
 14 -- 36
 14 -- 38
@@ -85,18 +83,17 @@ strict graph {
 14 -- 25
 14 -- 26
 14 -- 29
-47[label="47 : 3" style=filled fillcolor="chocolate"];
+47[label="47 : 2" style=filled fillcolor="darkorchid1"];
 47 -- 18
-47 -- 54
 47 -- 55
-47 -- 45
+47 -- 46
 15[label="15 : 6" style=filled fillcolor="firebrick3"];
 15 -- 7
 15 -- 9
 15 -- 11
 15 -- 13
 15 -- 14
-18[label="18 : 1" style=filled fillcolor="blue1"];
+18[label="18 : 3" style=filled fillcolor="chocolate"];
 18 -- 32
 18 -- 36
 18 -- 38
@@ -107,14 +104,10 @@ strict graph {
 18 -- 46
 18 -- 14
 18 -- 47
-18 -- 54
 18 -- 24
 18 -- 25
 18 -- 26
 18 -- 29
-54[label="54 : 2" style=filled fillcolor="darkorchid1"];
-54 -- 18
-54 -- 47
 55[label="55 : 1" style=filled fillcolor="blue1"];
 55 -- 47
 24[label="24 : 5" style=filled fillcolor="mediumslateblue"];
